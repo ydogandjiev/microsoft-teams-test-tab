@@ -1,0 +1,27 @@
+body {
+  background-color: white;
+}
+
+.moduleContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.moduleContainer > * {
+  border: 1px solid lightgray;
+  margin: 4px;
+  padding: 4px;
+}
+
+label {
+  font-weight: bold;
+  vertical-align: top;
+}
+
+textarea, input[type='text'] {
+  width: 200px;
+}
+
+textarea {
+  height: 100px;
+}
