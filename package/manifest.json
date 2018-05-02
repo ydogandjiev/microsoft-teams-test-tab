@@ -1,0 +1,40 @@
+{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.2",
+  "version": "0.1",
+  "id": "8142d2d1-4113-411f-868f-8e6e606e8827",
+  "packageName": "net.azurewebsites.teams-test-tab",
+  "developer": {
+    "name": "Yuri Dogandjiev",
+    "websiteUrl": "https://teams-todolist.azurewebsites.net",
+    "privacyUrl": "https://teams-todolist.azurewebsites.net/privacy",
+    "termsOfUseUrl": "https://teams-todolist.azurewebsites.net/termsofuse"
+  },
+  "name": {
+    "short": "Teams Test Tab"
+  },
+  "description": {
+    "short": "Test tabs.",
+    "full": "No really, test them tabs."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#ff6a00",
+  "staticTabs": [
+    {
+      "entityId": "test-tab",
+      "name": "Test Tab",
+      "contentUrl": "https://teams-test-tab.azurewebsites.net",
+      "websiteUrl": "https://teams-test-tab.azurewebsites.net",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ]
+}
