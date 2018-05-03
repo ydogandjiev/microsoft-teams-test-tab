@@ -1,13 +1,18 @@
 {
   "name": "microsoft-teams-test-tab",
   "version": "1.0.0",
-  "description": "",
-  "main": "MicrosoftTeams.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Yuri Dogandjiev <yuri.dogandjiev@live.com> (https://twitter.com/ydogandjiev)",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ydogandjiev/microsoft-teams-test-tab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ydogandjiev/microsoft-teams-test-tab/issues"
+  },
+  "homepage": "https://github.com/ydogandjiev/microsoft-teams-test-tab#readme",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "express": "^4.16.3",
     "serve-static": "^1.13.2"
