@@ -247,6 +247,26 @@
     }
   });
 
+  addModule({
+    name: "task.complete",
+    inputs: [
+      { type: "object", name: "taskModuleCompleteParameters"},
+    ],
+    action: function(taskModuleCompleteParameters) {
+      microsoftTeams.task.complete(taskModuleCompleteParameters);
+    }
+  });
+
+  addModule({
+    name: "task.start",
+    inputs: [
+      { type: "object", name: "taskModuleStartParameters"},
+    ],
+    action: function(taskModuleStartParameters) {
+      microsoftTeams.task.start(taskModuleStartParameters);
+    }
+  });
+
   document.body.appendChild(container);
 
   function restoreState() {

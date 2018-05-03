@@ -898,6 +898,36 @@ var microsoftTeams;
             args: args || []
         };
     }
+    /**
+     * Namespace to interact with the task module-specific part of the SDK.
+     * This object is usable only on the content frame.
+     */
+    var task;
+    (function (task) {
+        /**
+         * Allows an app to open the task module.
+         * @param taskInfo An object containing the parameters of the task module
+         * @param completionHandler Handler to call when the task module is completed
+         */
+        function start(taskInfo, completionHandler) {
+            // Ensure that the tab content is initialized
+            ensureInitialized(frameContexts.content);
+            var messageId = sendMessageRequest(parentWindow, "start", [taskInfo]);
+            callbacks[messageId] = completionHandler;
+        }
+        task.start = start;
+        /**
+         * Complete the task module.
+         * @param result Contains the result to be sent to the bot or teh app. Typically a JSON object or a serialized version of it
+         * @param appId Helps to validate that the call originates from the same appId as the one that invoked the task module
+         */
+        function complete(result, appId) {
+            // Ensure that the tab content is initialized
+            ensureInitialized(frameContexts.content);
+            sendMessageRequest(parentWindow, "complete", [result, appId]);
+        }
+        task.complete = complete;
+    })(task = microsoftTeams.task || (microsoftTeams.task = {}));
 })(microsoftTeams || (microsoftTeams = {}));
 
 return microsoftTeams;
