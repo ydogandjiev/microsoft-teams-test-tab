@@ -34,9 +34,96 @@ var microsoftTeams;
         desktop: "desktop",
         web: "web"
     };
+    /**
+     * Namespace to interact with the menu-specific part of the SDK.
+     * This object is used to show View Configuration, Action Menu and Navigation Bar Menu.
+     */
+    var menus;
+    (function (menus) {
+        /**
+         * Represents information about menu item for Action Menu and Navigation Bar Menu.
+         */
+        var MenuItem = (function () {
+            function MenuItem() {
+                /**
+                 * State of the menu item
+                 */
+                this.enabled = true;
+            }
+            return MenuItem;
+        }());
+        menus.MenuItem = MenuItem;
+        /**
+         * Represents information about type of list to display in Navigation Bar Menu.
+         */
+        var MenuListType;
+        (function (MenuListType) {
+            MenuListType["dropDown"] = "dropDown";
+            MenuListType["popOver"] = "popOver";
+        })(MenuListType = menus.MenuListType || (menus.MenuListType = {}));
+        var navBarMenuItemPressHandler;
+        handlers["navBarMenuItemPress"] = handleNavBarMenuItemPress;
+        var actionMenuItemPressHandler;
+        handlers["actionMenuItemPress"] = handleActionMenuItemPress;
+        var viewConfigItemPressHandler;
+        handlers["setModuleView"] = handleViewConfigItemPress;
+        /**
+         * Registers list of view configurations and it's handler.
+         * Handler is responsible for listening selection of View Configuration.
+         * @param viewConfig List of view configurations. Minimum 1 value is required.
+         * @param handler The handler to invoke when the user selects view configuration.
+         */
+        function setUpViews(viewConfig, handler) {
+            ensureInitialized();
+            viewConfigItemPressHandler = handler;
+            sendMessageRequest(parentWindow, "setUpViews", [viewConfig]);
+        }
+        menus.setUpViews = setUpViews;
+        function handleViewConfigItemPress(id) {
+            if (!viewConfigItemPressHandler || !viewConfigItemPressHandler(id)) {
+                ensureInitialized();
+                sendMessageRequest(parentWindow, "viewConfigItemPress", [id]);
+            }
+        }
+        /**
+         * Used to set menu items on the Navigation Bar. If icon is available, icon will be shown, otherwise title will be shown.
+         * @param items List of MenuItems for Navigation Bar Menu.
+         * @param handler The handler to invoke when the user selects menu item.
+         */
+        function setNavBarMenu(items, handler) {
+            ensureInitialized();
+            navBarMenuItemPressHandler = handler;
+            sendMessageRequest(parentWindow, "setNavBarMenu", [items]);
+        }
+        menus.setNavBarMenu = setNavBarMenu;
+        function handleNavBarMenuItemPress(id) {
+            if (!navBarMenuItemPressHandler || !navBarMenuItemPressHandler(id)) {
+                ensureInitialized();
+                sendMessageRequest(parentWindow, "handleNavBarMenuItemPress", [id]);
+            }
+        }
+        /**
+         * Used to show Action Menu.
+         * @param params Parameters for Menu Parameters
+         * @param handler The handler to invoke when the user selects menu item.
+         */
+        function showActionMenu(params, handler) {
+            ensureInitialized();
+            actionMenuItemPressHandler = handler;
+            sendMessageRequest(parentWindow, "showActionMenu", [params]);
+        }
+        menus.showActionMenu = showActionMenu;
+        function handleActionMenuItemPress(id) {
+            if (!actionMenuItemPressHandler || !actionMenuItemPressHandler(id)) {
+                ensureInitialized();
+                sendMessageRequest(parentWindow, "handleActionMenuItemPress", [id]);
+            }
+        }
+    })(menus = microsoftTeams.menus || (microsoftTeams.menus = {}));
     // This indicates whether initialize was called (started).
     // It does not indicate whether initialization is complete. That can be inferred by whether parentOrigin is set.
     var initializeCalled = false;
+    var isFramelessWindow = false;
     var currentWindow;
     var parentWindow;
     var parentOrigin;
@@ -69,13 +156,20 @@ var microsoftTeams;
         currentWindow = this._window || window;
         // Listen for messages post to our window
         var messageListener = function (evt) { return processMessage(evt); };
-        currentWindow.addEventListener("message", messageListener, false);
         // If we are in an iframe, our parent window is the one hosting us (i.e., window.parent); otherwise,
         // it's the window that opened us (i.e., window.opener)
         parentWindow =
             currentWindow.parent !== currentWindow.self
                 ? currentWindow.parent
                 : currentWindow.opener;
+        if (!parentWindow) {
+            isFramelessWindow = true;
+            window.onNativeMessage = handleParentMessage;
+        }
+        else {
+            // For iFrame scenario, add listener to listen 'message'
+            currentWindow.addEventListener("message", messageListener, false);
+        }
         try {
             // Send the initialized message to any origin, because at this point we most likely don't know the origin
             // of the parent window, and this message contains no data that could pose a security risk.
@@ -102,6 +196,9 @@ var microsoftTeams;
             if (frameContext === frameContexts.remove) {
                 settings.registerOnRemoveHandler(null);
             }
+            if (!isFramelessWindow) {
+                currentWindow.removeEventListener("message", messageListener, false);
+            }
             initializeCalled = false;
             parentWindow = null;
             parentOrigin = null;
@@ -113,7 +210,7 @@ var microsoftTeams;
             callbacks = {};
             frameContext = null;
             hostClientType = null;
-            currentWindow.removeEventListener("message", messageListener, false);
+            isFramelessWindow = false;
         };
     }
     microsoftTeams.initialize = initialize;
@@ -257,7 +354,7 @@ var microsoftTeams;
      */
     function openFilePreview(filePreviewParameters) {
         ensureInitialized(frameContexts.content);
-        sendMessageRequest(parentWindow, "openFilePreview", [
+        var params = [
             filePreviewParameters.entityId,
             filePreviewParameters.title,
             filePreviewParameters.description,
@@ -265,8 +362,12 @@ var microsoftTeams;
             filePreviewParameters.objectUrl,
             filePreviewParameters.downloadUrl,
             filePreviewParameters.webPreviewUrl,
-            filePreviewParameters.webEditUrl
-        ]);
+            filePreviewParameters.webEditUrl,
+            filePreviewParameters.baseUrl,
+            filePreviewParameters.editFile,
+            filePreviewParameters.subEntityId
+        ];
+        sendMessageRequest(parentWindow, "openFilePreview", params);
     }
     microsoftTeams.openFilePreview = openFilePreview;
     /**
@@ -860,17 +961,22 @@ var microsoftTeams;
         }, 100);
     }
     function sendMessageRequest(targetWindow, actionName, 
-        // tslint:disable-next-line:no-any
+        // tslint:disable-next-line: no-any
         args) {
         var request = createMessageRequest(actionName, args);
-        var targetOrigin = getTargetOrigin(targetWindow);
-        // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
-        // queue the message and send it after the origin is established
-        if (targetWindow && targetOrigin) {
-            targetWindow.postMessage(request, targetOrigin);
+        if (isFramelessWindow) {
+            currentWindow.nativeInterface.framelessPostMessage(JSON.stringify(request));
         }
         else {
-            getTargetMessageQueue(targetWindow).push(request);
+            var targetOrigin = getTargetOrigin(targetWindow);
+            // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
+            // queue the message and send it after the origin is established
+            if (targetWindow && targetOrigin) {
+                targetWindow.postMessage(request, targetOrigin);
+            }
+            else {
+                getTargetMessageQueue(targetWindow).push(request);
+            }
         }
         return request.id;
     }
@@ -902,32 +1008,34 @@ var microsoftTeams;
      * Namespace to interact with the task module-specific part of the SDK.
      * This object is usable only on the content frame.
      */
-    var task;
-    (function (task) {
+    var tasks;
+    (function (tasks) {
         /**
          * Allows an app to open the task module.
          * @param taskInfo An object containing the parameters of the task module
          * @param completionHandler Handler to call when the task module is completed
          */
-        function start(taskInfo, completionHandler) {
+        function startTask(taskInfo, completionHandler) {
             // Ensure that the tab content is initialized
             ensureInitialized(frameContexts.content);
-            var messageId = sendMessageRequest(parentWindow, "start", [taskInfo]);
+            var messageId = sendMessageRequest(parentWindow, "tasks.startTask", [
+                taskInfo
+            ]);
             callbacks[messageId] = completionHandler;
         }
-        task.start = start;
+        tasks.startTask = startTask;
         /**
          * Complete the task module.
-         * @param result Contains the result to be sent to the bot or teh app. Typically a JSON object or a serialized version of it
-         * @param appId Helps to validate that the call originates from the same appId as the one that invoked the task module
+         * @param result Contains the result to be sent to the bot or the app. Typically a JSON object or a serialized version of it
+         * @param appIds Helps to validate that the call originates from the same appId as the one that invoked the task module
          */
-        function complete(result, appId) {
+        function completeTask(result, appIds) {
             // Ensure that the tab content is initialized
             ensureInitialized(frameContexts.content);
-            sendMessageRequest(parentWindow, "complete", [result, appId]);
+            sendMessageRequest(parentWindow, "tasks.completeTask", [result, appIds]);
         }
-        task.complete = complete;
-    })(task = microsoftTeams.task || (microsoftTeams.task = {}));
+        tasks.completeTask = completeTask;
+    })(tasks = microsoftTeams.tasks || (microsoftTeams.tasks = {}));
 })(microsoftTeams || (microsoftTeams = {}));
 
 return microsoftTeams;
