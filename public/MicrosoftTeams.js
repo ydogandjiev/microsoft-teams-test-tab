@@ -20,7 +20,8 @@ var microsoftTeams;
         "https://int.teams.microsoft.com",
         "https://devspaces.skype.com",
         "https://ssauth.skype.com",
-        "http://dev.local" // local development
+        "http://dev.local", // local development
+        "https://msft.spoppe.com" // Sharepoint ppe
     ];
     var handlers = {};
     // Ensure these declarations stay in sync with the framework.
