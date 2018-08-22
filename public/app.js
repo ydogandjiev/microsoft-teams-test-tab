@@ -248,22 +248,23 @@
   });
 
   addModule({
-    name: "task.complete",
+    name: "task.submitTask",
     inputs: [
-      { type: "object", name: "taskModuleCompleteParameters"},
+      { type: "string", name: "result" },
+      { type: "string", name: "appId" },
     ],
-    action: function(taskModuleCompleteParameters) {
-      microsoftTeams.task.complete(taskModuleCompleteParameters);
+    action: function(result, appId) {
+      microsoftTeams.tasks.submitTask(result, appId);
     }
   });
 
   addModule({
-    name: "task.start",
+    name: "tasks.startTask",
     inputs: [
-      { type: "object", name: "taskModuleStartParameters"},
+      { type: "object", name: "taskInfo" },
     ],
-    action: function(taskModuleStartParameters) {
-      microsoftTeams.task.start(taskModuleStartParameters);
+    action: function(taskInfo) {
+      microsoftTeams.tasks.startTask(taskInfo);
     }
   });
 
