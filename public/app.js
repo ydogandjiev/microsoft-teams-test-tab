@@ -310,8 +310,7 @@
   setTimeout(restoreState, 0);
   window.addEventListener("beforeunload", saveState);
 
-
-  function onDocumentLoad() {
+  document.addEventListener("DOMContentLoaded", function (event) {
 
     var input = document.querySelector('#image_uploads');
     var preview = document.querySelector('.fileUploadPreview');
@@ -377,5 +376,5 @@
         return (number / 1048576).toFixed(1) + 'MB';
       }
     }
-  }
+  });
 })();
