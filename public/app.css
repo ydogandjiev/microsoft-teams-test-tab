@@ -26,20 +26,11 @@ textarea {
   height: 100px;
 }
 
-
-form {
-  width: 600px;
-  background: #ccc;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid black;
-}
-
-form ol {
+.uploadFileSection ol {
   padding-left: 0;
 }
 
-form li, div > p {
+.uploadFileSection li, div > p {
   background: #eee;
   display: flex;
   justify-content: space-between;
@@ -48,17 +39,17 @@ form li, div > p {
   border: 1px solid black;
 }
 
-form img {
+.uploadFileSection img {
   height: 64px;
   order: 1;
 }
 
-form p {
+.uploadFileSection p {
   line-height: 32px;
   padding-left: 10px;
 }
 
-form label, form button {
+.uploadFileSection label, form button {
   background-color: #7F9CCB;
   padding: 5px 10px;
   border-radius: 5px;
@@ -67,12 +58,12 @@ form label, form button {
   height: auto;
 }
 
-form label:hover, form button:hover {
+.uploadFileSection label:hover, form button:hover {
   background-color: #2D5BA3;
   color: white;
 }
 
-form label:active, form button:active {
+.uploadFileSection label:active, form button:active {
   background-color: #0D3F8F;
   color: white;
 }
