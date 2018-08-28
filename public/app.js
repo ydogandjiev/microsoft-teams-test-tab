@@ -310,10 +310,13 @@
   setTimeout(restoreState, 0);
   window.addEventListener("beforeunload", saveState);
 
-  document.addEventListener("DOMContentLoaded", function (event) {
+
+  function downloadHandler() {
 
     var input = document.querySelector('#image_uploads');
     var preview = document.querySelector('.fileUploadPreview');
+
+
 
     input.style.opacity = 0;
     input.addEventListener('change', updateImageDisplay);
@@ -376,5 +379,8 @@
         return (number / 1048576).toFixed(1) + 'MB';
       }
     }
-  });
+  }
+
+  window.addEventListener("load", downloadHandler);
+
 })();

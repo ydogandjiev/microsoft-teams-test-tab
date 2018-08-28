@@ -26,6 +26,10 @@ textarea {
   height: 100px;
 }
 
+.sectionTitle {
+  margin-bottom: 15px;
+}
+
 .uploadFileSection ol {
   padding-left: 0;
 }
