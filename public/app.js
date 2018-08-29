@@ -283,6 +283,17 @@
     }
   });
 
+  addModule({
+    name: "downloadFile",
+    inputs: [{
+      type: "object",
+      name: "fileDownloadParameters"
+    }, ],
+    action: function (fileDownloadParameters) {
+      microsoftTeams.downloadFile(fileDownloadParameters);
+    }
+  });
+
   document.body.appendChild(container);
 
   function restoreState() {
