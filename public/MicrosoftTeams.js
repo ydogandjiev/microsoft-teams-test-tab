@@ -431,7 +431,7 @@ var microsoftTeams;
             fileDownloadParameters.objectUrl,
             fileDownloadParameters.title
         ];
-        sendMessageRequest(parentWindow, "openFilePreview", params);
+        sendMessageRequest(parentWindow, "downloadFile", params);
     }
     microsoftTeams.downloadFile = downloadFile;
     /**
