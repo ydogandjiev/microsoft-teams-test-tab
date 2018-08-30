@@ -294,6 +294,17 @@
     }
   });
 
+  addModule({
+    name: "downloadFile ShowNotificationOnly",
+    inputs: [{
+      type: "object",
+      name: "showNotificationParameters"
+    }, ],
+    action: function (showNotificationParameters) {
+      microsoftTeams.showNotification(showNotificationParameters);
+    }
+  });
+
   document.body.appendChild(container);
 
   function restoreState() {
