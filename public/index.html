@@ -4,14 +4,15 @@
 
 <body>
   <script src="./MicrosoftTeams.js"></script>
-<script src="./app.js"></script>
+  <script src="./app.js"></script>
   <link href="./app.css" rel="stylesheet" />
 
   <div class="moduleContainer">
-    <div> <div class="sectionTitle">Download</div>
-        <a href="./placeholder_largeimage.png" download="appIcon">appIcon</a>
+    <div>
+      <div class="sectionTitle">Download</div>
+      <a href="./placeholder_largeimage.png" download="appIcon">appIcon</a>
     </div>
-    
+
   </div>
 
   <div class="uploadFileSection moduleContainer">
@@ -26,15 +27,26 @@
   </div>
 
   <div class="moduleContainer">
-    <div> <div class="sectionTitle">Print</div>
-    <button onclick="printHandler()">Print this page</button>
-    </div> 
+    <div>
+      <div class="sectionTitle">Print</div>
+      <button onclick="printHandler()">Print this page</button>
+    </div>
   </div>
+
   <script>
     function printHandler() {
-        window.print();
+      window.print();
     }
-    </script>
+
+    document.addEventListener("keydown", function (event) {
+      if (event.ctrlKey && event.keyCode == 80) {
+        printHandler();
+        event.cancelBubble = true;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    });
+  </script>
 </body>
 
 </html>
