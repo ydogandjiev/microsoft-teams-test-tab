@@ -12,13 +12,21 @@
           return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
       };
   }
+  document.addEventListener("keydown", function (event) {
+      if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
+          microsoftTeams.printHandler();
+          event.cancelBubble = true;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+      }
+  });
   /**
    * This is the root namespace for the JavaScript SDK.
    */
   var microsoftTeams;
   (function (microsoftTeams) {
       "use strict";
-      var version = "1.3.4";
+      var version = "1.3.5";
       var validOrigins = [
           "https://teams.microsoft.com",
           "https://teams.microsoft.us",
@@ -29,7 +37,9 @@
           "https://msft.spoppe.com",
           "https://*.sharepoint.com",
           "https://*.sharepoint-df.com",
-          "https://*.sharepointonline.com"
+          "https://*.sharepointonline.com",
+          "https://outlook.office.com",
+          "https://outlook-sdf.office.com"
       ];
       // This will return a reg expression a given url
       function generateRegExpFromUrl(url) {
@@ -165,6 +175,7 @@
       var frameContext;
       var hostClientType;
       var themeChangeHandler;
+      var customPrintHandler;
       handlers["themeChange"] = handleThemeChange;
       var fullScreenChangeHandler;
       handlers["fullScreenChange"] = handleFullScreenChange;
@@ -243,6 +254,30 @@
           };
       }
       microsoftTeams.initialize = initialize;
+      /**
+       * Registers a handler for print.
+       * default print handler
+       */
+      function printHandler() {
+          ensureInitialized();
+          if (customPrintHandler) {
+              customPrintHandler();
+          }
+          else {
+              window.print();
+          }
+      }
+      microsoftTeams.printHandler = printHandler;
+      /**
+       * Registers a handler for print.
+       * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+       * @param handler The handler to invoke when the user changes their theme.
+       */
+      function registerCustomPrintHandler(handler) {
+          ensureInitialized();
+          customPrintHandler = handler;
+      }
+      microsoftTeams.registerCustomPrintHandler = registerCustomPrintHandler;
       /**
        * Retrieves the current context the frame is running in.
        * @param callback The callback to invoke when the {@link Context} object is retrieved.
@@ -418,38 +453,6 @@
           sendMessageRequest(parentWindow, "openFilePreview", params);
       }
       microsoftTeams.openFilePreview = openFilePreview;
-      /**
-       * @private
-       * Hide from docs.
-       * ------
-       * download file.
-       * @param file The file to download.
-       */
-      function downloadFile(fileDownloadParameters) {
-          ensureInitialized(frameContexts.content);
-          var params = [
-              fileDownloadParameters.objectUrl,
-              fileDownloadParameters.title
-          ];
-          sendMessageRequest(parentWindow, "downloadFile", params);
-      }
-      microsoftTeams.downloadFile = downloadFile;
-      /**
-       * @private
-       * Hide from docs.
-       * ------
-       * download file.
-       * @param file The file to download.
-       */
-      function showNotification(showNotificationParameters) {
-          ensureInitialized(frameContexts.content);
-          var params = [
-              showNotificationParameters.message,
-              showNotificationParameters.isDownloadComplete
-          ];
-          sendMessageRequest(parentWindow, "showNotification", params);
-      }
-      microsoftTeams.showNotification = showNotification;
       /**
        * @private
        * Hide from docs.
@@ -1146,7 +1149,8 @@
            */
           function submitTask(result, appIds) {
               ensureInitialized(frameContexts.content, frameContexts.task);
-              sendMessageRequest(parentWindow, "tasks.submitTask", [
+              // Send tasks.completeTask instead of tasks.submitTask message for backward compatibility with Mobile clients
+              sendMessageRequest(parentWindow, "tasks.completeTask", [
                   result,
                   Array.isArray(appIds) ? appIds : [appIds]
               ]);

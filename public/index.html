@@ -29,23 +29,24 @@
   <div class="moduleContainer">
     <div>
       <div class="sectionTitle">Print</div>
+      <button onclick="registerCustomPrintHandler()">Register Custom Print Handler</button>
+      <button onclick="unRegisterCustomPrintHandler()">UnRegister custom Print Handler</button>
       <button onclick="printHandler()">Print this page</button>
     </div>
   </div>
 
   <script>
     function printHandler() {
-      window.print();
+      microsoftTeams.printHandler();
     }
 
-    document.addEventListener("keydown", function (event) {
-      if ((event.ctrlKey || event.metaKey) && event.keyCode == 80) {
-        printHandler();
-        event.cancelBubble = true;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }
-    });
+    function registerCustomPrintHandler() {
+      microsoftTeams.registerCustomPrintHandler(() => { alert("custom print handler"); });
+    }
+
+    function unRegisterCustomPrintHandler() {
+      microsoftTeams.registerCustomPrintHandler(null);
+    }
   </script>
 </body>
 
