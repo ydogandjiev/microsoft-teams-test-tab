@@ -12,9 +12,12 @@
           return this.substr(!pos || pos < 0 ? 0 : +pos, search.length) === search;
       };
   }
+  /**
+   * adding ctrl+P and cmd+P handler
+   */
   document.addEventListener("keydown", function (event) {
       if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
-          microsoftTeams.printHandler();
+          microsoftTeams.print();
           event.cancelBubble = true;
           event.preventDefault();
           event.stopImmediatePropagation();
@@ -176,6 +179,7 @@
       var hostClientType;
       var themeChangeHandler;
       var customPrintHandler;
+      var printCapabilityEnabled = false;
       handlers["themeChange"] = handleThemeChange;
       var fullScreenChangeHandler;
       handlers["fullScreenChange"] = handleFullScreenChange;
@@ -255,23 +259,31 @@
       }
       microsoftTeams.initialize = initialize;
       /**
+       * enable print capability
+       */
+      function enablePrintCapability() {
+          printCapabilityEnabled = true;
+      }
+      microsoftTeams.enablePrintCapability = enablePrintCapability;
+      /**
        * Registers a handler for print.
        * default print handler
        */
-      function printHandler() {
-          ensureInitialized();
-          if (customPrintHandler) {
-              customPrintHandler();
-          }
-          else {
-              window.print();
+      function print() {
+          if (printCapabilityEnabled) {
+              ensureInitialized();
+              if (customPrintHandler) {
+                  customPrintHandler();
+              }
+              else {
+                  window.print();
+              }
           }
       }
-      microsoftTeams.printHandler = printHandler;
+      microsoftTeams.print = print;
       /**
-       * Registers a handler for print.
-       * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
-       * @param handler The handler to invoke when the user changes their theme.
+       * Registers a custom handler for print.
+       * @param handler The handler to invoke when printHandler is called.
        */
       function registerCustomPrintHandler(handler) {
           ensureInitialized();
