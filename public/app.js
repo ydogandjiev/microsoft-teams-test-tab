@@ -305,6 +305,14 @@
     }
   });
 
+  addModule({
+    name: "getChatMembers",
+    hasOutput: true,
+    action: function (output) {
+      microsoftTeams.getChatMembers(output);
+    }
+  });
+
   document.body.appendChild(container);
 
   function restoreState() {
