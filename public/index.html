@@ -31,13 +31,18 @@
       <div class="sectionTitle">Print</div>
       <button onclick="registerCustomPrintHandler()">Register Custom Print Handler</button>
       <button onclick="unRegisterCustomPrintHandler()">UnRegister custom Print Handler</button>
+      <button onclick="enablePrintCapability()">enablePrintCapability</button>
       <button onclick="printHandler()">Print this page</button>
     </div>
   </div>
 
   <script>
+    function enablePrintCapability() {
+      microsoftTeams.enablePrintCapability();
+    }
+
     function printHandler() {
-      microsoftTeams.printHandler();
+      microsoftTeams.print();
     }
 
     function registerCustomPrintHandler() {
