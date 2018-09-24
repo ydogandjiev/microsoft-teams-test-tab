@@ -16,14 +16,14 @@
    * adding ctrl+P and cmd+P handler
    */
   document.addEventListener("keydown", function (event) {
-      if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
-          microsoftTeams.print();
-          event.cancelBubble = true;
-          event.preventDefault();
-          event.stopImmediatePropagation();
-      }
-  });
-  /**
+    if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
+        microsoftTeams.print();
+        event.cancelBubble = true;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    }
+});
+/**
    * This is the root namespace for the JavaScript SDK.
    */
   var microsoftTeams;
@@ -262,34 +262,34 @@
        * enable print capability
        */
       function enablePrintCapability() {
-          printCapabilityEnabled = true;
-      }
-      microsoftTeams.enablePrintCapability = enablePrintCapability;
-      /**
-       * Registers a handler for print.
-       * default print handler
-       */
-      function print() {
-          if (printCapabilityEnabled) {
-              ensureInitialized();
-              if (customPrintHandler) {
-                  customPrintHandler();
-              }
-              else {
-                  window.print();
-              }
-          }
-      }
-      microsoftTeams.print = print;
-      /**
-       * Registers a custom handler for print.
-       * @param handler The handler to invoke when printHandler is called.
-       */
-      function registerCustomPrintHandler(handler) {
-          ensureInitialized();
-          customPrintHandler = handler;
-      }
-      microsoftTeams.registerCustomPrintHandler = registerCustomPrintHandler;
+        printCapabilityEnabled = true;
+    }
+    microsoftTeams.enablePrintCapability = enablePrintCapability;
+    /**
+     * Registers a handler for print.
+     * default print handler
+     */
+    function print() {
+        if (printCapabilityEnabled) {
+            ensureInitialized();
+            if (customPrintHandler) {
+                customPrintHandler();
+            }
+            else {
+                window.print();
+            }
+        }
+    }
+    microsoftTeams.print = print;
+    /**
+     * Registers a custom handler for print.
+     * @param handler The handler to invoke when printHandler is called.
+     */
+    function registerCustomPrintHandler(handler) {
+        ensureInitialized();
+        customPrintHandler = handler;
+    }
+    microsoftTeams.registerCustomPrintHandler = registerCustomPrintHandler;
       /**
        * Retrieves the current context the frame is running in.
        * @param callback The callback to invoke when the {@link Context} object is retrieved.
@@ -1174,7 +1174,7 @@
        * Hide from docs
        * ------
        * Allows an app to retrieve information of all chat members
-       * @param callback The callback to invoke when the {@link ChatMember} object is retrieved.
+       * @param callback The callback to invoke when the {@link ChatMembersInformation} object is retrieved.
        */
       function getChatMembers(callback) {
           ensureInitialized();
