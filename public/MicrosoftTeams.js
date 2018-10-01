@@ -16,14 +16,14 @@
    * adding ctrl+P and cmd+P handler
    */
   document.addEventListener("keydown", function (event) {
-    if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
-        microsoftTeams.print();
-        event.cancelBubble = true;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-    }
-});
-/**
+      if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
+          microsoftTeams.print();
+          event.cancelBubble = true;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+      }
+  });
+  /**
    * This is the root namespace for the JavaScript SDK.
    */
   var microsoftTeams;
@@ -177,9 +177,9 @@
       var callbacks = {};
       var frameContext;
       var hostClientType;
-      var themeChangeHandler;
       var customPrintHandler;
       var printCapabilityEnabled = false;
+      var themeChangeHandler;
       handlers["themeChange"] = handleThemeChange;
       var fullScreenChangeHandler;
       handlers["fullScreenChange"] = handleFullScreenChange;
@@ -262,34 +262,34 @@
        * enable print capability
        */
       function enablePrintCapability() {
-        printCapabilityEnabled = true;
-    }
-    microsoftTeams.enablePrintCapability = enablePrintCapability;
-    /**
-     * Registers a handler for print.
-     * default print handler
-     */
-    function print() {
-        if (printCapabilityEnabled) {
-            ensureInitialized();
-            if (customPrintHandler) {
-                customPrintHandler();
-            }
-            else {
-                window.print();
-            }
-        }
-    }
-    microsoftTeams.print = print;
-    /**
-     * Registers a custom handler for print.
-     * @param handler The handler to invoke when printHandler is called.
-     */
-    function registerCustomPrintHandler(handler) {
-        ensureInitialized();
-        customPrintHandler = handler;
-    }
-    microsoftTeams.registerCustomPrintHandler = registerCustomPrintHandler;
+          printCapabilityEnabled = true;
+      }
+      microsoftTeams.enablePrintCapability = enablePrintCapability;
+      /**
+       * Registers a handler for print.
+       * default print handler
+       */
+      function print() {
+          if (printCapabilityEnabled) {
+              ensureInitialized();
+              if (customPrintHandler) {
+                  customPrintHandler();
+              }
+              else {
+                  window.print();
+              }
+          }
+      }
+      microsoftTeams.print = print;
+      /**
+       * Registers a custom handler for print.
+       * @param handler The handler to invoke when printHandler is called.
+       */
+      function registerCustomPrintHandler(handler) {
+          ensureInitialized();
+          customPrintHandler = handler;
+      }
+      microsoftTeams.registerCustomPrintHandler = registerCustomPrintHandler;
       /**
        * Retrieves the current context the frame is running in.
        * @param callback The callback to invoke when the {@link Context} object is retrieved.
@@ -373,7 +373,7 @@
        * @param url The URL to navigate the frame to.
        */
       function navigateCrossDomain(url) {
-          ensureInitialized(frameContexts.content, frameContexts.settings, frameContexts.remove);
+          ensureInitialized(frameContexts.content, frameContexts.settings, frameContexts.remove, frameContexts.task);
           var messageId = sendMessageRequest(parentWindow, "navigateCrossDomain", [
               url
           ]);
@@ -465,6 +465,38 @@
           sendMessageRequest(parentWindow, "openFilePreview", params);
       }
       microsoftTeams.openFilePreview = openFilePreview;
+      /**
+       * @private
+       * Hide from docs.
+       * ------
+       * download file.
+       * @param file The file to download.
+       */
+      function downloadFile(fileDownloadParameters) {
+          ensureInitialized(frameContexts.content);
+          var params = [
+              fileDownloadParameters.objectUrl,
+              fileDownloadParameters.title
+          ];
+          sendMessageRequest(parentWindow, "downloadFile", params);
+      }
+      microsoftTeams.downloadFile = downloadFile;
+      /**
+       * @private
+       * Hide from docs.
+       * ------
+       * download file.
+       * @param file The file to download.
+       */
+      function showNotification(showNotificationParameters) {
+          ensureInitialized(frameContexts.content);
+          var params = [
+              showNotificationParameters.message,
+              showNotificationParameters.isDownloadComplete
+          ];
+          sendMessageRequest(parentWindow, "showNotification", params);
+      }
+      microsoftTeams.showNotification = showNotification;
       /**
        * @private
        * Hide from docs.
@@ -665,7 +697,7 @@
               var authenticateParams = authenticateParameters !== undefined
                   ? authenticateParameters
                   : authParams;
-              ensureInitialized(frameContexts.content, frameContexts.settings, frameContexts.remove);
+              ensureInitialized(frameContexts.content, frameContexts.settings, frameContexts.remove, frameContexts.task);
               if (hostClientType === "desktop" /* desktop */) {
                   // Convert any relative URLs into absolute URLs before sending them over to the parent window.
                   var link = document.createElement("a");
@@ -1174,6 +1206,8 @@
        * Hide from docs
        * ------
        * Allows an app to retrieve information of all chat members
+       * Because a malicious party run your content in a browser, this value should
+       * be used only as a hint as to who the members are and never as proof of membership.
        * @param callback The callback to invoke when the {@link ChatMembersInformation} object is retrieved.
        */
       function getChatMembers(callback) {
