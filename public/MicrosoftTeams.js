@@ -13,23 +13,12 @@
       };
   }
   /**
-   * adding ctrl+P and cmd+P handler
-   */
-  document.addEventListener("keydown", function (event) {
-      if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
-          microsoftTeams.print();
-          event.cancelBubble = true;
-          event.preventDefault();
-          event.stopImmediatePropagation();
-      }
-  });
-  /**
    * This is the root namespace for the JavaScript SDK.
    */
   var microsoftTeams;
   (function (microsoftTeams) {
       "use strict";
-      var version = "1.3.5";
+      var version = "1.3.6";
       var validOrigins = [
           "https://teams.microsoft.com",
           "https://teams.microsoft.us",
@@ -177,9 +166,9 @@
       var callbacks = {};
       var frameContext;
       var hostClientType;
+      var themeChangeHandler;
       var customPrintHandler;
       var printCapabilityEnabled = false;
-      var themeChangeHandler;
       handlers["themeChange"] = handleThemeChange;
       var fullScreenChangeHandler;
       handlers["fullScreenChange"] = handleFullScreenChange;
@@ -262,7 +251,19 @@
        * enable print capability
        */
       function enablePrintCapability() {
+          ensureInitialized();
           printCapabilityEnabled = true;
+          /**
+           * adding ctrl+P and cmd+P handler
+           */
+          document.addEventListener("keydown", function (event) {
+              if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
+                  microsoftTeams.print();
+                  event.cancelBubble = true;
+                  event.preventDefault();
+                  event.stopImmediatePropagation();
+              }
+          });
       }
       microsoftTeams.enablePrintCapability = enablePrintCapability;
       /**
@@ -271,7 +272,6 @@
        */
       function print() {
           if (printCapabilityEnabled) {
-              ensureInitialized();
               if (customPrintHandler) {
                   customPrintHandler();
               }
@@ -465,7 +465,7 @@
           sendMessageRequest(parentWindow, "openFilePreview", params);
       }
       microsoftTeams.openFilePreview = openFilePreview;
-      /**
+            /**
        * @private
        * Hide from docs.
        * ------
@@ -473,30 +473,30 @@
        * @param file The file to download.
        */
       function downloadFile(fileDownloadParameters) {
-          ensureInitialized(frameContexts.content);
-          var params = [
-              fileDownloadParameters.objectUrl,
-              fileDownloadParameters.title
-          ];
-          sendMessageRequest(parentWindow, "downloadFile", params);
-      }
-      microsoftTeams.downloadFile = downloadFile;
-      /**
-       * @private
-       * Hide from docs.
-       * ------
-       * download file.
-       * @param file The file to download.
-       */
-      function showNotification(showNotificationParameters) {
-          ensureInitialized(frameContexts.content);
-          var params = [
-              showNotificationParameters.message,
-              showNotificationParameters.isDownloadComplete
-          ];
-          sendMessageRequest(parentWindow, "showNotification", params);
-      }
-      microsoftTeams.showNotification = showNotification;
+        ensureInitialized(frameContexts.content);
+        var params = [
+            fileDownloadParameters.objectUrl,
+            fileDownloadParameters.title
+        ];
+        sendMessageRequest(parentWindow, "downloadFile", params);
+    }
+    microsoftTeams.downloadFile = downloadFile;
+    /**
+     * @private
+     * Hide from docs.
+     * ------
+     * download file.
+     * @param file The file to download.
+     */
+    function showNotification(showNotificationParameters) {
+        ensureInitialized(frameContexts.content);
+        var params = [
+            showNotificationParameters.message,
+            showNotificationParameters.isDownloadComplete
+        ];
+        sendMessageRequest(parentWindow, "showNotification", params);
+    }
+    microsoftTeams.showNotification = showNotification;
       /**
        * @private
        * Hide from docs.
