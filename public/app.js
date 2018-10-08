@@ -306,6 +306,17 @@
   });
 
   addModule({
+    name: "getAuthToken",
+    inputs: [{
+      type: "object",
+      name: "getAuthTokenParameters"
+    }, ],
+    action: function (getAuthTokenParameters) {
+      microsoftTeams.getAuthToken(getAuthTokenParameters);
+    }
+  });
+
+  addModule({
     name: "getChatMembers",
     hasOutput: true,
     action: function (output) {
