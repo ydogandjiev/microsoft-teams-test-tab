@@ -12,13 +12,12 @@
   "homepage": "https://github.com/ydogandjiev/microsoft-teams-test-tab#readme",
   "scripts": {
     "install": "yarn install",
+    "build": "webpack",
     "start": "node server.js"
   },
   "dependencies": {
-    "@microsoft/office-js-helpers": "OfficeDev/office-js-helpers",
     "@microsoft/teams-js": "^1.3.6",
     "express": "^4.16.3",
-    "react": "^16.5.2",
     "serve-static": "^1.13.2"
   },
   "devDependencies": {

@@ -193,7 +193,9 @@ export const initializeAppModules = () => {
           name: "fileDownloadParameters"
         }, ],
         action: function (fileDownloadParameters) {
-          microsoftTeams.downloadFile(fileDownloadParameters);
+          if(microsoftTeams.downloadFile) {
+              microsoftTeams.downloadFile(fileDownloadParameters);
+          }
         }
       });
     
@@ -204,7 +206,9 @@ export const initializeAppModules = () => {
           name: "showNotificationParameters"
         }, ],
         action: function (showNotificationParameters) {
-          microsoftTeams.showNotification(showNotificationParameters);
+          if(microsoftTeams.showNotification) {
+            microsoftTeams.showNotification(showNotificationParameters);
+          }
         }
       });
     
