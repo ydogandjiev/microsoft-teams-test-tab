@@ -312,7 +312,7 @@
       name: "getAuthTokenParameters"
     }, ],
     action: function (getAuthTokenParameters) {
-      microsoftTeams.getAuthToken(getAuthTokenParameters);
+      microsoftTeams.authentication.getAuthToken(getAuthTokenParameters);
     }
   });
 
