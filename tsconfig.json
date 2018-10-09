@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "target": "es5",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "noResolve": false,
+      "outDir": "./dist/",
+      "noImplicitAny": false,
+      "jsx": "react",
+      "allowJs": true,
+      "typeRoots": ["types", "node_modules/@types"]
+    }
+  }
