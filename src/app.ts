@@ -186,7 +186,7 @@ export const initializeAppModules = () => {
         }
       });
     
-      addModule({
+      /* addModule({
         name: "downloadFile",
         inputs: [{
           type: "object",
@@ -211,7 +211,7 @@ export const initializeAppModules = () => {
           }
         }
       });
-    
+     */
       addModule({
         name: "getAuthToken",
         inputs: [{

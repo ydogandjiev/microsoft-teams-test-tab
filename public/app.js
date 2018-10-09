@@ -440,26 +440,32 @@ var initializeAppModules = function () {
             MicrosoftTeams_min["tasks"].startTask(taskInfo);
         }
     });
-    addModule({
-        name: "downloadFile",
-        inputs: [{
-                type: "object",
-                name: "fileDownloadParameters"
-            },],
-        action: function (fileDownloadParameters) {
-            MicrosoftTeams_min["downloadFile"](fileDownloadParameters);
+    /* addModule({
+      name: "downloadFile",
+      inputs: [{
+        type: "object",
+        name: "fileDownloadParameters"
+      }, ],
+      action: function (fileDownloadParameters) {
+        if(microsoftTeams.downloadFile) {
+            microsoftTeams.downloadFile(fileDownloadParameters);
         }
+      }
     });
+  
     addModule({
-        name: "downloadFile ShowNotificationOnly",
-        inputs: [{
-                type: "object",
-                name: "showNotificationParameters"
-            },],
-        action: function (showNotificationParameters) {
-            MicrosoftTeams_min["showNotification"](showNotificationParameters);
+      name: "downloadFile ShowNotificationOnly",
+      inputs: [{
+        type: "object",
+        name: "showNotificationParameters"
+      }, ],
+      action: function (showNotificationParameters) {
+        if(microsoftTeams.showNotification) {
+          microsoftTeams.showNotification(showNotificationParameters);
         }
+      }
     });
+   */
     addModule({
         name: "getAuthToken",
         inputs: [{
