@@ -452,20 +452,20 @@ var initializeAppModules = function () {
         }
       }
     });
-  
+
+    */
     addModule({
-      name: "downloadFile ShowNotificationOnly",
-      inputs: [{
-        type: "object",
-        name: "showNotificationParameters"
-      }, ],
-      action: function (showNotificationParameters) {
-        if(microsoftTeams.showNotification) {
-          microsoftTeams.showNotification(showNotificationParameters);
+        name: "downloadFile ShowNotificationOnly",
+        inputs: [{
+                type: "object",
+                name: "showNotificationParameters"
+            },],
+        action: function (showNotificationParameters) {
+            if (MicrosoftTeams_min["showNotification"]) {
+                MicrosoftTeams_min["showNotification"](showNotificationParameters);
+            }
         }
-      }
     });
-   */
     addModule({
         name: "getAuthToken",
         inputs: [{

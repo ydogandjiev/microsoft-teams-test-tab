@@ -198,6 +198,8 @@ export const initializeAppModules = () => {
           }
         }
       });
+
+      */
     
       addModule({
         name: "downloadFile ShowNotificationOnly",
@@ -211,7 +213,7 @@ export const initializeAppModules = () => {
           }
         }
       });
-     */
+     
       addModule({
         name: "getAuthToken",
         inputs: [{
