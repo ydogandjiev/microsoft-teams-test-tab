@@ -22,9 +22,6 @@ module.exports = {
     filename: 'app.js',
     path: path.resolve(__dirname, 'public')
   },
-  externals : {
-    microsoftTeams: '@microsoft/teams-js'
-  },
   optimization: {
     minimize: false
   }
