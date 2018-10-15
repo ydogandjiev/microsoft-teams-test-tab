@@ -208,9 +208,7 @@ export const initializeAppModules = () => {
           name: "showNotificationParameters"
         }, ],
         action: function (showNotificationParameters) {
-          if(microsoftTeams.showNotification) {
-            microsoftTeams.showNotification(showNotificationParameters);
-          }
+          microsoftTeams.showNotification(showNotificationParameters);
         }
       });
      
