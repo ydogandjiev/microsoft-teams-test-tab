@@ -461,9 +461,7 @@ var initializeAppModules = function () {
                 name: "showNotificationParameters"
             },],
         action: function (showNotificationParameters) {
-            if (MicrosoftTeams_min["showNotification"]) {
-                MicrosoftTeams_min["showNotification"](showNotificationParameters);
-            }
+            MicrosoftTeams_min["showNotification"](showNotificationParameters);
         }
     });
     addModule({
