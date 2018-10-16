@@ -62,6 +62,7 @@ export const initializeAppModules = () => {
             },
             failureCallback: function (reason) {
               output("Failure:" + reason);
+              MessageEvent
             },
           });
         }
