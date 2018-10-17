@@ -4,6 +4,7 @@
 
 <body>
   <script src="./app.js"></script>
+  <script src="https://unpkg.com/@microsoft/teams-js@1.4.0-beta.3.9/dist/MicrosoftTeams.min.js"></script>
   <link href="./app.css" rel="stylesheet" />
 
   <div class="moduleContainer">
@@ -28,8 +29,6 @@
   <div class="moduleContainer">
     <div>
       <div class="sectionTitle">Print</div>
-      <button onclick="registerCustomPrintHandler()">Register Custom Print Handler</button>
-      <button onclick="unRegisterCustomPrintHandler()">UnRegister custom Print Handler</button>
       <button onclick="enablePrintCapability()">enablePrintCapability</button>
       <button onclick="printHandler()">Print this page</button>
     </div>
@@ -42,14 +41,6 @@
 
     function printHandler() {
       microsoftTeams.print();
-    }
-
-    function registerCustomPrintHandler() {
-      microsoftTeams.registerCustomPrintHandler(() => { alert("custom print handler"); });
-    }
-
-    function unRegisterCustomPrintHandler() {
-      microsoftTeams.registerCustomPrintHandler(null);
     }
   </script>
 </body>

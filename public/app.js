@@ -263,7 +263,7 @@ function downloadHandler() {
     }
 }
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/teams-js/dist/MicrosoftTeams.min.js
+// EXTERNAL MODULE: ../microsoft-teams-library-js/dist/MicrosoftTeams.min.js
 var MicrosoftTeams_min = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./src/app.ts
