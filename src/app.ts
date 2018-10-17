@@ -1,5 +1,5 @@
 import { addModule } from "./utils";
-import * as microsoftTeams from '@microsoft/teams-js';
+import { microsoftTeams } from '@microsoft/teams-js';
 
 export const initializeAppModules = () => {
     addModule({

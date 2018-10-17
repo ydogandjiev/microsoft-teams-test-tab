@@ -88,10 +88,7 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!function(t,e){ true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (e),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):undefined}(this,function(){String.prototype.startsWith||(String.prototype.startsWith=function(t,e){return this.substr(!e||e<0?0:+e,t.length)===t});var t;return function(t){"use strict";function e(t){for(var e="^",n=t.split("."),i=0;i<n.length;i++)e+=(i>0?"[.]":"")+n[i].replace("*","[^/^.]+");return e+="$"}function n(t){for(var n="",i=0;i<t.length;i++)n+=(0===i?"":"|")+e(t[i]);return new RegExp(n)}function i(){if(!Z){Z=!0,J=this._window||window;var t=function(t){return E(t)};K=J.parent!==J.self?J.parent:J.opener,K?J.addEventListener("message",t,!1):(tt=!0,window.onNativeMessage=S);try{X="*";var e=O(K,"initialize",[z]);ot[e]=function(t,e){q=t,G=e}}finally{X=null}this._uninitialize=function(){q&&(s(null),c(null),l(null)),q===j.settings&&ut.registerOnSaveHandler(null),q===j.remove&&ut.registerOnRemoveHandler(null),tt||J.removeEventListener("message",t,!1),Z=!1,K=null,X=null,et=[],Y=null,$=null,nt=[],it=0,ot={},q=null,G=null,tt=!1}}}function o(){at||(at=!0,I(),document.addEventListener("keydown",function(e){(e.ctrlKey||e.metaKey)&&80===e.keyCode&&(t.print(),e.cancelBubble=!0,e.preventDefault(),e.stopImmediatePropagation())}))}function a(){window.print()}function r(t){I();var e=O(K,"getContext");ot[e]=t}function s(t){I(),Q=t}function u(t){Q&&Q(t),Y&&O(Y,"themeChange",[t])}function c(t){I(),rt=t}function f(t){rt&&rt(t)}function l(t){I(),st=t}function h(){st&&st()||d()}function d(){I();var t=O(K,"navigateBack",[]);ot[t]=function(t){if(!t)throw new Error("Back navigation is not supported in the current client or context.")}}function v(t){I(j.content,j.settings,j.remove,j.task);var e=O(K,"navigateCrossDomain",[t]);ot[e]=function(t){if(!t)throw new Error("Cross-origin navigation is only supported for URLs matching the pattern registered in the manifest.")}}function g(t,e){I();var n=O(K,"getTabInstances",[e]);ot[n]=t}function p(t,e){I();var n=O(K,"getUserJoinedTeams",[e]);ot[n]=t}function m(t,e){I();var n=O(K,"getMruTabInstances",[e]);ot[n]=t}function y(t){I(j.content),O(K,"shareDeepLink",[t.subEntityId,t.subEntityLabel,t.subEntityWebUrl])}function w(t){I(j.content);var e=[t.entityId,t.title,t.description,t.type,t.objectUrl,t.downloadUrl,t.webPreviewUrl,t.webEditUrl,t.baseUrl,t.editFile,t.subEntityId];O(K,"openFilePreview",e)}function b(t){I(j.content);var e=[t.objectUrl,t.title];O(K,"downloadFile",e)}function k(t){I(j.content);var e=[t.message,t.isDownloadComplete];O(K,"showNotification",e)}function C(t){I();var e=O(K,"uploadCustomApp",[t]);ot[e]=function(t,e){if(!t)throw new Error(e)}}function T(t){I();var e=O(K,"navigateToTab",[t]);ot[e]=function(t){if(!t)throw new Error("Invalid internalTabInstanceId and/or channelId were/was provided")}}function I(){for(var t=[],e=0;e<arguments.length;e++)t[e]=arguments[e];if(!Z)throw new Error("The library has not yet been initialized");if(q&&t&&t.length>0){for(var n=!1,i=0;i<t.length;i++)if(t[i]===q){n=!0;break}if(!n)throw new Error("This call is not allowed in the '"+q+"' context")}}function E(t){if(t&&t.data&&"object"==typeof t.data){var e=t.source||t.originalEvent.source,n=t.origin||t.originalEvent.origin;e===J||n!==J.location.origin&&!V.test(n.toLowerCase())||(M(e,n),e===K?S(t):e===Y&&N(t))}}function M(t,e){K&&t!==K?Y&&t!==Y||(Y=t,$=e):(K=t,X=e),K&&K.closed&&(K=null,X=null),Y&&Y.closed&&(Y=null,$=null),B(K),B(Y)}function S(t){if("id"in t.data){var e=t.data,n=ot[e.id];n&&(n.apply(null,e.args),delete ot[e.id])}else if("func"in t.data){var e=t.data,i=_[e.func];i&&i.apply(this,e.args)}}function N(t){if("id"in t.data&&"func"in t.data){var e=t.data,n=_[e.func];if(n){var i=n.apply(this,e.args);i&&F(Y,e.id,Array.isArray(i)?i:[i])}else{var o=O(K,e.func,e.args);ot[o]=function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];Y&&F(Y,e.id,t)}}}}function U(t){return t===K?et:t===Y?nt:[]}function A(t){return t===K?X:t===Y?$:null}function B(t){for(var e=A(t),n=U(t);t&&e&&n.length>0;)t.postMessage(n.shift(),e)}function L(t,e){var n=J.setInterval(function(){0===U(t).length&&(clearInterval(n),e())},100)}function O(t,e,n){var i=D(e,n);if(tt)J&&J.nativeInterface&&J.nativeInterface.framelessPostMessage(JSON.stringify(i));else{var o=A(t);t&&o?t.postMessage(i,o):U(t).push(i)}return i.id}function P(t,e){return I(),O(K,t,e)}function F(t,e,n){var i=H(e,n),o=A(t);t&&o&&t.postMessage(i,o)}function D(t,e){return{id:it++,func:t,args:e||[]}}function H(t,e){return{id:t,args:e||[]}}function x(t){I();var e=O(K,"getChatMembers");ot[e]=t}var W,z="1.3.6",R=["https://teams.microsoft.com","https://teams.microsoft.us","https://int.teams.microsoft.com","https://devspaces.skype.com","https://ssauth.skype.com","http://dev.local","https://msft.spoppe.com","https://*.sharepoint.com","https://*.sharepoint-df.com","https://*.sharepointonline.com","https://outlook.office.com","https://outlook-sdf.office.com"],V=n(R),_={},j={settings:"settings",content:"content",authentication:"authentication",remove:"remove",task:"task"};!function(t){function e(t,e){I(),l=e,O(K,"setUpViews",[t])}function n(t){l&&l(t)||(I(),O(K,"viewConfigItemPress",[t]))}function i(t,e){I(),c=e,O(K,"setNavBarMenu",[t])}function o(t){c&&c(t)||(I(),O(K,"handleNavBarMenuItemPress",[t]))}function a(t,e){I(),f=e,O(K,"showActionMenu",[t])}function r(t){f&&f(t)||(I(),O(K,"handleActionMenuItemPress",[t]))}var s=function(){function t(){this.enabled=!0}return t}();t.MenuItem=s;var u;!function(t){t.dropDown="dropDown",t.popOver="popOver"}(u=t.MenuListType||(t.MenuListType={}));var c;_.navBarMenuItemPress=o;var f;_.actionMenuItemPress=r;var l;_.setModuleView=n,t.setUpViews=e,t.setNavBarMenu=i,t.showActionMenu=a}(W=t.menus||(t.menus={}));var J,K,X,Y,$,q,G,Q,Z=!1,tt=!1,et=[],nt=[],it=0,ot={},at=!1;_.themeChange=u;var rt;_.fullScreenChange=f;var st;_.backButtonPress=h,t.initialize=i,t.enablePrintCapability=o,t.print=a,t.getContext=r,t.registerOnThemeChangeHandler=s,t.registerFullScreenHandler=c,t.registerBackButtonHandler=l,t.navigateBack=d,t.navigateCrossDomain=v,t.getTabInstances=g,t.getUserJoinedTeams=p,t.getMruTabInstances=m,t.shareDeepLink=y,t.openFilePreview=w,t.downloadFile=b,t.showNotification=k,t.uploadCustomApp=C,t.navigateToTab=T;var ut;!function(t){function e(t){I(j.settings,j.remove),O(K,"settings.setValidityState",[t])}function n(t){I(j.settings,j.remove);var e=O(K,"settings.getSettings");ot[e]=t}function i(t){I(j.settings),O(K,"settings.setSettings",[t])}function o(t){I(j.settings),u=t}function a(t){I(j.remove),c=t}function r(t){var e=new f(t);u?u(e):e.notifySuccess()}function s(){var t=new l;c?c(t):t.notifySuccess()}var u,c;_["settings.save"]=r,_["settings.remove"]=s,t.setValidityState=e,t.getSettings=n,t.setSettings=i,t.registerOnSaveHandler=o,t.registerOnRemoveHandler=a;var f=function(){function t(t){this.notified=!1,this.result=t?t:{}}return t.prototype.notifySuccess=function(){this.ensureNotNotified(),O(K,"settings.save.success"),this.notified=!0},t.prototype.notifyFailure=function(t){this.ensureNotNotified(),O(K,"settings.save.failure",[t]),this.notified=!0},t.prototype.ensureNotNotified=function(){if(this.notified)throw new Error("The SaveEvent may only notify success or failure once.")},t}(),l=function(){function t(){this.notified=!1}return t.prototype.notifySuccess=function(){this.ensureNotNotified(),O(K,"settings.remove.success"),this.notified=!0},t.prototype.notifyFailure=function(t){this.ensureNotNotified(),O(K,"settings.remove.failure",[t]),this.notified=!0},t.prototype.ensureNotNotified=function(){if(this.notified)throw new Error("The removeEvent may only notify success or failure once.")},t}()}(ut=t.settings||(t.settings={}));var ct;!function(t){function e(t){g=t}function n(t){var e=void 0!==t?t:g;if(I(j.content,j.settings,j.remove,j.task),"desktop"===G){var n=document.createElement("a");n.href=e.url;var i=O(K,"authentication.authenticate",[n.href,e.width,e.height]);ot[i]=function(t,n){t?e.successCallback(n):e.failureCallback(n)}}else r(e)}function i(t){I();var e=O(K,"authentication.getAuthToken",[t.resources]);ot[e]=function(e,n){e?t.successCallback(n):t.failureCallback(n)}}function o(t){I();var e=O(K,"authentication.getUser");ot[e]=function(e,n){e?t.successCallback(n):t.failureCallback(n)}}function a(){s();try{Y&&Y.close()}finally{Y=null,$=null}}function r(t){g=t,a();var e=g.width||600,n=g.height||400;e=Math.min(e,J.outerWidth-400),n=Math.min(n,J.outerHeight-200);var i=document.createElement("a");i.href=g.url;var o="undefined"!=typeof J.screenLeft?J.screenLeft:J.screenX,r="undefined"!=typeof J.screenTop?J.screenTop:J.screenY;o+=J.outerWidth/2-e/2,r+=J.outerHeight/2-n/2,Y=J.open(i.href,"_blank","toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top="+r+", left="+o+", width="+e+", height="+n),Y?u():h("FailedToOpenWindow")}function s(){p&&(clearInterval(p),p=0),delete _.initialize,delete _.navigateCrossDomain}function u(){s(),p=J.setInterval(function(){if(!Y||Y.closed)h("CancelledByUser");else{var t=$;try{$="*",O(Y,"ping")}finally{$=t}}},100),_.initialize=function(){return[j.authentication,G]},_.navigateCrossDomain=function(t){return!1}}function c(t,e){d(e,"result",t),I(j.authentication),O(K,"authentication.authenticate.success",[t]),L(K,function(){return setTimeout(function(){return J.close()},200)})}function f(t,e){d(e,"reason",t),I(j.authentication),O(K,"authentication.authenticate.failure",[t]),L(K,function(){return setTimeout(function(){return J.close()},200)})}function l(t){try{g&&g.successCallback&&g.successCallback(t)}finally{g=null,a()}}function h(t){try{g&&g.failureCallback&&g.failureCallback(t)}finally{g=null,a()}}function d(t,e,n){if(t){var i=document.createElement("a");i.href=decodeURIComponent(t),i.host&&i.host!==window.location.host&&"outlook.office.com"===i.host&&i.search.indexOf("client_type=Win32_Outlook")>-1&&(e&&"result"===e&&(n&&(i.href=v(i.href,"result",n)),J.location.assign(v(i.href,"authSuccess",""))),e&&"reason"===e&&(n&&(i.href=v(i.href,"reason",n)),J.location.assign(v(i.href,"authFailure",""))))}}function v(t,e,n){var i=t.indexOf("#"),o=i===-1?"#":t.substr(i);return o=o+"&"+e+(""!==n?"="+n:""),t=i===-1?t:t.substr(0,i),t+o}var g,p;_["authentication.authenticate.success"]=l,_["authentication.authenticate.failure"]=h,t.registerAuthenticationHandlers=e,t.authenticate=n,t.getAuthToken=i,t.getUser=o,t.notifySuccess=c,t.notifyFailure=f}(ct=t.authentication||(t.authentication={})),t.sendCustomMessage=P;var ft;!function(t){function e(t,e){I(j.content);var n=O(K,"tasks.startTask",[t]);ot[n]=e}function n(t,e){I(j.content,j.task),O(K,"tasks.completeTask",[t,Array.isArray(e)?e:[e]])}t.startTask=e,t.submitTask=n}(ft=t.tasks||(t.tasks={})),t.getChatMembers=x}(t||(t={})),t});
+!function(t,e){if(true)module.exports=e();else { var i, n; }}(window,function(){return function(t){var e={};function n(i){if(e[i])return e[i].exports;var o=e[i]={i:i,l:!1,exports:{}};return t[i].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(i,o,function(e){return t[e]}.bind(null,o));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=n(1);e.microsoftTeams=i.microsoftTeams},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),String.prototype.startsWith||(String.prototype.startsWith=function(t,e){return this.substr(!e||e<0?0:+e,t.length)===t}),function(t){const e="1.3.6";function n(t){let e="^",n=t.split(".");for(let t=0;t<n.length;t++)e+=(t>0?"[.]":"")+n[t].replace("*","[^/^.]+");return e+="$"}const i=function(t){let e="";for(let i=0;i<t.length;i++)e+=(0===i?"":"|")+n(t[i]);return new RegExp(e)}(["https://teams.microsoft.com","https://teams.microsoft.us","https://int.teams.microsoft.com","https://devspaces.skype.com","https://ssauth.skype.com","http://dev.local","https://msft.spoppe.com","https://*.sharepoint.com","https://*.sharepoint-df.com","https://*.sharepointonline.com","https://outlook.office.com","https://outlook-sdf.office.com"]),o={},s={settings:"settings",content:"content",authentication:"authentication",remove:"remove",task:"task"};let r;!function(t){let e,n,i,s;t.MenuItem=class{constructor(){this.enabled=!0}},function(t){t.dropDown="dropDown",t.popOver="popOver"}(e=t.MenuListType||(t.MenuListType={})),o.navBarMenuItemPress=function(t){n&&n(t)||(x(),L(c,"handleNavBarMenuItemPress",[t]))},o.actionMenuItemPress=function(t){i&&i(t)||(x(),L(c,"handleActionMenuItemPress",[t]))},o.setModuleView=function(t){s&&s(t)||(x(),L(c,"viewConfigItemPress",[t]))},t.setUpViews=function(t,e){x(),s=e,L(c,"setUpViews",[t])},t.setNavBarMenu=function(t,e){x(),n=e,L(c,"setNavBarMenu",[t])},t.showActionMenu=function(t,e){x(),i=e,L(c,"showActionMenu",[t])}}(r=t.menus||(t.menus={}));let a,c,u,l,f,d,h,p,g,m,y,v,b,w=!1,k=!1,T=[],C=[],M=0,I={},S=!1;function E(t){x(),p=t}function O(t){x(),g=t}function N(t){x(),m=t}function P(){x();let t=L(c,"navigateBack",[]);I[t]=(t=>{if(!t)throw new Error("Back navigation is not supported in the current client or context.")})}function x(...t){if(!w)throw new Error("The library has not yet been initialized");if(d&&t&&t.length>0){let e=!1;for(let n=0;n<t.length;n++)if(t[n]===d){e=!0;break}if(!e)throw new Error("This call is not allowed in the '"+d+"' context")}}function U(t){if("id"in t.data){const e=t.data,n=I[e.id];n&&(n.apply(null,e.args),delete I[e.id])}else if("func"in t.data){const e=t.data,n=o[e.func];n&&n.apply(this,e.args)}}function _(t){return t===c?T:t===l?C:[]}function j(t){return t===c?u:t===l?f:null}function A(t){let e=j(t),n=_(t);for(;t&&e&&n.length>0;)t.postMessage(n.shift(),e)}function B(t,e){let n=a.setInterval(()=>{0===_(t).length&&(clearInterval(n),e())},100)}function L(t,e,n){let i=function(t,e){return{id:M++,func:t,args:e||[]}}(e,n);if(k)a&&a.nativeInterface&&a.nativeInterface.framelessPostMessage(JSON.stringify(i));else{let e=j(t);t&&e?t.postMessage(i,e):_(t).push(i)}return i.id}function D(t,e,n){let i=function(t,e){return{id:t,args:e||[]}}(e,n),o=j(t);t&&o&&t.postMessage(i,o)}o.themeChange=function(t){p&&p(t);l&&L(l,"themeChange",[t])},o.fullScreenChange=function(t){g&&g(t)},o.backButtonPress=function(){m&&m()||P()},t.initialize=function(t=window){if(w)return;w=!0;let n=t=>(function(t){if(!t||!t.data||"object"!=typeof t.data)return;let e=t.source||t.originalEvent.source,n=t.origin||t.originalEvent.origin;e===a||n!==a.location.origin&&!i.test(n.toLowerCase())||(function(t,e){c&&t!==c?l&&t!==l||(l=t,f=e):(c=t,u=e),c&&c.closed&&(c=null,u=null),l&&l.closed&&(l=null,f=null),A(c),A(l)}(e,n),e===c?U(t):e===l&&function(t){if("id"in t.data&&"func"in t.data){const e=t.data,n=o[e.func];if(n){let t=n.apply(this,e.args);t&&D(l,e.id,Array.isArray(t)?t:[t])}else{let t=L(c,e.func,e.args);I[t]=((...t)=>{l&&D(l,e.id,t)})}}}(t))})(t);(c=(a=t).parent!==a.self?a.parent:a.opener)?a.addEventListener("message",n,!1):(k=!0,window.onNativeMessage=U);try{u="*";let t=L(c,"initialize",[e]);I[t]=((t,e)=>{d=t,h=e})}finally{u=null}this._uninitialize=(()=>{d&&(E(null),O(null),N(null)),d===s.settings&&y.registerOnSaveHandler(null),d===s.remove&&y.registerOnRemoveHandler(null),k||a.removeEventListener("message",n,!1),w=!1,c=null,u=null,T=[],l=null,f=null,C=[],M=0,I={},d=null,h=null,k=!1})},t._uninitialize=function(){},t.enablePrintCapability=function(){S||(S=!0,x(),document.addEventListener("keydown",e=>{(e.ctrlKey||e.metaKey)&&80===e.keyCode&&(t.print(),e.cancelBubble=!0,e.preventDefault(),e.stopImmediatePropagation())}))},t.print=function(){window.print()},t.getContext=function(t){x();let e=L(c,"getContext");I[e]=t},t.registerOnThemeChangeHandler=E,t.registerFullScreenHandler=O,t.registerBackButtonHandler=N,t.navigateBack=P,t.navigateCrossDomain=function(t){x(s.content,s.settings,s.remove,s.task);let e=L(c,"navigateCrossDomain",[t]);I[e]=(t=>{if(!t)throw new Error("Cross-origin navigation is only supported for URLs matching the pattern registered in the manifest.")})},t.getTabInstances=function(t,e){x();let n=L(c,"getTabInstances",[e]);I[n]=t},t.getUserJoinedTeams=function(t,e){x();const n=L(c,"getUserJoinedTeams",[e]);I[n]=t},t.getMruTabInstances=function(t,e){x();let n=L(c,"getMruTabInstances",[e]);I[n]=t},t.shareDeepLink=function(t){x(s.content),L(c,"shareDeepLink",[t.subEntityId,t.subEntityLabel,t.subEntityWebUrl])},t.openFilePreview=function(t){x(s.content);const e=[t.entityId,t.title,t.description,t.type,t.objectUrl,t.downloadUrl,t.webPreviewUrl,t.webEditUrl,t.baseUrl,t.editFile,t.subEntityId];L(c,"openFilePreview",e)},t.showNotification=function(t){x(s.content);const e=[t.message,t.isDownloadComplete];L(c,"showNotification",e)},t.uploadCustomApp=function(t){x();const e=L(c,"uploadCustomApp",[t]);I[e]=((t,e)=>{if(!t)throw new Error(e)})},t.navigateToTab=function(t){x();let e=L(c,"navigateToTab",[t]);I[e]=(t=>{if(!t)throw new Error("Invalid internalTabInstanceId and/or channelId were/was provided")})},function(t){let e,n;o["settings.save"]=function(t){let n=new i(t);e?e(n):n.notifySuccess()},o["settings.remove"]=function(){let t=new r;n?n(t):t.notifySuccess()},t.setValidityState=function(t){x(s.settings,s.remove),L(c,"settings.setValidityState",[t])},t.getSettings=function(t){x(s.settings,s.remove);let e=L(c,"settings.getSettings");I[e]=t},t.setSettings=function(t){x(s.settings),L(c,"settings.setSettings",[t])},t.registerOnSaveHandler=function(t){x(s.settings),e=t},t.registerOnRemoveHandler=function(t){x(s.remove),n=t};class i{constructor(t){this.notified=!1,this.result=t||{}}notifySuccess(){this.ensureNotNotified(),L(c,"settings.save.success"),this.notified=!0}notifyFailure(t){this.ensureNotNotified(),L(c,"settings.save.failure",[t]),this.notified=!0}ensureNotNotified(){if(this.notified)throw new Error("The SaveEvent may only notify success or failure once.")}}class r{constructor(){this.notified=!1}notifySuccess(){this.ensureNotNotified(),L(c,"settings.remove.success"),this.notified=!0}notifyFailure(t){this.ensureNotNotified(),L(c,"settings.remove.failure",[t]),this.notified=!0}ensureNotNotified(){if(this.notified)throw new Error("The removeEvent may only notify success or failure once.")}}}(y=t.settings||(t.settings={})),function(t){let e,n;function i(){r();try{l&&l.close()}finally{l=null,f=null}}function r(){n&&(clearInterval(n),n=0),delete o.initialize,delete o.navigateCrossDomain}function u(t){try{e&&e.failureCallback&&e.failureCallback(t)}finally{e=null,i()}}function d(t,e,n){if(t){let i=document.createElement("a");i.href=decodeURIComponent(t),i.host&&i.host!==window.location.host&&"outlook.office.com"===i.host&&i.search.indexOf("client_type=Win32_Outlook")>-1&&(e&&"result"===e&&(n&&(i.href=p(i.href,"result",n)),a.location.assign(p(i.href,"authSuccess",""))),e&&"reason"===e&&(n&&(i.href=p(i.href,"reason",n)),a.location.assign(p(i.href,"authFailure",""))))}}function p(t,e,n){let i=t.indexOf("#"),o=-1===i?"#":t.substr(i);return o=o+"&"+e+(""!==n?"="+n:""),(t=-1===i?t:t.substr(0,i))+o}o["authentication.authenticate.success"]=function(t){try{e&&e.successCallback&&e.successCallback(t)}finally{e=null,i()}},o["authentication.authenticate.failure"]=u,t.registerAuthenticationHandlers=function(t){e=t},t.authenticate=function(t){let d=void 0!==t?t:e;if(x(s.content,s.settings,s.remove,s.task),"desktop"===h){let t=document.createElement("a");t.href=d.url;let e=L(c,"authentication.authenticate",[t.href,d.width,d.height]);I[e]=((t,e)=>{t?d.successCallback(e):d.failureCallback(e)})}else!function(t){e=t,i();let c=e.width||600,d=e.height||400;c=Math.min(c,a.outerWidth-400),d=Math.min(d,a.outerHeight-200);let p=document.createElement("a");p.href=e.url;let g=void 0!==a.screenLeft?a.screenLeft:a.screenX,m=void 0!==a.screenTop?a.screenTop:a.screenY;g+=a.outerWidth/2-c/2,m+=a.outerHeight/2-d/2,(l=a.open(p.href,"_blank","toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top="+m+", left="+g+", width="+c+", height="+d))?(r(),n=a.setInterval(()=>{if(!l||l.closed)u("CancelledByUser");else{let t=f;try{f="*",L(l,"ping")}finally{f=t}}},100),o.initialize=(()=>[s.authentication,h]),o.navigateCrossDomain=(t=>!1)):u("FailedToOpenWindow")}(d)},t.getAuthToken=function(t){x();let e=L(c,"authentication.getAuthToken",[t.resources]);I[e]=((e,n)=>{e?t.successCallback(n):t.failureCallback(n)})},t.getUser=function(t){x();let e=L(c,"authentication.getUser");I[e]=((e,n)=>{e?t.successCallback(n):t.failureCallback(n)})},t.notifySuccess=function(t,e){d(e,"result",t),x(s.authentication),L(c,"authentication.authenticate.success",[t]),B(c,()=>setTimeout(()=>a.close(),200))},t.notifyFailure=function(t,e){d(e,"reason",t),x(s.authentication),L(c,"authentication.authenticate.failure",[t]),B(c,()=>setTimeout(()=>a.close(),200))}}(v=t.authentication||(t.authentication={})),t.sendCustomMessage=function(t,e){return x(),L(c,t,e)},function(t){t.startTask=function(t,e){x(s.content);let n=L(c,"tasks.startTask",[t]);I[n]=e},t.submitTask=function(t,e){x(s.content,s.task),L(c,"tasks.completeTask",[t,Array.isArray(e)?e:[e]])}}(b=t.tasks||(t.tasks={})),t.getChatMembers=function(t){x();const e=L(c,"getChatMembers");I[e]=t}}(e.microsoftTeams||(e.microsoftTeams={}))}])});
 
 /***/ }),
 /* 1 */
@@ -101,8 +98,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./src/utils.ts
-var inputs = {};
-var container = document.createElement("div");
+let inputs = {};
+let container = document.createElement("div");
 container.classList.add("moduleContainer");
 function addModule(config) {
     var element = document.createElement("div");
@@ -272,18 +269,18 @@ var MicrosoftTeams_min = __webpack_require__(0);
 // CONCATENATED MODULE: ./src/app.ts
 
 
-var initializeAppModules = function () {
+const initializeAppModules = () => {
     addModule({
         name: "initialize",
         action: function () {
-            MicrosoftTeams_min["initialize"]();
+            MicrosoftTeams_min["microsoftTeams"].initialize();
         }
     });
     addModule({
         name: "getContext",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["getContext"](output);
+            MicrosoftTeams_min["microsoftTeams"].getContext(output);
         }
     });
     addModule({
@@ -293,14 +290,14 @@ var initializeAppModules = function () {
                 name: "url"
             },],
         action: function (url) {
-            MicrosoftTeams_min["navigateCrossDomain"](url);
+            MicrosoftTeams_min["microsoftTeams"].navigateCrossDomain(url);
         }
     });
     addModule({
         name: "registerOnThemeChangeHandler",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["registerOnThemeChangeHandler"](output);
+            MicrosoftTeams_min["microsoftTeams"].registerOnThemeChangeHandler(output);
         }
     });
     addModule({
@@ -310,7 +307,7 @@ var initializeAppModules = function () {
                 name: "deepLinkParameters"
             },],
         action: function (deepLinkParameters) {
-            MicrosoftTeams_min["shareDeepLink"](deepLinkParameters);
+            MicrosoftTeams_min["microsoftTeams"].shareDeepLink(deepLinkParameters);
         }
     });
     addModule({
@@ -321,7 +318,7 @@ var initializeAppModules = function () {
             },],
         hasOutput: true,
         action: function (url, output) {
-            MicrosoftTeams_min["authentication"].authenticate({
+            MicrosoftTeams_min["microsoftTeams"].authentication.authenticate({
                 url: url,
                 successCallback: function (result) {
                     output("Success:" + result);
@@ -340,7 +337,7 @@ var initializeAppModules = function () {
                 name: "reason"
             },],
         action: function (reason) {
-            MicrosoftTeams_min["authentication"].notifyFailure(reason);
+            MicrosoftTeams_min["microsoftTeams"].authentication.notifyFailure(reason);
         }
     });
     addModule({
@@ -350,21 +347,21 @@ var initializeAppModules = function () {
                 name: "result"
             },],
         action: function (result) {
-            MicrosoftTeams_min["authentication"].notifySuccess(result);
+            MicrosoftTeams_min["microsoftTeams"].authentication.notifySuccess(result);
         }
     });
     addModule({
         name: "settings.getSettings",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["settings"].getSettings(output);
+            MicrosoftTeams_min["microsoftTeams"].settings.getSettings(output);
         }
     });
     addModule({
         name: "settings.registerOnSaveHandler",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["settings"].registerOnSaveHandler(function (saveEvent) {
+            MicrosoftTeams_min["microsoftTeams"].settings.registerOnSaveHandler(function (saveEvent) {
                 window.saveEvent = saveEvent;
                 output("SaveEvent recieved");
             });
@@ -393,7 +390,7 @@ var initializeAppModules = function () {
                 name: "settings"
             }],
         action: function (settings) {
-            MicrosoftTeams_min["settings"].setSettings(settings);
+            MicrosoftTeams_min["microsoftTeams"].settings.setSettings(settings);
         }
     });
     addModule({
@@ -403,7 +400,7 @@ var initializeAppModules = function () {
                 name: "validityState"
             }],
         action: function (validityState) {
-            MicrosoftTeams_min["settings"].setValidityState(validityState);
+            MicrosoftTeams_min["microsoftTeams"].settings.setValidityState(validityState);
         }
     });
     addModule({
@@ -413,7 +410,7 @@ var initializeAppModules = function () {
                 name: "filePreviewParameters"
             }],
         action: function (filePreviewParameters) {
-            MicrosoftTeams_min["openFilePreview"](filePreviewParameters);
+            MicrosoftTeams_min["microsoftTeams"].openFilePreview(filePreviewParameters);
         }
     });
     addModule({
@@ -428,7 +425,7 @@ var initializeAppModules = function () {
             },
         ],
         action: function (result, appId) {
-            MicrosoftTeams_min["tasks"].submitTask(result, appId);
+            MicrosoftTeams_min["microsoftTeams"].tasks.submitTask(result, appId);
         }
     });
     addModule({
@@ -438,7 +435,7 @@ var initializeAppModules = function () {
                 name: "taskInfo"
             },],
         action: function (taskInfo) {
-            MicrosoftTeams_min["tasks"].startTask(taskInfo);
+            MicrosoftTeams_min["microsoftTeams"].tasks.startTask(taskInfo);
         }
     });
     /* addModule({
@@ -462,7 +459,7 @@ var initializeAppModules = function () {
                 name: "showNotificationParameters"
             },],
         action: function (showNotificationParameters) {
-            MicrosoftTeams_min["showNotification"](showNotificationParameters);
+            MicrosoftTeams_min["microsoftTeams"].showNotification(showNotificationParameters);
         }
     });
     addModule({
@@ -472,14 +469,14 @@ var initializeAppModules = function () {
                 name: "getAuthTokenParameters"
             },],
         action: function (getAuthTokenParameters) {
-            MicrosoftTeams_min["authentication"].getAuthToken(getAuthTokenParameters);
+            MicrosoftTeams_min["microsoftTeams"].authentication.getAuthToken(getAuthTokenParameters);
         }
     });
     addModule({
         name: "getChatMembers",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["getChatMembers"](output);
+            MicrosoftTeams_min["microsoftTeams"].getChatMembers(output);
         }
     });
 };
