@@ -479,6 +479,13 @@ const initializeAppModules = () => {
             MicrosoftTeams_min["microsoftTeams"].getChatMembers(output);
         }
     });
+    addModule({
+        name: "getUserJoinedTeams",
+        hasOutput: true,
+        action: function (output) {
+            MicrosoftTeams_min["microsoftTeams"].getUserJoinedTeams(output);
+        }
+    });
 };
 
 // CONCATENATED MODULE: ./src/index.ts

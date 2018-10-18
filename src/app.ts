@@ -231,4 +231,12 @@ export const initializeAppModules = () => {
           microsoftTeams.getChatMembers(output);
         }
       });
+
+      addModule({
+        name: "getUserJoinedTeams",
+        hasOutput: true,
+        action: function (output) {
+          microsoftTeams.getUserJoinedTeams(output);
+        }
+      });
 };
