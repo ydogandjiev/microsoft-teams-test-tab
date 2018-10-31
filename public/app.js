@@ -88,7 +88,7 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(t,e){if(true)module.exports=e();else { var i, n; }}(window,function(){return function(t){var e={};function n(i){if(e[i])return e[i].exports;var o=e[i]={i:i,l:!1,exports:{}};return t[i].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(i,o,function(e){return t[e]}.bind(null,o));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=n(1);e.microsoftTeams=i.microsoftTeams},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),String.prototype.startsWith||(String.prototype.startsWith=function(t,e){return this.substr(!e||e<0?0:+e,t.length)===t}),function(t){var e="1.3.6";function n(t){for(var e="^",n=t.split("."),i=0;i<n.length;i++)e+=(i>0?"[.]":"")+n[i].replace("*","[^/^.]+");return e+="$"}var i=function(t){for(var e="",i=0;i<t.length;i++)e+=(0===i?"":"|")+n(t[i]);return new RegExp(e)}(["https://teams.microsoft.com","https://teams.microsoft.us","https://int.teams.microsoft.com","https://devspaces.skype.com","https://ssauth.skype.com","http://dev.local","https://msft.spoppe.com","https://*.sharepoint.com","https://*.sharepoint-df.com","https://*.sharepointonline.com","https://outlook.office.com","https://outlook-sdf.office.com"]),o={},r={settings:"settings",content:"content",authentication:"authentication",remove:"remove",task:"task"};!function(t){var e,n,i,r=function(){return function(){this.enabled=!0}}();t.MenuItem=r,function(t){t.dropDown="dropDown",t.popOver="popOver"}(t.MenuListType||(t.MenuListType={})),o.navBarMenuItemPress=function(t){e&&e(t)||(O(),_(s,"handleNavBarMenuItemPress",[t]))},o.actionMenuItemPress=function(t){n&&n(t)||(O(),_(s,"handleActionMenuItemPress",[t]))},o.setModuleView=function(t){i&&i(t)||(O(),_(s,"viewConfigItemPress",[t]))},t.setUpViews=function(t,e){O(),i=e,_(s,"setUpViews",[t])},t.setNavBarMenu=function(t,n){O(),e=n,_(s,"setNavBarMenu",[t])},t.showActionMenu=function(t,e){O(),n=e,_(s,"showActionMenu",[t])}}(t.menus||(t.menus={}));var a,s,u,c,f,l,d,h,v,p,g,m=!1,y=!1,b=[],w=[],k=0,T={},C=!1;function M(t){O(),h=t}function I(t){O(),v=t}function S(t){O(),p=t}function E(){O();var t=_(s,"navigateBack",[]);T[t]=function(t){if(!t)throw new Error("Back navigation is not supported in the current client or context.")}}function O(){for(var t=[],e=0;e<arguments.length;e++)t[e]=arguments[e];if(!m)throw new Error("The library has not yet been initialized");if(l&&t&&t.length>0){for(var n=!1,i=0;i<t.length;i++)if(t[i]===l){n=!0;break}if(!n)throw new Error("This call is not allowed in the '"+l+"' context")}}function N(t){if("id"in t.data){var e=t.data,n=T[e.id];n&&(n.apply(null,e.args),delete T[e.id])}else if("func"in t.data){e=t.data;var i=o[e.func];i&&i.apply(this,e.args)}}function P(t){return t===s?b:t===c?w:[]}function x(t){return t===s?u:t===c?f:null}function L(t){for(var e=x(t),n=P(t);t&&e&&n.length>0;)t.postMessage(n.shift(),e)}function U(t,e){var n=a.setInterval(function(){0===P(t).length&&(clearInterval(n),e())},100)}function _(t,e,n){var i=function(t,e){return{id:k++,func:t,args:e||[]}}(e,n);if(y)a&&a.nativeInterface&&a.nativeInterface.framelessPostMessage(JSON.stringify(i));else{var o=x(t);t&&o?t.postMessage(i,o):P(t).push(i)}return i.id}function j(t,e,n){var i=function(t,e){return{id:t,args:e||[]}}(e,n),o=x(t);t&&o&&t.postMessage(i,o)}o.themeChange=function(t){h&&h(t);c&&_(c,"themeChange",[t])},o.fullScreenChange=function(t){v&&v(t)},o.backButtonPress=function(){p&&p()||E()},t.initialize=function(t){if(void 0===t&&(t=window),!m){m=!0;var n=function(t){return function(t){if(t&&t.data&&"object"==typeof t.data){var e=t.source||t.originalEvent.source,n=t.origin||t.originalEvent.origin;e===a||n!==a.location.origin&&!i.test(n.toLowerCase())||(function(t,e){s&&t!==s?c&&t!==c||(c=t,f=e):(s=t,u=e),s&&s.closed&&(s=null,u=null),c&&c.closed&&(c=null,f=null),L(s),L(c)}(e,n),e===s?N(t):e===c&&function(t){if("id"in t.data&&"func"in t.data){var e=t.data,n=o[e.func];if(n){var i=n.apply(this,e.args);i&&j(c,e.id,Array.isArray(i)?i:[i])}else{var r=_(s,e.func,e.args);T[r]=function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];c&&j(c,e.id,t)}}}}(t))}}(t)};(s=(a=t).parent!==a.self?a.parent:a.opener)?a.addEventListener("message",n,!1):(y=!0,window.onNativeMessage=N);try{u="*";var h=_(s,"initialize",[e]);T[h]=function(t,e){l=t,d=e}}finally{u=null}this._uninitialize=function(){l&&(M(null),I(null),S(null)),l===r.settings&&g.registerOnSaveHandler(null),l===r.remove&&g.registerOnRemoveHandler(null),y||a.removeEventListener("message",n,!1),m=!1,s=null,u=null,b=[],c=null,f=null,w=[],k=0,T={},l=null,d=null,y=!1}}},t._uninitialize=function(){},t.enablePrintCapability=function(){C||(C=!0,O(),document.addEventListener("keydown",function(e){(e.ctrlKey||e.metaKey)&&80===e.keyCode&&(t.print(),e.cancelBubble=!0,e.preventDefault(),e.stopImmediatePropagation())}))},t.print=function(){window.print()},t.getContext=function(t){O();var e=_(s,"getContext");T[e]=t},t.registerOnThemeChangeHandler=M,t.registerFullScreenHandler=I,t.registerBackButtonHandler=S,t.navigateBack=E,t.navigateCrossDomain=function(t){O(r.content,r.settings,r.remove,r.task);var e=_(s,"navigateCrossDomain",[t]);T[e]=function(t){if(!t)throw new Error("Cross-origin navigation is only supported for URLs matching the pattern registered in the manifest.")}},t.getTabInstances=function(t,e){O();var n=_(s,"getTabInstances",[e]);T[n]=t},t.getUserJoinedTeams=function(t,e){O();var n=_(s,"getUserJoinedTeams",[e]);T[n]=t},t.getMruTabInstances=function(t,e){O();var n=_(s,"getMruTabInstances",[e]);T[n]=t},t.shareDeepLink=function(t){O(r.content),_(s,"shareDeepLink",[t.subEntityId,t.subEntityLabel,t.subEntityWebUrl])},t.openFilePreview=function(t){O(r.content);var e=[t.entityId,t.title,t.description,t.type,t.objectUrl,t.downloadUrl,t.webPreviewUrl,t.webEditUrl,t.baseUrl,t.editFile,t.subEntityId];_(s,"openFilePreview",e)},t.showNotification=function(t){O(r.content);var e=[t.message,t.notificationType];_(s,"showNotification",e)},t.executeDeepLink=function(t){O(r.content);var e=[t.deepLink];_(s,"handleDeepLink",e)},t.uploadCustomApp=function(t){O();var e=_(s,"uploadCustomApp",[t]);T[e]=function(t,e){if(!t)throw new Error(e)}},t.navigateToTab=function(t){O();var e=_(s,"navigateToTab",[t]);T[e]=function(t){if(!t)throw new Error("Invalid internalTabInstanceId and/or channelId were/was provided")}},function(t){var e,n;o["settings.save"]=function(t){var n=new i(t);e?e(n):n.notifySuccess()},o["settings.remove"]=function(){var t=new a;n?n(t):t.notifySuccess()},t.setValidityState=function(t){O(r.settings,r.remove),_(s,"settings.setValidityState",[t])},t.getSettings=function(t){O(r.settings,r.remove);var e=_(s,"settings.getSettings");T[e]=t},t.setSettings=function(t){O(r.settings),_(s,"settings.setSettings",[t])},t.registerOnSaveHandler=function(t){O(r.settings),e=t},t.registerOnRemoveHandler=function(t){O(r.remove),n=t};var i=function(){function t(t){this.notified=!1,this.result=t||{}}return t.prototype.notifySuccess=function(){this.ensureNotNotified(),_(s,"settings.save.success"),this.notified=!0},t.prototype.notifyFailure=function(t){this.ensureNotNotified(),_(s,"settings.save.failure",[t]),this.notified=!0},t.prototype.ensureNotNotified=function(){if(this.notified)throw new Error("The SaveEvent may only notify success or failure once.")},t}();var a=function(){function t(){this.notified=!1}return t.prototype.notifySuccess=function(){this.ensureNotNotified(),_(s,"settings.remove.success"),this.notified=!0},t.prototype.notifyFailure=function(t){this.ensureNotNotified(),_(s,"settings.remove.failure",[t]),this.notified=!0},t.prototype.ensureNotNotified=function(){if(this.notified)throw new Error("The removeEvent may only notify success or failure once.")},t}()}(g=t.settings||(t.settings={})),function(t){var e,n;function i(){u();try{c&&c.close()}finally{c=null,f=null}}function u(){n&&(clearInterval(n),n=0),delete o.initialize,delete o.navigateCrossDomain}function l(t){try{e&&e.failureCallback&&e.failureCallback(t)}finally{e=null,i()}}function h(t,e,n){if(t){var i=document.createElement("a");i.href=decodeURIComponent(t),i.host&&i.host!==window.location.host&&"outlook.office.com"===i.host&&i.search.indexOf("client_type=Win32_Outlook")>-1&&(e&&"result"===e&&(n&&(i.href=v(i.href,"result",n)),a.location.assign(v(i.href,"authSuccess",""))),e&&"reason"===e&&(n&&(i.href=v(i.href,"reason",n)),a.location.assign(v(i.href,"authFailure",""))))}}function v(t,e,n){var i=t.indexOf("#"),o=-1===i?"#":t.substr(i);return o=o+"&"+e+(""!==n?"="+n:""),(t=-1===i?t:t.substr(0,i))+o}o["authentication.authenticate.success"]=function(t){try{e&&e.successCallback&&e.successCallback(t)}finally{e=null,i()}},o["authentication.authenticate.failure"]=l,t.registerAuthenticationHandlers=function(t){e=t},t.authenticate=function(t){var h=void 0!==t?t:e;if(O(r.content,r.settings,r.remove,r.task),"desktop"===d){var v=document.createElement("a");v.href=h.url;var p=_(s,"authentication.authenticate",[v.href,h.width,h.height]);T[p]=function(t,e){t?h.successCallback(e):h.failureCallback(e)}}else!function(t){e=t,i();var s=e.width||600,h=e.height||400;s=Math.min(s,a.outerWidth-400),h=Math.min(h,a.outerHeight-200);var v=document.createElement("a");v.href=e.url;var p=void 0!==a.screenLeft?a.screenLeft:a.screenX,g=void 0!==a.screenTop?a.screenTop:a.screenY;p+=a.outerWidth/2-s/2,g+=a.outerHeight/2-h/2,(c=a.open(v.href,"_blank","toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top="+g+", left="+p+", width="+s+", height="+h))?(u(),n=a.setInterval(function(){if(!c||c.closed)l("CancelledByUser");else{var t=f;try{f="*",_(c,"ping")}finally{f=t}}},100),o.initialize=function(){return[r.authentication,d]},o.navigateCrossDomain=function(t){return!1}):l("FailedToOpenWindow")}(h)},t.getAuthToken=function(t){O();var e=_(s,"authentication.getAuthToken",[t.resources]);T[e]=function(e,n){e?t.successCallback(n):t.failureCallback(n)}},t.getUser=function(t){O();var e=_(s,"authentication.getUser");T[e]=function(e,n){e?t.successCallback(n):t.failureCallback(n)}},t.notifySuccess=function(t,e){h(e,"result",t),O(r.authentication),_(s,"authentication.authenticate.success",[t]),U(s,function(){return setTimeout(function(){return a.close()},200)})},t.notifyFailure=function(t,e){h(e,"reason",t),O(r.authentication),_(s,"authentication.authenticate.failure",[t]),U(s,function(){return setTimeout(function(){return a.close()},200)})}}(t.authentication||(t.authentication={})),t.sendCustomMessage=function(t,e){return O(),_(s,t,e)},function(t){t.startTask=function(t,e){O(r.content);var n=_(s,"tasks.startTask",[t]);T[n]=e},t.submitTask=function(t,e){O(r.content,r.task),_(s,"tasks.completeTask",[t,Array.isArray(e)?e:[e]])}}(t.tasks||(t.tasks={})),t.getChatMembers=function(t){O();var e=_(s,"getChatMembers");T[e]=t}}(e.microsoftTeams||(e.microsoftTeams={}))}])});
+!function(t,e){if(true)module.exports=e();else { var i, n; }}(window,function(){return function(t){var e={};function n(i){if(e[i])return e[i].exports;var o=e[i]={i:i,l:!1,exports:{}};return t[i].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(i,o,function(e){return t[e]}.bind(null,o));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=1)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),String.prototype.startsWith||(String.prototype.startsWith=function(t,e){return this.substr(!e||e<0?0:+e,t.length)===t});var i="1.3.6";function o(t){for(var e="^",n=t.split("."),i=0;i<n.length;i++)e+=(i>0?"[.]":"")+n[i].replace("*","[^/^.]+");return e+="$"}var r=function(t){for(var e="",n=0;n<t.length;n++)e+=(0===n?"":"|")+o(t[n]);return new RegExp(e)}(["https://teams.microsoft.com","https://teams.microsoft.us","https://int.teams.microsoft.com","https://devspaces.skype.com","https://ssauth.skype.com","http://dev.local","https://msft.spoppe.com","https://*.sharepoint.com","https://*.sharepoint-df.com","https://*.sharepointonline.com","https://outlook.office.com","https://outlook-sdf.office.com"]),a={},s={settings:"settings",content:"content",authentication:"authentication",remove:"remove",task:"task"};!function(t){var e,n,i,o=function(){return function(){this.enabled=!0}}();t.MenuItem=o,function(t){t.dropDown="dropDown",t.popOver="popOver"}(t.MenuListType||(t.MenuListType={})),a.navBarMenuItemPress=function(t){e&&e(t)||(x(),L(c,"handleNavBarMenuItemPress",[t]))},a.actionMenuItemPress=function(t){n&&n(t)||(x(),L(c,"handleActionMenuItemPress",[t]))},a.setModuleView=function(t){i&&i(t)||(x(),L(c,"viewConfigItemPress",[t]))},t.setUpViews=function(t,e){x(),i=e,L(c,"setUpViews",[t])},t.setNavBarMenu=function(t,n){x(),e=n,L(c,"setNavBarMenu",[t])},t.showActionMenu=function(t,e){x(),n=e,L(c,"showActionMenu",[t])}}(e.menus||(e.menus={}));var u,c,f,l,d,h,v,p,g,m,y,b=!1,w=!1,k=[],T=[],C=0,M={},I=!1;function S(){window.print()}function E(t){x(),p=t}function O(t){x(),g=t}function P(t){x(),m=t}function N(){x();var t=L(c,"navigateBack",[]);M[t]=function(t){if(!t)throw new Error("Back navigation is not supported in the current client or context.")}}function x(){for(var t=[],e=0;e<arguments.length;e++)t[e]=arguments[e];if(!b)throw new Error("The library has not yet been initialized");if(h&&t&&t.length>0){for(var n=!1,i=0;i<t.length;i++)if(t[i]===h){n=!0;break}if(!n)throw new Error("This call is not allowed in the '"+h+"' context")}}function U(t){if("id"in t.data){var e=t.data,n=M[e.id];n&&(n.apply(null,e.args),delete M[e.id])}else if("func"in t.data){e=t.data;var i=a[e.func];i&&i.apply(this,e.args)}}function _(t){return t===c?k:t===l?T:[]}function j(t){return t===c?f:t===l?d:null}function A(t){for(var e=j(t),n=_(t);t&&e&&n.length>0;)t.postMessage(n.shift(),e)}function B(t,e){var n=u.setInterval(function(){0===_(t).length&&(clearInterval(n),e())},100)}function L(t,e,n){var i=function(t,e){return{id:C++,func:t,args:e||[]}}(e,n);if(w)u&&u.nativeInterface&&u.nativeInterface.framelessPostMessage(JSON.stringify(i));else{var o=j(t);t&&o?t.postMessage(i,o):_(t).push(i)}return i.id}function H(t,e,n){var i=function(t,e){return{id:t,args:e||[]}}(e,n),o=j(t);t&&o&&t.postMessage(i,o)}a.themeChange=function(t){p&&p(t);l&&L(l,"themeChange",[t])},a.fullScreenChange=function(t){g&&g(t)},a.backButtonPress=function(){m&&m()||N()},e.initialize=function(t){if(void 0===t&&(t=window),!b){b=!0;var e=function(t){return function(t){if(t&&t.data&&"object"==typeof t.data){var e=t.source||t.originalEvent.source,n=t.origin||t.originalEvent.origin;e===u||n!==u.location.origin&&!r.test(n.toLowerCase())||(function(t,e){c&&t!==c?l&&t!==l||(l=t,d=e):(c=t,f=e),c&&c.closed&&(c=null,f=null),l&&l.closed&&(l=null,d=null),A(c),A(l)}(e,n),e===c?U(t):e===l&&function(t){if("id"in t.data&&"func"in t.data){var e=t.data,n=a[e.func];if(n){var i=n.apply(this,e.args);i&&H(l,e.id,Array.isArray(i)?i:[i])}else{var o=L(c,e.func,e.args);M[o]=function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];l&&H(l,e.id,t)}}}}(t))}}(t)};(c=(u=t).parent!==u.self?u.parent:u.opener)?u.addEventListener("message",e,!1):(w=!0,window.onNativeMessage=U);try{f="*";var n=L(c,"initialize",[i]);M[n]=function(t,e){h=t,v=e}}finally{f=null}this._uninitialize=function(){h&&(E(null),O(null),P(null)),h===s.settings&&y.registerOnSaveHandler(null),h===s.remove&&y.registerOnRemoveHandler(null),w||u.removeEventListener("message",e,!1),b=!1,c=null,f=null,k=[],l=null,d=null,T=[],C=0,M={},h=null,v=null,w=!1}}},e._uninitialize=function(){},e.enablePrintCapability=function(){I||(I=!0,x(),document.addEventListener("keydown",function(t){(t.ctrlKey||t.metaKey)&&80===t.keyCode&&(S(),t.cancelBubble=!0,t.preventDefault(),t.stopImmediatePropagation())}))},e.print=S,e.getContext=function(t){x();var e=L(c,"getContext");M[e]=t},e.registerOnThemeChangeHandler=E,e.registerFullScreenHandler=O,e.registerBackButtonHandler=P,e.navigateBack=N,e.navigateCrossDomain=function(t){x(s.content,s.settings,s.remove,s.task);var e=L(c,"navigateCrossDomain",[t]);M[e]=function(t){if(!t)throw new Error("Cross-origin navigation is only supported for URLs matching the pattern registered in the manifest.")}},e.getTabInstances=function(t,e){x();var n=L(c,"getTabInstances",[e]);M[n]=t},e.getUserJoinedTeams=function(t,e){x();var n=L(c,"getUserJoinedTeams",[e]);M[n]=t},e.getMruTabInstances=function(t,e){x();var n=L(c,"getMruTabInstances",[e]);M[n]=t},e.shareDeepLink=function(t){x(s.content),L(c,"shareDeepLink",[t.subEntityId,t.subEntityLabel,t.subEntityWebUrl])},e.openFilePreview=function(t){x(s.content);var e=[t.entityId,t.title,t.description,t.type,t.objectUrl,t.downloadUrl,t.webPreviewUrl,t.webEditUrl,t.baseUrl,t.editFile,t.subEntityId];L(c,"openFilePreview",e)},e.showNotification=function(t){x(s.content);var e=[t.message,t.notificationType];L(c,"showNotification",e)},e.uploadCustomApp=function(t){x();var e=L(c,"uploadCustomApp",[t]);M[e]=function(t,e){if(!t)throw new Error(e)}},e.navigateToTab=function(t){x();var e=L(c,"navigateToTab",[t]);M[e]=function(t){if(!t)throw new Error("Invalid internalTabInstanceId and/or channelId were/was provided")}},function(t){var e,n;a["settings.save"]=function(t){var n=new i(t);e?e(n):n.notifySuccess()},a["settings.remove"]=function(){var t=new o;n?n(t):t.notifySuccess()},t.setValidityState=function(t){x(s.settings,s.remove),L(c,"settings.setValidityState",[t])},t.getSettings=function(t){x(s.settings,s.remove);var e=L(c,"settings.getSettings");M[e]=t},t.setSettings=function(t){x(s.settings),L(c,"settings.setSettings",[t])},t.registerOnSaveHandler=function(t){x(s.settings),e=t},t.registerOnRemoveHandler=function(t){x(s.remove),n=t};var i=function(){function t(t){this.notified=!1,this.result=t||{}}return t.prototype.notifySuccess=function(){this.ensureNotNotified(),L(c,"settings.save.success"),this.notified=!0},t.prototype.notifyFailure=function(t){this.ensureNotNotified(),L(c,"settings.save.failure",[t]),this.notified=!0},t.prototype.ensureNotNotified=function(){if(this.notified)throw new Error("The SaveEvent may only notify success or failure once.")},t}();var o=function(){function t(){this.notified=!1}return t.prototype.notifySuccess=function(){this.ensureNotNotified(),L(c,"settings.remove.success"),this.notified=!0},t.prototype.notifyFailure=function(t){this.ensureNotNotified(),L(c,"settings.remove.failure",[t]),this.notified=!0},t.prototype.ensureNotNotified=function(){if(this.notified)throw new Error("The removeEvent may only notify success or failure once.")},t}()}(y=e.settings||(e.settings={})),function(t){var e,n;function i(){o();try{l&&l.close()}finally{l=null,d=null}}function o(){n&&(clearInterval(n),n=0),delete a.initialize,delete a.navigateCrossDomain}function r(t){try{e&&e.failureCallback&&e.failureCallback(t)}finally{e=null,i()}}function f(t,e,n){if(t){var i=document.createElement("a");i.href=decodeURIComponent(t),i.host&&i.host!==window.location.host&&"outlook.office.com"===i.host&&i.search.indexOf("client_type=Win32_Outlook")>-1&&(e&&"result"===e&&(n&&(i.href=h(i.href,"result",n)),u.location.assign(h(i.href,"authSuccess",""))),e&&"reason"===e&&(n&&(i.href=h(i.href,"reason",n)),u.location.assign(h(i.href,"authFailure",""))))}}function h(t,e,n){var i=t.indexOf("#"),o=-1===i?"#":t.substr(i);return o=o+"&"+e+(""!==n?"="+n:""),(t=-1===i?t:t.substr(0,i))+o}a["authentication.authenticate.success"]=function(t){try{e&&e.successCallback&&e.successCallback(t)}finally{e=null,i()}},a["authentication.authenticate.failure"]=r,t.registerAuthenticationHandlers=function(t){e=t},t.authenticate=function(t){var f=void 0!==t?t:e;if(x(s.content,s.settings,s.remove,s.task),"desktop"===v){var h=document.createElement("a");h.href=f.url;var p=L(c,"authentication.authenticate",[h.href,f.width,f.height]);M[p]=function(t,e){t?f.successCallback(e):f.failureCallback(e)}}else!function(t){e=t,i();var c=e.width||600,f=e.height||400;c=Math.min(c,u.outerWidth-400),f=Math.min(f,u.outerHeight-200);var h=document.createElement("a");h.href=e.url;var p=void 0!==u.screenLeft?u.screenLeft:u.screenX,g=void 0!==u.screenTop?u.screenTop:u.screenY;p+=u.outerWidth/2-c/2,g+=u.outerHeight/2-f/2,(l=u.open(h.href,"_blank","toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top="+g+", left="+p+", width="+c+", height="+f))?(o(),n=u.setInterval(function(){if(!l||l.closed)r("CancelledByUser");else{var t=d;try{d="*",L(l,"ping")}finally{d=t}}},100),a.initialize=function(){return[s.authentication,v]},a.navigateCrossDomain=function(t){return!1}):r("FailedToOpenWindow")}(f)},t.getAuthToken=function(t){x();var e=L(c,"authentication.getAuthToken",[t.resources]);M[e]=function(e,n){e?t.successCallback(n):t.failureCallback(n)}},t.getUser=function(t){x();var e=L(c,"authentication.getUser");M[e]=function(e,n){e?t.successCallback(n):t.failureCallback(n)}},t.notifySuccess=function(t,e){f(e,"result",t),x(s.authentication),L(c,"authentication.authenticate.success",[t]),B(c,function(){return setTimeout(function(){return u.close()},200)})},t.notifyFailure=function(t,e){f(e,"reason",t),x(s.authentication),L(c,"authentication.authenticate.failure",[t]),B(c,function(){return setTimeout(function(){return u.close()},200)})}}(e.authentication||(e.authentication={})),e.sendCustomMessage=function(t,e){return x(),L(c,t,e)},function(t){t.startTask=function(t,e){x(s.content);var n=L(c,"tasks.startTask",[t]);M[n]=e},t.submitTask=function(t,e){x(s.content,s.task),L(c,"tasks.completeTask",[t,Array.isArray(e)?e:[e]])}}(e.tasks||(e.tasks={})),e.getChatMembers=function(t){x();var e=L(c,"getChatMembers");M[e]=t}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=n(0);e.microsoftTeams=i,function(t){for(var n in t)e.hasOwnProperty(n)||(e[n]=t[n])}(n(0))}])});
 
 /***/ }),
 /* 1 */
@@ -273,14 +273,14 @@ const initializeAppModules = () => {
     addModule({
         name: "initialize",
         action: function () {
-            MicrosoftTeams_min["microsoftTeams"].initialize();
+            MicrosoftTeams_min["initialize"]();
         }
     });
     addModule({
         name: "getContext",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["microsoftTeams"].getContext(output);
+            MicrosoftTeams_min["getContext"](output);
         }
     });
     addModule({
@@ -290,14 +290,14 @@ const initializeAppModules = () => {
                 name: "url"
             },],
         action: function (url) {
-            MicrosoftTeams_min["microsoftTeams"].navigateCrossDomain(url);
+            MicrosoftTeams_min["navigateCrossDomain"](url);
         }
     });
     addModule({
         name: "registerOnThemeChangeHandler",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["microsoftTeams"].registerOnThemeChangeHandler(output);
+            MicrosoftTeams_min["registerOnThemeChangeHandler"](output);
         }
     });
     addModule({
@@ -307,7 +307,7 @@ const initializeAppModules = () => {
                 name: "deepLinkParameters"
             },],
         action: function (deepLinkParameters) {
-            MicrosoftTeams_min["microsoftTeams"].shareDeepLink(deepLinkParameters);
+            MicrosoftTeams_min["shareDeepLink"](deepLinkParameters);
         }
     });
     addModule({
@@ -318,7 +318,7 @@ const initializeAppModules = () => {
             },],
         hasOutput: true,
         action: function (url, output) {
-            MicrosoftTeams_min["microsoftTeams"].authentication.authenticate({
+            MicrosoftTeams_min["authentication"].authenticate({
                 url: url,
                 successCallback: function (result) {
                     output("Success:" + result);
@@ -337,7 +337,7 @@ const initializeAppModules = () => {
                 name: "reason"
             },],
         action: function (reason) {
-            MicrosoftTeams_min["microsoftTeams"].authentication.notifyFailure(reason);
+            MicrosoftTeams_min["authentication"].notifyFailure(reason);
         }
     });
     addModule({
@@ -347,21 +347,21 @@ const initializeAppModules = () => {
                 name: "result"
             },],
         action: function (result) {
-            MicrosoftTeams_min["microsoftTeams"].authentication.notifySuccess(result);
+            MicrosoftTeams_min["authentication"].notifySuccess(result);
         }
     });
     addModule({
         name: "settings.getSettings",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["microsoftTeams"].settings.getSettings(output);
+            MicrosoftTeams_min["settings"].getSettings(output);
         }
     });
     addModule({
         name: "settings.registerOnSaveHandler",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["microsoftTeams"].settings.registerOnSaveHandler(function (saveEvent) {
+            MicrosoftTeams_min["settings"].registerOnSaveHandler(function (saveEvent) {
                 window.saveEvent = saveEvent;
                 output("SaveEvent recieved");
             });
@@ -390,7 +390,7 @@ const initializeAppModules = () => {
                 name: "settings"
             }],
         action: function (settings) {
-            MicrosoftTeams_min["microsoftTeams"].settings.setSettings(settings);
+            MicrosoftTeams_min["settings"].setSettings(settings);
         }
     });
     addModule({
@@ -400,7 +400,7 @@ const initializeAppModules = () => {
                 name: "validityState"
             }],
         action: function (validityState) {
-            MicrosoftTeams_min["microsoftTeams"].settings.setValidityState(validityState);
+            MicrosoftTeams_min["settings"].setValidityState(validityState);
         }
     });
     addModule({
@@ -410,7 +410,7 @@ const initializeAppModules = () => {
                 name: "filePreviewParameters"
             }],
         action: function (filePreviewParameters) {
-            MicrosoftTeams_min["microsoftTeams"].openFilePreview(filePreviewParameters);
+            MicrosoftTeams_min["openFilePreview"](filePreviewParameters);
         }
     });
     addModule({
@@ -425,7 +425,7 @@ const initializeAppModules = () => {
             },
         ],
         action: function (result, appId) {
-            MicrosoftTeams_min["microsoftTeams"].tasks.submitTask(result, appId);
+            MicrosoftTeams_min["tasks"].submitTask(result, appId);
         }
     });
     addModule({
@@ -435,7 +435,7 @@ const initializeAppModules = () => {
                 name: "taskInfo"
             },],
         action: function (taskInfo) {
-            MicrosoftTeams_min["microsoftTeams"].tasks.startTask(taskInfo);
+            MicrosoftTeams_min["tasks"].startTask(taskInfo);
         }
     });
     /* addModule({
@@ -459,7 +459,7 @@ const initializeAppModules = () => {
                 name: "showNotificationParameters"
             },],
         action: function (showNotificationParameters) {
-            MicrosoftTeams_min["microsoftTeams"].showNotification(showNotificationParameters);
+            MicrosoftTeams_min["showNotification"](showNotificationParameters);
         }
     });
     addModule({
@@ -469,7 +469,7 @@ const initializeAppModules = () => {
                 name: "executeDeepLinkParameters"
             },],
         action: function (executeDeepLinkParameters) {
-            MicrosoftTeams_min["microsoftTeams"].executeDeepLink(executeDeepLinkParameters);
+            // microsoftTeams.executeDeepLink(executeDeepLinkParameters);
         }
     });
     addModule({
@@ -479,21 +479,21 @@ const initializeAppModules = () => {
                 name: "getAuthTokenParameters"
             },],
         action: function (getAuthTokenParameters) {
-            MicrosoftTeams_min["microsoftTeams"].authentication.getAuthToken(getAuthTokenParameters);
+            MicrosoftTeams_min["authentication"].getAuthToken(getAuthTokenParameters);
         }
     });
     addModule({
         name: "getChatMembers",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["microsoftTeams"].getChatMembers(output);
+            MicrosoftTeams_min["getChatMembers"](output);
         }
     });
     addModule({
         name: "getUserJoinedTeams",
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["microsoftTeams"].getUserJoinedTeams(output);
+            MicrosoftTeams_min["getUserJoinedTeams"](output);
         }
     });
 };

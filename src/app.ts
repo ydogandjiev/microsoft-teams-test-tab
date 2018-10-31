@@ -1,5 +1,5 @@
 import { addModule } from "./utils";
-import { microsoftTeams } from '@microsoft/teams-js';
+import * as microsoftTeams from '@microsoft/teams-js';
 
 export const initializeAppModules = () => {
     addModule({
@@ -220,7 +220,7 @@ export const initializeAppModules = () => {
           name: "executeDeepLinkParameters"
         }, ],
         action: function (executeDeepLinkParameters) {
-          microsoftTeams.executeDeepLink(executeDeepLinkParameters);
+         // microsoftTeams.executeDeepLink(executeDeepLinkParameters);
         }
       });
      
