@@ -212,6 +212,17 @@ export const initializeAppModules = () => {
           microsoftTeams.showNotification(showNotificationParameters);
         }
       });
+
+      addModule({
+        name: "execute deep link",
+        inputs: [{
+          type: "object",
+          name: "executeDeepLinkParameters"
+        }, ],
+        action: function (executeDeepLinkParameters) {
+          microsoftTeams.executeDeepLink(executeDeepLinkParameters);
+        }
+      });
      
       addModule({
         name: "getAuthToken",
