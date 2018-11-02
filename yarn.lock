@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@microsoft/teams-js@1.4.0-beta.3.11":
-  version "1.4.0-beta.3.11"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.4.0-beta.3.11.tgz#01267aa5774e7ce92f3beeb36400e982b3401ce1"
+"@microsoft/teams-js@1.4.0-beta.3.13":
+  version "1.4.0-beta.3.13"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.4.0-beta.3.13.tgz#d4f666c65fbcefa92273c33d7f87b146891f4c5d"
 
 accepts@~1.3.5:
   version "1.3.5"
