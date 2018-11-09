@@ -220,7 +220,7 @@ export const initializeAppModules = () => {
           name: "executeDeepLinkParameters"
         }, ],
         action: function (executeDeepLinkParameters) {
-         // microsoftTeams.executeDeepLink(executeDeepLinkParameters);
+          microsoftTeams.executeDeepLink(executeDeepLinkParameters);
         }
       });
      
