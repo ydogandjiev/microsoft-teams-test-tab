@@ -438,20 +438,18 @@ const initializeAppModules = () => {
             MicrosoftTeams_min["tasks"].startTask(taskInfo);
         }
     });
-    /* addModule({
-      name: "downloadFile",
-      inputs: [{
-        type: "object",
-        name: "fileDownloadParameters"
-      }, ],
-      action: function (fileDownloadParameters) {
-        if(microsoftTeams.downloadFile) {
-            microsoftTeams.downloadFile(fileDownloadParameters);
-        }
-      }
-    });
-
-    */
+    // addModule({
+    //   name: "downloadFile",
+    //   inputs: [{
+    //     type: "object",
+    //     name: "fileDownloadParameters"
+    //   }, ],
+    //   action: function (fileDownloadParameters) {
+    //     if(microsoftTeams.downloadFile) {
+    //         microsoftTeams.downloadFile(fileDownloadParameters);
+    //     }
+    //   }
+    // });
     addModule({
         name: "downloadFile ShowNotificationOnly",
         inputs: [{
@@ -462,16 +460,16 @@ const initializeAppModules = () => {
             MicrosoftTeams_min["showNotification"](showNotificationParameters);
         }
     });
-    addModule({
-        name: "execute deep link",
-        inputs: [{
-                type: "object",
-                name: "executeDeepLinkParameters"
-            },],
-        action: function (executeDeepLinkParameters) {
-            MicrosoftTeams_min["executeDeepLink"](executeDeepLinkParameters);
-        }
-    });
+    // addModule({
+    //   name: "execute deep link",
+    //   inputs: [{
+    //     type: "object",
+    //     name: "executeDeepLinkParameters"
+    //   }, ],
+    //   action: function (executeDeepLinkParameters) {
+    //     microsoftTeams.executeDeepLink(executeDeepLinkParameters);
+    //   }
+    // });
     addModule({
         name: "getAuthToken",
         inputs: [{
