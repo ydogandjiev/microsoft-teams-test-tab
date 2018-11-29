@@ -48,6 +48,17 @@ export const initializeAppModules = () => {
       });
     
       addModule({
+        name: "executeDeepLink",
+        inputs: [{
+          type: "string",
+          name: "deepLink"
+        }, ],
+        action: function (deepLink) {
+          microsoftTeams.executeDeepLink(deepLink);
+        }
+      });
+    
+      addModule({
         name: "authentication.authenticate",
         inputs: [{
           type: "string",
@@ -187,21 +198,6 @@ export const initializeAppModules = () => {
         }
       });
     
-      /* addModule({
-        name: "downloadFile",
-        inputs: [{
-          type: "object",
-          name: "fileDownloadParameters"
-        }, ],
-        action: function (fileDownloadParameters) {
-          if(microsoftTeams.downloadFile) {
-              microsoftTeams.downloadFile(fileDownloadParameters);
-          }
-        }
-      });
-
-      */
-    
       addModule({
         name: "downloadFile ShowNotificationOnly",
         inputs: [{
@@ -210,17 +206,6 @@ export const initializeAppModules = () => {
         }, ],
         action: function (showNotificationParameters) {
           microsoftTeams.showNotification(showNotificationParameters);
-        }
-      });
-
-      addModule({
-        name: "execute deep link",
-        inputs: [{
-          type: "object",
-          name: "executeDeepLinkParameters"
-        }, ],
-        action: function (executeDeepLinkParameters) {
-          microsoftTeams.executeDeepLink(executeDeepLinkParameters);
         }
       });
      
