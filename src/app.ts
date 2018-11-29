@@ -198,20 +198,6 @@ export const initializeAppModules = () => {
         }
       });
     
-      // addModule({
-      //   name: "downloadFile",
-      //   inputs: [{
-      //     type: "object",
-      //     name: "fileDownloadParameters"
-      //   }, ],
-      //   action: function (fileDownloadParameters) {
-      //     if(microsoftTeams.downloadFile) {
-      //         microsoftTeams.downloadFile(fileDownloadParameters);
-      //     }
-      //   }
-      // });
-
-    
       addModule({
         name: "downloadFile ShowNotificationOnly",
         inputs: [{
@@ -222,17 +208,6 @@ export const initializeAppModules = () => {
           microsoftTeams.showNotification(showNotificationParameters);
         }
       });
-
-      // addModule({
-      //   name: "execute deep link",
-      //   inputs: [{
-      //     type: "object",
-      //     name: "executeDeepLinkParameters"
-      //   }, ],
-      //   action: function (executeDeepLinkParameters) {
-      //     microsoftTeams.executeDeepLink(executeDeepLinkParameters);
-      //   }
-      // });
      
       addModule({
         name: "getAuthToken",

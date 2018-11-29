@@ -4,11 +4,5 @@ node_modules/
 npm-debug
 npm-error
 
-# build output
-build/
-dist/
-dts/
-coverage/
-
 # Visual Studio cache/options directory
 .vs/
