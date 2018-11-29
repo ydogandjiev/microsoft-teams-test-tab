@@ -33,6 +33,14 @@
       ]
     }
   ],
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://teams-test-tab.azurewebsites.net",
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
   "permissions": [
     "identity",
     "messageTeamMembers"
