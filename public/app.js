@@ -101,6 +101,7 @@ __webpack_require__.r(__webpack_exports__);
 let inputs = {};
 let container = document.createElement("div");
 container.classList.add("moduleContainer");
+let isInitializedCalled = false;
 function addModule(config) {
     var element = document.createElement("div");
     var button = document.createElement("button");
@@ -163,6 +164,20 @@ function addModule(config) {
     }
     container.appendChild(element);
     button.addEventListener("click", function () {
+        if (config.name == "initialize") {
+            isInitializedCalled = true;
+        }
+        else if (config.initializedRequired && !isInitializedCalled) {
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            var messageBox = document.getElementById("errorMessage");
+            messageBox.innerText = "Please initialize sdk first by clicking initialize Button";
+            modal.style.display = "block";
+        }
+        else {
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+        }
         var args = [];
         if (config.inputs) {
             for (var i = 0; i < config.inputs.length; i++) {
@@ -202,46 +217,50 @@ function saveState() {
     localStorage.setItem("state", JSON.stringify(state));
 }
 function downloadHandler() {
-    var input = document.querySelector('#image_uploads');
-    var preview = document.querySelector('.fileUploadPreview');
+    var input = document.querySelector("#image_uploads");
+    var preview = document.querySelector(".fileUploadPreview");
     input.style.opacity = 0;
-    input.addEventListener('change', updateImageDisplay);
+    input.addEventListener("change", updateImageDisplay);
     function updateImageDisplay() {
         while (preview.firstChild) {
             preview.removeChild(preview.firstChild);
         }
         var curFiles = input.files;
         if (curFiles.length === 0) {
-            var para = document.createElement('p');
-            para.textContent = 'No files currently selected for upload';
+            var para = document.createElement("p");
+            para.textContent = "No files currently selected for upload";
             preview.appendChild(para);
         }
         else {
-            var list = document.createElement('ol');
+            var list = document.createElement("ol");
             preview.appendChild(list);
             for (var i = 0; i < curFiles.length; i++) {
-                var listItem = document.createElement('li');
-                var para = document.createElement('p');
+                var listItem = document.createElement("li");
+                var para = document.createElement("p");
                 if (validFileType(curFiles[i])) {
-                    para.textContent = 'File name ' + curFiles[i].name + ', file size ' + returnFileSize(curFiles[i].size) + '.';
-                    var image = document.createElement('img');
+                    para.textContent =
+                        "File name " +
+                            curFiles[i].name +
+                            ", file size " +
+                            returnFileSize(curFiles[i].size) +
+                            ".";
+                    var image = document.createElement("img");
                     image.src = window.URL.createObjectURL(curFiles[i]);
                     listItem.appendChild(image);
                     listItem.appendChild(para);
                 }
                 else {
-                    para.textContent = 'File name ' + curFiles[i].name + ': Not a valid file type. Update your selection.';
+                    para.textContent =
+                        "File name " +
+                            curFiles[i].name +
+                            ": Not a valid file type. Update your selection.";
                     listItem.appendChild(para);
                 }
                 list.appendChild(listItem);
             }
         }
     }
-    var fileTypes = [
-        'image/jpeg',
-        'image/pjpeg',
-        'image/png'
-    ];
+    var fileTypes = ["image/jpeg", "image/pjpeg", "image/png"];
     function validFileType(file) {
         for (var i = 0; i < fileTypes.length; i++) {
             if (file.type === fileTypes[i]) {
@@ -252,13 +271,13 @@ function downloadHandler() {
     }
     function returnFileSize(number) {
         if (number < 1024) {
-            return number + 'bytes';
+            return number + "bytes";
         }
         else if (number >= 1024 && number < 1048576) {
-            return (number / 1024).toFixed(1) + 'KB';
+            return (number / 1024).toFixed(1) + "KB";
         }
         else if (number >= 1048576) {
-            return (number / 1048576).toFixed(1) + 'MB';
+            return (number / 1048576).toFixed(1) + "MB";
         }
     }
 }
@@ -272,12 +291,14 @@ var MicrosoftTeams_min = __webpack_require__(0);
 const initializeAppModules = () => {
     addModule({
         name: "initialize",
+        initializedRequired: false,
         action: function () {
             MicrosoftTeams_min["initialize"]();
         }
     });
     addModule({
         name: "getContext",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["getContext"](output);
@@ -285,6 +306,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "navigateCrossDomain",
+        initializedRequired: true,
         inputs: [{
                 type: "string",
                 name: "url"
@@ -295,6 +317,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "registerOnThemeChangeHandler",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["registerOnThemeChangeHandler"](output);
@@ -302,6 +325,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "shareDeepLink",
+        initializedRequired: true,
         inputs: [{
                 type: "object",
                 name: "deepLinkParameters"
@@ -312,6 +336,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "executeDeepLink",
+        initializedRequired: true,
         inputs: [{
                 type: "string",
                 name: "deepLink"
@@ -322,6 +347,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "authentication.authenticate",
+        initializedRequired: true,
         inputs: [{
                 type: "string",
                 name: "url"
@@ -342,6 +368,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "authentication.notifyFailure",
+        initializedRequired: true,
         inputs: [{
                 type: "string",
                 name: "reason"
@@ -352,6 +379,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "authentication.notifySuccess",
+        initializedRequired: true,
         inputs: [{
                 type: "string",
                 name: "result"
@@ -362,6 +390,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "settings.getSettings",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["settings"].getSettings(output);
@@ -369,6 +398,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "settings.registerOnSaveHandler",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["settings"].registerOnSaveHandler(function (saveEvent) {
@@ -379,6 +409,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "settings.registerOnSaveHandler.notifyFailure",
+        initializedRequired: true,
         inputs: [{
                 type: "string",
                 name: "reason"
@@ -389,12 +420,14 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "settings.registerOnSaveHandler.notifySuccess",
+        initializedRequired: true,
         action: function () {
             window.saveEvent && window.saveEvent.notifySuccess();
         }
     });
     addModule({
         name: "settings.setSettings",
+        initializedRequired: true,
         inputs: [{
                 type: "object",
                 name: "settings"
@@ -405,6 +438,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "settings.setValidityState",
+        initializedRequired: true,
         inputs: [{
                 type: "boolean",
                 name: "validityState"
@@ -415,6 +449,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "openFilePreview",
+        initializedRequired: true,
         inputs: [{
                 type: "object",
                 name: "filePreviewParameters"
@@ -425,6 +460,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "task.submitTask",
+        initializedRequired: true,
         inputs: [{
                 type: "string",
                 name: "result"
@@ -440,6 +476,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "tasks.startTask",
+        initializedRequired: true,
         inputs: [{
                 type: "object",
                 name: "taskInfo"
@@ -450,6 +487,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "downloadFile ShowNotificationOnly",
+        initializedRequired: true,
         inputs: [{
                 type: "object",
                 name: "showNotificationParameters"
@@ -460,6 +498,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "getAuthToken",
+        initializedRequired: true,
         inputs: [{
                 type: "object",
                 name: "getAuthTokenParameters"
@@ -470,6 +509,7 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "getChatMembers",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["getChatMembers"](output);
@@ -477,11 +517,26 @@ const initializeAppModules = () => {
     });
     addModule({
         name: "getUserJoinedTeams",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["getUserJoinedTeams"](output);
         }
     });
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
 };
 
 // CONCATENATED MODULE: ./src/index.ts

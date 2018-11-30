@@ -4,6 +4,7 @@ import * as microsoftTeams from '@microsoft/teams-js';
 export const initializeAppModules = () => {
     addModule({
         name: "initialize",
+        initializedRequired: false,
         action: function () {
           microsoftTeams.initialize();
         }
@@ -11,6 +12,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "getContext",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
           microsoftTeams.getContext(output);
@@ -19,6 +21,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "navigateCrossDomain",
+        initializedRequired: true,
         inputs: [{
           type: "string",
           name: "url"
@@ -30,6 +33,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "registerOnThemeChangeHandler",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
           microsoftTeams.registerOnThemeChangeHandler(output);
@@ -38,6 +42,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "shareDeepLink",
+        initializedRequired: true,
         inputs: [{
           type: "object",
           name: "deepLinkParameters"
@@ -49,6 +54,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "executeDeepLink",
+        initializedRequired: true,
         inputs: [{
           type: "string",
           name: "deepLink"
@@ -60,6 +66,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "authentication.authenticate",
+        initializedRequired: true,
         inputs: [{
           type: "string",
           name: "url"
@@ -81,6 +88,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "authentication.notifyFailure",
+        initializedRequired: true,
         inputs: [{
           type: "string",
           name: "reason"
@@ -92,6 +100,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "authentication.notifySuccess",
+        initializedRequired: true,
         inputs: [{
           type: "string",
           name: "result"
@@ -103,6 +112,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "settings.getSettings",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
           microsoftTeams.settings.getSettings(output);
@@ -111,6 +121,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "settings.registerOnSaveHandler",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
           microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
@@ -122,6 +133,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "settings.registerOnSaveHandler.notifyFailure",
+        initializedRequired: true,
         inputs: [{
           type: "string",
           name: "reason"
@@ -133,6 +145,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "settings.registerOnSaveHandler.notifySuccess",
+        initializedRequired: true,
         action: function () {
           (window as any).saveEvent && (window as any).saveEvent.notifySuccess();
         }
@@ -140,6 +153,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "settings.setSettings",
+        initializedRequired: true,
         inputs: [{
           type: "object",
           name: "settings"
@@ -151,6 +165,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "settings.setValidityState",
+        initializedRequired: true,
         inputs: [{
           type: "boolean",
           name: "validityState"
@@ -162,6 +177,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "openFilePreview",
+        initializedRequired: true,
         inputs: [{
           type: "object",
           name: "filePreviewParameters"
@@ -173,6 +189,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "task.submitTask",
+        initializedRequired: true,
         inputs: [{
             type: "string",
             name: "result"
@@ -189,6 +206,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "tasks.startTask",
+        initializedRequired: true,
         inputs: [{
           type: "object",
           name: "taskInfo"
@@ -200,6 +218,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "downloadFile ShowNotificationOnly",
+        initializedRequired: true,
         inputs: [{
           type: "object",
           name: "showNotificationParameters"
@@ -211,6 +230,7 @@ export const initializeAppModules = () => {
      
       addModule({
         name: "getAuthToken",
+        initializedRequired: true,
         inputs: [{
           type: "object",
           name: "getAuthTokenParameters"
@@ -222,6 +242,7 @@ export const initializeAppModules = () => {
     
       addModule({
         name: "getChatMembers",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
           microsoftTeams.getChatMembers(output);
@@ -230,9 +251,28 @@ export const initializeAppModules = () => {
 
       addModule({
         name: "getUserJoinedTeams",
+        initializedRequired: true,
         hasOutput: true,
         action: function (output) {
           microsoftTeams.getUserJoinedTeams(output);
         }
       });
+
+      // Get the modal
+      var modal = document.getElementById("myModal");
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0] as HTMLElement;
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
 };
