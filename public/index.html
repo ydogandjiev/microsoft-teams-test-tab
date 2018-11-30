@@ -2,6 +2,7 @@
 <html>
  <head>
     <link href="./app.css" rel="stylesheet" />
+    <script src="https://unpkg.com/@microsoft/teams-js@1.4.0-beta.7/dist/MicrosoftTeams.js"></script>
    </head>
 
 <body>
@@ -38,6 +39,16 @@
   </div>
 
   <div class="moduleContainer">
+      <div>
+        <div class="sectionTitle">Implicit Teams Deep Link (will not work yet)</div>
+        <button onclick="enableImplicitExecuteDeepLink()">enable Implicit ExecuteDeepLink</button>
+        <div><a href="https://teams.microsoft.com/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4">https://teams.microsoft.com/_#/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4</a></div>
+      <div> <a href="https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All" target="_blank">  https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All</a> </div> 
+      <div> <a href="https://microsoft.com/" target="_blank"> https://microsoft.com/ (non teams deep link)</a> </div> 
+      </div>
+    </div>
+
+  <div class="moduleContainer">
     <div>
       <div class="sectionTitle">Print</div>
       <button onclick="enablePrintCapability()">enablePrintCapability</button>
@@ -57,6 +68,11 @@
     function enablePrintCapability() {
       microsoftTeams.initialize();
       microsoftTeams.enablePrintCapability();
+    }
+
+    function enableImplicitExecuteDeepLink() {
+      microsoftTeams.initialize();
+      microsoftTeams.enableImplicitExecuteDeepLink();
     }
 
     function printHandler() {
