@@ -82,8 +82,7 @@ export function addModule(config: moduleConfig) {
       var messageBox = document.getElementById("errorMessage");
       messageBox.innerText = "Please initialize sdk first by clicking initialize Button";
       modal.style.display = "block";
-    }
-    else {
+    } else {
       var modal = document.getElementById("myModal");
       modal.style.display = "none";
     }

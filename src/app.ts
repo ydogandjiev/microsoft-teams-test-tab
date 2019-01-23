@@ -25,7 +25,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "string",
           name: "url"
-        }, ],
+        }],
         action: function (url) {
           microsoftTeams.navigateCrossDomain(url);
         }
@@ -46,7 +46,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "object",
           name: "deepLinkParameters"
-        }, ],
+        }],
         action: function (deepLinkParameters) {
           microsoftTeams.shareDeepLink(deepLinkParameters);
         }
@@ -58,7 +58,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "string",
           name: "deepLink"
-        }, ],
+        }],
         action: function (deepLink) {
           microsoftTeams.executeDeepLink(deepLink);
         }
@@ -70,7 +70,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "string",
           name: "url"
-        }, ],
+        }],
         hasOutput: true,
         action: function (url, output) {
           microsoftTeams.authentication.authenticate({
@@ -92,7 +92,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "string",
           name: "reason"
-        }, ],
+        }],
         action: function (reason) {
           microsoftTeams.authentication.notifyFailure(reason);
         }
@@ -104,7 +104,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "string",
           name: "result"
-        }, ],
+        }],
         action: function (result) {
           microsoftTeams.authentication.notifySuccess(result);
         }
@@ -191,14 +191,13 @@ export const initializeAppModules = () => {
         name: "task.submitTask",
         initializedRequired: true,
         inputs: [{
-            type: "string",
-            name: "result"
-          },
-          {
-            type: "string",
-            name: "appId"
-          },
-        ],
+          type: "string",
+          name: "result"
+        },
+        {
+          type: "string",
+          name: "appId"
+        }],
         action: function (result, appId) {
           microsoftTeams.tasks.submitTask(result, appId);
         }
@@ -210,7 +209,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "object",
           name: "taskInfo"
-        }, ],
+        }],
         action: function (taskInfo) {
           microsoftTeams.tasks.startTask(taskInfo);
         }
@@ -222,7 +221,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "object",
           name: "showNotificationParameters"
-        }, ],
+        }],
         action: function (showNotificationParameters) {
           microsoftTeams.showNotification(showNotificationParameters);
         }
@@ -234,7 +233,7 @@ export const initializeAppModules = () => {
         inputs: [{
           type: "object",
           name: "getAuthTokenParameters"
-        }, ],
+        }],
         action: function (getAuthTokenParameters) {
           microsoftTeams.authentication.getAuthToken(getAuthTokenParameters);
         }
@@ -255,6 +254,26 @@ export const initializeAppModules = () => {
         hasOutput: true,
         action: function (output) {
           microsoftTeams.getUserJoinedTeams(output);
+        }
+      });
+
+      addModule({
+        name: "registerBeforeUnload",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+          microsoftTeams.settings.registerOnSaveHandler(function (readyToUnload) {
+            (window as any).readyToUnload = readyToUnload;
+            output("BeforeUnload recieved");
+          });
+        }
+      });
+
+      addModule({
+        name: "readyToUnload",
+        initializedRequired: true,
+        action: function() {
+          (window as any).readyToUnload && (window as any).readyToUnload();
         }
       });
 
