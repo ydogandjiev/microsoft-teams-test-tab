@@ -527,9 +527,10 @@ const initializeAppModules = () => {
         initializedRequired: true,
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min["settings"].registerOnSaveHandler(function (readyToUnload) {
+            MicrosoftTeams_min["registerBeforeUnloadHandler"](function (readyToUnload) {
                 window.readyToUnload = readyToUnload;
                 output("BeforeUnload recieved");
+                return true;
             });
         }
     });
