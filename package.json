@@ -2,6 +2,7 @@
   "name": "microsoft-teams-test-tab",
   "version": "1.0.0",
   "author": "Yuri Dogandjiev <yuri.dogandjiev@live.com> (https://twitter.com/ydogandjiev)",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ydogandjiev/microsoft-teams-test-tab.git"
