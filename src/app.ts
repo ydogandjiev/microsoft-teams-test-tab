@@ -262,9 +262,10 @@ export const initializeAppModules = () => {
         initializedRequired: true,
         hasOutput: true,
         action: function (output) {
-          microsoftTeams.settings.registerOnSaveHandler(function (readyToUnload) {
+          microsoftTeams.registerBeforeUnloadHandler(function (readyToUnload) {
             (window as any).readyToUnload = readyToUnload;
             output("BeforeUnload recieved");
+            return true;
           });
         }
       });
