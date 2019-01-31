@@ -2,9 +2,97 @@
 # yarn lockfile v1
 
 
-"@microsoft/teams-js@1.4.0-beta.7":
-  version "1.4.0-beta.7"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.4.0-beta.7.tgz#3ee68a7636ff6658f231e2102223fe883f034377"
+"@microsoft/sp-core-library@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/sp-core-library/-/sp-core-library-1.7.1.tgz#e7db6d07159d5dbafda90fed3f23c8dca2d85b21"
+  dependencies:
+    "@microsoft/sp-lodash-subset" "1.7.1"
+    "@microsoft/sp-module-interfaces" "1.7.1"
+    "@types/es6-promise" "0.0.33"
+    "@types/webpack-env" "1.13.1"
+
+"@microsoft/sp-diagnostics@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/sp-diagnostics/-/sp-diagnostics-1.7.1.tgz#85ebbb9fadd3446a31bee8d79520b83f60a9aaa4"
+  dependencies:
+    "@microsoft/sp-core-library" "1.7.1"
+    "@microsoft/sp-lodash-subset" "1.7.1"
+
+"@microsoft/sp-dynamic-data@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/sp-dynamic-data/-/sp-dynamic-data-1.7.1.tgz#e0821463360a6e10245e40d2674dbadecf9aec99"
+  dependencies:
+    "@microsoft/sp-core-library" "1.7.1"
+    "@microsoft/sp-diagnostics" "1.7.1"
+    "@microsoft/sp-lodash-subset" "1.7.1"
+    "@types/webpack-env" "1.13.1"
+    tslib "~1.8.0"
+
+"@microsoft/sp-lodash-subset@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/sp-lodash-subset/-/sp-lodash-subset-1.7.1.tgz#f47461e12b8bb00cf6a709cf68ad08e547c078d7"
+  dependencies:
+    "@types/lodash" "4.14.74"
+    "@types/webpack-env" "1.13.1"
+    tslib "~1.8.0"
+
+"@microsoft/sp-module-interfaces@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/sp-module-interfaces/-/sp-module-interfaces-1.7.1.tgz#c0afb6a67f6146ab1e9309f9871e3037df12b8e1"
+  dependencies:
+    "@types/node" "8.5.8"
+    "@types/z-schema" "3.16.31"
+    z-schema "~3.18.3"
+
+"@microsoft/sp-odata-types@1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/sp-odata-types/-/sp-odata-types-1.7.1.tgz#464c76aecf98152d84b34905c7df36567a039d9c"
+  dependencies:
+    tslib "~1.8.0"
+
+"@microsoft/sp-page-context@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/sp-page-context/-/sp-page-context-1.7.1.tgz#f8e08cfb5dc697a7a469469e271e433981d77ff8"
+  dependencies:
+    "@microsoft/sp-core-library" "1.7.1"
+    "@microsoft/sp-diagnostics" "1.7.1"
+    "@microsoft/sp-dynamic-data" "1.7.1"
+    "@microsoft/sp-lodash-subset" "1.7.1"
+    "@microsoft/sp-odata-types" "1.7.1"
+    "@microsoft/teams-js" "1.3.0-beta.4"
+    "@types/es6-promise" "0.0.33"
+    "@types/webpack-env" "1.13.1"
+    tslib "~1.8.0"
+
+"@microsoft/teams-js@1.3.0-beta.4":
+  version "1.3.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.3.0-beta.4.tgz#c7e214f8b4412bef715b46bdc46ae04bfda8c18e"
+
+"@microsoft/teams-js@1.4.0-beta.11":
+  version "1.4.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.4.0-beta.11.tgz#59f67169a7e4c573d00eff144c35b21e18634186"
+  dependencies:
+    "@microsoft/sp-page-context" "^1.7.1"
+
+"@types/es6-promise@0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@types/es6-promise/-/es6-promise-0.0.33.tgz#280a707e62b1b6bef1a86cc0861ec63cd06c7ff3"
+
+"@types/lodash@4.14.74":
+  version "4.14.74"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.74.tgz#ac3bd8db988e7f7038e5d22bd76a7ba13f876168"
+
+"@types/node@8.5.8":
+  version "8.5.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.8.tgz#92509422653f10e9c0ac18d87e0610b39f9821c7"
+
+"@types/webpack-env@1.13.1":
+  version "1.13.1"
+  resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.13.1.tgz#b45c222e24301bd006e3edfc762cc6b51bda236a"
+
+"@types/z-schema@3.16.31":
+  version "3.16.31"
+  resolved "https://registry.yarnpkg.com/@types/z-schema/-/z-schema-3.16.31.tgz#2eb1d00a5e4ec3fa58c76afde12e182b66dc5c1c"
 
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
@@ -522,6 +610,10 @@ color-convert@^1.9.0:
 color-name@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
+
+commander@^2.7.1:
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
 
 commander@~2.13.0:
   version "2.13.0"
@@ -1417,6 +1509,14 @@ locate-path@^3.0.0:
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
+lodash.get@^4.0.0:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+
+lodash.isequal@^4.0.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
 
 lru-cache@^4.1.1:
   version "4.1.3"
@@ -2463,6 +2563,10 @@ tslib@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 
+tslib@~1.8.0:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.8.1.tgz#6946af2d1d651a7b1863b531d6e5afa41aa44eac"
+
 tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
@@ -2582,6 +2686,10 @@ utils-merge@1.0.1:
 v8-compile-cache@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.2.tgz#a428b28bb26790734c4fc8bc9fa106fccebf6a6c"
+
+validator@^8.0.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-8.2.0.tgz#3c1237290e37092355344fef78c231249dab77b9"
 
 vary@~1.1.2:
   version "1.1.2"
@@ -2727,3 +2835,13 @@ yargs@^12.0.2:
     which-module "^2.0.0"
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^10.1.0"
+
+z-schema@~3.18.3:
+  version "3.18.4"
+  resolved "https://registry.yarnpkg.com/z-schema/-/z-schema-3.18.4.tgz#ea8132b279533ee60be2485a02f7e3e42541a9a2"
+  dependencies:
+    lodash.get "^4.0.0"
+    lodash.isequal "^4.0.0"
+    validator "^8.0.0"
+  optionalDependencies:
+    commander "^2.7.1"

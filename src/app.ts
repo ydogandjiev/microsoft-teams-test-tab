@@ -258,19 +258,6 @@ export const initializeAppModules = () => {
       });
 
       addModule({
-        name: "registerBeforeUnload",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-          microsoftTeams.registerBeforeUnloadHandler(function (readyToUnload) {
-            (window as any).readyToUnload = readyToUnload;
-            output("BeforeUnload recieved");
-            return true;
-          });
-        }
-      });
-
-      addModule({
         name: "readyToUnload",
         initializedRequired: true,
         action: function() {
