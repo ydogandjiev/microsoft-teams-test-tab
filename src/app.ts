@@ -230,11 +230,20 @@ export const initializeAppModules = () => {
       addModule({
         name: "getAuthToken",
         initializedRequired: true,
+        hasOutput: true,
         inputs: [{
           type: "object",
           name: "getAuthTokenParameters"
         }],
-        action: function (getAuthTokenParameters) {
+        action: function (getAuthTokenParameters, output) {
+          getAuthTokenParameters.successCallback = (token: string) => {
+            output("Success: " + token);
+          }
+
+          getAuthTokenParameters.failureCallback = (reason: string) => {
+            output("Failure: " + reason);
+          }
+
           microsoftTeams.authentication.getAuthToken(getAuthTokenParameters);
         }
       });
@@ -257,7 +266,7 @@ export const initializeAppModules = () => {
         }
       });
 
-      addModule({
+/*       addModule({
         name: "registerBeforeUnload",
         initializedRequired: true,
         hasOutput: true,
@@ -268,7 +277,7 @@ export const initializeAppModules = () => {
             return true;
           });
         }
-      });
+      }); */
 
       addModule({
         name: "readyToUnload",

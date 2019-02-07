@@ -20,7 +20,7 @@ export function addModule(config: moduleConfig) {
       var label = document.createElement("label");
       label.appendChild(document.createTextNode(config.inputs[i].name + ":"));
       element.appendChild(label);
-
+      element.appendChild(document.createElement("br"));
       var input;
       var valueGetter;
       switch (config.inputs[i].type) {
