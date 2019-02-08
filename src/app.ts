@@ -278,7 +278,7 @@ export const initializeAppModules = () => {
         }
       });
 
-/*       addModule({
+      addModule({
         name: "registerBeforeUnload",
         initializedRequired: true,
         hasOutput: true,
@@ -289,7 +289,7 @@ export const initializeAppModules = () => {
             return true;
           });
         }
-      }); */
+      });
 
       addModule({
         name: "readyToUnload",

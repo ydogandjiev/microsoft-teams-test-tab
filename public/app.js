@@ -541,18 +541,18 @@ const initializeAppModules = () => {
             MicrosoftTeams_min["getUserJoinedTeams"](output);
         }
     });
-    /*       addModule({
-            name: "registerBeforeUnload",
-            initializedRequired: true,
-            hasOutput: true,
-            action: function (output) {
-              microsoftTeams.registerBeforeUnloadHandler(function (readyToUnload) {
-                (window as any).readyToUnload = readyToUnload;
+    addModule({
+        name: "registerBeforeUnload",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+            MicrosoftTeams_min["registerBeforeUnloadHandler"](function (readyToUnload) {
+                window.readyToUnload = readyToUnload;
                 output("BeforeUnload recieved");
                 return true;
-              });
-            }
-          }); */
+            });
+        }
+    });
     addModule({
         name: "readyToUnload",
         initializedRequired: true,
