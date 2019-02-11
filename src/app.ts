@@ -39,6 +39,18 @@ export const initializeAppModules = () => {
           microsoftTeams.registerOnThemeChangeHandler(output);
         }
       });
+
+      
+      addModule({
+        name: "registerOnSettingsChangeHandler",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+          microsoftTeams.registerOnSettingsChangeHandler(function () {
+            output("Settings Event recieved");
+          });
+        }
+      });
     
       addModule({
         name: "shareDeepLink",
@@ -116,17 +128,6 @@ export const initializeAppModules = () => {
         hasOutput: true,
         action: function (output) {
           microsoftTeams.settings.getSettings(output);
-        }
-      });
-
-      addModule({
-        name: "settings.registerOnSettingsHandler",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-          microsoftTeams.settings.registerOnSettingsHandler(function () {
-            output("Settings Event recieved");
-          });
         }
       });
     
