@@ -42,12 +42,12 @@ export const initializeAppModules = () => {
 
       
       addModule({
-        name: "registerOnSettingsChangeHandler",
+        name: "registerChangeSettingsHandler",
         initializedRequired: true,
         hasOutput: true,
         action: function (output) {
-          microsoftTeams.registerOnSettingsChangeHandler(function () {
-            output("Settings Event recieved");
+          microsoftTeams.registerChangeSettingsHandler(function () {
+            output("Change Settings Event recieved");
           });
         }
       });
