@@ -2,7 +2,7 @@
 <html>
  <head>
     <link href="./app.css" rel="stylesheet" />
-    <script src="https://unpkg.com/@microsoft/teams-js@1.4.0/dist/MicrosoftTeams.js"></script>
+    <script src="https://unpkg.com/@microsoft/teams-js@1.4.0/dist/MicrosoftTeams.min.js"></script>
    </head>
 
 <body>
@@ -64,10 +64,24 @@
     </div>
   </div>
 
+  <div class="moduleContainer">
+    <div>
+      <div class="sectionTitle">authenticate</div>
+      <button onclick="authenticate()">authenticate</button>
+    </div>
+  </div>
+
   <script>
     function enablePrintCapability() {
       microsoftTeams.initialize();
       microsoftTeams.enablePrintCapability();
+    }
+
+    function authenticate() {
+      microsoftTeams.initialize();
+      microsoftTeams.authentication.authenticate({
+            url: 'https://teams-test-tab.azurewebsites.net'
+      });
     }
 
     function enableImplicitExecuteDeepLink() {
