@@ -75,11 +75,23 @@
       <div class="sectionTitle">send Message to parent window</div>
       <button onclick="sendMessageToParentWindow()">sendMessageToParentWindow</button>
     </div>
+    <div>
+        <div class="sectionTitle">receive Message from parent window</div>
+        <input id="messageFromParent" type="text" />
+      </div>
+      <div>
+          <div class="sectionTitle">receive Message from child window</div>
+          <input id="messageFromChild" type="text" />
+        </div>
   </div>
 
   <script>
     var childWindow;
     var parentWindow = new microsoftTeams.ParentWindowObject();
+    parentWindow.addEventListener("message", onParentWindowMessage);
+    function onParentWindowMessage(message) {
+      document.getElementById("messageFromParent").value = message;
+    }
     function enablePrintCapability() {
       microsoftTeams.initialize();
       microsoftTeams.enablePrintCapability();
@@ -103,12 +115,20 @@
 
     function openChildWindow() {
       microsoftTeams.initialize();
-      childWindow = microsoftTeams.tasks.startTask({url:"https://teams-test-tab.azurewebsites.net"});;
+      childWindow = microsoftTeams.tasks.startTask({url:"https://teams-test-tab.azurewebsites.net"});
+      childWindow.addEventListener("message", onChildWindowMessage);
+      
     }
+
+    function onChildWindowMessage(message) {
+      document.getElementById("messageFromChild").value = message;
+    }
+
     function sendMessageToChildWindow() {
       microsoftTeams.initialize();
       childWindow.postMessage("message from parent to child");
     }
+
     function sendMessageToParentWindow() {
       microsoftTeams.initialize();
       parentWindow.postMessage("message from child to parent");
