@@ -2,7 +2,7 @@
 <html>
  <head>
     <link href="./app.css" rel="stylesheet" />
-    <script src="https://unpkg.com/@microsoft/teams-js@1.4.0-beta.17/dist/MicrosoftTeams.min.js"></script>
+    <script src="./MicrosoftTeams.js"></script>
    </head>
 
 <body>
@@ -18,17 +18,13 @@
   
   </div>
   <script src="./app.js"></script>
-
+  <h2>API using sdk as JS</h2>
   <div class="moduleContainer">
     <div>
       <div class="sectionTitle">Download</div>
       <a href="./placeholder_largeimage.png" download="appIcon">appIcon</a>
     </div>
-
-  </div>
-
-  <div class="uploadFileSection moduleContainer">
-    <div>
+    <div uploadFileSection>
       <div class="sectionTitle">Upload</div>
       <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
       <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png" multiple>
@@ -36,9 +32,7 @@
         <p>No files currently selected for upload</p>
       </div>
     </div>
-  </div>
 
-  <div class="moduleContainer">
       <div>
         <div class="sectionTitle">Implicit Teams Deep Link</div>
         <button onclick="enableImplicitExecuteDeepLink()">enable Implicit ExecuteDeepLink</button>
@@ -46,32 +40,45 @@
       <div> <a href="https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All" target="_blank">  https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All</a> </div> 
       <div> <a href="https://microsoft.com/" target="_blank"> https://microsoft.com/ (non teams deep link)</a> </div> 
       </div>
-    </div>
 
-  <div class="moduleContainer">
     <div>
       <div class="sectionTitle">Print</div>
       <button onclick="enablePrintCapability()">enablePrintCapability</button>
       <button onclick="printHandler()">Print this page</button>
     </div>
-  </div>
 
-  <div class="moduleContainer">
     <div>
       <div class="sectionTitle">URIs</div>
       <a href="sip:yudogan@microsoft.com">Yuri Dogandjiev SIP URI</a>
       <a href="sip:yudogan@microsoft.com" target="_blank">Yuri Dogandjiev SIP URI</a>
     </div>
   </div>
-
+<h2>Unstable API test module</h2>
   <div class="moduleContainer">
+    
     <div>
       <div class="sectionTitle">authenticate</div>
       <button onclick="authenticate()">authenticate</button>
     </div>
+
+    <div>
+      <div class="sectionTitle">open child window</div>
+      <button onclick="openChildWindow()">openChildWindow</button>
+    </div>
+ 
+    <div>
+      <div class="sectionTitle">send Message to child window</div>
+      <button onclick="sendMessageToChildWindow()">sendMessageToChildWindow</button>
+    </div>
+
+    <div>
+      <div class="sectionTitle">send Message to parent window</div>
+      <button onclick="sendMessageToParentWindow()">sendMessageToParentWindow</button>
+    </div>
   </div>
 
   <script>
+    var childWindow;
     function enablePrintCapability() {
       microsoftTeams.initialize();
       microsoftTeams.enablePrintCapability();
@@ -91,6 +98,18 @@
 
     function printHandler() {
       microsoftTeams.print();
+    }
+
+    function openChildWindow() {
+      microsoftTeams.initialize();
+      childWindow = microsoftTeams.tasks.startTask({url:"https://teams-test-tab.azurewebsites.net"});;
+    }
+    function sendMessageToChildWindow() {
+      microsoftTeams.initialize();
+      childWindow.postMessage("message from parent to child");
+    }
+    function sendMessageToParentWindow() {
+      microsoftTeams.initialize();
     }
   </script>
 </body>
