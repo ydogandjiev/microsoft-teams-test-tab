@@ -122,16 +122,17 @@
 
     function onChildWindowMessage(message) {
       document.getElementById("messageFromChild").value = message;
+      sendMessageToChildWindow("received message " + message)
     }
 
-    function sendMessageToChildWindow() {
+    function sendMessageToChildWindow(message) {
       microsoftTeams.initialize();
-      childWindow.postMessage("message from parent to child");
+      childWindow.postMessage("message from parent to child: " + message);
     }
 
-    function sendMessageToParentWindow() {
+    function sendMessageToParentWindow(message) {
       microsoftTeams.initialize();
-      parentWindow.postMessage("message from child to parent");
+      parentWindow.postMessage("message from child to parent: " + message);
     }
   </script>
 </body>
