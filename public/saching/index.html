@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <link href="../app.css" rel="stylesheet" />
+    <script src="./MicrosoftTeams.js"></script>
+   </head>
+
+<body>
+  
+  <!-- The Error Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="errorMessage" class="error-message">Error</div>
+    </div>
+  
+  </div>
+  <script src="../app.js"></script>
+  <h2>API using sdk as JS</h2>
+  <div class="moduleContainer">
+    <div>
+      <div class="sectionTitle">Download</div>
+      <a href="../placeholder_largeimage.png" download="appIcon">appIcon</a>
+    </div>
+    <div uploadFileSection>
+      <div class="sectionTitle">Upload</div>
+      <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
+      <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png" multiple>
+      <div class="fileUploadPreview">
+        <p>No files currently selected for upload</p>
+      </div>
+    </div>
+
+      <div>
+        <div class="sectionTitle">Implicit Teams Deep Link</div>
+        <button onclick="enableImplicitExecuteDeepLink()">enable Implicit ExecuteDeepLink</button>
+        <div><a href="https://teams.microsoft.com/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4">https://teams.microsoft.com/_#/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4</a></div>
+      <div> <a href="https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All" target="_blank">  https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All</a> </div> 
+      <div> <a href="https://microsoft.com/" target="_blank"> https://microsoft.com/ (non teams deep link)</a> </div> 
+      </div>
+
+    <div>
+      <div class="sectionTitle">Print</div>
+      <button onclick="enablePrintCapability()">enablePrintCapability</button>
+      <button onclick="printHandler()">Print this page</button>
+    </div>
+
+    <div>
+      <div class="sectionTitle">URIs</div>
+      <a href="sip:yudogan@microsoft.com">Yuri Dogandjiev SIP URI</a>
+      <a href="sip:yudogan@microsoft.com" target="_blank">Yuri Dogandjiev SIP URI</a>
+    </div>
+  </div>
+<h2>Unstable API test module</h2>
+  <div class="moduleContainer">
+    
+    <div>
+      <div class="sectionTitle">authenticate</div>
+      <button onclick="authenticate()">authenticate</button>
+    </div>
+
+    <div>
+      <div class="sectionTitle">open child window</div>
+      <button onclick="openChildWindow()">openChildWindow</button>
+    </div>
+ 
+    <div>
+      <div class="sectionTitle">send Message to child window</div>
+      <button onclick="sendMessageToChildWindow()">sendMessageToChildWindow</button>
+    </div>
+
+    <div>
+      <div class="sectionTitle">send Message to parent window</div>
+      <button onclick="sendMessageToParentWindow()">sendMessageToParentWindow</button>
+    </div>
+    <div>
+        <div class="sectionTitle">receive Message from parent window</div>
+        <input id="messageFromParent" type="text" />
+      </div>
+      <div>
+          <div class="sectionTitle">receive Message from child window</div>
+          <input id="messageFromChild" type="text" />
+        </div>
+  </div>
+
+  <script>
+    var childWindow;
+    var parentWindow = new microsoftTeams.ParentWindowObject();
+    parentWindow.addEventListener("message", onParentWindowMessage);
+    function onParentWindowMessage(message) {
+      document.getElementById("messageFromParent").value = message;
+    }
+    function enablePrintCapability() {
+      microsoftTeams.initialize();
+      microsoftTeams.enablePrintCapability();
+    }
+
+    function authenticate() {
+      microsoftTeams.initialize();
+      microsoftTeams.authentication.authenticate({
+            url: 'https://teams-test-tab.azurewebsites.net'
+      });
+    }
+
+    function enableImplicitExecuteDeepLink() {
+      microsoftTeams.initialize();
+      microsoftTeams.enableImplicitExecuteDeepLink();
+    }
+
+    function printHandler() {
+      microsoftTeams.print();
+    }
+
+    function openChildWindow() {
+      microsoftTeams.initialize();
+      childWindow = microsoftTeams.tasks.startTask({url:"https://teams-test-tab.azurewebsites.net"});
+      childWindow.addEventListener("message", onChildWindowMessage);
+      
+    }
+
+    function onChildWindowMessage(message) {
+      document.getElementById("messageFromChild").value = message;
+      sendMessageToChildWindow("received message " + message)
+    }
+
+    function sendMessageToChildWindow(message) {
+      microsoftTeams.initialize();
+      childWindow.postMessage("message from parent to child: " + message);
+    }
+
+    function sendMessageToParentWindow(message) {
+      microsoftTeams.initialize();
+      parentWindow.postMessage("message from child to parent: " + message);
+    }
+  </script>
+</body>
+
+</html>
