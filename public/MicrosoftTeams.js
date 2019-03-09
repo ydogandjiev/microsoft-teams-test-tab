@@ -1325,13 +1325,13 @@ var ChildWindowObject = /** @class */ (function () {
     }
     ChildWindowObject.prototype.postMessage = function (message) {
         ensureInitialized(frameContexts.content);
-        sendMessageRequest(parentWindow, "messageFromParent", [
+        sendMessageRequest(parentWindow, "messageForChild", [
             message
         ]);
     };
     ChildWindowObject.prototype.addEventListener = function (type, listener) {
         if (type == "message") {
-            handlers["messageFromChild"] = listener;
+            handlers["messageForParent"] = listener;
         }
     };
     return ChildWindowObject;
@@ -1342,13 +1342,13 @@ var ParentWindowObject = /** @class */ (function () {
     }
     ParentWindowObject.prototype.postMessage = function (message) {
         ensureInitialized(frameContexts.content);
-        sendMessageRequest(parentWindow, "messageFromChild", [
+        sendMessageRequest(parentWindow, "messageForParent", [
             message
         ]);
     };
     ParentWindowObject.prototype.addEventListener = function (type, listener) {
         if (type == "message") {
-            handlers["messageFromParent"] = listener;
+            handlers["messageForChild"] = listener;
         }
     };
     return ParentWindowObject;
