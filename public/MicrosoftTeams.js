@@ -1324,7 +1324,7 @@ var ChildWindowObject = /** @class */ (function () {
     function ChildWindowObject() {
     }
     ChildWindowObject.prototype.postMessage = function (message) {
-        ensureInitialized(frameContexts.content);
+        ensureInitialized();
         sendMessageRequest(parentWindow, "messageForChild", [
             message
         ]);
@@ -1341,7 +1341,7 @@ var ParentWindowObject = /** @class */ (function () {
     function ParentWindowObject() {
     }
     ParentWindowObject.prototype.postMessage = function (message) {
-        ensureInitialized(frameContexts.content);
+        ensureInitialized();
         sendMessageRequest(parentWindow, "messageForParent", [
             message
         ]);
