@@ -115,7 +115,7 @@
 
     function openChildWindow() {
       microsoftTeams.initialize();
-      childWindow = microsoftTeams.tasks.startTask({url:"https://teams-test-tab.azurewebsites.net"});
+      childWindow = microsoftTeams.tasks.startTask({url:"https://teams-test-tab.azurewebsites.net/saching"});
       childWindow.addEventListener("message", onChildWindowMessage);
     }
 
