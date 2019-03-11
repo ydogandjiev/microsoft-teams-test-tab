@@ -299,6 +299,38 @@ export const initializeAppModules = () => {
           (window as any).readyToUnload && (window as any).readyToUnload();
         }
       });
+      addModule({
+        name: "conversations.startConversation",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (subEntityId, title, conversationalSubEntity, output) {
+            conversationalSubEntity.onStartConversation = (conversationId: string) => {
+                output("Started with :" + conversationId);
+            };
+            conversationalSubEntity.onCloseConversation = (reason) => {
+                output("Closed because of :" + reason);
+            };
+            microsoftTeams.conversations.startConversation(subEntityId, title);
+        }
+    });
+    addModule({
+        name: "conversations.showConversation",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (subEntityId, title, conversationId, conversationalSubEntity, output) {
+              conversationalSubEntity.onCloseConversation = (reason: string) => {
+                output("Closed because of :" + reason);
+            };
+            microsoftTeams.conversations.showConversation(subEntityId, title, conversationId);
+        }
+    });
+    addModule({
+        name: "conversations.closeConversation",
+        initializedRequired: true,
+        action: function () {
+          microsoftTeams.conversations.closeConversation();
+        }
+    });
 
       // Get the modal
       var modal = document.getElementById("myModal");
