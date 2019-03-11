@@ -139,6 +139,7 @@ var validOrigins = [
     "https://outlook.office.com",
     "https://outlook-sdf.office.com"
 ];
+var parentWindowObj = null;
 // This will return a reg expression a given url
 function generateRegExpFromUrl(url) {
     var urlRegExpPart = "^";
@@ -1340,8 +1341,16 @@ exports.ChildWindowObject = ChildWindowObject;
 var ParentWindowObject = /** @class */ (function () {
     function ParentWindowObject() {
     }
+    Object.defineProperty(ParentWindowObject, "Instance", {
+        get: function () {
+            // Do you need arguments? Make it a regular method instead.
+            return this._instance || (this._instance = new this());
+        },
+        enumerable: true,
+        configurable: true
+    });
     ParentWindowObject.prototype.postMessage = function (message) {
-        ensureInitialized();
+        ensureInitialized(frameContexts.task);
         sendMessageRequest(parentWindow, "messageForParent", [
             message
         ]);

@@ -87,7 +87,7 @@
 
   <script>
     var childWindow;
-    var parentWindow = new microsoftTeams.ParentWindowObject();
+    var parentWindow = microsoftTeams.ParentWindowObject.Instance;
     parentWindow.addEventListener("message", onParentWindowMessage);
     function onParentWindowMessage(message) {
       document.getElementById("messageFromParent").value = message;
@@ -117,7 +117,6 @@
       microsoftTeams.initialize();
       childWindow = microsoftTeams.tasks.startTask({url:"https://teams-test-tab.azurewebsites.net"});
       childWindow.addEventListener("message", onChildWindowMessage);
-      
     }
 
     function onChildWindowMessage(message) {
