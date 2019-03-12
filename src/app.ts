@@ -304,41 +304,45 @@ export const initializeAppModules = () => {
         initializedRequired: true,
         hasOutput: true,
         inputs: [{
-          type: "object",
-          name: "startConversationRequest"
+          type: "string",
+          name: "subEntityId"
+        },
+        {
+          type: "string",
+          name: "title"
         }],
-        action: function (startConversationRequest, output) {
-          startConversationRequest.onStartConversation = (conversationId: string) => {
+        action: function (subEntityId, title, onStartConversation, onCloseConversation, output) {
+          onStartConversation = (conversationId: string) => {
               output("Started with :" + conversationId);
           };
-          startConversationRequest.onCloseConversation = (reason) => {
+          onCloseConversation = (reason) => {
               output("Closed because of :" + reason);
           };
-          microsoftTeams.conversations.startConversation(startConversationRequest);
+          microsoftTeams.conversations.startConversation(subEntityId, title);
         }
-    });
-    addModule({
-        name: "conversations.showConversation",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-          type: "object",
-          name: "showConversationRequest"
-        }],
-        action: function (showConversationRequest, output) {
-          showConversationRequest.onCloseConversation = (reason: string) => {
-              output("Closed because of :" + reason);
-          };
-          microsoftTeams.conversations.showConversation(showConversationRequest);
-        }
-    });
-    addModule({
-        name: "conversations.closeConversation",
-        initializedRequired: true,
-        action: function () {
-          microsoftTeams.conversations.closeConversation();
-        }
-    });
+      });
+      addModule({
+          name: "conversations.showConversation",
+          initializedRequired: true,
+          hasOutput: true,
+          inputs: [{
+            type: "object",
+            name: "showConversationRequest"
+          }],
+          action: function (showConversationRequest, output) {
+            showConversationRequest.onCloseConversation = (reason: string) => {
+                output("Closed because of :" + reason);
+            };
+            microsoftTeams.conversations.showConversation(showConversationRequest);
+          }
+      });
+      addModule({
+          name: "conversations.closeConversation",
+          initializedRequired: true,
+          action: function () {
+            microsoftTeams.conversations.closeConversation();
+          }
+      });
 
       // Get the modal
       var modal = document.getElementById("myModal");
