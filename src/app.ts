@@ -2,6 +2,7 @@ import { addModule } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
 
 export const initializeAppModules = () => {
+   var childWindow;
     addModule({
         name: "initialize",
         initializedRequired: false,
@@ -223,7 +224,72 @@ export const initializeAppModules = () => {
           name: "taskInfo"
         }],
         action: function (taskInfo) {
-          microsoftTeams.tasks.startTask(taskInfo);
+          childWindow = microsoftTeams.tasks.startTask(taskInfo);
+        }
+      });
+
+      addModule({
+        name: "send message to Child Window(tab to task module)",
+        initializedRequired: true,
+        hasOutput: true,
+        inputs: [{
+          type: "string",
+          name: "message"
+        }],
+        action: function (message, output) {
+          if(childWindow) {
+            childWindow.postMessage(message);
+          }
+          else {
+            output("child window not available");
+          }
+        }
+      });
+
+      addModule({
+        name: "send message to parent Window(task module to tab)",
+        initializedRequired: true,
+        hasOutput: true,
+        inputs: [{
+          type: "string",
+          name: "message"
+        }],
+        action: function (message, output) {
+          var parentWindow = microsoftTeams.ParentWindowObject.Instance;
+          if(parentWindow) {
+            parentWindow.postMessage(message);
+          }
+          else {
+            output("parent window not available");
+          }
+        }
+      });
+
+      addModule({
+        name: "register listener for parent message(tab to task module)",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+          var parentWindow = microsoftTeams.ParentWindowObject.Instance;
+          if(parentWindow) {
+            parentWindow.addEventListener("message", function (message) {
+              output(message);
+            });
+          }
+        }
+      });
+
+      addModule({
+        name: "register listener for child message(task module to tab)",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+          if(childWindow) {
+            childWindow.addEventListener("message", function (message) {
+              output(message);
+              childWindow.postMessage("message received: " + message);
+            });
+          }
         }
       });
     
@@ -299,38 +365,6 @@ export const initializeAppModules = () => {
           (window as any).readyToUnload && (window as any).readyToUnload();
         }
       });
-      addModule({
-        name: "conversations.startConversation",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (subEntityId, title, conversationalSubEntity, output) {
-            conversationalSubEntity.onStartConversation = (conversationId: string) => {
-                output("Started with :" + conversationId);
-            };
-            conversationalSubEntity.onCloseConversation = (reason) => {
-                output("Closed because of :" + reason);
-            };
-            microsoftTeams.conversations.startConversation(subEntityId, title);
-        }
-    });
-    addModule({
-        name: "conversations.showConversation",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (subEntityId, title, conversationId, conversationalSubEntity, output) {
-              conversationalSubEntity.onCloseConversation = (reason: string) => {
-                output("Closed because of :" + reason);
-            };
-            microsoftTeams.conversations.showConversation(subEntityId, title, conversationId);
-        }
-    });
-    addModule({
-        name: "conversations.closeConversation",
-        initializedRequired: true,
-        action: function () {
-          microsoftTeams.conversations.closeConversation();
-        }
-    });
 
       // Get the modal
       var modal = document.getElementById("myModal");
