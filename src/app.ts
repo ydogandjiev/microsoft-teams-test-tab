@@ -303,25 +303,33 @@ export const initializeAppModules = () => {
         name: "conversations.startConversation",
         initializedRequired: true,
         hasOutput: true,
-        action: function (subEntityId, title, conversationalSubEntity, output) {
-            conversationalSubEntity.onStartConversation = (conversationId: string) => {
-                output("Started with :" + conversationId);
-            };
-            conversationalSubEntity.onCloseConversation = (reason) => {
-                output("Closed because of :" + reason);
-            };
-            microsoftTeams.conversations.startConversation(subEntityId, title);
+        inputs: [{
+          type: "object",
+          name: "startConversationRequest"
+        }],
+        action: function (startConversationRequest, output) {
+          startConversationRequest.onStartConversation = (conversationId: string) => {
+              output("Started with :" + conversationId);
+          };
+          startConversationRequest.onCloseConversation = (reason) => {
+              output("Closed because of :" + reason);
+          };
+          microsoftTeams.conversations.startConversation(startConversationRequest);
         }
     });
     addModule({
         name: "conversations.showConversation",
         initializedRequired: true,
         hasOutput: true,
-        action: function (subEntityId, title, conversationId, conversationalSubEntity, output) {
-              conversationalSubEntity.onCloseConversation = (reason: string) => {
-                output("Closed because of :" + reason);
-            };
-            microsoftTeams.conversations.showConversation(subEntityId, title, conversationId);
+        inputs: [{
+          type: "object",
+          name: "showConversationRequest"
+        }],
+        action: function (showConversationRequest, output) {
+          showConversationRequest.onCloseConversation = (reason: string) => {
+              output("Closed because of :" + reason);
+          };
+          microsoftTeams.conversations.showConversation(showConversationRequest);
         }
     });
     addModule({

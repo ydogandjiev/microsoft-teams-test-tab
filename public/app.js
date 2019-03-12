@@ -567,25 +567,33 @@ const initializeAppModules = () => {
         name: "conversations.startConversation",
         initializedRequired: true,
         hasOutput: true,
-        action: function (subEntityId, title, conversationalSubEntity, output) {
-            conversationalSubEntity.onStartConversation = (conversationId) => {
+        inputs: [{
+                type: "object",
+                name: "startConversationRequest"
+            }],
+        action: function (startConversationRequest, output) {
+            startConversationRequest.onStartConversation = (conversationId) => {
                 output("Started with :" + conversationId);
             };
-            conversationalSubEntity.onCloseConversation = (reason) => {
+            startConversationRequest.onCloseConversation = (reason) => {
                 output("Closed because of :" + reason);
             };
-            MicrosoftTeams_min["conversations"].startConversation(subEntityId, title);
+            MicrosoftTeams_min["conversations"].startConversation(startConversationRequest);
         }
     });
     addModule({
         name: "conversations.showConversation",
         initializedRequired: true,
         hasOutput: true,
-        action: function (subEntityId, title, conversationId, conversationalSubEntity, output) {
-            conversationalSubEntity.onCloseConversation = (reason) => {
+        inputs: [{
+                type: "object",
+                name: "showConversationRequest"
+            }],
+        action: function (showConversationRequest, output) {
+            showConversationRequest.onCloseConversation = (reason) => {
                 output("Closed because of :" + reason);
             };
-            MicrosoftTeams_min["conversations"].showConversation(subEntityId, title, conversationId);
+            MicrosoftTeams_min["conversations"].showConversation(showConversationRequest);
         }
     });
     addModule({
