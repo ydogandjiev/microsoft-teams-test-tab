@@ -304,21 +304,17 @@ export const initializeAppModules = () => {
         initializedRequired: true,
         hasOutput: true,
         inputs: [{
-          type: "string",
-          name: "subEntityId"
-        },
-        {
-          type: "string",
-          name: "title"
+          type: "object",
+          name: "startConversationRequest"
         }],
-        action: function (subEntityId, title, onStartConversation, onCloseConversation, output) {
-          onStartConversation = (conversationId: string) => {
+        action: function (startConversationRequest, output) {
+          startConversationRequest.onStartConversation = (conversationId: string) => {
               output("Started with :" + conversationId);
           };
-          onCloseConversation = (reason) => {
+          startConversationRequest.onCloseConversation = (reason) => {
               output("Closed because of :" + reason);
           };
-          microsoftTeams.conversations.startConversation(subEntityId, title);
+          microsoftTeams.conversations.startConversation(startConversationRequest);
         }
       });
       addModule({
