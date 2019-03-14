@@ -2,7 +2,7 @@ import { addModule } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
 
 export const initializeAppModules = () => {
-   var childWindow;
+  var childWindow;
     addModule({
         name: "initialize",
         initializedRequired: false,
@@ -262,7 +262,8 @@ export const initializeAppModules = () => {
         action: function (message, output) {
           var parentWindow = microsoftTeams.ParentWindowObject.Instance;
           if(parentWindow) {
-            parentWindow.postMessage("Message from tab: " + message);
+            parentWindow.postMessage(message);
+            output("message sent to parent(tab)");
           }
           else {
             output("parent window not available");
@@ -278,7 +279,7 @@ export const initializeAppModules = () => {
           var parentWindow = microsoftTeams.ParentWindowObject.Instance;
           if(parentWindow) {
             parentWindow.addEventListener("message", function (message) {
-              output(message);
+              output("message from tab: " + message);
             });
           }
           else {
