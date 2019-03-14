@@ -855,9 +855,14 @@ var ChildWindowObject = /** @class */ (function () {
     }
     ChildWindowObject.prototype.postMessage = function (message) {
         internalAPIs_1.ensureInitialized();
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForChild", [
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForChild", [
             message
         ]);
+        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
+            if (!success) {
+                throw new Error(result);
+            }
+        };
     };
     ChildWindowObject.prototype.addEventListener = function (type, listener) {
         if (type == "message") {
@@ -880,9 +885,14 @@ var ParentWindowObject = /** @class */ (function () {
     });
     ParentWindowObject.prototype.postMessage = function (message) {
         internalAPIs_1.ensureInitialized(constants_1.frameContexts.task);
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForParent", [
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForParent", [
             message
         ]);
+        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
+            if (!success) {
+                throw new Error(result);
+            }
+        };
     };
     ParentWindowObject.prototype.addEventListener = function (type, listener) {
         if (type == "message") {
