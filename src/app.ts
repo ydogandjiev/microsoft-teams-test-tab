@@ -217,14 +217,19 @@ export const initializeAppModules = () => {
       });
     
       addModule({
-        name: "tasks.startTask",
+        name: "tasks.startTask and listen for task module messages",
         initializedRequired: true,
+        hasOutput: true,
         inputs: [{
           type: "object",
           name: "taskInfo"
         }],
-        action: function (taskInfo) {
+        action: function (taskInfo, output) {
           childWindow = microsoftTeams.tasks.startTask(taskInfo);
+          childWindow.addEventListener("message", function (message) {
+            output("Message from task module: " + message);
+            childWindow.postMessage("tab received - " + message);
+          });
         }
       });
 
@@ -257,7 +262,7 @@ export const initializeAppModules = () => {
         action: function (message, output) {
           var parentWindow = microsoftTeams.ParentWindowObject.Instance;
           if(parentWindow) {
-            parentWindow.postMessage(message);
+            parentWindow.postMessage("Message from tab: " + message);
           }
           else {
             output("parent window not available");
@@ -276,19 +281,8 @@ export const initializeAppModules = () => {
               output(message);
             });
           }
-        }
-      });
-
-      addModule({
-        name: "register listener for child message(task module to tab)",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-          if(childWindow) {
-            childWindow.addEventListener("message", function (message) {
-              output(message);
-              childWindow.postMessage("message received: " + message);
-            });
+          else {
+            output("parent window not available");
           }
         }
       });
