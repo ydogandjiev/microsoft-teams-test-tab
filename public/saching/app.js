@@ -2115,7 +2115,14 @@ const initializeAppModules = () => {
             }],
         action: function (message, output) {
             if (childWindow) {
-                childWindow.postMessage(message);
+                try {
+                    childWindow.postMessage(message);
+                }
+                catch (err) {
+                    output(err);
+                    alert(err);
+                }
+                output("message sent to child(task module)");
             }
             else {
                 output("child window not available");
@@ -2133,7 +2140,13 @@ const initializeAppModules = () => {
         action: function (message, output) {
             var parentWindow = MicrosoftTeams_min["ParentWindowObject"].Instance;
             if (parentWindow) {
-                parentWindow.postMessage(message);
+                try {
+                    parentWindow.postMessage(message);
+                }
+                catch (err) {
+                    output(err);
+                    alert(err);
+                }
                 output("message sent to parent(tab)");
             }
             else {
