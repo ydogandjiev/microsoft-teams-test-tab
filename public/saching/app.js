@@ -529,7 +529,8 @@ const initializeAppModules = () => {
         action: function (message, output) {
             var parentWindow = MicrosoftTeams_min["ParentWindowObject"].Instance;
             if (parentWindow) {
-                parentWindow.postMessage("Message from tab: " + message);
+                parentWindow.postMessage(message);
+                output("message sent to parent(tab)");
             }
             else {
                 output("parent window not available");
@@ -544,7 +545,7 @@ const initializeAppModules = () => {
             var parentWindow = MicrosoftTeams_min["ParentWindowObject"].Instance;
             if (parentWindow) {
                 parentWindow.addEventListener("message", function (message) {
-                    output(message);
+                    output("message from tab: " + message);
                 });
             }
             else {
