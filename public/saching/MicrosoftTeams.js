@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -100,11 +100,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(1));
+var GlobalVars = /** @class */ (function () {
+    function GlobalVars() {
+    }
+    GlobalVars.initializeCalled = false;
+    GlobalVars.isFramelessWindow = false;
+    GlobalVars.parentMessageQueue = [];
+    GlobalVars.childMessageQueue = [];
+    GlobalVars.nextMessageId = 0;
+    GlobalVars.handlers = {};
+    GlobalVars.callbacks = {};
+    GlobalVars.printCapabilityEnabled = false;
+    return GlobalVars;
+}());
+exports.GlobalVars = GlobalVars;
 
 
 /***/ }),
@@ -113,74 +123,45 @@ __export(__webpack_require__(1));
 
 "use strict";
 
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+var publicAPIs_1 = __webpack_require__(3);
 var constants_1 = __webpack_require__(2);
-"use strict";
-var handlers = {};
-// This indicates whether initialize was called (started).
-// It does not indicate whether initialization is complete. That can be inferred by whether parentOrigin is set.
-var initializeCalled = false;
-var isFramelessWindow = false;
-var currentWindow;
-var parentWindow;
-var parentOrigin;
-var parentMessageQueue = [];
-var childWindow;
-var childOrigin;
-var childMessageQueue = [];
-var nextMessageId = 0;
-var callbacks = {};
-var frameContext;
-var hostClientType;
-var printCapabilityEnabled = false;
-var themeChangeHandler;
-handlers["themeChange"] = handleThemeChange;
-var fullScreenChangeHandler;
-handlers["fullScreenChange"] = handleFullScreenChange;
-var backButtonPressHandler;
-handlers["backButtonPress"] = handleBackButtonPress;
-var beforeUnloadHandler;
-handlers["beforeUnload"] = handleBeforeUnload;
-var changeSettingsHandler;
-handlers["changeSettings"] = handleChangeSettings;
+var globalVars_1 = __webpack_require__(0);
+// ::::::::::::::::::::MicrosoftTeams SDK Internal :::::::::::::::::
+globalVars_1.GlobalVars.handlers["themeChange"] = handleThemeChange;
+globalVars_1.GlobalVars.handlers["fullScreenChange"] = handleFullScreenChange;
+globalVars_1.GlobalVars.handlers["backButtonPress"] = handleBackButtonPress;
+globalVars_1.GlobalVars.handlers["beforeUnload"] = handleBeforeUnload;
+globalVars_1.GlobalVars.handlers["changeSettings"] = handleChangeSettings;
 function handleThemeChange(theme) {
-    if (themeChangeHandler) {
-        themeChangeHandler(theme);
+    if (globalVars_1.GlobalVars.themeChangeHandler) {
+        globalVars_1.GlobalVars.themeChangeHandler(theme);
     }
-    if (childWindow) {
-        sendMessageRequest(childWindow, "themeChange", [theme]);
+    if (globalVars_1.GlobalVars.childWindow) {
+        sendMessageRequest(globalVars_1.GlobalVars.childWindow, "themeChange", [theme]);
     }
 }
 function handleFullScreenChange(isFullScreen) {
-    if (fullScreenChangeHandler) {
-        fullScreenChangeHandler(isFullScreen);
+    if (globalVars_1.GlobalVars.fullScreenChangeHandler) {
+        globalVars_1.GlobalVars.fullScreenChangeHandler(isFullScreen);
     }
 }
 function handleBackButtonPress() {
-    if (!backButtonPressHandler || !backButtonPressHandler()) {
-        navigateBack();
+    if (!globalVars_1.GlobalVars.backButtonPressHandler || !globalVars_1.GlobalVars.backButtonPressHandler()) {
+        publicAPIs_1.navigateBack();
     }
 }
 function handleBeforeUnload() {
     var readyToUnload = function () {
-        sendMessageRequest(parentWindow, "readyToUnload", []);
+        sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "readyToUnload", []);
     };
-    if (!beforeUnloadHandler || !beforeUnloadHandler(readyToUnload)) {
+    if (!globalVars_1.GlobalVars.beforeUnloadHandler || !globalVars_1.GlobalVars.beforeUnloadHandler(readyToUnload)) {
         readyToUnload();
     }
 }
 function handleChangeSettings() {
-    if (changeSettingsHandler) {
-        changeSettingsHandler();
+    if (globalVars_1.GlobalVars.changeSettingsHandler) {
+        globalVars_1.GlobalVars.changeSettingsHandler();
     }
 }
 function ensureInitialized() {
@@ -188,24 +169,25 @@ function ensureInitialized() {
     for (var _i = 0; _i < arguments.length; _i++) {
         expectedFrameContexts[_i] = arguments[_i];
     }
-    if (!initializeCalled) {
+    if (!globalVars_1.GlobalVars.initializeCalled) {
         throw new Error("The library has not yet been initialized");
     }
-    if (frameContext &&
+    if (globalVars_1.GlobalVars.frameContext &&
         expectedFrameContexts &&
         expectedFrameContexts.length > 0) {
         var found = false;
         for (var i = 0; i < expectedFrameContexts.length; i++) {
-            if (expectedFrameContexts[i] === frameContext) {
+            if (expectedFrameContexts[i] === globalVars_1.GlobalVars.frameContext) {
                 found = true;
                 break;
             }
         }
         if (!found) {
-            throw new Error("This call is not allowed in the '" + frameContext + "' context");
+            throw new Error("This call is not allowed in the '" + globalVars_1.GlobalVars.frameContext + "' context");
         }
     }
 }
+exports.ensureInitialized = ensureInitialized;
 function processMessage(evt) {
     // Process only if we received a valid message
     if (!evt || !evt.data || typeof evt.data !== "object") {
@@ -214,105 +196,107 @@ function processMessage(evt) {
     // Process only if the message is coming from a different window and a valid origin
     var messageSource = evt.source || evt.originalEvent.source;
     var messageOrigin = evt.origin || evt.originalEvent.origin;
-    if (messageSource === currentWindow ||
-        (messageOrigin !== currentWindow.location.origin &&
+    if (messageSource === globalVars_1.GlobalVars.currentWindow ||
+        (messageOrigin !== globalVars_1.GlobalVars.currentWindow.location.origin &&
             !constants_1.validOriginRegExp.test(messageOrigin.toLowerCase()))) {
         return;
     }
     // Update our parent and child relationships based on this message
     updateRelationships(messageSource, messageOrigin);
     // Handle the message
-    if (messageSource === parentWindow) {
+    if (messageSource === globalVars_1.GlobalVars.parentWindow) {
         handleParentMessage(evt);
     }
-    else if (messageSource === childWindow) {
+    else if (messageSource === globalVars_1.GlobalVars.childWindow) {
         handleChildMessage(evt);
     }
 }
+exports.processMessage = processMessage;
 function updateRelationships(messageSource, messageOrigin) {
     // Determine whether the source of the message is our parent or child and update our
     // window and origin pointer accordingly
-    if (!parentWindow || messageSource === parentWindow) {
-        parentWindow = messageSource;
-        parentOrigin = messageOrigin;
+    if (!globalVars_1.GlobalVars.parentWindow || messageSource === globalVars_1.GlobalVars.parentWindow) {
+        globalVars_1.GlobalVars.parentWindow = messageSource;
+        globalVars_1.GlobalVars.parentOrigin = messageOrigin;
     }
-    else if (!childWindow || messageSource === childWindow) {
-        childWindow = messageSource;
-        childOrigin = messageOrigin;
+    else if (!globalVars_1.GlobalVars.childWindow || messageSource === globalVars_1.GlobalVars.childWindow) {
+        globalVars_1.GlobalVars.childWindow = messageSource;
+        globalVars_1.GlobalVars.childOrigin = messageOrigin;
     }
     // Clean up pointers to closed parent and child windows
-    if (parentWindow && parentWindow.closed) {
-        parentWindow = null;
-        parentOrigin = null;
+    if (globalVars_1.GlobalVars.parentWindow && globalVars_1.GlobalVars.parentWindow.closed) {
+        globalVars_1.GlobalVars.parentWindow = null;
+        globalVars_1.GlobalVars.parentOrigin = null;
     }
-    if (childWindow && childWindow.closed) {
-        childWindow = null;
-        childOrigin = null;
+    if (globalVars_1.GlobalVars.childWindow && globalVars_1.GlobalVars.childWindow.closed) {
+        globalVars_1.GlobalVars.childWindow = null;
+        globalVars_1.GlobalVars.childOrigin = null;
     }
     // If we have any messages in our queue, send them now
-    flushMessageQueue(parentWindow);
-    flushMessageQueue(childWindow);
+    flushMessageQueue(globalVars_1.GlobalVars.parentWindow);
+    flushMessageQueue(globalVars_1.GlobalVars.childWindow);
 }
 function handleParentMessage(evt) {
     if ("id" in evt.data) {
-        // Call any associated callbacks
+        // Call any associated GlobalVars.callbacks
         var message = evt.data;
-        var callback = callbacks[message.id];
+        var callback = globalVars_1.GlobalVars.callbacks[message.id];
         if (callback) {
             callback.apply(null, message.args);
             // Remove the callback to ensure that the callback is called only once and to free up memory.
-            delete callbacks[message.id];
+            delete globalVars_1.GlobalVars.callbacks[message.id];
         }
     }
     else if ("func" in evt.data) {
         // Delegate the request to the proper handler
         var message = evt.data;
-        var handler = handlers[message.func];
+        var handler = globalVars_1.GlobalVars.handlers[message.func];
         if (handler) {
             // We don't expect any handler to respond at this point
             handler.apply(this, message.args);
         }
     }
 }
+exports.handleParentMessage = handleParentMessage;
 function handleChildMessage(evt) {
     if ("id" in evt.data && "func" in evt.data) {
         // Try to delegate the request to the proper handler
         var message_1 = evt.data;
-        var handler = handlers[message_1.func];
+        var handler = globalVars_1.GlobalVars.handlers[message_1.func];
         if (handler) {
             var result = handler.apply(this, message_1.args);
             if (result) {
-                sendMessageResponse(childWindow, message_1.id, Array.isArray(result) ? result : [result]);
+                sendMessageResponse(globalVars_1.GlobalVars.childWindow, message_1.id, Array.isArray(result) ? result : [result]);
             }
         }
         else {
             // Proxy to parent
-            var messageId = sendMessageRequest(parentWindow, message_1.func, message_1.args);
+            var messageId = sendMessageRequest(globalVars_1.GlobalVars.parentWindow, message_1.func, message_1.args);
             // tslint:disable-next-line:no-any
-            callbacks[messageId] = function () {
+            globalVars_1.GlobalVars.callbacks[messageId] = function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
-                if (childWindow) {
-                    sendMessageResponse(childWindow, message_1.id, args);
+                if (globalVars_1.GlobalVars.childWindow) {
+                    sendMessageResponse(globalVars_1.GlobalVars.childWindow, message_1.id, args);
                 }
             };
         }
     }
 }
 function getTargetMessageQueue(targetWindow) {
-    return targetWindow === parentWindow
-        ? parentMessageQueue
-        : targetWindow === childWindow
-            ? childMessageQueue
+    return targetWindow === globalVars_1.GlobalVars.parentWindow
+        ? globalVars_1.GlobalVars.parentMessageQueue
+        : targetWindow === globalVars_1.GlobalVars.childWindow
+            ? globalVars_1.GlobalVars.childMessageQueue
             : [];
 }
 function getTargetOrigin(targetWindow) {
-    return targetWindow === parentWindow
-        ? parentOrigin
-        : targetWindow === childWindow
-            ? childOrigin
+    return targetWindow === globalVars_1.GlobalVars.parentWindow
+        ? globalVars_1.GlobalVars.parentOrigin
+        : targetWindow === globalVars_1.GlobalVars.childWindow
+            ? globalVars_1.GlobalVars.childOrigin
             : null;
 }
 function flushMessageQueue(targetWindow) {
@@ -323,20 +307,21 @@ function flushMessageQueue(targetWindow) {
     }
 }
 function waitForMessageQueue(targetWindow, callback) {
-    var messageQueueMonitor = currentWindow.setInterval(function () {
+    var messageQueueMonitor = globalVars_1.GlobalVars.currentWindow.setInterval(function () {
         if (getTargetMessageQueue(targetWindow).length === 0) {
             clearInterval(messageQueueMonitor);
             callback();
         }
     }, 100);
 }
+exports.waitForMessageQueue = waitForMessageQueue;
 function sendMessageRequest(targetWindow, actionName, 
 // tslint:disable-next-line: no-any
 args) {
     var request = createMessageRequest(actionName, args);
-    if (isFramelessWindow) {
-        if (currentWindow && currentWindow.nativeInterface) {
-            currentWindow.nativeInterface.framelessPostMessage(JSON.stringify(request));
+    if (globalVars_1.GlobalVars.isFramelessWindow) {
+        if (globalVars_1.GlobalVars.currentWindow && globalVars_1.GlobalVars.currentWindow.nativeInterface) {
+            globalVars_1.GlobalVars.currentWindow.nativeInterface.framelessPostMessage(JSON.stringify(request));
         }
     }
     else {
@@ -352,6 +337,7 @@ args) {
     }
     return request.id;
 }
+exports.sendMessageRequest = sendMessageRequest;
 function sendMessageResponse(targetWindow, id, 
 // tslint:disable-next-line:no-any
 args) {
@@ -364,7 +350,7 @@ args) {
 // tslint:disable-next-line:no-any
 function createMessageRequest(func, args) {
     return {
-        id: nextMessageId++,
+        id: globalVars_1.GlobalVars.nextMessageId++,
         func: func,
         args: args || []
     };
@@ -376,7 +362,576 @@ function createMessageResponse(id, args) {
         args: args || []
     };
 }
-// ::::::::::::::::::::::: MicrosoftTeams SDK private API ::::::::::::::::::::
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(9);
+exports.version = "1.4.1";
+exports.validOrigins = [
+    "https://teams.microsoft.com",
+    "https://teams.microsoft.us",
+    "https://int.teams.microsoft.com",
+    "https://devspaces.skype.com",
+    "https://ssauth.skype.com",
+    "http://dev.local",
+    "http://dev.local:8080",
+    "https://msft.spoppe.com",
+    "https://*.sharepoint.com",
+    "https://*.sharepoint-df.com",
+    "https://*.sharepointonline.com",
+    "https://outlook.office.com",
+    "https://outlook-sdf.office.com"
+];
+// Ensure these declarations stay in sync with the framework.
+exports.frameContexts = {
+    settings: "settings",
+    content: "content",
+    authentication: "authentication",
+    remove: "remove",
+    task: "task"
+};
+exports.validOriginRegExp = utils_1.generateRegExpFromUrls(exports.validOrigins);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __webpack_require__(1);
+var globalVars_1 = __webpack_require__(0);
+var constants_1 = __webpack_require__(2);
+var settings_1 = __webpack_require__(4);
+// ::::::::::::::::::::::: MicrosoftTeams SDK public API ::::::::::::::::::::
+/**
+ * Initializes the library. This must be called before any other SDK calls
+ * but after the frame is loaded successfully.
+ */
+function initialize(hostWindow) {
+    if (hostWindow === void 0) { hostWindow = window; }
+    if (globalVars_1.GlobalVars.initializeCalled) {
+        // Independent components might not know whether the SDK is initialized so might call it to be safe.
+        // Just no-op if that happens to make it easier to use.
+        return;
+    }
+    globalVars_1.GlobalVars.initializeCalled = true;
+    // Undocumented field used to mock the window for unit tests
+    globalVars_1.GlobalVars.currentWindow = hostWindow;
+    // Listen for messages post to our window
+    var messageListener = function (evt) { return internalAPIs_1.processMessage(evt); };
+    // If we are in an iframe, our parent window is the one hosting us (i.e., window.parent); otherwise,
+    // it's the window that opened us (i.e., window.opener)
+    globalVars_1.GlobalVars.parentWindow =
+        globalVars_1.GlobalVars.currentWindow.parent !== globalVars_1.GlobalVars.currentWindow.self
+            ? globalVars_1.GlobalVars.currentWindow.parent
+            : globalVars_1.GlobalVars.currentWindow.opener;
+    if (!globalVars_1.GlobalVars.parentWindow) {
+        globalVars_1.GlobalVars.isFramelessWindow = true;
+        window.onNativeMessage = globalVars_1.GlobalVars.handleParentMessage;
+    }
+    else {
+        // For iFrame scenario, add listener to listen 'message'
+        globalVars_1.GlobalVars.currentWindow.addEventListener("message", messageListener, false);
+    }
+    try {
+        // Send the initialized message to any origin, because at this point we most likely don't know the origin
+        // of the parent window, and this message contains no data that could pose a security risk.
+        globalVars_1.GlobalVars.parentOrigin = "*";
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "initialize", [constants_1.version]);
+        globalVars_1.GlobalVars.callbacks[messageId] = function (context, clientType) {
+            globalVars_1.GlobalVars.frameContext = context;
+            globalVars_1.GlobalVars.hostClientType = clientType;
+        };
+    }
+    finally {
+        globalVars_1.GlobalVars.parentOrigin = null;
+    }
+    // Undocumented function used to clear state between unit tests
+    this._uninitialize = function () {
+        if (globalVars_1.GlobalVars.frameContext) {
+            registerOnThemeChangeHandler(null);
+            registerFullScreenHandler(null);
+            registerBackButtonHandler(null);
+            registerBeforeUnloadHandler(null);
+        }
+        if (globalVars_1.GlobalVars.frameContext === constants_1.frameContexts.settings) {
+            settings_1.settings.registerOnSaveHandler(null);
+        }
+        if (globalVars_1.GlobalVars.frameContext === constants_1.frameContexts.remove) {
+            settings_1.settings.registerOnRemoveHandler(null);
+        }
+        if (!globalVars_1.GlobalVars.isFramelessWindow) {
+            globalVars_1.GlobalVars.currentWindow.removeEventListener("message", messageListener, false);
+        }
+        globalVars_1.GlobalVars.initializeCalled = false;
+        globalVars_1.GlobalVars.parentWindow = null;
+        globalVars_1.GlobalVars.parentOrigin = null;
+        globalVars_1.GlobalVars.parentMessageQueue = [];
+        globalVars_1.GlobalVars.childWindow = null;
+        globalVars_1.GlobalVars.childOrigin = null;
+        globalVars_1.GlobalVars.childMessageQueue = [];
+        globalVars_1.GlobalVars.nextMessageId = 0;
+        globalVars_1.GlobalVars.callbacks = {};
+        globalVars_1.GlobalVars.frameContext = null;
+        globalVars_1.GlobalVars.hostClientType = null;
+        globalVars_1.GlobalVars.isFramelessWindow = false;
+    };
+}
+exports.initialize = initialize;
+/**
+ * Initializes the library. This must be called before any other SDK calls
+ * but after the frame is loaded successfully.
+ */
+function _uninitialize() { }
+exports._uninitialize = _uninitialize;
+/**
+ * Enable print capability to support printing page using Ctrl+P and cmd+P
+ */
+function enablePrintCapability() {
+    if (!globalVars_1.GlobalVars.printCapabilityEnabled) {
+        globalVars_1.GlobalVars.printCapabilityEnabled = true;
+        internalAPIs_1.ensureInitialized();
+        // adding ctrl+P and cmd+P handler
+        document.addEventListener("keydown", function (event) {
+            if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
+                print();
+                event.cancelBubble = true;
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+        });
+    }
+}
+exports.enablePrintCapability = enablePrintCapability;
+/**
+ * default print handler
+ */
+function print() {
+    window.print();
+}
+exports.print = print;
+/**
+ * Retrieves the current context the frame is running in.
+ * @param callback The callback to invoke when the {@link Context} object is retrieved.
+ */
+function getContext(callback) {
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "getContext");
+    globalVars_1.GlobalVars.callbacks[messageId] = callback;
+}
+exports.getContext = getContext;
+/**
+ * Registers a handler for theme changes.
+ * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+ * @param handler The handler to invoke when the user changes their theme.
+ */
+function registerOnThemeChangeHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    globalVars_1.GlobalVars.themeChangeHandler = handler;
+    handler &&
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["themeChange"]);
+}
+exports.registerOnThemeChangeHandler = registerOnThemeChangeHandler;
+/**
+ * Registers a handler for changes from or to full-screen view for a tab.
+ * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+ * @param handler The handler to invoke when the user toggles full-screen view for a tab.
+ */
+function registerFullScreenHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    globalVars_1.GlobalVars.fullScreenChangeHandler = handler;
+    handler &&
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["fullScreen"]);
+}
+exports.registerFullScreenHandler = registerFullScreenHandler;
+/**
+ * Registers a handler for user presses of the Team client's back button. Experiences that maintain an internal
+ * navigation stack should use this handler to navigate the user back within their frame. If an app finds
+ * that after running its back button handler it cannot handle the event it should call the navigateBack
+ * method to ask the Teams client to handle it instead.
+ * @param handler The handler to invoke when the user presses their Team client's back button.
+ */
+function registerBackButtonHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    globalVars_1.GlobalVars.backButtonPressHandler = handler;
+    handler &&
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["backButton"]);
+}
+exports.registerBackButtonHandler = registerBackButtonHandler;
+/**
+ * Navigates back in the Teams client. See registerBackButtonHandler for more information on when
+ * it's appropriate to use this method.
+ */
+function navigateBack() {
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "navigateBack", []);
+    globalVars_1.GlobalVars.callbacks[messageId] = function (success) {
+        if (!success) {
+            throw new Error("Back navigation is not supported in the current client or context.");
+        }
+    };
+}
+exports.navigateBack = navigateBack;
+/**
+ * Registers a handler to be called before the page is unloaded.
+ * @param handler The handler to invoke before the page is unloaded. If this handler returns true the page should
+ * invoke the readyToUnload function provided to it once it's ready to be unloaded.
+ */
+function registerBeforeUnloadHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    globalVars_1.GlobalVars.beforeUnloadHandler = handler;
+    handler &&
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["beforeUnload"]);
+}
+exports.registerBeforeUnloadHandler = registerBeforeUnloadHandler;
+/**
+ * Registers a handler for when the user reconfigurated tab
+ * @param handler The handler to invoke when the user click on Settings.
+ */
+function registerChangeSettingsHandler(handler) {
+    internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
+    globalVars_1.GlobalVars.changeSettingsHandler = handler;
+    handler && internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["changeSettings"]);
+}
+exports.registerChangeSettingsHandler = registerChangeSettingsHandler;
+/**
+ * Navigates the frame to a new cross-domain URL. The domain of this URL must match at least one of the
+ * valid domains specified in the validDomains block of the manifest; otherwise, an exception will be
+ * thrown. This function needs to be used only when navigating the frame to a URL in a different domain
+ * than the current one in a way that keeps the app informed of the change and allows the SDK to
+ * continue working.
+ * @param url The URL to navigate the frame to.
+ */
+function navigateCrossDomain(url) {
+    internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings, constants_1.frameContexts.remove, constants_1.frameContexts.task);
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "navigateCrossDomain", [
+        url
+    ]);
+    globalVars_1.GlobalVars.callbacks[messageId] = function (success) {
+        if (!success) {
+            throw new Error("Cross-origin navigation is only supported for URLs matching the pattern registered in the manifest.");
+        }
+    };
+}
+exports.navigateCrossDomain = navigateCrossDomain;
+/**
+ * Allows an app to retrieve for this user tabs that are owned by this app.
+ * If no TabInstanceParameters are passed, the app defaults to favorite teams and favorite channels.
+ * @param callback The callback to invoke when the {@link TabInstanceParameters} object is retrieved.
+ * @param tabInstanceParameters OPTIONAL Flags that specify whether to scope call to favorite teams or channels.
+ */
+function getTabInstances(callback, tabInstanceParameters) {
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "getTabInstances", [
+        tabInstanceParameters
+    ]);
+    globalVars_1.GlobalVars.callbacks[messageId] = callback;
+}
+exports.getTabInstances = getTabInstances;
+/**
+ * Allows an app to retrieve the most recently used tabs for this user.
+ * @param callback The callback to invoke when the {@link TabInformation} object is retrieved.
+ * @param tabInstanceParameters OPTIONAL Ignored, kept for future use
+ */
+function getMruTabInstances(callback, tabInstanceParameters) {
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "getMruTabInstances", [
+        tabInstanceParameters
+    ]);
+    globalVars_1.GlobalVars.callbacks[messageId] = callback;
+}
+exports.getMruTabInstances = getMruTabInstances;
+/**
+ * Shares a deep link that a user can use to navigate back to a specific state in this page.
+ * @param deepLinkParameters ID and label for the link and fallback URL.
+ */
+function shareDeepLink(deepLinkParameters) {
+    internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
+    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "shareDeepLink", [
+        deepLinkParameters.subEntityId,
+        deepLinkParameters.subEntityLabel,
+        deepLinkParameters.subEntityWebUrl
+    ]);
+}
+exports.shareDeepLink = shareDeepLink;
+/**
+ * Navigates the Microsoft Teams app to the specified tab instance.
+ * @param tabInstance The tab instance to navigate to.
+ */
+function navigateToTab(tabInstance) {
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "navigateToTab", [
+        tabInstance
+    ]);
+    globalVars_1.GlobalVars.callbacks[messageId] = function (success) {
+        if (!success) {
+            throw new Error("Invalid internalTabInstanceId and/or channelId were/was provided");
+        }
+    };
+}
+exports.navigateToTab = navigateToTab;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __webpack_require__(1);
+var globalVars_1 = __webpack_require__(0);
+var constants_1 = __webpack_require__(2);
+/**
+ * Namespace to interact with the settings-specific part of the SDK.
+ * This object is usable only on the settings frame.
+ */
+var settings;
+(function (settings) {
+    debugger;
+    var saveHandler;
+    var removeHandler;
+    globalVars_1.GlobalVars.handlers["settings.save"] = handleSave;
+    globalVars_1.GlobalVars.handlers["settings.remove"] = handleRemove;
+    /**
+     * Sets the validity state for the settings.
+     * The initial value is false, so the user cannot save the settings until this is called with true.
+     * @param validityState Indicates whether the save or remove button is enabled for the user.
+     */
+    function setValidityState(validityState) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.settings, constants_1.frameContexts.remove);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "settings.setValidityState", [
+            validityState
+        ]);
+    }
+    settings.setValidityState = setValidityState;
+    /**
+     * Gets the settings for the current instance.
+     * @param callback The callback to invoke when the {@link Settings} object is retrieved.
+     */
+    function getSettings(callback) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings, constants_1.frameContexts.remove);
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "settings.getSettings");
+        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+    }
+    settings.getSettings = getSettings;
+    /**
+     * Sets the settings for the current instance.
+     * This is an asynchronous operation; calls to getSettings are not guaranteed to reflect the changed state.
+     * @param settings The desired settings for this instance.
+     */
+    function setSettings(instanceSettings) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings);
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "settings.setSettings", [
+            instanceSettings
+        ]);
+        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
+            if (!success) {
+                throw new Error(result);
+            }
+        };
+    }
+    settings.setSettings = setSettings;
+    /**
+     * Registers a handler for when the user attempts to save the settings. This handler should be used
+     * to create or update the underlying resource powering the content.
+     * The object passed to the handler must be used to notify whether to proceed with the save.
+     * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+     * @param handler The handler to invoke when the user selects the save button.
+     */
+    function registerOnSaveHandler(handler) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.settings);
+        saveHandler = handler;
+        handler && internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["save"]);
+    }
+    settings.registerOnSaveHandler = registerOnSaveHandler;
+    /**
+     * Registers a handler for user attempts to remove content. This handler should be used
+     * to remove the underlying resource powering the content.
+     * The object passed to the handler must be used to indicate whether to proceed with the removal.
+     * Only one handler may be registered at a time. Subsequent registrations will override the first.
+     * @param handler The handler to invoke when the user selects the remove button.
+     */
+    function registerOnRemoveHandler(handler) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.remove);
+        removeHandler = handler;
+        handler && internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["remove"]);
+    }
+    settings.registerOnRemoveHandler = registerOnRemoveHandler;
+    function handleSave(result) {
+        var saveEvent = new SaveEventImpl(result);
+        if (saveHandler) {
+            saveHandler(saveEvent);
+        }
+        else {
+            // If no handler is registered, we assume success.
+            saveEvent.notifySuccess();
+        }
+    }
+    /**
+     * @private
+     * Hide from docs, since this class is not directly used.
+     */
+    var SaveEventImpl = /** @class */ (function () {
+        function SaveEventImpl(result) {
+            this.notified = false;
+            this.result = result ? result : {};
+        }
+        SaveEventImpl.prototype.notifySuccess = function () {
+            this.ensureNotNotified();
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "settings.save.success");
+            this.notified = true;
+        };
+        SaveEventImpl.prototype.notifyFailure = function (reason) {
+            this.ensureNotNotified();
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "settings.save.failure", [reason]);
+            this.notified = true;
+        };
+        SaveEventImpl.prototype.ensureNotNotified = function () {
+            if (this.notified) {
+                throw new Error("The SaveEvent may only notify success or failure once.");
+            }
+        };
+        return SaveEventImpl;
+    }());
+    function handleRemove() {
+        var removeEvent = new RemoveEventImpl();
+        if (removeHandler) {
+            removeHandler(removeEvent);
+        }
+        else {
+            // If no handler is registered, we assume success.
+            removeEvent.notifySuccess();
+        }
+    }
+    /**
+     * @private
+     * Hide from docs, since this class is not directly used.
+     */
+    var RemoveEventImpl = /** @class */ (function () {
+        function RemoveEventImpl() {
+            this.notified = false;
+        }
+        RemoveEventImpl.prototype.notifySuccess = function () {
+            this.ensureNotNotified();
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "settings.remove.success");
+            this.notified = true;
+        };
+        RemoveEventImpl.prototype.notifyFailure = function (reason) {
+            this.ensureNotNotified();
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "settings.remove.failure", [reason]);
+            this.notified = true;
+        };
+        RemoveEventImpl.prototype.ensureNotNotified = function () {
+            if (this.notified) {
+                throw new Error("The removeEvent may only notify success or failure once.");
+            }
+        };
+        return RemoveEventImpl;
+    }());
+})(settings = exports.settings || (exports.settings = {}));
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __webpack_require__(1);
+var globalVars_1 = __webpack_require__(0);
+var constants_1 = __webpack_require__(2);
+var ChildWindowObject = /** @class */ (function () {
+    function ChildWindowObject() {
+    }
+    ChildWindowObject.prototype.postMessage = function (message) {
+        internalAPIs_1.ensureInitialized();
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForChild", [
+            message
+        ]);
+    };
+    ChildWindowObject.prototype.addEventListener = function (type, listener) {
+        if (type == "message") {
+            globalVars_1.GlobalVars.handlers["messageForParent"] = listener;
+        }
+    };
+    return ChildWindowObject;
+}());
+exports.ChildWindowObject = ChildWindowObject;
+var ParentWindowObject = /** @class */ (function () {
+    function ParentWindowObject() {
+    }
+    Object.defineProperty(ParentWindowObject, "Instance", {
+        get: function () {
+            // Do you need arguments? Make it a regular method instead.
+            return this._instance || (this._instance = new this());
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ParentWindowObject.prototype.postMessage = function (message) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.task);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForParent", [
+            message
+        ]);
+    };
+    ParentWindowObject.prototype.addEventListener = function (type, listener) {
+        if (type == "message") {
+            globalVars_1.GlobalVars.handlers["messageForChild"] = listener;
+        }
+    };
+    return ParentWindowObject;
+}());
+exports.ParentWindowObject = ParentWindowObject;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(7));
+__export(__webpack_require__(12));
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(8));
+__export(__webpack_require__(10));
+__export(__webpack_require__(11));
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __webpack_require__(1);
+var globalVars_1 = __webpack_require__(0);
 /**
  * Namespace to interact with the menu-specific part of the SDK.
  * This object is used to show View Configuration, Action Menu and Navigation Bar Menu.
@@ -408,11 +963,11 @@ var menus;
         MenuListType["popOver"] = "popOver";
     })(MenuListType = menus.MenuListType || (menus.MenuListType = {}));
     var navBarMenuItemPressHandler;
-    handlers["navBarMenuItemPress"] = handleNavBarMenuItemPress;
+    globalVars_1.GlobalVars.handlers["navBarMenuItemPress"] = handleNavBarMenuItemPress;
     var actionMenuItemPressHandler;
-    handlers["actionMenuItemPress"] = handleActionMenuItemPress;
+    globalVars_1.GlobalVars.handlers["actionMenuItemPress"] = handleActionMenuItemPress;
     var viewConfigItemPressHandler;
-    handlers["setModuleView"] = handleViewConfigItemPress;
+    globalVars_1.GlobalVars.handlers["setModuleView"] = handleViewConfigItemPress;
     /**
      * Registers list of view configurations and it's handler.
      * Handler is responsible for listening selection of View Configuration.
@@ -420,15 +975,15 @@ var menus;
      * @param handler The handler to invoke when the user selects view configuration.
      */
     function setUpViews(viewConfig, handler) {
-        ensureInitialized();
+        internalAPIs_1.ensureInitialized();
         viewConfigItemPressHandler = handler;
-        sendMessageRequest(parentWindow, "setUpViews", [viewConfig]);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "setUpViews", [viewConfig]);
     }
     menus.setUpViews = setUpViews;
     function handleViewConfigItemPress(id) {
         if (!viewConfigItemPressHandler || !viewConfigItemPressHandler(id)) {
-            ensureInitialized();
-            sendMessageRequest(parentWindow, "viewConfigItemPress", [id]);
+            internalAPIs_1.ensureInitialized();
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "viewConfigItemPress", [id]);
         }
     }
     /**
@@ -437,15 +992,15 @@ var menus;
      * @param handler The handler to invoke when the user selects menu item.
      */
     function setNavBarMenu(items, handler) {
-        ensureInitialized();
+        internalAPIs_1.ensureInitialized();
         navBarMenuItemPressHandler = handler;
-        sendMessageRequest(parentWindow, "setNavBarMenu", [items]);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "setNavBarMenu", [items]);
     }
     menus.setNavBarMenu = setNavBarMenu;
     function handleNavBarMenuItemPress(id) {
         if (!navBarMenuItemPressHandler || !navBarMenuItemPressHandler(id)) {
-            ensureInitialized();
-            sendMessageRequest(parentWindow, "handleNavBarMenuItemPress", [id]);
+            internalAPIs_1.ensureInitialized();
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "handleNavBarMenuItemPress", [id]);
         }
     }
     /**
@@ -454,18 +1009,67 @@ var menus;
      * @param handler The handler to invoke when the user selects menu item.
      */
     function showActionMenu(params, handler) {
-        ensureInitialized();
+        internalAPIs_1.ensureInitialized();
         actionMenuItemPressHandler = handler;
-        sendMessageRequest(parentWindow, "showActionMenu", [params]);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "showActionMenu", [params]);
     }
     menus.showActionMenu = showActionMenu;
     function handleActionMenuItemPress(id) {
         if (!actionMenuItemPressHandler || !actionMenuItemPressHandler(id)) {
-            ensureInitialized();
-            sendMessageRequest(parentWindow, "handleActionMenuItemPress", [id]);
+            internalAPIs_1.ensureInitialized();
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "handleActionMenuItemPress", [id]);
         }
     }
 })(menus = exports.menus || (exports.menus = {}));
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+// This will return a reg expression a given url
+function generateRegExpFromUrl(url) {
+    var urlRegExpPart = "^";
+    var urlParts = url.split(".");
+    for (var j = 0; j < urlParts.length; j++) {
+        urlRegExpPart += (j > 0 ? "[.]" : "") + urlParts[j].replace("*", "[^/^.]+");
+    }
+    urlRegExpPart += "$";
+    return urlRegExpPart;
+}
+// This will return a reg expression for list of url
+function generateRegExpFromUrls(urls) {
+    var urlRegExp = "";
+    for (var i = 0; i < urls.length; i++) {
+        urlRegExp += (i === 0 ? "" : "|") + generateRegExpFromUrl(urls[i]);
+    }
+    return new RegExp(urlRegExp);
+}
+exports.generateRegExpFromUrls = generateRegExpFromUrls;
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __webpack_require__(1);
+var globalVars_1 = __webpack_require__(0);
+var constants_1 = __webpack_require__(2);
 /**
  * @private
  * Hide from docs
@@ -475,11 +1079,11 @@ var menus;
  * @param teamInstanceParameters OPTIONAL Flags that specify whether to scope call to favorite teams
  */
 function getUserJoinedTeams(callback, teamInstanceParameters) {
-    ensureInitialized();
-    var messageId = sendMessageRequest(parentWindow, "getUserJoinedTeams", [
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "getUserJoinedTeams", [
         teamInstanceParameters
     ]);
-    callbacks[messageId] = callback;
+    globalVars_1.GlobalVars.callbacks[messageId] = callback;
 }
 exports.getUserJoinedTeams = getUserJoinedTeams;
 /**
@@ -490,7 +1094,7 @@ exports.getUserJoinedTeams = getUserJoinedTeams;
  * @param file The file to preview.
  */
 function openFilePreview(filePreviewParameters) {
-    ensureInitialized(constants_1.frameContexts.content);
+    internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
     var params = [
         filePreviewParameters.entityId,
         filePreviewParameters.title,
@@ -504,7 +1108,7 @@ function openFilePreview(filePreviewParameters) {
         filePreviewParameters.editFile,
         filePreviewParameters.subEntityId
     ];
-    sendMessageRequest(parentWindow, "openFilePreview", params);
+    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "openFilePreview", params);
 }
 exports.openFilePreview = openFilePreview;
 /**
@@ -516,12 +1120,12 @@ exports.openFilePreview = openFilePreview;
  * @param notificationType Notification type
  */
 function showNotification(showNotificationParameters) {
-    ensureInitialized(constants_1.frameContexts.content);
+    internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
     var params = [
         showNotificationParameters.message,
         showNotificationParameters.notificationType
     ];
-    sendMessageRequest(parentWindow, "showNotification", params);
+    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "showNotification", params);
 }
 exports.showNotification = showNotification;
 /**
@@ -532,11 +1136,11 @@ exports.showNotification = showNotification;
  * @param deepLink deep link.
  */
 function executeDeepLink(deepLink) {
-    ensureInitialized(constants_1.frameContexts.content);
-    var messageId = sendMessageRequest(parentWindow, "executeDeepLink", [
+    internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "executeDeepLink", [
         deepLink
     ]);
-    callbacks[messageId] = function (success, result) {
+    globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
         if (!success) {
             throw new Error(result);
         }
@@ -551,11 +1155,11 @@ exports.executeDeepLink = executeDeepLink;
  * This method works just for the first party Apps.
  */
 function uploadCustomApp(manifestBlob) {
-    ensureInitialized();
-    var messageId = sendMessageRequest(parentWindow, "uploadCustomApp", [
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "uploadCustomApp", [
         manifestBlob
     ]);
-    callbacks[messageId] = function (success, result) {
+    globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
         if (!success) {
             throw new Error(result);
         }
@@ -573,8 +1177,8 @@ exports.uploadCustomApp = uploadCustomApp;
 function sendCustomMessage(actionName, 
 // tslint:disable-next-line:no-any
 args) {
-    ensureInitialized();
-    return sendMessageRequest(parentWindow, actionName, args);
+    internalAPIs_1.ensureInitialized();
+    return internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, actionName, args);
 }
 exports.sendCustomMessage = sendCustomMessage;
 /**
@@ -587,425 +1191,41 @@ exports.sendCustomMessage = sendCustomMessage;
  * @param callback The callback to invoke when the {@link ChatMembersInformation} object is retrieved.
  */
 function getChatMembers(callback) {
-    ensureInitialized();
-    var messageId = sendMessageRequest(parentWindow, "getChatMembers");
-    callbacks[messageId] = callback;
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "getChatMembers");
+    globalVars_1.GlobalVars.callbacks[messageId] = callback;
 }
 exports.getChatMembers = getChatMembers;
-/**
- * Initializes the library. This must be called before any other SDK calls
- * but after the frame is loaded successfully.
- */
-function initialize(hostWindow) {
-    if (hostWindow === void 0) { hostWindow = window; }
-    if (initializeCalled) {
-        // Independent components might not know whether the SDK is initialized so might call it to be safe.
-        // Just no-op if that happens to make it easier to use.
-        return;
-    }
-    initializeCalled = true;
-    // Undocumented field used to mock the window for unit tests
-    currentWindow = hostWindow;
-    // Listen for messages post to our window
-    var messageListener = function (evt) { return processMessage(evt); };
-    // If we are in an iframe, our parent window is the one hosting us (i.e., window.parent); otherwise,
-    // it's the window that opened us (i.e., window.opener)
-    parentWindow =
-        currentWindow.parent !== currentWindow.self
-            ? currentWindow.parent
-            : currentWindow.opener;
-    if (!parentWindow) {
-        isFramelessWindow = true;
-        window.onNativeMessage = handleParentMessage;
-    }
-    else {
-        // For iFrame scenario, add listener to listen 'message'
-        currentWindow.addEventListener("message", messageListener, false);
-    }
-    try {
-        // Send the initialized message to any origin, because at this point we most likely don't know the origin
-        // of the parent window, and this message contains no data that could pose a security risk.
-        parentOrigin = "*";
-        var messageId = sendMessageRequest(parentWindow, "initialize", [constants_1.version]);
-        callbacks[messageId] = function (context, clientType) {
-            frameContext = context;
-            hostClientType = clientType;
-        };
-    }
-    finally {
-        parentOrigin = null;
-    }
-    // Undocumented function used to clear state between unit tests
-    this._uninitialize = function () {
-        if (frameContext) {
-            registerOnThemeChangeHandler(null);
-            registerFullScreenHandler(null);
-            registerBackButtonHandler(null);
-            registerBeforeUnloadHandler(null);
-        }
-        if (frameContext === constants_1.frameContexts.settings) {
-            settings.registerOnSaveHandler(null);
-        }
-        if (frameContext === constants_1.frameContexts.remove) {
-            settings.registerOnRemoveHandler(null);
-        }
-        if (!isFramelessWindow) {
-            currentWindow.removeEventListener("message", messageListener, false);
-        }
-        initializeCalled = false;
-        parentWindow = null;
-        parentOrigin = null;
-        parentMessageQueue = [];
-        childWindow = null;
-        childOrigin = null;
-        childMessageQueue = [];
-        nextMessageId = 0;
-        callbacks = {};
-        frameContext = null;
-        hostClientType = null;
-        isFramelessWindow = false;
-    };
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-exports.initialize = initialize;
-/**
- * Initializes the library. This must be called before any other SDK calls
- * but after the frame is loaded successfully.
- */
-function _uninitialize() { }
-exports._uninitialize = _uninitialize;
-/**
- * Enable print capability to support printing page using Ctrl+P and cmd+P
- */
-function enablePrintCapability() {
-    if (!printCapabilityEnabled) {
-        printCapabilityEnabled = true;
-        ensureInitialized();
-        // adding ctrl+P and cmd+P handler
-        document.addEventListener("keydown", function (event) {
-            if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
-                print();
-                event.cancelBubble = true;
-                event.preventDefault();
-                event.stopImmediatePropagation();
-            }
-        });
-    }
-}
-exports.enablePrintCapability = enablePrintCapability;
-/**
- * default print handler
- */
-function print() {
-    window.print();
-}
-exports.print = print;
-/**
- * Retrieves the current context the frame is running in.
- * @param callback The callback to invoke when the {@link Context} object is retrieved.
- */
-function getContext(callback) {
-    ensureInitialized();
-    var messageId = sendMessageRequest(parentWindow, "getContext");
-    callbacks[messageId] = callback;
-}
-exports.getContext = getContext;
-/**
- * Registers a handler for theme changes.
- * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
- * @param handler The handler to invoke when the user changes their theme.
- */
-function registerOnThemeChangeHandler(handler) {
-    ensureInitialized();
-    themeChangeHandler = handler;
-    handler &&
-        sendMessageRequest(parentWindow, "registerHandler", ["themeChange"]);
-}
-exports.registerOnThemeChangeHandler = registerOnThemeChangeHandler;
-/**
- * Registers a handler for changes from or to full-screen view for a tab.
- * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
- * @param handler The handler to invoke when the user toggles full-screen view for a tab.
- */
-function registerFullScreenHandler(handler) {
-    ensureInitialized();
-    fullScreenChangeHandler = handler;
-    handler &&
-        sendMessageRequest(parentWindow, "registerHandler", ["fullScreen"]);
-}
-exports.registerFullScreenHandler = registerFullScreenHandler;
-/**
- * Registers a handler for user presses of the Team client's back button. Experiences that maintain an internal
- * navigation stack should use this handler to navigate the user back within their frame. If an app finds
- * that after running its back button handler it cannot handle the event it should call the navigateBack
- * method to ask the Teams client to handle it instead.
- * @param handler The handler to invoke when the user presses their Team client's back button.
- */
-function registerBackButtonHandler(handler) {
-    ensureInitialized();
-    backButtonPressHandler = handler;
-    handler &&
-        sendMessageRequest(parentWindow, "registerHandler", ["backButton"]);
-}
-exports.registerBackButtonHandler = registerBackButtonHandler;
-/**
- * Navigates back in the Teams client. See registerBackButtonHandler for more information on when
- * it's appropriate to use this method.
- */
-function navigateBack() {
-    ensureInitialized();
-    var messageId = sendMessageRequest(parentWindow, "navigateBack", []);
-    callbacks[messageId] = function (success) {
-        if (!success) {
-            throw new Error("Back navigation is not supported in the current client or context.");
-        }
-    };
-}
-exports.navigateBack = navigateBack;
-/**
- * Registers a handler to be called before the page is unloaded.
- * @param handler The handler to invoke before the page is unloaded. If this handler returns true the page should
- * invoke the readyToUnload function provided to it once it's ready to be unloaded.
- */
-function registerBeforeUnloadHandler(handler) {
-    ensureInitialized();
-    beforeUnloadHandler = handler;
-    handler &&
-        sendMessageRequest(parentWindow, "registerHandler", ["beforeUnload"]);
-}
-exports.registerBeforeUnloadHandler = registerBeforeUnloadHandler;
-/**
- * Registers a handler for when the user reconfigurated tab
- * @param handler The handler to invoke when the user click on Settings.
- */
-function registerChangeSettingsHandler(handler) {
-    ensureInitialized(constants_1.frameContexts.content);
-    changeSettingsHandler = handler;
-    handler && sendMessageRequest(parentWindow, "registerHandler", ["changeSettings"]);
-}
-exports.registerChangeSettingsHandler = registerChangeSettingsHandler;
-/**
- * Navigates the frame to a new cross-domain URL. The domain of this URL must match at least one of the
- * valid domains specified in the validDomains block of the manifest; otherwise, an exception will be
- * thrown. This function needs to be used only when navigating the frame to a URL in a different domain
- * than the current one in a way that keeps the app informed of the change and allows the SDK to
- * continue working.
- * @param url The URL to navigate the frame to.
- */
-function navigateCrossDomain(url) {
-    ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings, constants_1.frameContexts.remove, constants_1.frameContexts.task);
-    var messageId = sendMessageRequest(parentWindow, "navigateCrossDomain", [
-        url
-    ]);
-    callbacks[messageId] = function (success) {
-        if (!success) {
-            throw new Error("Cross-origin navigation is only supported for URLs matching the pattern registered in the manifest.");
-        }
-    };
-}
-exports.navigateCrossDomain = navigateCrossDomain;
-/**
- * Allows an app to retrieve for this user tabs that are owned by this app.
- * If no TabInstanceParameters are passed, the app defaults to favorite teams and favorite channels.
- * @param callback The callback to invoke when the {@link TabInstanceParameters} object is retrieved.
- * @param tabInstanceParameters OPTIONAL Flags that specify whether to scope call to favorite teams or channels.
- */
-function getTabInstances(callback, tabInstanceParameters) {
-    ensureInitialized();
-    var messageId = sendMessageRequest(parentWindow, "getTabInstances", [
-        tabInstanceParameters
-    ]);
-    callbacks[messageId] = callback;
-}
-exports.getTabInstances = getTabInstances;
-/**
- * Allows an app to retrieve the most recently used tabs for this user.
- * @param callback The callback to invoke when the {@link TabInformation} object is retrieved.
- * @param tabInstanceParameters OPTIONAL Ignored, kept for future use
- */
-function getMruTabInstances(callback, tabInstanceParameters) {
-    ensureInitialized();
-    var messageId = sendMessageRequest(parentWindow, "getMruTabInstances", [
-        tabInstanceParameters
-    ]);
-    callbacks[messageId] = callback;
-}
-exports.getMruTabInstances = getMruTabInstances;
-/**
- * Shares a deep link that a user can use to navigate back to a specific state in this page.
- * @param deepLinkParameters ID and label for the link and fallback URL.
- */
-function shareDeepLink(deepLinkParameters) {
-    ensureInitialized(constants_1.frameContexts.content);
-    sendMessageRequest(parentWindow, "shareDeepLink", [
-        deepLinkParameters.subEntityId,
-        deepLinkParameters.subEntityLabel,
-        deepLinkParameters.subEntityWebUrl
-    ]);
-}
-exports.shareDeepLink = shareDeepLink;
-/**
- * Navigates the Microsoft Teams app to the specified tab instance.
- * @param tabInstance The tab instance to navigate to.
- */
-function navigateToTab(tabInstance) {
-    ensureInitialized();
-    var messageId = sendMessageRequest(parentWindow, "navigateToTab", [
-        tabInstance
-    ]);
-    callbacks[messageId] = function (success) {
-        if (!success) {
-            throw new Error("Invalid internalTabInstanceId and/or channelId were/was provided");
-        }
-    };
-}
-exports.navigateToTab = navigateToTab;
-/**
- * Namespace to interact with the settings-specific part of the SDK.
- * This object is usable only on the settings frame.
- */
-var settings;
-(function (settings) {
-    var saveHandler;
-    var removeHandler;
-    handlers["settings.save"] = handleSave;
-    handlers["settings.remove"] = handleRemove;
-    /**
-     * Sets the validity state for the settings.
-     * The initial value is false, so the user cannot save the settings until this is called with true.
-     * @param validityState Indicates whether the save or remove button is enabled for the user.
-     */
-    function setValidityState(validityState) {
-        ensureInitialized(constants_1.frameContexts.settings, constants_1.frameContexts.remove);
-        sendMessageRequest(parentWindow, "settings.setValidityState", [
-            validityState
-        ]);
-    }
-    settings.setValidityState = setValidityState;
-    /**
-     * Gets the settings for the current instance.
-     * @param callback The callback to invoke when the {@link Settings} object is retrieved.
-     */
-    function getSettings(callback) {
-        ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings, constants_1.frameContexts.remove);
-        var messageId = sendMessageRequest(parentWindow, "settings.getSettings");
-        callbacks[messageId] = callback;
-    }
-    settings.getSettings = getSettings;
-    /**
-     * Sets the settings for the current instance.
-     * This is an asynchronous operation; calls to getSettings are not guaranteed to reflect the changed state.
-     * @param settings The desired settings for this instance.
-     */
-    function setSettings(instanceSettings) {
-        ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings);
-        var messageId = sendMessageRequest(parentWindow, "settings.setSettings", [
-            instanceSettings
-        ]);
-        callbacks[messageId] = function (success, result) {
-            if (!success) {
-                throw new Error(result);
-            }
-        };
-    }
-    settings.setSettings = setSettings;
-    /**
-     * Registers a handler for when the user attempts to save the settings. This handler should be used
-     * to create or update the underlying resource powering the content.
-     * The object passed to the handler must be used to notify whether to proceed with the save.
-     * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
-     * @param handler The handler to invoke when the user selects the save button.
-     */
-    function registerOnSaveHandler(handler) {
-        ensureInitialized(constants_1.frameContexts.settings);
-        saveHandler = handler;
-        handler && sendMessageRequest(parentWindow, "registerHandler", ["save"]);
-    }
-    settings.registerOnSaveHandler = registerOnSaveHandler;
-    /**
-     * Registers a handler for user attempts to remove content. This handler should be used
-     * to remove the underlying resource powering the content.
-     * The object passed to the handler must be used to indicate whether to proceed with the removal.
-     * Only one handler may be registered at a time. Subsequent registrations will override the first.
-     * @param handler The handler to invoke when the user selects the remove button.
-     */
-    function registerOnRemoveHandler(handler) {
-        ensureInitialized(constants_1.frameContexts.remove);
-        removeHandler = handler;
-        handler && sendMessageRequest(parentWindow, "registerHandler", ["remove"]);
-    }
-    settings.registerOnRemoveHandler = registerOnRemoveHandler;
-    function handleSave(result) {
-        var saveEvent = new SaveEventImpl(result);
-        if (saveHandler) {
-            saveHandler(saveEvent);
-        }
-        else {
-            // If no handler is registered, we assume success.
-            saveEvent.notifySuccess();
-        }
-    }
-    /**
-     * @private
-     * Hide from docs, since this class is not directly used.
-     */
-    var SaveEventImpl = /** @class */ (function () {
-        function SaveEventImpl(result) {
-            this.notified = false;
-            this.result = result ? result : {};
-        }
-        SaveEventImpl.prototype.notifySuccess = function () {
-            this.ensureNotNotified();
-            sendMessageRequest(parentWindow, "settings.save.success");
-            this.notified = true;
-        };
-        SaveEventImpl.prototype.notifyFailure = function (reason) {
-            this.ensureNotNotified();
-            sendMessageRequest(parentWindow, "settings.save.failure", [reason]);
-            this.notified = true;
-        };
-        SaveEventImpl.prototype.ensureNotNotified = function () {
-            if (this.notified) {
-                throw new Error("The SaveEvent may only notify success or failure once.");
-            }
-        };
-        return SaveEventImpl;
-    }());
-    function handleRemove() {
-        var removeEvent = new RemoveEventImpl();
-        if (removeHandler) {
-            removeHandler(removeEvent);
-        }
-        else {
-            // If no handler is registered, we assume success.
-            removeEvent.notifySuccess();
-        }
-    }
-    /**
-     * @private
-     * Hide from docs, since this class is not directly used.
-     */
-    var RemoveEventImpl = /** @class */ (function () {
-        function RemoveEventImpl() {
-            this.notified = false;
-        }
-        RemoveEventImpl.prototype.notifySuccess = function () {
-            this.ensureNotNotified();
-            sendMessageRequest(parentWindow, "settings.remove.success");
-            this.notified = true;
-        };
-        RemoveEventImpl.prototype.notifyFailure = function (reason) {
-            this.ensureNotNotified();
-            sendMessageRequest(parentWindow, "settings.remove.failure", [reason]);
-            this.notified = true;
-        };
-        RemoveEventImpl.prototype.ensureNotNotified = function () {
-            if (this.notified) {
-                throw new Error("The removeEvent may only notify success or failure once.");
-            }
-        };
-        return RemoveEventImpl;
-    }());
-})(settings = exports.settings || (exports.settings = {}));
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(13));
+__export(__webpack_require__(14));
+__export(__webpack_require__(3));
+__export(__webpack_require__(4));
+__export(__webpack_require__(15));
+__export(__webpack_require__(5));
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __webpack_require__(1);
+var globalVars_1 = __webpack_require__(0);
+var constants_1 = __webpack_require__(2);
 /**
  * Namespace to interact with the authentication-specific part of the SDK.
  * This object is used for starting or completing authentication flows.
@@ -1014,10 +1234,10 @@ var authentication;
 (function (authentication) {
     var authParams;
     var authWindowMonitor;
-    handlers["authentication.authenticate.success"] = handleSuccess;
-    handlers["authentication.authenticate.failure"] = handleFailure;
+    globalVars_1.GlobalVars.handlers["authentication.authenticate.success"] = handleSuccess;
+    globalVars_1.GlobalVars.handlers["authentication.authenticate.failure"] = handleFailure;
     /**
-     * Registers the authentication handlers
+     * Registers the authentication GlobalVars.handlers
      * @param authenticateParameters A set of values that configure the authentication pop-up.
      */
     function registerAuthenticationHandlers(authenticateParameters) {
@@ -1031,16 +1251,16 @@ var authentication;
         var authenticateParams = authenticateParameters !== undefined
             ? authenticateParameters
             : authParams;
-        ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings, constants_1.frameContexts.remove, constants_1.frameContexts.task);
-        if (hostClientType === "desktop" /* desktop */ ||
-            hostClientType === "android" /* android */ ||
-            hostClientType === "ios" /* ios */) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings, constants_1.frameContexts.remove, constants_1.frameContexts.task);
+        if (globalVars_1.GlobalVars.hostClientType === "desktop" /* desktop */ ||
+            globalVars_1.GlobalVars.hostClientType === "android" /* android */ ||
+            globalVars_1.GlobalVars.hostClientType === "ios" /* ios */) {
             // Convert any relative URLs into absolute URLs before sending them over to the parent window.
             var link = document.createElement("a");
             link.href = authenticateParams.url;
             // Ask the parent window to open an authentication window with the parameters provided by the caller.
-            var messageId = sendMessageRequest(parentWindow, "authentication.authenticate", [link.href, authenticateParams.width, authenticateParams.height]);
-            callbacks[messageId] = function (success, response) {
+            var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.authenticate", [link.href, authenticateParams.width, authenticateParams.height]);
+            globalVars_1.GlobalVars.callbacks[messageId] = function (success, response) {
                 if (success) {
                     authenticateParams.successCallback(response);
                 }
@@ -1064,9 +1284,9 @@ var authentication;
      * @param authTokenRequest A set of values that configure the token request.
      */
     function getAuthToken(authTokenRequest) {
-        ensureInitialized();
-        var messageId = sendMessageRequest(parentWindow, "authentication.getAuthToken", [authTokenRequest.resources]);
-        callbacks[messageId] = function (success, result) {
+        internalAPIs_1.ensureInitialized();
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.getAuthToken", [authTokenRequest.resources]);
+        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
             if (success) {
                 authTokenRequest.successCallback(result);
             }
@@ -1083,9 +1303,9 @@ var authentication;
      * Requests the decoded Azure AD user identity on behalf of the app.
      */
     function getUser(userRequest) {
-        ensureInitialized();
-        var messageId = sendMessageRequest(parentWindow, "authentication.getUser");
-        callbacks[messageId] = function (success, result) {
+        internalAPIs_1.ensureInitialized();
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.getUser");
+        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
             if (success) {
                 userRequest.successCallback(result);
             }
@@ -1100,13 +1320,13 @@ var authentication;
         stopAuthenticationWindowMonitor();
         // Try to close the authentication window and clear all properties associated with it
         try {
-            if (childWindow) {
-                childWindow.close();
+            if (globalVars_1.GlobalVars.childWindow) {
+                globalVars_1.GlobalVars.childWindow.close();
             }
         }
         finally {
-            childWindow = null;
-            childOrigin = null;
+            globalVars_1.GlobalVars.childWindow = null;
+            globalVars_1.GlobalVars.childOrigin = null;
         }
     }
     function openAuthenticationWindow(authenticateParameters) {
@@ -1117,22 +1337,22 @@ var authentication;
         var width = authParams.width || 600;
         var height = authParams.height || 400;
         // Ensure that the new window is always smaller than our app's window so that it never fully covers up our app
-        width = Math.min(width, currentWindow.outerWidth - 400);
-        height = Math.min(height, currentWindow.outerHeight - 200);
+        width = Math.min(width, globalVars_1.GlobalVars.currentWindow.outerWidth - 400);
+        height = Math.min(height, globalVars_1.GlobalVars.currentWindow.outerHeight - 200);
         // Convert any relative URLs into absolute URLs before sending them over to the parent window
         var link = document.createElement("a");
         link.href = authParams.url;
         // We are running in the browser, so we need to center the new window ourselves
-        var left = typeof currentWindow.screenLeft !== "undefined"
-            ? currentWindow.screenLeft
-            : currentWindow.screenX;
-        var top = typeof currentWindow.screenTop !== "undefined"
-            ? currentWindow.screenTop
-            : currentWindow.screenY;
-        left += currentWindow.outerWidth / 2 - width / 2;
-        top += currentWindow.outerHeight / 2 - height / 2;
+        var left = typeof globalVars_1.GlobalVars.currentWindow.screenLeft !== "undefined"
+            ? globalVars_1.GlobalVars.currentWindow.screenLeft
+            : globalVars_1.GlobalVars.currentWindow.screenX;
+        var top = typeof globalVars_1.GlobalVars.currentWindow.screenTop !== "undefined"
+            ? globalVars_1.GlobalVars.currentWindow.screenTop
+            : globalVars_1.GlobalVars.currentWindow.screenY;
+        left += globalVars_1.GlobalVars.currentWindow.outerWidth / 2 - width / 2;
+        top += globalVars_1.GlobalVars.currentWindow.outerHeight / 2 - height / 2;
         // Open a child window with a desired set of standard browser features
-        childWindow = currentWindow.open(link.href, "_blank", "toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top=" +
+        globalVars_1.GlobalVars.childWindow = globalVars_1.GlobalVars.currentWindow.open(link.href, "_blank", "toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top=" +
             top +
             ", left=" +
             left +
@@ -1140,7 +1360,7 @@ var authentication;
             width +
             ", height=" +
             height);
-        if (childWindow) {
+        if (globalVars_1.GlobalVars.childWindow) {
             // Start monitoring the authentication window so that we can detect if it gets closed before the flow completes
             startAuthenticationWindowMonitor();
         }
@@ -1154,8 +1374,8 @@ var authentication;
             clearInterval(authWindowMonitor);
             authWindowMonitor = 0;
         }
-        delete handlers["initialize"];
-        delete handlers["navigateCrossDomain"];
+        delete globalVars_1.GlobalVars.handlers["initialize"];
+        delete globalVars_1.GlobalVars.handlers["navigateCrossDomain"];
     }
     function startAuthenticationWindowMonitor() {
         // Stop the previous window monitor if one is running
@@ -1165,30 +1385,30 @@ var authentication;
         // - Keeps pinging the authentication window while it is open to re-establish
         //   contact with any pages along the authentication flow that need to communicate
         //   with us
-        authWindowMonitor = currentWindow.setInterval(function () {
-            if (!childWindow || childWindow.closed) {
+        authWindowMonitor = globalVars_1.GlobalVars.currentWindow.setInterval(function () {
+            if (!globalVars_1.GlobalVars.childWindow || globalVars_1.GlobalVars.childWindow.closed) {
                 handleFailure("CancelledByUser");
             }
             else {
-                var savedChildOrigin = childOrigin;
+                var savedChildOrigin = globalVars_1.GlobalVars.childOrigin;
                 try {
-                    childOrigin = "*";
-                    sendMessageRequest(childWindow, "ping");
+                    globalVars_1.GlobalVars.childOrigin = "*";
+                    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.childWindow, "ping");
                 }
                 finally {
-                    childOrigin = savedChildOrigin;
+                    globalVars_1.GlobalVars.childOrigin = savedChildOrigin;
                 }
             }
         }, 100);
         // Set up an initialize-message handler that gives the authentication window its frame context
-        handlers["initialize"] = function () {
-            return [constants_1.frameContexts.authentication, hostClientType];
+        globalVars_1.GlobalVars.handlers["initialize"] = function () {
+            return [constants_1.frameContexts.authentication, globalVars_1.GlobalVars.hostClientType];
         };
         // Set up a navigateCrossDomain message handler that blocks cross-domain re-navigation attempts
         // in the authentication window. We could at some point choose to implement this method via a call to
         // authenticationWindow.location.href = url; however, we would first need to figure out how to
         // validate the URL against the tab's list of valid domains.
-        handlers["navigateCrossDomain"] = function (url) {
+        globalVars_1.GlobalVars.handlers["navigateCrossDomain"] = function (url) {
             return false;
         };
     }
@@ -1201,14 +1421,12 @@ var authentication;
      */
     function notifySuccess(result, callbackUrl) {
         redirectIfWin32Outlook(callbackUrl, "result", result);
-        ensureInitialized(constants_1.frameContexts.authentication);
-        sendMessageRequest(parentWindow, "authentication.authenticate.success", [
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.authentication);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.authenticate.success", [
             result
         ]);
         // Wait for the message to be sent before closing the window
-        waitForMessageQueue(parentWindow, function () {
-            return setTimeout(function () { return currentWindow.close(); }, 200);
-        });
+        internalAPIs_1.waitForMessageQueue(globalVars_1.GlobalVars.parentWindow, function () { return setTimeout(function () { return globalVars_1.GlobalVars.currentWindow.close(); }, 200); });
     }
     authentication.notifySuccess = notifySuccess;
     /**
@@ -1220,14 +1438,12 @@ var authentication;
      */
     function notifyFailure(reason, callbackUrl) {
         redirectIfWin32Outlook(callbackUrl, "reason", reason);
-        ensureInitialized(constants_1.frameContexts.authentication);
-        sendMessageRequest(parentWindow, "authentication.authenticate.failure", [
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.authentication);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.authenticate.failure", [
             reason
         ]);
         // Wait for the message to be sent before closing the window
-        waitForMessageQueue(parentWindow, function () {
-            return setTimeout(function () { return currentWindow.close(); }, 200);
-        });
+        internalAPIs_1.waitForMessageQueue(globalVars_1.GlobalVars.parentWindow, function () { return setTimeout(function () { return globalVars_1.GlobalVars.currentWindow.close(); }, 200); });
     }
     authentication.notifyFailure = notifyFailure;
     function handleSuccess(result) {
@@ -1270,13 +1486,13 @@ var authentication;
                     if (value) {
                         link.href = updateUrlParameter(link.href, "result", value);
                     }
-                    currentWindow.location.assign(updateUrlParameter(link.href, "authSuccess", ""));
+                    globalVars_1.GlobalVars.currentWindow.location.assign(updateUrlParameter(link.href, "authSuccess", ""));
                 }
                 if (key && key === "reason") {
                     if (value) {
                         link.href = updateUrlParameter(link.href, "reason", value);
                     }
-                    currentWindow.location.assign(updateUrlParameter(link.href, "authFailure", ""));
+                    globalVars_1.GlobalVars.currentWindow.location.assign(updateUrlParameter(link.href, "authFailure", ""));
                 }
             }
         }
@@ -1295,48 +1511,37 @@ var authentication;
         return uri + hash;
     }
 })(authentication = exports.authentication || (exports.authentication = {}));
-var ChildWindowObject = /** @class */ (function () {
-    function ChildWindowObject() {
-    }
-    ChildWindowObject.prototype.postMessage = function (message) {
-        ensureInitialized();
-        sendMessageRequest(parentWindow, "messageForChild", [
-            message
-        ]);
-    };
-    ChildWindowObject.prototype.addEventListener = function (type, listener) {
-        if (type == "message") {
-            handlers["messageForParent"] = listener;
-        }
-    };
-    return ChildWindowObject;
-}());
-exports.ChildWindowObject = ChildWindowObject;
-var ParentWindowObject = /** @class */ (function () {
-    function ParentWindowObject() {
-    }
-    Object.defineProperty(ParentWindowObject, "Instance", {
-        get: function () {
-            // Do you need arguments? Make it a regular method instead.
-            return this._instance || (this._instance = new this());
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ParentWindowObject.prototype.postMessage = function (message) {
-        ensureInitialized(constants_1.frameContexts.task);
-        sendMessageRequest(parentWindow, "messageForParent", [
-            message
-        ]);
-    };
-    ParentWindowObject.prototype.addEventListener = function (type, listener) {
-        if (type == "message") {
-            handlers["messageForChild"] = listener;
-        }
-    };
-    return ParentWindowObject;
-}());
-exports.ParentWindowObject = ParentWindowObject;
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __webpack_require__(1);
+var globalVars_1 = __webpack_require__(0);
+var constants_1 = __webpack_require__(2);
+var windowObject_1 = __webpack_require__(5);
 /**
  * Namespace to interact with the task module-specific part of the SDK.
  * This object is usable only on the content frame.
@@ -1349,12 +1554,12 @@ var tasks;
      * @param submitHandler Handler to call when the task module is completed
      */
     function startTask(taskInfo, submitHandler) {
-        ensureInitialized(constants_1.frameContexts.content);
-        var messageId = sendMessageRequest(parentWindow, "tasks.startTask", [
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.startTask", [
             taskInfo
         ]);
-        callbacks[messageId] = submitHandler;
-        return new ChildWindowObject();
+        globalVars_1.GlobalVars.callbacks[messageId] = submitHandler;
+        return new windowObject_1.ChildWindowObject();
     }
     tasks.startTask = startTask;
     /**
@@ -1362,10 +1567,10 @@ var tasks;
      * @param taskInfo An object containing width and height properties
      */
     function updateTask(taskInfo) {
-        ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.task);
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.task);
         var width = taskInfo.width, height = taskInfo.height, extra = __rest(taskInfo, ["width", "height"]);
         if (!Object.keys(extra).length) {
-            sendMessageRequest(parentWindow, "tasks.updateTask", [taskInfo]);
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.updateTask", [taskInfo]);
         }
         else {
             throw new Error("updateTask requires a taskInfo argument containing only width and height");
@@ -1378,78 +1583,15 @@ var tasks;
      * @param appIds Helps to validate that the call originates from the same appId as the one that invoked the task module
      */
     function submitTask(result, appIds) {
-        ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.task);
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.task);
         // Send tasks.completeTask instead of tasks.submitTask message for backward compatibility with Mobile clients
-        sendMessageRequest(parentWindow, "tasks.completeTask", [
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.completeTask", [
             result,
             Array.isArray(appIds) ? appIds : [appIds]
         ]);
     }
     tasks.submitTask = submitTask;
 })(tasks = exports.tasks || (exports.tasks = {}));
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(3);
-exports.version = "1.4.1";
-exports.validOrigins = [
-    "https://teams.microsoft.com",
-    "https://teams.microsoft.us",
-    "https://int.teams.microsoft.com",
-    "https://devspaces.skype.com",
-    "https://ssauth.skype.com",
-    "http://dev.local",
-    "http://dev.local:8080",
-    "https://msft.spoppe.com",
-    "https://*.sharepoint.com",
-    "https://*.sharepoint-df.com",
-    "https://*.sharepointonline.com",
-    "https://outlook.office.com",
-    "https://outlook-sdf.office.com"
-];
-// Ensure these declarations stay in sync with the framework.
-exports.frameContexts = {
-    settings: "settings",
-    content: "content",
-    authentication: "authentication",
-    remove: "remove",
-    task: "task"
-};
-exports.validOriginRegExp = utils_1.generateRegExpFromUrls(exports.validOrigins);
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-// This will return a reg expression a given url
-function generateRegExpFromUrl(url) {
-    var urlRegExpPart = "^";
-    var urlParts = url.split(".");
-    for (var j = 0; j < urlParts.length; j++) {
-        urlRegExpPart += (j > 0 ? "[.]" : "") + urlParts[j].replace("*", "[^/^.]+");
-    }
-    urlRegExpPart += "$";
-    return urlRegExpPart;
-}
-// This will return a reg expression for list of url
-function generateRegExpFromUrls(urls) {
-    var urlRegExp = "";
-    for (var i = 0; i < urls.length; i++) {
-        urlRegExp += (i === 0 ? "" : "|") + generateRegExpFromUrl(urls[i]);
-    }
-    return new RegExp(urlRegExp);
-}
-exports.generateRegExpFromUrls = generateRegExpFromUrls;
 
 
 /***/ })

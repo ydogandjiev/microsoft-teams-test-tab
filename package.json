@@ -13,6 +13,7 @@
   "homepage": "https://github.com/ydogandjiev/microsoft-teams-test-tab#readme",
   "scripts": {
     "build": "webpack",
+    "build-saching": "webpack -o public/saching/app.js",
     "watch": "webpack -w",
     "start": "node server.js"
   },
