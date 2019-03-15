@@ -781,7 +781,6 @@ var constants_1 = __webpack_require__(2);
  */
 var settings;
 (function (settings) {
-    debugger;
     var saveHandler;
     var removeHandler;
     globalVars_1.GlobalVars.handlers["settings.save"] = handleSave;
@@ -935,10 +934,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var internalAPIs_1 = __webpack_require__(1);
 var globalVars_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(2);
-var ChildWindowObject = /** @class */ (function () {
-    function ChildWindowObject() {
+var ChildAppWindow = /** @class */ (function () {
+    function ChildAppWindow() {
     }
-    ChildWindowObject.prototype.postMessage = function (message) {
+    ChildAppWindow.prototype.postMessage = function (message) {
         internalAPIs_1.ensureInitialized();
         var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForChild", [
             message
@@ -949,18 +948,18 @@ var ChildWindowObject = /** @class */ (function () {
             }
         };
     };
-    ChildWindowObject.prototype.addEventListener = function (type, listener) {
-        if (type == "message") {
+    ChildAppWindow.prototype.addEventListener = function (type, listener) {
+        if (type === "message") {
             globalVars_1.GlobalVars.handlers["messageForParent"] = listener;
         }
     };
-    return ChildWindowObject;
+    return ChildAppWindow;
 }());
-exports.ChildWindowObject = ChildWindowObject;
-var ParentWindowObject = /** @class */ (function () {
-    function ParentWindowObject() {
+exports.ChildAppWindow = ChildAppWindow;
+var ParentAppWindow = /** @class */ (function () {
+    function ParentAppWindow() {
     }
-    Object.defineProperty(ParentWindowObject, "Instance", {
+    Object.defineProperty(ParentAppWindow, "Instance", {
         get: function () {
             // Do you need arguments? Make it a regular method instead.
             return this._instance || (this._instance = new this());
@@ -968,7 +967,7 @@ var ParentWindowObject = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ParentWindowObject.prototype.postMessage = function (message) {
+    ParentAppWindow.prototype.postMessage = function (message) {
         internalAPIs_1.ensureInitialized(constants_1.frameContexts.task);
         var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForParent", [
             message
@@ -979,14 +978,14 @@ var ParentWindowObject = /** @class */ (function () {
             }
         };
     };
-    ParentWindowObject.prototype.addEventListener = function (type, listener) {
-        if (type == "message") {
+    ParentAppWindow.prototype.addEventListener = function (type, listener) {
+        if (type === "message") {
             globalVars_1.GlobalVars.handlers["messageForChild"] = listener;
         }
     };
-    return ParentWindowObject;
+    return ParentAppWindow;
 }());
-exports.ParentWindowObject = ParentWindowObject;
+exports.ParentAppWindow = ParentAppWindow;
 
 
 /***/ }),
@@ -1636,7 +1635,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var internalAPIs_1 = __webpack_require__(1);
 var globalVars_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(2);
-var windowObject_1 = __webpack_require__(5);
+var appWindow_1 = __webpack_require__(5);
 /**
  * Namespace to interact with the task module-specific part of the SDK.
  * This object is usable only on the content frame.
@@ -1654,7 +1653,7 @@ var tasks;
             taskInfo
         ]);
         globalVars_1.GlobalVars.callbacks[messageId] = submitHandler;
-        return new windowObject_1.ChildWindowObject();
+        return new appWindow_1.ChildAppWindow();
     }
     tasks.startTask = startTask;
     /**
@@ -2138,7 +2137,7 @@ const initializeAppModules = () => {
                 name: "message"
             }],
         action: function (message, output) {
-            var parentWindow = MicrosoftTeams_min["ParentWindowObject"].Instance;
+            var parentWindow = MicrosoftTeams_min["ParentAppWindow"].Instance;
             if (parentWindow) {
                 try {
                     parentWindow.postMessage(message);
@@ -2159,7 +2158,7 @@ const initializeAppModules = () => {
         initializedRequired: true,
         hasOutput: true,
         action: function (output) {
-            var parentWindow = MicrosoftTeams_min["ParentWindowObject"].Instance;
+            var parentWindow = MicrosoftTeams_min["ParentAppWindow"].Instance;
             if (parentWindow) {
                 parentWindow.addEventListener("message", function (message) {
                     output("message from tab: " + message);

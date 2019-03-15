@@ -87,7 +87,7 @@
 
   <script>
     var childWindow;
-    var parentWindow = microsoftTeams.ParentWindowObject.Instance;
+    var parentWindow = microsoftTeams.ParentAppWindow.Instance;
     parentWindow.addEventListener("message", onParentWindowMessage);
     function onParentWindowMessage(message) {
       document.getElementById("messageFromParent").value = message;
