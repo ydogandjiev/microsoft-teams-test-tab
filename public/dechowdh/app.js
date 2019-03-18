@@ -2160,6 +2160,13 @@ const initializeAppModules = () => {
         }
     });
     addModule({
+        name: "readyToUnload",
+        initializedRequired: true,
+        action: function () {
+            window.readyToUnload && window.readyToUnload();
+        }
+    });
+    addModule({
         name: "conversations.startConversation",
         initializedRequired: true,
         hasOutput: true,
@@ -2167,7 +2174,13 @@ const initializeAppModules = () => {
                 type: "object",
                 name: "startConversationRequest"
             }],
-        action: function (startConversationRequest) {
+        action: function (startConversationRequest, output) {
+            startConversationRequest.onStartConversation = (conversationId) => {
+                output("Conversation Id: " + conversationId);
+            };
+            startConversationRequest.onCloseConversation = (reason) => {
+                output("Pane closed because " + reason);
+            };
             MicrosoftTeams_min["conversations"].startConversation(startConversationRequest);
         }
     });
@@ -2179,7 +2192,13 @@ const initializeAppModules = () => {
                 type: "object",
                 name: "showConversationRequest"
             }],
-        action: function (showConversationRequest) {
+        action: function (showConversationRequest, output) {
+            showConversationRequest.onStartConversation = (conversationId) => {
+                output("Conversation Id: " + conversationId);
+            };
+            showConversationRequest.onCloseConversation = (reason) => {
+                output("Pane closed because " + reason);
+            };
             MicrosoftTeams_min["conversations"].showConversation(showConversationRequest);
         }
     });
@@ -2188,13 +2207,6 @@ const initializeAppModules = () => {
         initializedRequired: true,
         action: function () {
             MicrosoftTeams_min["conversations"].closeConversation();
-        }
-    });
-    addModule({
-        name: "readyToUnload",
-        initializedRequired: true,
-        action: function () {
-            window.readyToUnload && window.readyToUnload();
         }
     });
     // Get the modal
