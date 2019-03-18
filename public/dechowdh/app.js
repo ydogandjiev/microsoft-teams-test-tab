@@ -554,13 +554,6 @@ const initializeAppModules = () => {
         }
     });
     addModule({
-        name: "readyToUnload",
-        initializedRequired: true,
-        action: function () {
-            window.readyToUnload && window.readyToUnload();
-        }
-    });
-    addModule({
         name: "conversations.startConversation",
         initializedRequired: true,
         hasOutput: true,
@@ -568,13 +561,7 @@ const initializeAppModules = () => {
                 type: "object",
                 name: "startConversationRequest"
             }],
-        action: function (startConversationRequest, output) {
-            startConversationRequest.onStartConversation = (conversationId) => {
-                output("Started with :" + conversationId);
-            };
-            startConversationRequest.onCloseConversation = (reason) => {
-                output("Closed because of :" + reason);
-            };
+        action: function (startConversationRequest) {
             MicrosoftTeams_min["conversations"].startConversation(startConversationRequest);
         }
     });
@@ -586,10 +573,7 @@ const initializeAppModules = () => {
                 type: "object",
                 name: "showConversationRequest"
             }],
-        action: function (showConversationRequest, output) {
-            showConversationRequest.onCloseConversation = (reason) => {
-                output("Closed because of :" + reason);
-            };
+        action: function (showConversationRequest) {
             MicrosoftTeams_min["conversations"].showConversation(showConversationRequest);
         }
     });
@@ -598,6 +582,13 @@ const initializeAppModules = () => {
         initializedRequired: true,
         action: function () {
             MicrosoftTeams_min["conversations"].closeConversation();
+        }
+    });
+    addModule({
+        name: "readyToUnload",
+        initializedRequired: true,
+        action: function () {
+            window.readyToUnload && window.readyToUnload();
         }
     });
     // Get the modal
