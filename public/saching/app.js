@@ -1931,6 +1931,7 @@ var MicrosoftTeams_min = __webpack_require__(0);
 
 
 const initializeAppModules = () => {
+    let totalStates = 0;
     addModule({
         name: "initialize",
         initializedRequired: false,
@@ -2202,13 +2203,22 @@ const initializeAppModules = () => {
         }
     });
     addModule({
+        name: "add states",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+            totalStates++;
+            output("total States: " + totalStates);
+        }
+    });
+    addModule({
         name: "registerBackButtonHandler",
         initializedRequired: true,
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["registerBackButtonHandler"](function () {
                 output("back button clicked");
-                return true;
+                return totalStates > 0;
             });
         }
     });

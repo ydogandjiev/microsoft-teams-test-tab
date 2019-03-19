@@ -2,6 +2,7 @@ import { addModule } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
 
 export const initializeAppModules = () => {
+    let totalStates = 0;
     addModule({
         name: "initialize",
         initializedRequired: false,
@@ -301,13 +302,23 @@ export const initializeAppModules = () => {
       });
 
       addModule({
+        name: "add states",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+          totalStates++;
+          output("total States: " + totalStates);
+        }
+      });
+
+      addModule({
         name: "registerBackButtonHandler",
         initializedRequired: true,
         hasOutput: true,
         action: function (output) {
           microsoftTeams.registerBackButtonHandler(function () {
             output("back button clicked");
-            return true;
+            return totalStates > 0
           });
         }
       });
