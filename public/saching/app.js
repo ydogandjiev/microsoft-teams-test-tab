@@ -216,6 +216,7 @@ var globalVars_1 = __webpack_require__(0);
 globalVars_1.GlobalVars.handlers["themeChange"] = handleThemeChange;
 globalVars_1.GlobalVars.handlers["fullScreenChange"] = handleFullScreenChange;
 globalVars_1.GlobalVars.handlers["backButtonPress"] = handleBackButtonPress;
+globalVars_1.GlobalVars.handlers["navigateToState"] = handleAppNavigation;
 globalVars_1.GlobalVars.handlers["beforeUnload"] = handleBeforeUnload;
 globalVars_1.GlobalVars.handlers["changeSettings"] = handleChangeSettings;
 function handleThemeChange(theme) {
@@ -234,6 +235,11 @@ function handleFullScreenChange(isFullScreen) {
 function handleBackButtonPress() {
     if (!globalVars_1.GlobalVars.backButtonPressHandler || !globalVars_1.GlobalVars.backButtonPressHandler()) {
         publicAPIs_1.navigateBack();
+    }
+}
+function handleAppNavigation(state) {
+    if (!globalVars_1.GlobalVars.appNavigationHandler || !globalVars_1.GlobalVars.appNavigationHandler(state)) {
+        // navigateBack();
     }
 }
 function handleBeforeUnload() {
@@ -651,6 +657,18 @@ function registerBackButtonHandler(handler) {
         internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["backButton"]);
 }
 exports.registerBackButtonHandler = registerBackButtonHandler;
+function registerAppNavigationHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    globalVars_1.GlobalVars.backButtonPressHandler = handler;
+    handler &&
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["appNavigation"]);
+}
+exports.registerAppNavigationHandler = registerAppNavigationHandler;
+function addAppNavigationState(state) {
+    internalAPIs_1.ensureInitialized();
+    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "addAppNavigationState", [state]);
+}
+exports.addAppNavigationState = addAppNavigationState;
 /**
  * Navigates back in the Teams client. See registerBackButtonHandler for more information on when
  * it's appropriate to use this method.
@@ -1290,6 +1308,22 @@ function getChatMembers(callback) {
     globalVars_1.GlobalVars.callbacks[messageId] = callback;
 }
 exports.getChatMembers = getChatMembers;
+/**
+ * @private
+ * Hide from docs
+ * ------
+ * Allows an app to get the configuration setting value
+ * @param callback The callback to invoke when the value is retrieved.
+ * @param key The key for the config setting
+ */
+function getConfigSetting(callback, key) {
+    internalAPIs_1.ensureInitialized();
+    var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "getConfigSetting", [
+        key
+    ]);
+    globalVars_1.GlobalVars.callbacks[messageId] = callback;
+}
+exports.getConfigSetting = getConfigSetting;
 
 
 /***/ }),
@@ -1894,6 +1928,7 @@ var MicrosoftTeams_min = __webpack_require__(0);
 
 const initializeAppModules = () => {
     var childWindow;
+    var currentState = 0;
     addModule({
         name: "initialize",
         initializedRequired: false,
@@ -1936,6 +1971,32 @@ const initializeAppModules = () => {
             MicrosoftTeams_min["registerChangeSettingsHandler"](function () {
                 output("Change Settings Event recieved");
             });
+        }
+    });
+    addModule({
+        name: "registerAppNavigationHandler",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+            MicrosoftTeams_min["registerAppNavigationHandler"](function (state) {
+                currentState--;
+                output("state " + currentState + "received: " + JSON.stringify(state));
+                return true;
+            });
+        }
+    });
+    addModule({
+        name: "addAppNavigationState",
+        initializedRequired: true,
+        hasOutput: true,
+        inputs: [{
+                type: "object",
+                name: "addAppNavigationState"
+            }],
+        action: function (addAppNavigationState, output) {
+            currentState++;
+            MicrosoftTeams_min["addAppNavigationState"](addAppNavigationState);
+            output("current state: " + currentState);
         }
     });
     addModule({
