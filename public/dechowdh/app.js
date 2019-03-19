@@ -1254,8 +1254,10 @@ var conversations;
     */
     function startConversation(startConversationRequest) {
         internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
-        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "conversations.startConversation", [
-            startConversationRequest
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "conversations.startConversation", [{
+                title: startConversationRequest.title,
+                subEntityId: startConversationRequest.subEntityId
+            }
         ]);
         globalVars_1.GlobalVars.callbacks[messageId] = function (conversationId, reason) {
             if (conversationId) {
@@ -1277,7 +1279,11 @@ var conversations;
     function showConversation(showConversationRequest) {
         internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
         var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "conversations.showConversation", [
-            showConversationRequest
+            {
+                title: showConversationRequest.title,
+                subEntityId: showConversationRequest.subEntityId,
+                conversationId: showConversationRequest.conversationId
+            }
         ]);
         globalVars_1.GlobalVars.callbacks[messageId] = function (reason) {
             showConversationRequest.onCloseConversation(reason);
