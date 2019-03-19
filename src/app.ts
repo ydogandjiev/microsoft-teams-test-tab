@@ -317,7 +317,8 @@ export const initializeAppModules = () => {
         hasOutput: true,
         action: function (output) {
           microsoftTeams.registerBackButtonHandler(function () {
-            output("back button clicked");
+            totalStates--;
+            output("back button clicked. total remaining state: " + totalStates);
             return totalStates > 0
           });
         }
