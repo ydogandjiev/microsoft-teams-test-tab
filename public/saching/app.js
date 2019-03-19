@@ -216,7 +216,6 @@ var globalVars_1 = __webpack_require__(0);
 globalVars_1.GlobalVars.handlers["themeChange"] = handleThemeChange;
 globalVars_1.GlobalVars.handlers["fullScreenChange"] = handleFullScreenChange;
 globalVars_1.GlobalVars.handlers["backButtonPress"] = handleBackButtonPress;
-globalVars_1.GlobalVars.handlers["navigateToState"] = handleAppNavigation;
 globalVars_1.GlobalVars.handlers["beforeUnload"] = handleBeforeUnload;
 globalVars_1.GlobalVars.handlers["changeSettings"] = handleChangeSettings;
 function handleThemeChange(theme) {
@@ -235,11 +234,6 @@ function handleFullScreenChange(isFullScreen) {
 function handleBackButtonPress() {
     if (!globalVars_1.GlobalVars.backButtonPressHandler || !globalVars_1.GlobalVars.backButtonPressHandler()) {
         publicAPIs_1.navigateBack();
-    }
-}
-function handleAppNavigation(state) {
-    if (!globalVars_1.GlobalVars.appNavigationHandler || !globalVars_1.GlobalVars.appNavigationHandler(state)) {
-        // navigateBack();
     }
 }
 function handleBeforeUnload() {
@@ -657,18 +651,6 @@ function registerBackButtonHandler(handler) {
         internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["backButton"]);
 }
 exports.registerBackButtonHandler = registerBackButtonHandler;
-function registerAppNavigationHandler(handler) {
-    internalAPIs_1.ensureInitialized();
-    globalVars_1.GlobalVars.backButtonPressHandler = handler;
-    handler &&
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "registerHandler", ["appNavigation"]);
-}
-exports.registerAppNavigationHandler = registerAppNavigationHandler;
-function addAppNavigationState(state) {
-    internalAPIs_1.ensureInitialized();
-    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "addAppNavigationState", [state]);
-}
-exports.addAppNavigationState = addAppNavigationState;
 /**
  * Navigates back in the Teams client. See registerBackButtonHandler for more information on when
  * it's appropriate to use this method.
@@ -1198,6 +1180,28 @@ function getUserJoinedTeams(callback, teamInstanceParameters) {
     globalVars_1.GlobalVars.callbacks[messageId] = callback;
 }
 exports.getUserJoinedTeams = getUserJoinedTeams;
+/**
+ * @private
+ * Hide from docs
+ * ------
+ * Place the tab into full-screen mode.
+ */
+function enterFullscreen() {
+    internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
+    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "enterFullscreen", []);
+}
+exports.enterFullscreen = enterFullscreen;
+/**
+ * @private
+ * Hide from docs
+ * ------
+ * Reverts the tab into normal-screen mode.
+ */
+function exitFullscreen() {
+    internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
+    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "exitFullscreen", []);
+}
+exports.exitFullscreen = exitFullscreen;
 /**
  * @private
  * Hide from docs.
@@ -1927,8 +1931,6 @@ var MicrosoftTeams_min = __webpack_require__(0);
 
 
 const initializeAppModules = () => {
-    var childWindow;
-    var currentState = 0;
     addModule({
         name: "initialize",
         initializedRequired: false,
@@ -1971,32 +1973,6 @@ const initializeAppModules = () => {
             MicrosoftTeams_min["registerChangeSettingsHandler"](function () {
                 output("Change Settings Event recieved");
             });
-        }
-    });
-    addModule({
-        name: "registerAppNavigationHandler",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["registerAppNavigationHandler"](function (state) {
-                currentState--;
-                output("state " + currentState + "received: " + JSON.stringify(state));
-                return true;
-            });
-        }
-    });
-    addModule({
-        name: "addAppNavigationState",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "object",
-                name: "addAppNavigationState"
-            }],
-        action: function (addAppNavigationState, output) {
-            currentState++;
-            MicrosoftTeams_min["addAppNavigationState"](addAppNavigationState);
-            output("current state: " + currentState);
         }
     });
     addModule({
@@ -2150,84 +2126,14 @@ const initializeAppModules = () => {
         }
     });
     addModule({
-        name: "tasks.startTask and listen for task module messages",
+        name: "tasks.startTask",
         initializedRequired: true,
-        hasOutput: true,
         inputs: [{
                 type: "object",
                 name: "taskInfo"
             }],
-        action: function (taskInfo, output) {
-            childWindow = MicrosoftTeams_min["tasks"].startTask(taskInfo);
-            childWindow.addEventListener("message", function (message) {
-                output("Message from task module: " + message);
-                childWindow.postMessage("tab received - " + message);
-            });
-        }
-    });
-    addModule({
-        name: "send message to Child Window(tab to task module)",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "string",
-                name: "message"
-            }],
-        action: function (message, output) {
-            if (childWindow) {
-                try {
-                    childWindow.postMessage(message);
-                }
-                catch (err) {
-                    output(err);
-                    alert(err);
-                }
-                output("message sent to child(task module)");
-            }
-            else {
-                output("child window not available");
-            }
-        }
-    });
-    addModule({
-        name: "send message to parent Window(task module to tab)",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "string",
-                name: "message"
-            }],
-        action: function (message, output) {
-            var parentWindow = MicrosoftTeams_min["ParentAppWindow"].Instance;
-            if (parentWindow) {
-                try {
-                    parentWindow.postMessage(message);
-                }
-                catch (err) {
-                    output(err);
-                    alert(err);
-                }
-                output("message sent to parent(tab)");
-            }
-            else {
-                output("parent window not available");
-            }
-        }
-    });
-    addModule({
-        name: "register listener for parent message(tab to task module)",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            var parentWindow = MicrosoftTeams_min["ParentAppWindow"].Instance;
-            if (parentWindow) {
-                parentWindow.addEventListener("message", function (message) {
-                    output("message from tab: " + message);
-                });
-            }
-            else {
-                output("parent window not available");
-            }
+        action: function (taskInfo) {
+            MicrosoftTeams_min["tasks"].startTask(taskInfo);
         }
     });
     addModule({
@@ -2293,6 +2199,17 @@ const initializeAppModules = () => {
         initializedRequired: true,
         action: function () {
             window.readyToUnload && window.readyToUnload();
+        }
+    });
+    addModule({
+        name: "registerBackButtonHandler",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+            MicrosoftTeams_min["registerBackButtonHandler"](function () {
+                output("back button clicked");
+                return true;
+            });
         }
     });
     // Get the modal

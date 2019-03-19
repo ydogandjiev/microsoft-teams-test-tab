@@ -293,43 +293,22 @@ export const initializeAppModules = () => {
       });
 
       addModule({
-        name: "conversations.startConversation",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "object",
-                name: "startConversationRequest"
-            }],
-        action: function (startConversationRequest) {
-          microsoftTeams.conversations.startConversation(startConversationRequest);
-        }
-    });
-    addModule({
-        name: "conversations.showConversation",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "object",
-                name: "showConversationRequest"
-            }],
-        action: function (showConversationRequest) {
-          microsoftTeams.conversations.showConversation(showConversationRequest);
-          
-        }
-    });
-    addModule({
-        name: "conversations.closeConversation",
-        initializedRequired: true,
-        action: function () {
-          microsoftTeams.conversations.closeConversation();
-        }
-    });
-
-      addModule({
         name: "readyToUnload",
         initializedRequired: true,
         action: function() {
           (window as any).readyToUnload && (window as any).readyToUnload();
+        }
+      });
+
+      addModule({
+        name: "registerBackButtonHandler",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+          microsoftTeams.registerBackButtonHandler(function () {
+            output("back button clicked");
+            return true;
+          });
         }
       });
 
