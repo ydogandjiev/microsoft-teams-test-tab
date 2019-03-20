@@ -1,5 +1,7 @@
 import { addModule } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 
 export const initializeAppModules = () => {
     let totalStates = 0;
@@ -307,6 +309,7 @@ export const initializeAppModules = () => {
         hasOutput: true,
         action: function (output) {
           totalStates++;
+          history.push('/testTab', { some: 'state', id: totalStates });
           output("total States: " + totalStates);
         }
       });
