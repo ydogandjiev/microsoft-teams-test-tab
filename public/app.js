@@ -3263,6 +3263,12 @@ const initializeAppModules = () => {
             totalStates++;
             app_history.push('/testTab', { some: 'state', id: totalStates });
             output("total States: " + totalStates);
+            // Listen for changes to the current location.
+            app_history.listen((location, action) => {
+                // location is an object like window.location
+                totalStates = location.state.id;
+                output("total States: " + totalStates);
+            });
         }
     });
     addModule({
