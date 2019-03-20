@@ -316,10 +316,14 @@ export const initializeAppModules = () => {
         initializedRequired: true,
         hasOutput: true,
         action: function (output) {
+          output("total States: " + totalStates);
           microsoftTeams.registerBackButtonHandler(function () {
-            totalStates--;
-            output("back button clicked. total remaining state: " + totalStates);
-            return totalStates > 0
+            if (totalStates > 0){
+              totalStates--;
+              output("back button clicked. total remaining state: " + totalStates);
+              return true;
+            }
+            return false;
           });
         }
       });

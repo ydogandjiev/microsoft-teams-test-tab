@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
- <head>
-    <link href="./app.css" rel="stylesheet" />
-    <script src="https://statics.teams.microsoft.com/sdk/v1.4.1/js/MicrosoftTeams.min.js"></script>
-   </head>
+
+<head>
+  <link href="./app.css" rel="stylesheet" />
+  <script src="https://statics.teams.microsoft.com/sdk/v1.4.1/js/MicrosoftTeams.min.js"></script>
+</head>
 
 <body>
-  
+
   <!-- The Error Modal -->
-<div id="myModal" class="modal">
+  <div id="myModal" class="modal">
 
     <!-- Modal content -->
     <div class="modal-content">
       <span class="close">&times;</span>
       <div id="errorMessage" class="error-message">Error</div>
     </div>
-  
+
   </div>
   <script src="./app.js"></script>
   <h2>API using sdk as JS</h2>
@@ -33,13 +34,14 @@
       </div>
     </div>
 
-      <div>
-        <div class="sectionTitle">Implicit Teams Deep Link</div>
-        <button onclick="enableImplicitExecuteDeepLink()">enable Implicit ExecuteDeepLink</button>
-        <div><a href="https://teams.microsoft.com/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4">https://teams.microsoft.com/_#/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4</a></div>
-      <div> <a href="https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All" target="_blank">  https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All</a> </div> 
-      <div> <a href="https://microsoft.com/" target="_blank"> https://microsoft.com/ (non teams deep link)</a> </div> 
-      </div>
+    <div>
+      <div class="sectionTitle">Implicit Teams Deep Link</div>
+      <button onclick="enableImplicitExecuteDeepLink()">enable Implicit ExecuteDeepLink</button>
+      <div><a href="https://teams.microsoft.com/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4">https://teams.microsoft.com/_#/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4</a></div>
+      <div> <a href="https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All" target="_blank"> https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All</a>
+        </div>
+      <div> <a href="https://microsoft.com/" target="_blank"> https://microsoft.com/ (non teams deep link)</a> </div>
+    </div>
 
     <div>
       <div class="sectionTitle">Print</div>
@@ -52,10 +54,11 @@
       <a href="sip:yudogan@microsoft.com">Yuri Dogandjiev SIP URI</a>
       <a href="sip:yudogan@microsoft.com" target="_blank">Yuri Dogandjiev SIP URI</a>
     </div>
+    <button onclick="goBack()">Go Back</button>
   </div>
-<h2>Unstable API test module</h2>
+  <h2>Unstable API test module</h2>
   <div class="moduleContainer">
-    
+
     <div>
       <div class="sectionTitle">authenticate</div>
       <button onclick="authenticate()">authenticate</button>
@@ -71,7 +74,7 @@
     function authenticate() {
       microsoftTeams.initialize();
       microsoftTeams.authentication.authenticate({
-            url: 'https://teams-test-tab.azurewebsites.net'
+        url: 'https://teams-test-tab.azurewebsites.net'
       });
     }
 
@@ -82,6 +85,10 @@
 
     function printHandler() {
       microsoftTeams.print();
+    }
+
+    function goBack() {
+      window.history.back();
     }
   </script>
 </body>
