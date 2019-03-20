@@ -3266,7 +3266,7 @@ const initializeAppModules = () => {
             // Listen for changes to the current location.
             app_history.listen((location, action) => {
                 // location is an object like window.location
-                totalStates = location.state.id;
+                totalStates = (location && location.state) ? location.state.id : 0;
                 output("total States: " + totalStates);
             });
         }
