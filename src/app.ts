@@ -327,6 +327,9 @@ export const initializeAppModules = () => {
     action: function (output) {
       output("total States: " + totalStates);
       microsoftTeams.registerBackButtonHandler(function () {
+        window.onpopstate = () => {
+          output("onpopstate: back button clicked. total remaining state: " + totalStates);
+        }
         if (totalStates > 0) {
           totalStates--;
           output("back button clicked. total remaining state: " + totalStates);
