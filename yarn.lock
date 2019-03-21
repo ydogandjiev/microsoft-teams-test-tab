@@ -8,9 +8,9 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@microsoft/teams-js@1.4.0-beta.17":
-  version "1.4.0-beta.17"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.4.0-beta.17.tgz#11d686990d17293d02c559aab1764076540939c1"
+"@microsoft/teams-js@1.4.2-beta.1":
+  version "1.4.2-beta.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.4.2-beta.1.tgz#37b4c49d90507128eda8e18acbd338ae668e5c90"
 
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
