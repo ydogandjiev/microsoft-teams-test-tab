@@ -4,12 +4,43 @@ import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 
 export const initializeAppModules = () => {
+  var childWindow;
   let totalStates = 0;
   addModule({
     name: "initialize",
     initializedRequired: false,
     action: function () {
       microsoftTeams.initialize();
+    }
+  });
+
+  addModule({
+    name: "getContext",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      microsoftTeams.getContext(output);
+    }
+  });
+
+  addModule({
+    name: "navigateCrossDomain",
+    initializedRequired: true,
+    inputs: [{
+      type: "string",
+      name: "url"
+    }],
+    action: function (url) {
+      microsoftTeams.navigateCrossDomain(url);
+    }
+  });
+
+  addModule({
+    name: "registerOnThemeChangeHandler",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      microsoftTeams.registerOnThemeChangeHandler(output);
     }
   });
 
@@ -98,6 +129,111 @@ export const initializeAppModules = () => {
           MessageEvent
         },
       });
+    }
+  });
+
+  addModule({
+    name: "tasks.startTask and listen for task module messages",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [{
+      type: "object",
+      name: "taskInfo"
+    }],
+    action: function (taskInfo, output) {
+      childWindow = microsoftTeams.tasks.startTask(taskInfo);
+      childWindow.addEventListener("message", function (message) {
+        output("Message from task module: " + message);
+        childWindow.postMessage("tab received - " + message);
+      });
+    }
+  });
+
+  addModule({
+    name: "send message to Child Window(tab to task module)",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [{
+      type: "string",
+      name: "message"
+    }],
+    action: function (message, output) {
+      if (childWindow) {
+        childWindow.postMessage(message);
+      }
+      else {
+        output("child window not available");
+      }
+    }
+  });
+
+  addModule({
+    name: "send message to parent Window(task module to tab)",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [{
+      type: "string",
+      name: "message"
+    }],
+    action: function (message, output) {
+      var parentWindow = microsoftTeams.ParentAppWindow.Instance;
+      if (parentWindow) {
+        parentWindow.postMessage(message);
+        output("message sent to parent(tab)");
+      }
+      else {
+        output("parent window not available");
+      }
+    }
+  });
+
+  addModule({
+    name: "register listener for parent message(tab to task module)",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      var parentWindow = microsoftTeams.ParentAppWindow.Instance;
+      if (parentWindow) {
+        parentWindow.addEventListener("message", function (message) {
+          output("message from tab: " + message);
+        });
+      }
+      else {
+        output("parent window not available");
+      }
+    }
+  });
+
+  addModule({
+    name: "downloadFile ShowNotificationOnly",
+    initializedRequired: true,
+    inputs: [{
+      type: "object",
+      name: "showNotificationParameters"
+    }],
+    action: function (showNotificationParameters) {
+      microsoftTeams.showNotification(showNotificationParameters);
+    }
+  });
+
+  addModule({
+    name: "getAuthToken",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [{
+      type: "object",
+      name: "getAuthTokenParameters"
+    }],
+    action: function (getAuthTokenParameters, output) {
+      getAuthTokenParameters.successCallback = (token: string) => {
+        output("Success: " + token);
+      }
+
+      getAuthTokenParameters.failureCallback = (reason: string) => {
+        output("Failure: " + reason);
+      }
+
+      microsoftTeams.authentication.getAuthToken(getAuthTokenParameters);
     }
   });
 
@@ -314,7 +450,7 @@ export const initializeAppModules = () => {
       // Listen for changes to the current location.
       history.listen((location, action) => {
         // location is an object like window.location
-        totalStates = (location && location.state) ? location.state.id: 0;
+        totalStates = (location && location.state) ? location.state.id : 0;
         output("total States: " + totalStates);
       });
     }

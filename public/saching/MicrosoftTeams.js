@@ -696,6 +696,7 @@ var constants_1 = __webpack_require__(2);
  */
 var settings;
 (function (settings) {
+    debugger;
     var saveHandler;
     var removeHandler;
     globalVars_1.GlobalVars.handlers["settings.save"] = handleSave;
@@ -849,32 +850,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var internalAPIs_1 = __webpack_require__(1);
 var globalVars_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(2);
-var ChildAppWindow = /** @class */ (function () {
-    function ChildAppWindow() {
+var ChildWindowObject = /** @class */ (function () {
+    function ChildWindowObject() {
     }
-    ChildAppWindow.prototype.postMessage = function (message) {
+    ChildWindowObject.prototype.postMessage = function (message) {
         internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForChild", [
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForChild", [
             message
         ]);
-        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
-            if (!success) {
-                throw new Error(result);
-            }
-        };
     };
-    ChildAppWindow.prototype.addEventListener = function (type, listener) {
-        if (type === "message") {
+    ChildWindowObject.prototype.addEventListener = function (type, listener) {
+        if (type == "message") {
             globalVars_1.GlobalVars.handlers["messageForParent"] = listener;
         }
     };
-    return ChildAppWindow;
+    return ChildWindowObject;
 }());
-exports.ChildAppWindow = ChildAppWindow;
-var ParentAppWindow = /** @class */ (function () {
-    function ParentAppWindow() {
+exports.ChildWindowObject = ChildWindowObject;
+var ParentWindowObject = /** @class */ (function () {
+    function ParentWindowObject() {
     }
-    Object.defineProperty(ParentAppWindow, "Instance", {
+    Object.defineProperty(ParentWindowObject, "Instance", {
         get: function () {
             // Do you need arguments? Make it a regular method instead.
             return this._instance || (this._instance = new this());
@@ -882,25 +878,20 @@ var ParentAppWindow = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    ParentAppWindow.prototype.postMessage = function (message) {
+    ParentWindowObject.prototype.postMessage = function (message) {
         internalAPIs_1.ensureInitialized(constants_1.frameContexts.task);
-        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForParent", [
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "messageForParent", [
             message
         ]);
-        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
-            if (!success) {
-                throw new Error(result);
-            }
-        };
     };
-    ParentAppWindow.prototype.addEventListener = function (type, listener) {
-        if (type === "message") {
+    ParentWindowObject.prototype.addEventListener = function (type, listener) {
+        if (type == "message") {
             globalVars_1.GlobalVars.handlers["messageForChild"] = listener;
         }
     };
-    return ParentAppWindow;
+    return ParentWindowObject;
 }());
-exports.ParentAppWindow = ParentAppWindow;
+exports.ParentWindowObject = ParentWindowObject;
 
 
 /***/ }),
@@ -1550,7 +1541,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var internalAPIs_1 = __webpack_require__(1);
 var globalVars_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(2);
-var appWindow_1 = __webpack_require__(5);
+var windowObject_1 = __webpack_require__(5);
 /**
  * Namespace to interact with the task module-specific part of the SDK.
  * This object is usable only on the content frame.
@@ -1568,7 +1559,7 @@ var tasks;
             taskInfo
         ]);
         globalVars_1.GlobalVars.callbacks[messageId] = submitHandler;
-        return new appWindow_1.ChildAppWindow();
+        return new windowObject_1.ChildWindowObject();
     }
     tasks.startTask = startTask;
     /**
