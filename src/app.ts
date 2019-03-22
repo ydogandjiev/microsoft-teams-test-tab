@@ -1,5 +1,6 @@
 import { addModule } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
+import { MicrosoftTeams } from '@microsoft/teams-js';
 import { createBrowserHistory } from 'history';
 const history = createBrowserHistory();
 
@@ -20,6 +21,15 @@ export const initializeAppModules = () => {
     hasOutput: true,
     action: function (output) {
       microsoftTeams.getContext(output);
+    }
+  });
+
+  addModule({
+    name: "getContext Promise",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      MicrosoftTeams.getContext().then(output);
     }
   });
 
@@ -234,6 +244,23 @@ export const initializeAppModules = () => {
       }
 
       microsoftTeams.authentication.getAuthToken(getAuthTokenParameters);
+    }
+  });
+
+  addModule({
+    name: "getAuthToken Promise",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [{
+      type: "object",
+      name: "getAuthTokenParameters"
+    }],
+    action: function (getAuthTokenParameters, output) {
+      MicrosoftTeams.authentication.getAuthToken(getAuthTokenParameters).then( (token: string) => {
+        output("Success: " + token);
+      }).catch((reason: string) => {
+        output("Failure: " + reason);
+      });
     }
   });
 
