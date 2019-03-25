@@ -218,6 +218,12 @@ globalVars_1.GlobalVars.handlers["fullScreenChange"] = handleFullScreenChange;
 globalVars_1.GlobalVars.handlers["backButtonPress"] = handleBackButtonPress;
 globalVars_1.GlobalVars.handlers["beforeUnload"] = handleBeforeUnload;
 globalVars_1.GlobalVars.handlers["changeSettings"] = handleChangeSettings;
+globalVars_1.GlobalVars.handlers["getConversationId"] = handleConversationId;
+function handleConversationId(conversationId) {
+    if (globalVars_1.GlobalVars.getConversationIdHandler) {
+        globalVars_1.GlobalVars.getConversationIdHandler(conversationId);
+    }
+}
 function handleThemeChange(theme) {
     if (globalVars_1.GlobalVars.themeChangeHandler) {
         globalVars_1.GlobalVars.themeChangeHandler(theme);
@@ -1359,13 +1365,9 @@ var conversations;
                 title: startConversationRequest.title,
                 subEntityId: startConversationRequest.subEntityId
             }]);
-        globalVars_1.GlobalVars.callbacks[messageId] = function (conversationId, reason) {
-            if (conversationId) {
-                startConversationRequest.onStartConversation(conversationId);
-            }
-            else {
-                startConversationRequest.onCloseConversation(reason);
-            }
+        globalVars_1.GlobalVars.getConversationIdHandler = startConversationRequest.onCloseConversation;
+        globalVars_1.GlobalVars.callbacks[messageId] = function (conversationId) {
+            startConversationRequest.onStartConversation(conversationId);
         };
     }
     conversations.startConversation = startConversation;
