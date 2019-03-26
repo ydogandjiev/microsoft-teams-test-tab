@@ -176,7 +176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -456,7 +456,7 @@ function createMessageResponse(id, args) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(11);
+var utils_1 = __webpack_require__(9);
 exports.version = "1.4.1";
 exports.validOrigins = [
     "https://teams.microsoft.com",
@@ -994,7 +994,12 @@ exports.ParentAppWindow = ParentAppWindow;
 
 "use strict";
 
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(7));
+__export(__webpack_require__(11));
 
 
 /***/ }),
@@ -1003,105 +1008,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 "use strict";
 
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
-    return t;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(2);
-var appWindow_1 = __webpack_require__(5);
-/**
- * Namespace to interact with the task module-specific part of the SDK.
- * This object is usable only on the content frame.
- */
-var tasks;
-(function (tasks) {
-    /**
-     * Allows an app to open the task module.
-     * @param taskInfo An object containing the parameters of the task module
-     * @param submitHandler Handler to call when the task module is completed
-     */
-    function startTask(taskInfo, submitHandler) {
-        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
-        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.startTask", [
-            taskInfo
-        ]);
-        globalVars_1.GlobalVars.callbacks[messageId] = submitHandler;
-        return new appWindow_1.ChildAppWindow();
-    }
-    tasks.startTask = startTask;
-    /**
-     * Update height/width task info properties.
-     * @param taskInfo An object containing width and height properties
-     */
-    function updateTask(taskInfo) {
-        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.task);
-        var width = taskInfo.width, height = taskInfo.height, extra = __rest(taskInfo, ["width", "height"]);
-        if (!Object.keys(extra).length) {
-            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.updateTask", [taskInfo]);
-        }
-        else {
-            throw new Error("updateTask requires a taskInfo argument containing only width and height");
-        }
-    }
-    tasks.updateTask = updateTask;
-    /**
-     * Submit the task module.
-     * @param result Contains the result to be sent to the bot or the app. Typically a JSON object or a serialized version of it
-     * @param appIds Helps to validate that the call originates from the same appId as the one that invoked the task module
-     */
-    function submitTask(result, appIds) {
-        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.task);
-        // Send tasks.completeTask instead of tasks.submitTask message for backward compatibility with Mobile clients
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.completeTask", [
-            result,
-            Array.isArray(appIds) ? appIds : [appIds]
-        ]);
-    }
-    tasks.submitTask = submitTask;
-})(tasks = exports.tasks || (exports.tasks = {}));
+var menus_1 = __webpack_require__(8);
+exports.menus = menus_1.menus;
+var privateAPIs_1 = __webpack_require__(10);
+exports.enterFullscreen = privateAPIs_1.enterFullscreen;
+exports.executeDeepLink = privateAPIs_1.executeDeepLink;
+exports.exitFullscreen = privateAPIs_1.exitFullscreen;
+exports.getChatMembers = privateAPIs_1.getChatMembers;
+exports.getConfigSetting = privateAPIs_1.getConfigSetting;
+exports.getUserJoinedTeams = privateAPIs_1.getUserJoinedTeams;
+exports.openFilePreview = privateAPIs_1.openFilePreview;
+exports.sendCustomMessage = privateAPIs_1.sendCustomMessage;
+exports.showNotification = privateAPIs_1.showNotification;
+exports.uploadCustomApp = privateAPIs_1.uploadCustomApp;
 
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(9));
-__export(__webpack_require__(14));
-var MicrosoftTeams = __webpack_require__(16);
-exports.MicrosoftTeams = MicrosoftTeams;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(10));
-__export(__webpack_require__(12));
-__export(__webpack_require__(13));
-
-
-/***/ }),
-/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1201,7 +1125,7 @@ var menus;
 
 
 /***/ }),
-/* 11 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1229,16 +1153,7 @@ exports.generateRegExpFromUrls = generateRegExpFromUrls;
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-
-
-/***/ }),
-/* 13 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1414,25 +1329,41 @@ exports.getConfigSetting = getConfigSetting;
 
 
 /***/ }),
-/* 14 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(15));
-__export(__webpack_require__(6));
-__export(__webpack_require__(3));
-__export(__webpack_require__(4));
-__export(__webpack_require__(7));
-__export(__webpack_require__(5));
+var authentication_1 = __webpack_require__(12);
+exports.authentication = authentication_1.authentication;
+var publicAPIs_1 = __webpack_require__(3);
+exports.enablePrintCapability = publicAPIs_1.enablePrintCapability;
+exports.getContext = publicAPIs_1.getContext;
+exports.getMruTabInstances = publicAPIs_1.getMruTabInstances;
+exports.getTabInstances = publicAPIs_1.getTabInstances;
+exports.initialize = publicAPIs_1.initialize;
+exports.navigateBack = publicAPIs_1.navigateBack;
+exports.navigateCrossDomain = publicAPIs_1.navigateCrossDomain;
+exports.navigateToTab = publicAPIs_1.navigateToTab;
+exports.print = publicAPIs_1.print;
+exports.registerBackButtonHandler = publicAPIs_1.registerBackButtonHandler;
+exports.registerBeforeUnloadHandler = publicAPIs_1.registerBeforeUnloadHandler;
+exports.registerChangeSettingsHandler = publicAPIs_1.registerChangeSettingsHandler;
+exports.registerFullScreenHandler = publicAPIs_1.registerFullScreenHandler;
+exports.registerOnThemeChangeHandler = publicAPIs_1.registerOnThemeChangeHandler;
+exports.shareDeepLink = publicAPIs_1.shareDeepLink;
+var settings_1 = __webpack_require__(4);
+exports.settings = settings_1.settings;
+var tasks_1 = __webpack_require__(13);
+exports.tasks = tasks_1.tasks;
+var appWindow_1 = __webpack_require__(5);
+exports.ChildAppWindow = appWindow_1.ChildAppWindow;
+exports.ParentAppWindow = appWindow_1.ParentAppWindow;
 
 
 /***/ }),
-/* 15 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1730,397 +1661,75 @@ var authentication;
 
 
 /***/ }),
-/* 16 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(17));
-__export(__webpack_require__(6));
-__export(__webpack_require__(18));
-__export(__webpack_require__(4));
-__export(__webpack_require__(7));
-__export(__webpack_require__(5));
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var internalAPIs_1 = __webpack_require__(1);
 var globalVars_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(2);
+var appWindow_1 = __webpack_require__(5);
 /**
- * Namespace to interact with the authentication-specific part of the SDK.
- * This object is used for starting or completing authentication flows.
+ * Namespace to interact with the task module-specific part of the SDK.
+ * This object is usable only on the content frame.
  */
-var authentication;
-(function (authentication) {
-    var authParams;
-    var authWindowMonitor;
-    globalVars_1.GlobalVars.handlers["authentication.authenticate.success"] = handleSuccess;
-    globalVars_1.GlobalVars.handlers["authentication.authenticate.failure"] = handleFailure;
+var tasks;
+(function (tasks) {
     /**
-     * Registers the authentication GlobalVars.handlers
-     * @param authenticateParameters A set of values that configure the authentication pop-up.
+     * Allows an app to open the task module.
+     * @param taskInfo An object containing the parameters of the task module
+     * @param submitHandler Handler to call when the task module is completed
      */
-    function registerAuthenticationHandlers(authenticateParameters) {
-        authParams = authenticateParameters;
+    function startTask(taskInfo, submitHandler) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.startTask", [
+            taskInfo
+        ]);
+        globalVars_1.GlobalVars.callbacks[messageId] = submitHandler;
+        return new appWindow_1.ChildAppWindow();
     }
-    authentication.registerAuthenticationHandlers = registerAuthenticationHandlers;
+    tasks.startTask = startTask;
     /**
-     * Initiates an authentication request, which opens a new window with the specified settings.
+     * Update height/width task info properties.
+     * @param taskInfo An object containing width and height properties
      */
-    function authenticate(authenticateParameters) {
-        var authenticateParams = authenticateParameters !== undefined
-            ? authenticateParameters
-            : authParams;
-        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.settings, constants_1.frameContexts.remove, constants_1.frameContexts.task);
-        if (globalVars_1.GlobalVars.hostClientType === "desktop" /* desktop */ ||
-            globalVars_1.GlobalVars.hostClientType === "android" /* android */ ||
-            globalVars_1.GlobalVars.hostClientType === "ios" /* ios */ ||
-            globalVars_1.GlobalVars.hostClientType === "rigel" /* rigel */) {
-            // Convert any relative URLs into absolute URLs before sending them over to the parent window.
-            var link = document.createElement("a");
-            link.href = authenticateParams.url;
-            // Ask the parent window to open an authentication window with the parameters provided by the caller.
-            var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.authenticate", [link.href, authenticateParams.width, authenticateParams.height]);
-            globalVars_1.GlobalVars.callbacks[messageId] = function (success, response) {
-                if (success) {
-                    authenticateParams.successCallback(response);
-                }
-                else {
-                    authenticateParams.failureCallback(response);
-                }
-            };
+    function updateTask(taskInfo) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.task);
+        var width = taskInfo.width, height = taskInfo.height, extra = __rest(taskInfo, ["width", "height"]);
+        if (!Object.keys(extra).length) {
+            internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.updateTask", [taskInfo]);
         }
         else {
-            // Open an authentication window with the parameters provided by the caller.
-            openAuthenticationWindow(authenticateParams);
+            throw new Error("updateTask requires a taskInfo argument containing only width and height");
         }
     }
-    authentication.authenticate = authenticate;
+    tasks.updateTask = updateTask;
     /**
-     * @private
-     * Hide from docs.
-     * ------
-     * Requests an Azure AD token to be issued on behalf of the app. The token is acquired from the cache
-     * if it is not expired. Otherwise a request is sent to Azure AD to obtain a new token.
-     * @param authTokenRequest A set of values that configure the token request.
+     * Submit the task module.
+     * @param result Contains the result to be sent to the bot or the app. Typically a JSON object or a serialized version of it
+     * @param appIds Helps to validate that the call originates from the same appId as the one that invoked the task module
      */
-    function getAuthToken(authTokenRequest) {
-        return new Promise(function (resolve, reject) {
-            try {
-                internalAPIs_1.ensureInitialized();
-                var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.getAuthToken", [authTokenRequest.resources]);
-                globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
-                    if (success) {
-                        resolve(result);
-                    }
-                    else {
-                        reject(result);
-                    }
-                };
-            }
-            catch (error) {
-                reject(error);
-            }
-        });
-    }
-    authentication.getAuthToken = getAuthToken;
-    /**
-     * @private
-     * Hide from docs.
-     * ------
-     * Requests the decoded Azure AD user identity on behalf of the app.
-     */
-    function getUser() {
-        return new Promise(function (resolve, reject) {
-            try {
-                internalAPIs_1.ensureInitialized();
-                var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.getUser");
-                globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
-                    if (success) {
-                        resolve(result);
-                    }
-                    else {
-                        reject(result);
-                    }
-                };
-            }
-            catch (error) {
-                reject(error);
-            }
-        });
-    }
-    authentication.getUser = getUser;
-    function closeAuthenticationWindow() {
-        // Stop monitoring the authentication window
-        stopAuthenticationWindowMonitor();
-        // Try to close the authentication window and clear all properties associated with it
-        try {
-            if (globalVars_1.GlobalVars.childWindow) {
-                globalVars_1.GlobalVars.childWindow.close();
-            }
-        }
-        finally {
-            globalVars_1.GlobalVars.childWindow = null;
-            globalVars_1.GlobalVars.childOrigin = null;
-        }
-    }
-    function openAuthenticationWindow(authenticateParameters) {
-        authParams = authenticateParameters;
-        // Close the previously opened window if we have one
-        closeAuthenticationWindow();
-        // Start with a sensible default size
-        var width = authParams.width || 600;
-        var height = authParams.height || 400;
-        // Ensure that the new window is always smaller than our app's window so that it never fully covers up our app
-        width = Math.min(width, globalVars_1.GlobalVars.currentWindow.outerWidth - 400);
-        height = Math.min(height, globalVars_1.GlobalVars.currentWindow.outerHeight - 200);
-        // Convert any relative URLs into absolute URLs before sending them over to the parent window
-        var link = document.createElement("a");
-        link.href = authParams.url;
-        // We are running in the browser, so we need to center the new window ourselves
-        var left = typeof globalVars_1.GlobalVars.currentWindow.screenLeft !== "undefined"
-            ? globalVars_1.GlobalVars.currentWindow.screenLeft
-            : globalVars_1.GlobalVars.currentWindow.screenX;
-        var top = typeof globalVars_1.GlobalVars.currentWindow.screenTop !== "undefined"
-            ? globalVars_1.GlobalVars.currentWindow.screenTop
-            : globalVars_1.GlobalVars.currentWindow.screenY;
-        left += globalVars_1.GlobalVars.currentWindow.outerWidth / 2 - width / 2;
-        top += globalVars_1.GlobalVars.currentWindow.outerHeight / 2 - height / 2;
-        // Open a child window with a desired set of standard browser features
-        globalVars_1.GlobalVars.childWindow = globalVars_1.GlobalVars.currentWindow.open(link.href, "_blank", "toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top=" +
-            top +
-            ", left=" +
-            left +
-            ", width=" +
-            width +
-            ", height=" +
-            height);
-        if (globalVars_1.GlobalVars.childWindow) {
-            // Start monitoring the authentication window so that we can detect if it gets closed before the flow completes
-            startAuthenticationWindowMonitor();
-        }
-        else {
-            // If we failed to open the window, fail the authentication flow
-            handleFailure("FailedToOpenWindow");
-        }
-    }
-    function stopAuthenticationWindowMonitor() {
-        if (authWindowMonitor) {
-            clearInterval(authWindowMonitor);
-            authWindowMonitor = 0;
-        }
-        delete globalVars_1.GlobalVars.handlers["initialize"];
-        delete globalVars_1.GlobalVars.handlers["navigateCrossDomain"];
-    }
-    function startAuthenticationWindowMonitor() {
-        // Stop the previous window monitor if one is running
-        stopAuthenticationWindowMonitor();
-        // Create an interval loop that
-        // - Notifies the caller of failure if it detects that the authentication window is closed
-        // - Keeps pinging the authentication window while it is open to re-establish
-        //   contact with any pages along the authentication flow that need to communicate
-        //   with us
-        authWindowMonitor = globalVars_1.GlobalVars.currentWindow.setInterval(function () {
-            if (!globalVars_1.GlobalVars.childWindow || globalVars_1.GlobalVars.childWindow.closed) {
-                handleFailure("CancelledByUser");
-            }
-            else {
-                var savedChildOrigin = globalVars_1.GlobalVars.childOrigin;
-                try {
-                    globalVars_1.GlobalVars.childOrigin = "*";
-                    internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.childWindow, "ping");
-                }
-                finally {
-                    globalVars_1.GlobalVars.childOrigin = savedChildOrigin;
-                }
-            }
-        }, 100);
-        // Set up an initialize-message handler that gives the authentication window its frame context
-        globalVars_1.GlobalVars.handlers["initialize"] = function () {
-            return [constants_1.frameContexts.authentication, globalVars_1.GlobalVars.hostClientType];
-        };
-        // Set up a navigateCrossDomain message handler that blocks cross-domain re-navigation attempts
-        // in the authentication window. We could at some point choose to implement this method via a call to
-        // authenticationWindow.location.href = url; however, we would first need to figure out how to
-        // validate the URL against the tab's list of valid domains.
-        globalVars_1.GlobalVars.handlers["navigateCrossDomain"] = function (url) {
-            return false;
-        };
-    }
-    /**
-     * Notifies the frame that initiated this authentication request that the request was successful.
-     * This function is usable only on the authentication window.
-     * This call causes the authentication window to be closed.
-     * @param result Specifies a result for the authentication. If specified, the frame that initiated the authentication pop-up receives this value in its callback.
-     * @param callbackUrl Specifies the url to redirect back to if the client is Win32 Outlook.
-     */
-    function notifySuccess(result, callbackUrl) {
-        redirectIfWin32Outlook(callbackUrl, "result", result);
-        internalAPIs_1.ensureInitialized(constants_1.frameContexts.authentication);
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.authenticate.success", [
-            result
+    function submitTask(result, appIds) {
+        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content, constants_1.frameContexts.task);
+        // Send tasks.completeTask instead of tasks.submitTask message for backward compatibility with Mobile clients
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "tasks.completeTask", [
+            result,
+            Array.isArray(appIds) ? appIds : [appIds]
         ]);
-        // Wait for the message to be sent before closing the window
-        internalAPIs_1.waitForMessageQueue(globalVars_1.GlobalVars.parentWindow, function () { return setTimeout(function () { return globalVars_1.GlobalVars.currentWindow.close(); }, 200); });
     }
-    authentication.notifySuccess = notifySuccess;
-    /**
-     * Notifies the frame that initiated this authentication request that the request failed.
-     * This function is usable only on the authentication window.
-     * This call causes the authentication window to be closed.
-     * @param result Specifies a result for the authentication. If specified, the frame that initiated the authentication pop-up receives this value in its callback.
-     * @param callbackUrl Specifies the url to redirect back to if the client is Win32 Outlook.
-     */
-    function notifyFailure(reason, callbackUrl) {
-        redirectIfWin32Outlook(callbackUrl, "reason", reason);
-        internalAPIs_1.ensureInitialized(constants_1.frameContexts.authentication);
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "authentication.authenticate.failure", [
-            reason
-        ]);
-        // Wait for the message to be sent before closing the window
-        internalAPIs_1.waitForMessageQueue(globalVars_1.GlobalVars.parentWindow, function () { return setTimeout(function () { return globalVars_1.GlobalVars.currentWindow.close(); }, 200); });
-    }
-    authentication.notifyFailure = notifyFailure;
-    function handleSuccess(result) {
-        try {
-            if (authParams && authParams.successCallback) {
-                authParams.successCallback(result);
-            }
-        }
-        finally {
-            authParams = null;
-            closeAuthenticationWindow();
-        }
-    }
-    function handleFailure(reason) {
-        try {
-            if (authParams && authParams.failureCallback) {
-                authParams.failureCallback(reason);
-            }
-        }
-        finally {
-            authParams = null;
-            closeAuthenticationWindow();
-        }
-    }
-    /**
-     * Validates that the callbackUrl param is a valid connector url, appends the result/reason and authSuccess/authFailure as URL fragments and redirects the window
-     * @param callbackUrl - the connectors url to redirect to
-     * @param key - "result" in case of success and "reason" in case of failure
-     * @param value - the value of the passed result/reason parameter
-     */
-    function redirectIfWin32Outlook(callbackUrl, key, value) {
-        if (callbackUrl) {
-            var link = document.createElement("a");
-            link.href = decodeURIComponent(callbackUrl);
-            if (link.host &&
-                link.host !== window.location.host &&
-                link.host === "outlook.office.com" &&
-                link.search.indexOf("client_type=Win32_Outlook") > -1) {
-                if (key && key === "result") {
-                    if (value) {
-                        link.href = updateUrlParameter(link.href, "result", value);
-                    }
-                    globalVars_1.GlobalVars.currentWindow.location.assign(updateUrlParameter(link.href, "authSuccess", ""));
-                }
-                if (key && key === "reason") {
-                    if (value) {
-                        link.href = updateUrlParameter(link.href, "reason", value);
-                    }
-                    globalVars_1.GlobalVars.currentWindow.location.assign(updateUrlParameter(link.href, "authFailure", ""));
-                }
-            }
-        }
-    }
-    /**
-     * Appends either result or reason as a fragment to the 'callbackUrl'
-     * @param uri - the url to modify
-     * @param key - the fragment key
-     * @param value - the fragment value
-     */
-    function updateUrlParameter(uri, key, value) {
-        var i = uri.indexOf("#");
-        var hash = i === -1 ? "#" : uri.substr(i);
-        hash = hash + "&" + key + (value !== "" ? "=" + value : "");
-        uri = i === -1 ? uri : uri.substr(0, i);
-        return uri + hash;
-    }
-})(authentication = exports.authentication || (exports.authentication = {}));
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var publicAPIs_1 = __webpack_require__(3);
-/**
- * Retrieves the current context the frame is running in.
- * @param callback The callback to invoke when the {@link Context} object is retrieved.
- */
-function getContext() {
-    return new Promise(function (resolve, reject) {
-        try {
-            publicAPIs_1.getContext(function (context) {
-                resolve(context);
-            });
-        }
-        catch (error) {
-            reject(error);
-        }
-    });
-}
-exports.getContext = getContext;
-/**
- * Allows an app to retrieve for this user tabs that are owned by this app.
- * If no TabInstanceParameters are passed, the app defaults to favorite teams and favorite channels.
- * @param callback The callback to invoke when the {@link TabInstanceParameters} object is retrieved.
- * @param tabInstanceParameters OPTIONAL Flags that specify whether to scope call to favorite teams or channels.
- */
-function getTabInstances(tabInstanceParameters) {
-    return new Promise(function (resolve, reject) {
-        try {
-            publicAPIs_1.getTabInstances(function (context) {
-                resolve(context);
-            }, tabInstanceParameters);
-        }
-        catch (error) {
-            reject(error);
-        }
-    });
-}
-exports.getTabInstances = getTabInstances;
-/**
- * Allows an app to retrieve the most recently used tabs for this user.
- * @param callback The callback to invoke when the {@link TabInformation} object is retrieved.
- * @param tabInstanceParameters OPTIONAL Ignored, kept for future use
- */
-function getMruTabInstances(tabInstanceParameters) {
-    return new Promise(function (resolve, reject) {
-        try {
-            publicAPIs_1.getMruTabInstances(function (context) {
-                resolve(context);
-            }, tabInstanceParameters);
-        }
-        catch (error) {
-            reject(error);
-        }
-    });
-}
-exports.getMruTabInstances = getMruTabInstances;
+    tasks.submitTask = submitTask;
+})(tasks = exports.tasks || (exports.tasks = {}));
 
 
 /***/ })
@@ -3379,7 +2988,6 @@ function createMemoryHistory(props) {
 
 
 
-
 const app_history = createBrowserHistory();
 const initializeAppModules = () => {
     var childWindow;
@@ -3397,14 +3005,6 @@ const initializeAppModules = () => {
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["getContext"](output);
-        }
-    });
-    addModule({
-        name: "getContext Promise",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["MicrosoftTeams"].getContext().then(output);
         }
     });
     addModule({
@@ -3601,22 +3201,6 @@ const initializeAppModules = () => {
                 output("Failure: " + reason);
             };
             MicrosoftTeams_min["authentication"].getAuthToken(getAuthTokenParameters);
-        }
-    });
-    addModule({
-        name: "getAuthToken Promise",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "object",
-                name: "getAuthTokenParameters"
-            }],
-        action: function (getAuthTokenParameters, output) {
-            MicrosoftTeams_min["MicrosoftTeams"].authentication.getAuthToken(getAuthTokenParameters).then((token) => {
-                output("Success: " + token);
-            }).catch((reason) => {
-                output("Failure: " + reason);
-            });
         }
     });
     addModule({
