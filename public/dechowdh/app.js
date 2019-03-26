@@ -218,10 +218,16 @@ globalVars_1.GlobalVars.handlers["fullScreenChange"] = handleFullScreenChange;
 globalVars_1.GlobalVars.handlers["backButtonPress"] = handleBackButtonPress;
 globalVars_1.GlobalVars.handlers["beforeUnload"] = handleBeforeUnload;
 globalVars_1.GlobalVars.handlers["changeSettings"] = handleChangeSettings;
-globalVars_1.GlobalVars.handlers["getConversationId"] = handleConversationId;
-function handleConversationId(conversationId) {
-    if (globalVars_1.GlobalVars.getConversationIdHandler) {
-        globalVars_1.GlobalVars.getConversationIdHandler(conversationId);
+globalVars_1.GlobalVars.handlers["onStartConversation"] = handleStartConversation;
+globalVars_1.GlobalVars.handlers["onCloseConversation"] = handleCloseConversation;
+function handleStartConversation(subEntityId, conversationId) {
+    if (globalVars_1.GlobalVars.onStartConversationHandler) {
+        globalVars_1.GlobalVars.onStartConversationHandler(subEntityId, conversationId);
+    }
+}
+function handleCloseConversation(subEntityId, conversationId) {
+    if (globalVars_1.GlobalVars.onCloseConversationHandler) {
+        globalVars_1.GlobalVars.onCloseConversationHandler(subEntityId, conversationId);
     }
 }
 function handleThemeChange(theme) {
@@ -1365,9 +1371,12 @@ var conversations;
                 subEntityId: openConversationRequest.subEntityId,
                 conversationId: openConversationRequest.conversationId
             }]);
-        globalVars_1.GlobalVars.getConversationIdHandler = openConversationRequest.onCloseConversation;
-        globalVars_1.GlobalVars.callbacks[messageId] = function (conversationId) {
-            openConversationRequest.onStartConversation(conversationId);
+        globalVars_1.GlobalVars.onCloseConversationHandler = openConversationRequest.onCloseConversation;
+        globalVars_1.GlobalVars.onStartConversationHandler = openConversationRequest.onStartConversation;
+        globalVars_1.GlobalVars.callbacks[messageId] = function (status, reason) {
+            if (!status) {
+                throw new Error(reason);
+            }
         };
     }
     conversations.openConversation = openConversation;
@@ -2436,11 +2445,11 @@ const initializeAppModules = () => {
                 name: "openConversationRequest"
             }],
         action: function (openConversationRequest, output) {
-            openConversationRequest.onStartConversation = (conversationId) => {
-                output("Conversation Id: " + conversationId);
+            openConversationRequest.onStartConversation = (subEntityId, conversationId) => {
+                output("Start Conversation Subentity Id " + subEntityId + " Conversation Id: " + conversationId);
             };
-            openConversationRequest.onCloseConversation = (reason) => {
-                output("Pane closed because " + reason);
+            openConversationRequest.onCloseConversation = (subEntityId, conversationId) => {
+                output("Start Conversation Subentity Id " + subEntityId + " Conversation Id: " + conversationId);
             };
             MicrosoftTeams_min["conversations"].openConversation(openConversationRequest);
         }
