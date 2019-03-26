@@ -1362,7 +1362,8 @@ var conversations;
         internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
         var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "conversations.openConversation", [{
                 title: openConversationRequest.title,
-                subEntityId: openConversationRequest.subEntityId
+                subEntityId: openConversationRequest.subEntityId,
+                conversationId: openConversationRequest.conversationId
             }]);
         globalVars_1.GlobalVars.getConversationIdHandler = openConversationRequest.onCloseConversation;
         globalVars_1.GlobalVars.callbacks[messageId] = function (conversationId) {
