@@ -1356,40 +1356,20 @@ var conversations;
     * @private
     * Hide from docs
     * --------------
-    * Allows the user to start a conversation with each subentity inside a tab
-    * @param startConversationRequest Callback containing the conversation Id and if the tab pane was closed
+    * Allows the user to start or continue a conversation with each subentity inside a tab
     */
-    function startConversation(startConversationRequest) {
+    function openConversation(openConversationRequest) {
         internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
-        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "conversations.startConversation", [{
-                title: startConversationRequest.title,
-                subEntityId: startConversationRequest.subEntityId
+        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "conversations.openConversation", [{
+                title: openConversationRequest.title,
+                subEntityId: openConversationRequest.subEntityId
             }]);
-        globalVars_1.GlobalVars.getConversationIdHandler = startConversationRequest.onCloseConversation;
+        globalVars_1.GlobalVars.getConversationIdHandler = openConversationRequest.onCloseConversation;
         globalVars_1.GlobalVars.callbacks[messageId] = function (conversationId) {
-            startConversationRequest.onStartConversation(conversationId);
+            openConversationRequest.onStartConversation(conversationId);
         };
     }
-    conversations.startConversation = startConversation;
-    /**
-    * @private
-    * Hide from docs
-    * --------------
-    * Allows the user to show the conversation in the right pane
-    * @param showConversationRequest Callback containing if the tab pane was closed
-    */
-    function showConversation(showConversationRequest) {
-        internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
-        var messageId = internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "conversations.showConversation", [{
-                title: showConversationRequest.title,
-                subEntityId: showConversationRequest.subEntityId,
-                conversationId: showConversationRequest.conversationId
-            }]);
-        globalVars_1.GlobalVars.callbacks[messageId] = function (reason) {
-            showConversationRequest.onCloseConversation(reason);
-        };
-    }
-    conversations.showConversation = showConversation;
+    conversations.openConversation = openConversation;
     /**
     * @private
     * Hide from docs
@@ -2447,36 +2427,21 @@ const initializeAppModules = () => {
         }
     });
     addModule({
-        name: "conversations.startConversation",
+        name: "conversations.openConversation",
         initializedRequired: true,
         hasOutput: true,
         inputs: [{
                 type: "object",
-                name: "startConversationRequest"
+                name: "openConversationRequest"
             }],
-        action: function (startConversationRequest, output) {
-            startConversationRequest.onStartConversation = (conversationId) => {
+        action: function (openConversationRequest, output) {
+            openConversationRequest.onStartConversation = (conversationId) => {
                 output("Conversation Id: " + conversationId);
             };
-            startConversationRequest.onCloseConversation = (reason) => {
+            openConversationRequest.onCloseConversation = (reason) => {
                 output("Pane closed because " + reason);
             };
-            MicrosoftTeams_min["conversations"].startConversation(startConversationRequest);
-        }
-    });
-    addModule({
-        name: "conversations.showConversation",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "object",
-                name: "showConversationRequest"
-            }],
-        action: function (showConversationRequest, output) {
-            showConversationRequest.onCloseConversation = (reason) => {
-                output("Pane closed because " + reason);
-            };
-            MicrosoftTeams_min["conversations"].showConversation(showConversationRequest);
+            MicrosoftTeams_min["conversations"].openConversation(openConversationRequest);
         }
     });
     addModule({
