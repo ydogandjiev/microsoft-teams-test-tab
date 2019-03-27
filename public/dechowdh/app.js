@@ -218,8 +218,8 @@ globalVars_1.GlobalVars.handlers["fullScreenChange"] = handleFullScreenChange;
 globalVars_1.GlobalVars.handlers["backButtonPress"] = handleBackButtonPress;
 globalVars_1.GlobalVars.handlers["beforeUnload"] = handleBeforeUnload;
 globalVars_1.GlobalVars.handlers["changeSettings"] = handleChangeSettings;
-globalVars_1.GlobalVars.handlers["onStartConversation"] = handleStartConversation;
-globalVars_1.GlobalVars.handlers["onCloseConversation"] = handleCloseConversation;
+globalVars_1.GlobalVars.handlers["startConversation"] = handleStartConversation;
+globalVars_1.GlobalVars.handlers["closeConversation"] = handleCloseConversation;
 function handleStartConversation(subEntityId, conversationId) {
     if (globalVars_1.GlobalVars.onStartConversationHandler) {
         globalVars_1.GlobalVars.onStartConversationHandler(subEntityId, conversationId);
@@ -1389,6 +1389,8 @@ var conversations;
     function closeConversation() {
         internalAPIs_1.ensureInitialized(constants_1.frameContexts.content);
         internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "conversations.closeConversation");
+        globalVars_1.GlobalVars.onCloseConversationHandler = null;
+        globalVars_1.GlobalVars.onStartConversationHandler = null;
     }
     conversations.closeConversation = closeConversation;
 })(conversations = exports.conversations || (exports.conversations = {}));
