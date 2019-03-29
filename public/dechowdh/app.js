@@ -1011,7 +1011,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(7));
-__export(__webpack_require__(13));
+__export(__webpack_require__(12));
 
 
 /***/ }),
@@ -1024,10 +1024,20 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(8));
-__export(__webpack_require__(10));
+var menus_1 = __webpack_require__(8);
+exports.menus = menus_1.menus;
+var privateAPIs_1 = __webpack_require__(10);
+exports.enterFullscreen = privateAPIs_1.enterFullscreen;
+exports.executeDeepLink = privateAPIs_1.executeDeepLink;
+exports.exitFullscreen = privateAPIs_1.exitFullscreen;
+exports.getChatMembers = privateAPIs_1.getChatMembers;
+exports.getConfigSetting = privateAPIs_1.getConfigSetting;
+exports.getUserJoinedTeams = privateAPIs_1.getUserJoinedTeams;
+exports.openFilePreview = privateAPIs_1.openFilePreview;
+exports.sendCustomMessage = privateAPIs_1.sendCustomMessage;
+exports.showNotification = privateAPIs_1.showNotification;
+exports.uploadCustomApp = privateAPIs_1.uploadCustomApp;
 __export(__webpack_require__(11));
-__export(__webpack_require__(12));
 
 
 /***/ }),
@@ -1160,15 +1170,6 @@ exports.generateRegExpFromUrls = generateRegExpFromUrls;
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-
-
-/***/ }),
-/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1344,7 +1345,7 @@ exports.getConfigSetting = getConfigSetting;
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1397,25 +1398,41 @@ var conversations;
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(14));
-__export(__webpack_require__(15));
-__export(__webpack_require__(3));
-__export(__webpack_require__(4));
-__export(__webpack_require__(16));
-__export(__webpack_require__(5));
+var authentication_1 = __webpack_require__(13);
+exports.authentication = authentication_1.authentication;
+var publicAPIs_1 = __webpack_require__(3);
+exports.enablePrintCapability = publicAPIs_1.enablePrintCapability;
+exports.getContext = publicAPIs_1.getContext;
+exports.getMruTabInstances = publicAPIs_1.getMruTabInstances;
+exports.getTabInstances = publicAPIs_1.getTabInstances;
+exports.initialize = publicAPIs_1.initialize;
+exports.navigateBack = publicAPIs_1.navigateBack;
+exports.navigateCrossDomain = publicAPIs_1.navigateCrossDomain;
+exports.navigateToTab = publicAPIs_1.navigateToTab;
+exports.print = publicAPIs_1.print;
+exports.registerBackButtonHandler = publicAPIs_1.registerBackButtonHandler;
+exports.registerBeforeUnloadHandler = publicAPIs_1.registerBeforeUnloadHandler;
+exports.registerChangeSettingsHandler = publicAPIs_1.registerChangeSettingsHandler;
+exports.registerFullScreenHandler = publicAPIs_1.registerFullScreenHandler;
+exports.registerOnThemeChangeHandler = publicAPIs_1.registerOnThemeChangeHandler;
+exports.shareDeepLink = publicAPIs_1.shareDeepLink;
+var settings_1 = __webpack_require__(4);
+exports.settings = settings_1.settings;
+var tasks_1 = __webpack_require__(14);
+exports.tasks = tasks_1.tasks;
+var appWindow_1 = __webpack_require__(5);
+exports.ChildAppWindow = appWindow_1.ChildAppWindow;
+exports.ParentAppWindow = appWindow_1.ParentAppWindow;
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1713,16 +1730,7 @@ var authentication;
 
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-
-
-/***/ }),
-/* 16 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
