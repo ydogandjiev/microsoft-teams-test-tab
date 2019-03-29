@@ -1020,9 +1020,6 @@ __export(__webpack_require__(12));
 
 "use strict";
 
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
 var menus_1 = __webpack_require__(8);
 exports.menus = menus_1.menus;
@@ -1037,7 +1034,8 @@ exports.openFilePreview = privateAPIs_1.openFilePreview;
 exports.sendCustomMessage = privateAPIs_1.sendCustomMessage;
 exports.showNotification = privateAPIs_1.showNotification;
 exports.uploadCustomApp = privateAPIs_1.uploadCustomApp;
-__export(__webpack_require__(11));
+var conversations_1 = __webpack_require__(11);
+exports.conversations = conversations_1.conversations;
 
 
 /***/ }),
