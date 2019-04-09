@@ -1,7 +1,5 @@
 import { addModule } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
-import { createBrowserHistory } from 'history';
-const history = createBrowserHistory();
 
 export const initializeAppModules = () => {
   var childWindow;
@@ -309,8 +307,15 @@ export const initializeAppModules = () => {
       type: "object",
       name: "settings"
     }],
-    action: function (settings) {
-      microsoftTeams.settings.setSettings(settings);
+    hasOutput: true,
+    action: function (settings, output) {
+      microsoftTeams.settings.setSettings(settings, function (status, reason) {
+        if(status) {
+          output(`Set Settings call successed`);
+        } else {
+          output(`Set Settings call failed: ${reason}`);
+        }
+      });
     }
   });
 
@@ -445,14 +450,8 @@ export const initializeAppModules = () => {
     hasOutput: true,
     action: function (output) {
       totalStates++;
-      history.push('/testTab', { some: 'state', id: totalStates });
+      window.history.pushState({ some: 'state', id: totalStates }, "tab state" +  totalStates, '/testTab');
       output("total States: " + totalStates);
-      // Listen for changes to the current location.
-      history.listen((location, action) => {
-        // location is an object like window.location
-        totalStates = (location && location.state) ? location.state.id : 0;
-        output("total States: " + totalStates);
-      });
     }
   });
 
