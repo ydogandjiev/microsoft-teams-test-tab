@@ -702,6 +702,10 @@ const initializeAppModules = () => {
             totalStates++;
             window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
             output("total States: " + totalStates);
+            window.addEventListener('popstate', function (event) {
+                totalStates--;
+                output("onpopstate: back button clicked. total remaining state: " + totalStates);
+            }, false);
         }
     });
     addModule({
@@ -711,9 +715,6 @@ const initializeAppModules = () => {
         action: function (output) {
             output("total States: " + totalStates);
             MicrosoftTeams_min["registerBackButtonHandler"](function () {
-                window.onpopstate = () => {
-                    output("onpopstate: back button clicked. total remaining state: " + totalStates);
-                };
                 if (totalStates > 0) {
                     totalStates--;
                     output("back button clicked. total remaining state: " + totalStates);
