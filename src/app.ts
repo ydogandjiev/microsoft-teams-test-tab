@@ -310,7 +310,7 @@ export const initializeAppModules = () => {
     hasOutput: true,
     action: function (settings, output) {
       microsoftTeams.settings.setSettings(settings, function (status, reason) {
-        if(status) {
+        if (status) {
           output(`Set Settings call successed`);
         } else {
           output(`Set Settings call failed: ${reason}`);
@@ -450,8 +450,14 @@ export const initializeAppModules = () => {
     hasOutput: true,
     action: function (output) {
       totalStates++;
-      window.history.pushState({ some: 'state', id: totalStates }, "tab state" +  totalStates, '/testTab');
+      window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
       output("total States: " + totalStates);
+
+      window.addEventListener('popstate', function (event) {
+        if (event.state && event.state.id) {
+          output("onpopstate: back button clicked. total remaining state: " + event.state.id);
+        }
+      }, false);
     }
   });
 
@@ -462,9 +468,6 @@ export const initializeAppModules = () => {
     action: function (output) {
       output("total States: " + totalStates);
       microsoftTeams.registerBackButtonHandler(function () {
-        window.onpopstate = () => {
-          output("onpopstate: back button clicked. total remaining state: " + totalStates);
-        }
         if (totalStates > 0) {
           totalStates--;
           output("back button clicked. total remaining state: " + totalStates);
