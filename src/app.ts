@@ -309,13 +309,7 @@ export const initializeAppModules = () => {
     }],
     hasOutput: true,
     action: function (settings, output) {
-      microsoftTeams.settings.setSettings(settings, function (status, reason) {
-        if (status) {
-          output(`Set Settings call successed`);
-        } else {
-          output(`Set Settings call failed: ${reason}`);
-        }
-      });
+      microsoftTeams.settings.setSettings(settings);
     }
   });
 
@@ -328,6 +322,38 @@ export const initializeAppModules = () => {
     }],
     action: function (validityState) {
       microsoftTeams.settings.setValidityState(validityState);
+    }
+  });
+
+  addModule({
+    name: "settings.registerOnRemoveHandler",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      microsoftTeams.settings.registerOnRemoveHandler(function (removeEvent) {
+        (window as any).removeEvent = removeEvent;
+        output("RemoveEvent recieved");
+      });
+    }
+  });
+
+  addModule({
+    name: "settings.registerOnRemoveHandler.notifyFailure",
+    initializedRequired: true,
+    inputs: [{
+      type: "string",
+      name: "reason"
+    }],
+    action: function (reason) {
+      (window as any).removeEvent && (window as any).removeEvent.notifyFailure(reason);
+    }
+  });
+
+  addModule({
+    name: "settings.registerOnRemoveHandler.notifySuccess",
+    initializedRequired: true,
+    action: function () {
+      (window as any).removeEvent && (window as any).removeEvent.notifySuccess();
     }
   });
 
