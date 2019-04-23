@@ -1,9 +1,10 @@
 
 import { container, restoreState, saveState, downloadHandler } from './utils';
-import { initializeAppModules } from './app';
+import { initializeAppModules, initializeAppModulesPromiseBased } from './app';
 
 (function () {
   initializeAppModules();
+  initializeAppModulesPromiseBased();
 
   document.body.appendChild(container);
   // Give the DOM a chance to update from the appendChild above
