@@ -825,9 +825,9 @@ var OnAppReadyEvent = /** @class */ (function () {
         internalAPIs_1.ensureInitialized();
         internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "onTabShow.success", [constants_1.version]);
     };
-    OnAppReadyEvent.prototype.notifyFailure = function (reason, errorMessage) {
+    OnAppReadyEvent.prototype.notifyFailure = function (appLoadFailReason) {
         internalAPIs_1.ensureInitialized();
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "onTabShow.failure", [reason, errorMessage]);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "onTabShow.failure", [appLoadFailReason.reason, appLoadFailReason.message]);
     };
     return OnAppReadyEvent;
 }());
