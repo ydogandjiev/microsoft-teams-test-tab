@@ -4,7 +4,7 @@ import * as microsoftTeams from '@microsoft/teams-js';
 export const initializeAppModules = () => {
   var childWindow;
   let totalStates = 0;
-  let onTabReadyEvent: microsoftTeams.IAppLoadEvent = null;
+  let onTabReadyEvent: microsoftTeams.IAppInitializationEvent = null;
   addModule({
     name: "initialize",
     initializedRequired: false,
@@ -17,7 +17,7 @@ export const initializeAppModules = () => {
   });
 
   addModule({
-    name: "TabLoadSuccess",
+    name: "AppInitializationSuccess",
     initializedRequired: true,
     action: function (output) {
       onTabReadyEvent.notifySuccess();
@@ -25,14 +25,14 @@ export const initializeAppModules = () => {
   });
 
   addModule({
-    name: "TabLoadFail",
+    name: "AppInitializationFailed",
     initializedRequired: true,
     inputs: [{
       type: "object",
-      name: "tabLoadFailInput"
+      name: "appInitializationFailedInput"
     }],
-    action: function (tabLoadFailInput) {
-      onTabReadyEvent.notifyFailure(tabLoadFailInput);
+    action: function (appInitializationFailedInput) {
+      onTabReadyEvent.notifyFailure(appInitializationFailedInput);
     }
   });
 
