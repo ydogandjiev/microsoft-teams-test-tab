@@ -4,11 +4,35 @@ import * as microsoftTeams from '@microsoft/teams-js';
 export const initializeAppModules = () => {
   var childWindow;
   let totalStates = 0;
+  let onTabReadyEvent: microsoftTeams.IAppLoadEvent = null;
   addModule({
     name: "initialize",
     initializedRequired: false,
     action: function () {
-      microsoftTeams.initialize();
+      onTabReadyEvent = microsoftTeams.initialize();
+      setTimeout(function (event) {
+        onTabReadyEvent.notifySuccess();
+    }, 15000);
+    }
+  });
+
+  addModule({
+    name: "TabLoadSuccess",
+    initializedRequired: true,
+    action: function (output) {
+      onTabReadyEvent.notifySuccess();
+    }
+  });
+
+  addModule({
+    name: "TabLoadFail",
+    initializedRequired: true,
+    inputs: [{
+      type: "object",
+      name: "tabLoadFailInput"
+    }],
+    action: function (tabLoadFailInput) {
+      onTabReadyEvent.notifyFailure(tabLoadFailInput);
     }
   });
 
