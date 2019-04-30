@@ -619,7 +619,7 @@ function initialize(hostWindow) {
             globalVars_1.GlobalVars.isFramelessWindow = false;
         };
     }
-    return new AppLoadEvent();
+    return new AppInitializationEvent();
 }
 exports.initialize = initialize;
 /**
@@ -817,20 +817,20 @@ function navigateToTab(tabInstance, onComplete) {
     globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler(errorMessage);
 }
 exports.navigateToTab = navigateToTab;
-var AppLoadEvent = /** @class */ (function () {
-    function AppLoadEvent() {
+var AppInitializationEvent = /** @class */ (function () {
+    function AppInitializationEvent() {
     }
-    AppLoadEvent.prototype.notifySuccess = function () {
+    AppInitializationEvent.prototype.notifySuccess = function () {
         internalAPIs_1.ensureInitialized();
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "onTabShow.success", [constants_1.version]);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "appInitialization.success", [constants_1.version]);
     };
-    AppLoadEvent.prototype.notifyFailure = function (appLoadFailReason) {
+    AppInitializationEvent.prototype.notifyFailure = function (appInitializationFailedRequest) {
         internalAPIs_1.ensureInitialized();
-        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "onTabShow.failure", [appLoadFailReason.reason, appLoadFailReason.message]);
+        internalAPIs_1.sendMessageRequest(globalVars_1.GlobalVars.parentWindow, "appInitialization.failure", [appInitializationFailedRequest.reason, appInitializationFailedRequest.message]);
     };
-    return AppLoadEvent;
+    return AppInitializationEvent;
 }());
-exports.AppLoadEvent = AppLoadEvent;
+exports.AppInitializationEvent = AppInitializationEvent;
 
 
 /***/ }),
@@ -2014,22 +2014,21 @@ const initializeAppModules = () => {
         }
     });
     addModule({
-        name: "TabLoadSuccess",
+        name: "AppInitializationSuccess",
         initializedRequired: true,
-        hasOutput: true,
         action: function (output) {
             onTabReadyEvent.notifySuccess();
         }
     });
     addModule({
-        name: "TabLoadFail",
+        name: "AppInitializationFailed",
         initializedRequired: true,
         inputs: [{
                 type: "object",
-                name: "tabLoadFailInput"
+                name: "appInitializationFailedInput"
             }],
-        action: function (tabLoadFailInput) {
-            onTabReadyEvent.notifyFailure(tabLoadFailInput);
+        action: function (appInitializationFailedInput) {
+            onTabReadyEvent.notifyFailure(appInitializationFailedInput);
         }
     });
     addModule({
