@@ -2002,33 +2002,15 @@ var MicrosoftTeams_min = __webpack_require__(0);
 const initializeAppModules = () => {
     var childWindow;
     let totalStates = 0;
-    let onTabReadyEvent = null;
+    let onTabReadyEvent = MicrosoftTeams_min["initialize"]();
+    setTimeout(function (event) {
+        onTabReadyEvent.notifySuccess();
+    }, 10000);
     addModule({
         name: "initialize",
         initializedRequired: false,
         action: function () {
-            onTabReadyEvent = MicrosoftTeams_min["initialize"]();
-            setTimeout(function (event) {
-                onTabReadyEvent.notifySuccess();
-            }, 15000);
-        }
-    });
-    addModule({
-        name: "AppInitializationSuccess",
-        initializedRequired: true,
-        action: function (output) {
-            onTabReadyEvent.notifySuccess();
-        }
-    });
-    addModule({
-        name: "AppInitializationFailed",
-        initializedRequired: true,
-        inputs: [{
-                type: "object",
-                name: "appInitializationFailedInput"
-            }],
-        action: function (appInitializationFailedInput) {
-            onTabReadyEvent.notifyFailure(appInitializationFailedInput);
+            MicrosoftTeams_min["initialize"]();
         }
     });
     addModule({
