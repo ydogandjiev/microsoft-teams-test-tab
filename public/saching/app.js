@@ -2005,7 +2005,7 @@ const initializeAppModules = () => {
     let onTabReadyEvent = MicrosoftTeams_min["initialize"]();
     setTimeout(function (event) {
         onTabReadyEvent.notifySuccess();
-    }, 10000);
+    }, 5000);
     addModule({
         name: "initialize",
         initializedRequired: false,
