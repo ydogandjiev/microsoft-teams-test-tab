@@ -40,15 +40,6 @@ export const initializeAppModules = () => {
   });
 
   addModule({
-    name: "getContext",
-    initializedRequired: true,
-    hasOutput: true,
-    action: function (output) {
-      microsoftTeams.getContext(output);
-    }
-  });
-
-  addModule({
     name: "navigateCrossDomain",
     initializedRequired: true,
     inputs: [{

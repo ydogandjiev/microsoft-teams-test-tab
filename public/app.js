@@ -101,7 +101,6 @@ __webpack_require__.r(__webpack_exports__);
 let inputs = {};
 let container = document.createElement("div");
 container.classList.add("moduleContainer");
-let isInitializedCalled = false;
 function addModule(config) {
     var element = document.createElement("div");
     var button = document.createElement("button");
@@ -165,20 +164,6 @@ function addModule(config) {
     }
     container.appendChild(element);
     button.addEventListener("click", function () {
-        if (config.name == "initialize") {
-            isInitializedCalled = true;
-        }
-        else if (config.initializedRequired && !isInitializedCalled) {
-            // Get the modal
-            var modal = document.getElementById("myModal");
-            var messageBox = document.getElementById("errorMessage");
-            messageBox.innerText = "Please initialize sdk first by clicking initialize Button";
-            modal.style.display = "block";
-        }
-        else {
-            var modal = document.getElementById("myModal");
-            modal.style.display = "none";
-        }
         var args = [];
         if (config.inputs) {
             for (var i = 0; i < config.inputs.length; i++) {
@@ -321,14 +306,6 @@ const initializeAppModules = () => {
         hasOutput: true,
         action: function (output) {
             MicrosoftTeams_min["registerOnThemeChangeHandler"](output);
-        }
-    });
-    addModule({
-        name: "getContext",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["getContext"](output);
         }
     });
     addModule({
