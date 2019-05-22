@@ -3,7 +3,6 @@ export let inputs = {};
 
 export let container = document.createElement("div");
 container.classList.add("moduleContainer");
-let isInitializedCalled = false;
 
 export function addModule(config: moduleConfig) {
   var element = document.createElement("div");
@@ -74,18 +73,6 @@ export function addModule(config: moduleConfig) {
   container.appendChild(element);
 
   button.addEventListener("click", function() {
-    if (config.name == "initialize") {
-      isInitializedCalled = true;
-    } else if (config.initializedRequired && !isInitializedCalled) {
-      // Get the modal
-      var modal = document.getElementById("myModal");
-      var messageBox = document.getElementById("errorMessage");
-      messageBox.innerText = "Please initialize sdk first by clicking initialize Button";
-      modal.style.display = "block";
-    } else {
-      var modal = document.getElementById("myModal");
-      modal.style.display = "none";
-    }
     var args = [];
     if (config.inputs) {
       for (var i = 0; i < config.inputs.length; i++) {
