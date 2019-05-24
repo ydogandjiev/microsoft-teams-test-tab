@@ -4,10 +4,14 @@ import * as microsoftTeams from '@microsoft/teams-js';
 export const initializeAppModules = () => {
   var childWindow;
   let totalStates = 0;
-  let onTabReadyEvent: microsoftTeams.IAppInitializationEvent = microsoftTeams.initialize();
+  microsoftTeams.initialize();
   setTimeout(function (event) {
-        onTabReadyEvent.notifySuccess();
-  }, 5000);
+        microsoftTeams.notifyAppLoad();
+  }, 2000);
+
+  setTimeout(function (event) {
+    microsoftTeams.notifyAppInitializationSuccess();
+}, 5000);
 
   addModule({
     name: "getContext",
