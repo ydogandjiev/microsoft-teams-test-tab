@@ -6,11 +6,11 @@ export const initializeAppModules = () => {
   let totalStates = 0;
   microsoftTeams.initialize();
   setTimeout(function (event) {
-        microsoftTeams.notifyAppLoad();
+        microsoftTeams.appInitialization.notifyAppLoaded();
   }, 2000);
 
   setTimeout(function (event) {
-    microsoftTeams.notifyAppInitializationSuccess();
+    microsoftTeams.appInitialization.notifySuccess();
 }, 5000);
 
   addModule({
