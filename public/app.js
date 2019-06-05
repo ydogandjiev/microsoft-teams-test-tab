@@ -275,469 +275,470 @@ var MicrosoftTeams_min = __webpack_require__(0);
 
 
 const initializeAppModules = () => {
-    var childWindow;
-    let totalStates = 0;
-    MicrosoftTeams_min["initialize"]();
-    setTimeout(function (event) {
+    try {
+        var childWindow;
+        let totalStates = 0;
+        MicrosoftTeams_min["initialize"]();
         MicrosoftTeams_min["appInitialization"].notifyAppLoaded();
-    }, 2000);
-    setTimeout(function (event) {
-        MicrosoftTeams_min["appInitialization"].notifySuccess();
-    }, 5000);
-    addModule({
-        name: "getContext",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["getContext"](output);
-        }
-    });
-    addModule({
-        name: "navigateCrossDomain",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "url"
-            }],
-        action: function (url) {
-            MicrosoftTeams_min["navigateCrossDomain"](url);
-        }
-    });
-    addModule({
-        name: "registerOnThemeChangeHandler",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["registerOnThemeChangeHandler"](output);
-        }
-    });
-    addModule({
-        name: "navigateCrossDomain",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "url"
-            }],
-        action: function (url) {
-            MicrosoftTeams_min["navigateCrossDomain"](url);
-        }
-    });
-    addModule({
-        name: "registerOnThemeChangeHandler",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["registerOnThemeChangeHandler"](output);
-        }
-    });
-    addModule({
-        name: "registerChangeSettingsHandler",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["registerChangeSettingsHandler"](function () {
-                output("Change Settings Event recieved");
-            });
-        }
-    });
-    addModule({
-        name: "shareDeepLink",
-        initializedRequired: true,
-        inputs: [{
-                type: "object",
-                name: "deepLinkParameters"
-            }],
-        action: function (deepLinkParameters) {
-            MicrosoftTeams_min["shareDeepLink"](deepLinkParameters);
-        }
-    });
-    addModule({
-        name: "executeDeepLink",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "deepLink"
-            }],
-        action: function (deepLink) {
-            MicrosoftTeams_min["executeDeepLink"](deepLink);
-        }
-    });
-    addModule({
-        name: "authentication.authenticate",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "url"
-            }],
-        hasOutput: true,
-        action: function (url, output) {
-            MicrosoftTeams_min["authentication"].authenticate({
-                url: url,
-                successCallback: function (result) {
-                    output("Success:" + result);
-                },
-                failureCallback: function (reason) {
-                    output("Failure:" + reason);
-                    MessageEvent;
-                },
-            });
-        }
-    });
-    addModule({
-        name: "tasks.startTask and listen for task module messages",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "object",
-                name: "taskInfo"
-            }],
-        action: function (taskInfo, output) {
-            childWindow = MicrosoftTeams_min["tasks"].startTask(taskInfo);
-            childWindow.addEventListener("message", function (message) {
-                output("Message from task module: " + message);
-                childWindow.postMessage("tab received - " + message);
-            });
-        }
-    });
-    addModule({
-        name: "send message to Child Window(tab to task module)",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "string",
-                name: "message"
-            }],
-        action: function (message, output) {
-            if (childWindow) {
-                childWindow.postMessage(message);
+        addModule({
+            name: "getContext",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["getContext"](output);
             }
-            else {
-                output("child window not available");
+        });
+        addModule({
+            name: "navigateCrossDomain",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "url"
+                }],
+            action: function (url) {
+                MicrosoftTeams_min["navigateCrossDomain"](url);
             }
-        }
-    });
-    addModule({
-        name: "send message to parent Window(task module to tab)",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "string",
-                name: "message"
-            }],
-        action: function (message, output) {
-            var parentWindow = MicrosoftTeams_min["ParentAppWindow"].Instance;
-            if (parentWindow) {
-                parentWindow.postMessage(message);
-                output("message sent to parent(tab)");
+        });
+        addModule({
+            name: "registerOnThemeChangeHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["registerOnThemeChangeHandler"](output);
             }
-            else {
-                output("parent window not available");
+        });
+        addModule({
+            name: "navigateCrossDomain",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "url"
+                }],
+            action: function (url) {
+                MicrosoftTeams_min["navigateCrossDomain"](url);
             }
-        }
-    });
-    addModule({
-        name: "register listener for parent message(tab to task module)",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            var parentWindow = MicrosoftTeams_min["ParentAppWindow"].Instance;
-            if (parentWindow) {
-                parentWindow.addEventListener("message", function (message) {
-                    output("message from tab: " + message);
+        });
+        addModule({
+            name: "registerOnThemeChangeHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["registerOnThemeChangeHandler"](output);
+            }
+        });
+        addModule({
+            name: "registerChangeSettingsHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["registerChangeSettingsHandler"](function () {
+                    output("Change Settings Event recieved");
                 });
             }
-            else {
-                output("parent window not available");
+        });
+        addModule({
+            name: "shareDeepLink",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "deepLinkParameters"
+                }],
+            action: function (deepLinkParameters) {
+                MicrosoftTeams_min["shareDeepLink"](deepLinkParameters);
             }
-        }
-    });
-    addModule({
-        name: "downloadFile ShowNotificationOnly",
-        initializedRequired: true,
-        inputs: [{
-                type: "object",
-                name: "showNotificationParameters"
-            }],
-        action: function (showNotificationParameters) {
-            MicrosoftTeams_min["showNotification"](showNotificationParameters);
-        }
-    });
-    addModule({
-        name: "getAuthToken",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "object",
-                name: "getAuthTokenParameters"
-            }],
-        action: function (getAuthTokenParameters, output) {
-            getAuthTokenParameters.successCallback = (token) => {
-                output("Success: " + token);
-            };
-            getAuthTokenParameters.failureCallback = (reason) => {
-                output("Failure: " + reason);
-            };
-            MicrosoftTeams_min["authentication"].getAuthToken(getAuthTokenParameters);
-        }
-    });
-    addModule({
-        name: "authentication.notifyFailure",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "reason"
-            }],
-        action: function (reason) {
-            MicrosoftTeams_min["authentication"].notifyFailure(reason);
-        }
-    });
-    addModule({
-        name: "authentication.notifySuccess",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "result"
-            }],
-        action: function (result) {
-            MicrosoftTeams_min["authentication"].notifySuccess(result);
-        }
-    });
-    addModule({
-        name: "settings.getSettings",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["settings"].getSettings(output);
-        }
-    });
-    addModule({
-        name: "settings.registerOnSaveHandler",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["settings"].registerOnSaveHandler(function (saveEvent) {
-                window.saveEvent = saveEvent;
-                output("SaveEvent recieved");
-            });
-        }
-    });
-    addModule({
-        name: "settings.registerOnSaveHandler.notifyFailure",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "reason"
-            }],
-        action: function (reason) {
-            window.saveEvent && window.saveEvent.notifyFailure(reason);
-        }
-    });
-    addModule({
-        name: "settings.registerOnSaveHandler.notifySuccess",
-        initializedRequired: true,
-        action: function () {
-            window.saveEvent && window.saveEvent.notifySuccess();
-        }
-    });
-    addModule({
-        name: "settings.setSettings",
-        initializedRequired: true,
-        inputs: [{
-                type: "object",
-                name: "settings"
-            }],
-        hasOutput: true,
-        action: function (settings, output) {
-            MicrosoftTeams_min["settings"].setSettings(settings);
-        }
-    });
-    addModule({
-        name: "settings.setValidityState",
-        initializedRequired: true,
-        inputs: [{
-                type: "boolean",
-                name: "validityState"
-            }],
-        action: function (validityState) {
-            MicrosoftTeams_min["settings"].setValidityState(validityState);
-        }
-    });
-    addModule({
-        name: "settings.registerOnRemoveHandler",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["settings"].registerOnRemoveHandler(function (removeEvent) {
-                window.removeEvent = removeEvent;
-                output("RemoveEvent recieved");
-            });
-        }
-    });
-    addModule({
-        name: "settings.registerOnRemoveHandler.notifyFailure",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "reason"
-            }],
-        action: function (reason) {
-            window.removeEvent && window.removeEvent.notifyFailure(reason);
-        }
-    });
-    addModule({
-        name: "settings.registerOnRemoveHandler.notifySuccess",
-        initializedRequired: true,
-        action: function () {
-            window.removeEvent && window.removeEvent.notifySuccess();
-        }
-    });
-    addModule({
-        name: "openFilePreview",
-        initializedRequired: true,
-        inputs: [{
-                type: "object",
-                name: "filePreviewParameters"
-            }],
-        action: function (filePreviewParameters) {
-            MicrosoftTeams_min["openFilePreview"](filePreviewParameters);
-        }
-    });
-    addModule({
-        name: "task.submitTask",
-        initializedRequired: true,
-        inputs: [{
-                type: "string",
-                name: "result"
-            },
-            {
-                type: "string",
-                name: "appId"
-            }],
-        action: function (result, appId) {
-            MicrosoftTeams_min["tasks"].submitTask(result, appId);
-        }
-    });
-    addModule({
-        name: "tasks.startTask",
-        initializedRequired: true,
-        inputs: [{
-                type: "object",
-                name: "taskInfo"
-            }],
-        action: function (taskInfo) {
-            MicrosoftTeams_min["tasks"].startTask(taskInfo);
-        }
-    });
-    addModule({
-        name: "downloadFile ShowNotificationOnly",
-        initializedRequired: true,
-        inputs: [{
-                type: "object",
-                name: "showNotificationParameters"
-            }],
-        action: function (showNotificationParameters) {
-            MicrosoftTeams_min["showNotification"](showNotificationParameters);
-        }
-    });
-    addModule({
-        name: "getAuthToken",
-        initializedRequired: true,
-        hasOutput: true,
-        inputs: [{
-                type: "object",
-                name: "getAuthTokenParameters"
-            }],
-        action: function (getAuthTokenParameters, output) {
-            getAuthTokenParameters.successCallback = (token) => {
-                output("Success: " + token);
-            };
-            getAuthTokenParameters.failureCallback = (reason) => {
-                output("Failure: " + reason);
-            };
-            MicrosoftTeams_min["authentication"].getAuthToken(getAuthTokenParameters);
-        }
-    });
-    addModule({
-        name: "getChatMembers",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["getChatMembers"](output);
-        }
-    });
-    addModule({
-        name: "getUserJoinedTeams",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min;
-            MicrosoftTeams_min["getUserJoinedTeams"](output);
-        }
-    });
-    addModule({
-        name: "registerBeforeUnload",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            MicrosoftTeams_min["registerBeforeUnloadHandler"](function (readyToUnload) {
-                window.readyToUnload = readyToUnload;
-                alert('beforeUnload recieved');
-                return true;
-            });
-        }
-    });
-    addModule({
-        name: "readyToUnload",
-        initializedRequired: true,
-        action: function () {
-            window.readyToUnload && window.readyToUnload();
-        }
-    });
-    addModule({
-        name: "add states",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            totalStates++;
-            window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
-            output("total States: " + totalStates);
-            window.addEventListener('popstate', function (event) {
-                if (event.state && event.state.id) {
-                    output("onpopstate: back button clicked. total remaining state: " + event.state.id);
+        });
+        addModule({
+            name: "executeDeepLink",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "deepLink"
+                }],
+            action: function (deepLink) {
+                MicrosoftTeams_min["executeDeepLink"](deepLink);
+            }
+        });
+        addModule({
+            name: "authentication.authenticate",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "url"
+                }],
+            hasOutput: true,
+            action: function (url, output) {
+                MicrosoftTeams_min["authentication"].authenticate({
+                    url: url,
+                    successCallback: function (result) {
+                        output("Success:" + result);
+                    },
+                    failureCallback: function (reason) {
+                        output("Failure:" + reason);
+                        MessageEvent;
+                    },
+                });
+            }
+        });
+        addModule({
+            name: "tasks.startTask and listen for task module messages",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "object",
+                    name: "taskInfo"
+                }],
+            action: function (taskInfo, output) {
+                childWindow = MicrosoftTeams_min["tasks"].startTask(taskInfo);
+                childWindow.addEventListener("message", function (message) {
+                    output("Message from task module: " + message);
+                    childWindow.postMessage("tab received - " + message);
+                });
+            }
+        });
+        addModule({
+            name: "send message to Child Window(tab to task module)",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "string",
+                    name: "message"
+                }],
+            action: function (message, output) {
+                if (childWindow) {
+                    childWindow.postMessage(message);
                 }
-            }, false);
-        }
-    });
-    addModule({
-        name: "registerBackButtonHandler",
-        initializedRequired: true,
-        hasOutput: true,
-        action: function (output) {
-            output("total States: " + totalStates);
-            MicrosoftTeams_min["registerBackButtonHandler"](function () {
-                if (totalStates > 0) {
-                    totalStates--;
-                    output("back button clicked. total remaining state: " + totalStates);
+                else {
+                    output("child window not available");
+                }
+            }
+        });
+        addModule({
+            name: "send message to parent Window(task module to tab)",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "string",
+                    name: "message"
+                }],
+            action: function (message, output) {
+                var parentWindow = MicrosoftTeams_min["ParentAppWindow"].Instance;
+                if (parentWindow) {
+                    parentWindow.postMessage(message);
+                    output("message sent to parent(tab)");
+                }
+                else {
+                    output("parent window not available");
+                }
+            }
+        });
+        addModule({
+            name: "register listener for parent message(tab to task module)",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                var parentWindow = MicrosoftTeams_min["ParentAppWindow"].Instance;
+                if (parentWindow) {
+                    parentWindow.addEventListener("message", function (message) {
+                        output("message from tab: " + message);
+                    });
+                }
+                else {
+                    output("parent window not available");
+                }
+            }
+        });
+        addModule({
+            name: "downloadFile ShowNotificationOnly",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "showNotificationParameters"
+                }],
+            action: function (showNotificationParameters) {
+                MicrosoftTeams_min["showNotification"](showNotificationParameters);
+            }
+        });
+        addModule({
+            name: "getAuthToken",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "object",
+                    name: "getAuthTokenParameters"
+                }],
+            action: function (getAuthTokenParameters, output) {
+                getAuthTokenParameters.successCallback = (token) => {
+                    output("Success: " + token);
+                };
+                getAuthTokenParameters.failureCallback = (reason) => {
+                    output("Failure: " + reason);
+                };
+                MicrosoftTeams_min["authentication"].getAuthToken(getAuthTokenParameters);
+            }
+        });
+        addModule({
+            name: "authentication.notifyFailure",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "reason"
+                }],
+            action: function (reason) {
+                MicrosoftTeams_min["authentication"].notifyFailure(reason);
+            }
+        });
+        addModule({
+            name: "authentication.notifySuccess",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "result"
+                }],
+            action: function (result) {
+                MicrosoftTeams_min["authentication"].notifySuccess(result);
+            }
+        });
+        addModule({
+            name: "settings.getSettings",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["settings"].getSettings(output);
+            }
+        });
+        addModule({
+            name: "settings.registerOnSaveHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["settings"].registerOnSaveHandler(function (saveEvent) {
+                    window.saveEvent = saveEvent;
+                    output("SaveEvent recieved");
+                });
+            }
+        });
+        addModule({
+            name: "settings.registerOnSaveHandler.notifyFailure",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "reason"
+                }],
+            action: function (reason) {
+                window.saveEvent && window.saveEvent.notifyFailure(reason);
+            }
+        });
+        addModule({
+            name: "settings.registerOnSaveHandler.notifySuccess",
+            initializedRequired: true,
+            action: function () {
+                window.saveEvent && window.saveEvent.notifySuccess();
+            }
+        });
+        addModule({
+            name: "settings.setSettings",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "settings"
+                }],
+            hasOutput: true,
+            action: function (settings, output) {
+                MicrosoftTeams_min["settings"].setSettings(settings);
+            }
+        });
+        addModule({
+            name: "settings.setValidityState",
+            initializedRequired: true,
+            inputs: [{
+                    type: "boolean",
+                    name: "validityState"
+                }],
+            action: function (validityState) {
+                MicrosoftTeams_min["settings"].setValidityState(validityState);
+            }
+        });
+        addModule({
+            name: "settings.registerOnRemoveHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["settings"].registerOnRemoveHandler(function (removeEvent) {
+                    window.removeEvent = removeEvent;
+                    output("RemoveEvent recieved");
+                });
+            }
+        });
+        addModule({
+            name: "settings.registerOnRemoveHandler.notifyFailure",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "reason"
+                }],
+            action: function (reason) {
+                window.removeEvent && window.removeEvent.notifyFailure(reason);
+            }
+        });
+        addModule({
+            name: "settings.registerOnRemoveHandler.notifySuccess",
+            initializedRequired: true,
+            action: function () {
+                window.removeEvent && window.removeEvent.notifySuccess();
+            }
+        });
+        addModule({
+            name: "openFilePreview",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "filePreviewParameters"
+                }],
+            action: function (filePreviewParameters) {
+                MicrosoftTeams_min["openFilePreview"](filePreviewParameters);
+            }
+        });
+        addModule({
+            name: "task.submitTask",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "result"
+                },
+                {
+                    type: "string",
+                    name: "appId"
+                }],
+            action: function (result, appId) {
+                MicrosoftTeams_min["tasks"].submitTask(result, appId);
+            }
+        });
+        addModule({
+            name: "tasks.startTask",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "taskInfo"
+                }],
+            action: function (taskInfo) {
+                MicrosoftTeams_min["tasks"].startTask(taskInfo);
+            }
+        });
+        addModule({
+            name: "downloadFile ShowNotificationOnly",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "showNotificationParameters"
+                }],
+            action: function (showNotificationParameters) {
+                MicrosoftTeams_min["showNotification"](showNotificationParameters);
+            }
+        });
+        addModule({
+            name: "getAuthToken",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "object",
+                    name: "getAuthTokenParameters"
+                }],
+            action: function (getAuthTokenParameters, output) {
+                getAuthTokenParameters.successCallback = (token) => {
+                    output("Success: " + token);
+                };
+                getAuthTokenParameters.failureCallback = (reason) => {
+                    output("Failure: " + reason);
+                };
+                MicrosoftTeams_min["authentication"].getAuthToken(getAuthTokenParameters);
+            }
+        });
+        addModule({
+            name: "getChatMembers",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["getChatMembers"](output);
+            }
+        });
+        addModule({
+            name: "getUserJoinedTeams",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min;
+                MicrosoftTeams_min["getUserJoinedTeams"](output);
+            }
+        });
+        addModule({
+            name: "registerBeforeUnload",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["registerBeforeUnloadHandler"](function (readyToUnload) {
+                    window.readyToUnload = readyToUnload;
+                    alert('beforeUnload recieved');
                     return true;
-                }
-                return false;
-            });
-        }
-    });
-    // Get the modal
-    var modal = document.getElementById("myModal");
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modal.style.display = "none";
-    };
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modal) {
+                });
+            }
+        });
+        addModule({
+            name: "readyToUnload",
+            initializedRequired: true,
+            action: function () {
+                window.readyToUnload && window.readyToUnload();
+            }
+        });
+        addModule({
+            name: "add states",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                totalStates++;
+                window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
+                output("total States: " + totalStates);
+                window.addEventListener('popstate', function (event) {
+                    if (event.state && event.state.id) {
+                        output("onpopstate: back button clicked. total remaining state: " + event.state.id);
+                    }
+                }, false);
+            }
+        });
+        addModule({
+            name: "registerBackButtonHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                output("total States: " + totalStates);
+                MicrosoftTeams_min["registerBackButtonHandler"](function () {
+                    if (totalStates > 0) {
+                        totalStates--;
+                        output("back button clicked. total remaining state: " + totalStates);
+                        return true;
+                    }
+                    return false;
+                });
+            }
+        });
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
             modal.style.display = "none";
-        }
-    };
+        };
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+        MicrosoftTeams_min["appInitialization"].notifySuccess();
+    }
+    catch (err) {
+        MicrosoftTeams_min["appInitialization"].notifyFailure({ reason: "Other" /* Other */, message: err.message });
+    }
 };
 
 // CONCATENATED MODULE: ./src/index.ts
