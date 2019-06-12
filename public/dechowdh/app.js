@@ -2484,7 +2484,12 @@ const initializeAppModules = () => {
                 openConversationRequest.onCloseConversation = (conversationResponse) => {
                     output("Start Conversation Subentity Id " + conversationResponse.subEntityId + " Conversation Id: " + conversationResponse.conversationId + " Entity Id: " + conversationResponse.entityId + " Channel Id: " + conversationResponse.channelId);
                 };
-                MicrosoftTeams_min["conversations"].openConversation(openConversationRequest);
+                try {
+                    MicrosoftTeams_min["conversations"].openConversation(openConversationRequest);
+                }
+                catch (e) {
+                    output("Error" + e);
+                }
             }
         });
         addModule({
