@@ -2478,11 +2478,11 @@ const initializeAppModules = () => {
                     name: "openConversationRequest"
                 }],
             action: function (openConversationRequest, output) {
-                openConversationRequest.onStartConversation = (subEntityId, conversationId, entityId, channelId) => {
-                    output("Start Conversation Subentity Id " + subEntityId + " Conversation Id: " + conversationId + " Entity Id: " + entityId + " Channel Id: " + channelId);
+                openConversationRequest.onStartConversation = (conversationResponse) => {
+                    output("Start Conversation Subentity Id " + conversationResponse.subEntityId + " Conversation Id: " + conversationResponse.conversationId + " Entity Id: " + conversationResponse.entityId + " Channel Id: " + conversationResponse.channelId);
                 };
-                openConversationRequest.onCloseConversation = (subEntityId, conversationId, entityId, channelId) => {
-                    output("Start Conversation Subentity Id " + subEntityId + " Conversation Id: " + conversationId + " Entity Id: " + entityId + " Channel Id: " + channelId);
+                openConversationRequest.onCloseConversation = (conversationResponse) => {
+                    output("Start Conversation Subentity Id " + conversationResponse.subEntityId + " Conversation Id: " + conversationResponse.conversationId + " Entity Id: " + conversationResponse.entityId + " Channel Id: " + conversationResponse.channelId);
                 };
                 MicrosoftTeams_min["conversations"].openConversation(openConversationRequest);
             }
