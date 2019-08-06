@@ -8,10 +8,10 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@microsoft/teams-js@1.5.0-beta.5":
-  version "1.5.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.5.0-beta.5.tgz#a9225c9867b299d64c409ebf3548af5cc9f0930b"
-  integrity sha512-w3ewZzeVHd5alAT85VGxzI2Te3owwM0JRamTPPbBanRTGVBkd4/VFxyAbRBvK2SIwqaQtUVSklrGYgextVN7Nw==
+"@microsoft/teams-js@1.5.0-beta.10":
+  version "1.5.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.5.0-beta.10.tgz#6dc17cdad440fccecdd1487b3fa4dec597723182"
+  integrity sha512-fiZj5BZpgn4YJ9/fLC3dtb2ObZj7jP5IV7hiHXBEdZLVXhAU2gFtp2pH8eEtVq3MHP4RG8tSoIW5NrBo4vfQWQ==
 
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
