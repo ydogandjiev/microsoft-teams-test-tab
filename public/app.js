@@ -720,6 +720,36 @@ const initializeAppModules = () => {
                 });
             }
         });
+        addModule({
+            name: "conversations.openConversation",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "object",
+                    name: "openConversationRequest"
+                }],
+            action: function (openConversationRequest, output) {
+                openConversationRequest.onStartConversation = (conversationResponse) => {
+                    output("Start Conversation Subentity Id " + conversationResponse.subEntityId + " Conversation Id: " + conversationResponse.conversationId + " Entity Id: " + conversationResponse.entityId + " Channel Id: " + conversationResponse.channelId);
+                };
+                openConversationRequest.onCloseConversation = (conversationResponse) => {
+                    output("Start Conversation Subentity Id " + conversationResponse.subEntityId + " Conversation Id: " + conversationResponse.conversationId + " Entity Id: " + conversationResponse.entityId + " Channel Id: " + conversationResponse.channelId);
+                };
+                try {
+                    MicrosoftTeams_min["conversations"].openConversation(openConversationRequest);
+                }
+                catch (e) {
+                    output("Error" + e);
+                }
+            }
+        });
+        addModule({
+            name: "conversations.closeConversation",
+            initializedRequired: true,
+            action: function () {
+                MicrosoftTeams_min["conversations"].closeConversation();
+            }
+        });
         // Get the modal
         var modal = document.getElementById("myModal");
         // Get the <span> element that closes the modal
