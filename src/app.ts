@@ -332,11 +332,7 @@ export const initializeAppModules = () => {
         name: "reason"
       }],
       action: function (reason) {
-        // (window as any).removeEvent && (window as any).removeEvent.notifyFailure(reason);
-
-        microsoftTeams.settings.registerOnRemoveHandler(function(removeEvent){
-          removeEvent.notifySuccess();
-        });
+        (window as any).removeEvent && (window as any).removeEvent.notifyFailure(reason);
       }
     });
 
@@ -344,11 +340,7 @@ export const initializeAppModules = () => {
       name: "settings.registerOnRemoveHandler.notifySuccess",
       initializedRequired: true,
       action: function () {
-        // (window as any).removeEvent && (window as any).removeEvent.notifySuccess();
-
-        microsoftTeams.settings.registerOnRemoveHandler(function(removeEvent){
-          removeEvent.notifyFailure();
-        });
+        (window as any).removeEvent && (window as any).removeEvent.notifySuccess();
       }
     });
 
@@ -529,26 +521,6 @@ export const initializeAppModules = () => {
       action: function () {
         microsoftTeams.conversations.closeConversation();
       }
-  });
-
-  addModule({
-    name: "settings.registerOnRemoveHandler.notifyFailure",
-    initializedRequired: true,
-    inputs: [{
-      type: "string",
-      name: "reason"
-    }],
-    action: function (reason) {
-      (window as any).removeEvent && (window as any).removeEvent.notifyFailure(reason);
-    }
-  });
-
-  addModule({
-    name: "settings.registerOnRemoveHandler.notifySuccess",
-    initializedRequired: true,
-    action: function () {
-      (window as any).removeEvent && (window as any).removeEvent.notifySuccess();
-    }
   });
 
     // Get the modal
