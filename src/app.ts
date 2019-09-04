@@ -523,6 +523,26 @@ export const initializeAppModules = () => {
       }
   });
 
+  addModule({
+    name: "settings.registerOnRemoveHandler.notifyFailure",
+    initializedRequired: true,
+    inputs: [{
+      type: "string",
+      name: "reason"
+    }],
+    action: function (reason) {
+      (window as any).removeEvent && (window as any).removeEvent.notifyFailure(reason);
+    }
+  });
+
+  addModule({
+    name: "settings.registerOnRemoveHandler.notifySuccess",
+    initializedRequired: true,
+    action: function () {
+      (window as any).removeEvent && (window as any).removeEvent.notifySuccess();
+    }
+  });
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
