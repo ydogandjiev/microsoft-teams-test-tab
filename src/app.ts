@@ -332,7 +332,11 @@ export const initializeAppModules = () => {
         name: "reason"
       }],
       action: function (reason) {
-        (window as any).removeEvent && (window as any).removeEvent.notifyFailure(reason);
+        // (window as any).removeEvent && (window as any).removeEvent.notifyFailure(reason);
+
+        microsoftTeams.settings.registerOnRemoveHandler(function(removeEvent){
+          removeEvent.notifySuccess();
+        });
       }
     });
 
@@ -340,7 +344,11 @@ export const initializeAppModules = () => {
       name: "settings.registerOnRemoveHandler.notifySuccess",
       initializedRequired: true,
       action: function () {
-        (window as any).removeEvent && (window as any).removeEvent.notifySuccess();
+        // (window as any).removeEvent && (window as any).removeEvent.notifySuccess();
+
+        microsoftTeams.settings.registerOnRemoveHandler(function(removeEvent){
+          removeEvent.notifyFailure();
+        });
       }
     });
 

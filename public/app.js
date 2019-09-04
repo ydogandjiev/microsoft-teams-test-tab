@@ -577,14 +577,20 @@ const initializeAppModules = () => {
                     name: "reason"
                 }],
             action: function (reason) {
-                window.removeEvent && window.removeEvent.notifyFailure(reason);
+                // (window as any).removeEvent && (window as any).removeEvent.notifyFailure(reason);
+                MicrosoftTeams_min["settings"].registerOnRemoveHandler(function (removeEvent) {
+                    removeEvent.notifySuccess();
+                });
             }
         });
         addModule({
             name: "settings.registerOnRemoveHandler.notifySuccess",
             initializedRequired: true,
             action: function () {
-                window.removeEvent && window.removeEvent.notifySuccess();
+                // (window as any).removeEvent && (window as any).removeEvent.notifySuccess();
+                MicrosoftTeams_min["settings"].registerOnRemoveHandler(function (removeEvent) {
+                    removeEvent.notifyFailure();
+                });
             }
         });
         addModule({
