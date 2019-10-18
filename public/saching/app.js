@@ -2670,10 +2670,10 @@ const initializeAppModules = () => {
                 modal.style.display = "none";
             }
         };
-        MicrosoftTeams["appInitialization"].notifySuccess();
+        //  microsoftTeams.appInitialization.notifySuccess();
     }
     catch (err) {
-        MicrosoftTeams["appInitialization"].notifyFailure({ reason: "Other" /* Other */, message: err.message });
+        //  microsoftTeams.appInitialization.notifyFailure({ reason: microsoftTeams.appInitialization.FailedReason.Other, message: err.message });
     }
 };
 
