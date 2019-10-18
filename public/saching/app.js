@@ -2178,8 +2178,14 @@ const initializeAppModules = () => {
     try {
         var childWindow;
         let totalStates = 0;
-        MicrosoftTeams["initialize"]();
-        MicrosoftTeams["appInitialization"].notifyAppLoaded();
+        addModule({
+            name: "initialize",
+            initializedRequired: false,
+            action: function () {
+                MicrosoftTeams["initialize"]();
+                MicrosoftTeams["appInitialization"].notifyAppLoaded();
+            }
+        });
         addModule({
             name: "getContext",
             initializedRequired: true,
