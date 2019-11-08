@@ -2187,6 +2187,21 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "open window 1",
+            initializedRequired: false,
+            action: function () {
+                window.open('https://teams-todolist.azurewebsites.net');
+            }
+        });
+        addModule({
+            name: "open window 3",
+            initializedRequired: false,
+            action: function () {
+                const url = 'https://teams-todolist.azurewebsites.net';
+                window.open(url, `authWindow${url}`, undefined);
+            }
+        });
+        addModule({
             name: "getContext",
             initializedRequired: true,
             hasOutput: true,
