@@ -513,15 +513,27 @@ export const initializeAppModules = () => {
               output("Error" + e);
           }
       }
-  });
+    });
 
-  addModule({
-      name: "conversations.closeConversation",
+    addModule({
+        name: "conversations.closeConversation",
+        initializedRequired: true,
+        action: function () {
+          microsoftTeams.conversations.closeConversation();
+        }
+    });
+
+    addModule({
+      name: 'setFrameContext',
       initializedRequired: true,
-      action: function () {
-        microsoftTeams.conversations.closeConversation();
+      inputs: [{
+        type: "object",
+        name: "frameContext"
+      }],
+      action: function (frameContext) {
+        microsoftTeams.setFrameContext(frameContext);
       }
-  });
+    });
 
     // Get the modal
     var modal = document.getElementById("myModal");
