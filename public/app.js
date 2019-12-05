@@ -751,7 +751,7 @@ const initializeAppModules = () => {
             }
         });
         addModule({
-            name: 'setFrameContext',
+            name: "setFrameContext",
             initializedRequired: true,
             inputs: [{
                     type: "object",
