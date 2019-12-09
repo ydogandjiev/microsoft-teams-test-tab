@@ -379,8 +379,11 @@ export const initializeAppModules = () => {
         type: "object",
         name: "taskInfo"
       }],
-      action: function (taskInfo) {
-        microsoftTeams.tasks.startTask(taskInfo);
+      hasOutput: true,
+      action: function (taskInfo, output) {
+        microsoftTeams.tasks.startTask(taskInfo, (result) => {
+          output("Result: " + result);
+        });
       }
     });
 
@@ -521,18 +524,6 @@ export const initializeAppModules = () => {
         action: function () {
           microsoftTeams.conversations.closeConversation();
         }
-    });
-
-    addModule({
-      name: "setFrameContext",
-      initializedRequired: true,
-      inputs: [{
-        type: "object",
-        name: "frameContext"
-      }],
-      action: function (frameContext) {
-        microsoftTeams.setFrameContext(frameContext);
-      }
     });
 
     // Get the modal
