@@ -115,8 +115,8 @@ function addModule(config) {
             label.appendChild(document.createTextNode(config.inputs[i].name + ":"));
             element.appendChild(label);
             element.appendChild(document.createElement("br"));
-            var input;
-            var valueGetter;
+            let input;
+            let valueGetter;
             switch (config.inputs[i].type) {
                 case "string":
                     input = document.createElement("input");
