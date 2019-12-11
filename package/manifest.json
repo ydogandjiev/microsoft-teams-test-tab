@@ -1,5 +1,5 @@
 {
-  "$schema": "https://unpkg.com/@microsoft/teams-js@1.3.6/dist/MicrosoftTeams.schema.json",
+  "$schema": "https://raw.githubusercontent.com/OfficeDev/microsoft-teams-app-schema/preview/DevPreview/MicrosoftTeams.schema.json",
   "manifestVersion": "devPreview",
   "version": "0.1",
   "id": "8142d2d1-4113-411f-868f-8e6e606e8827",
@@ -37,9 +37,13 @@
     {
       "configurationUrl": "https://teams-test-tab.azurewebsites.net",
       "scopes": [
-        "team"
+        "team",
+        "groupchat"
       ]
     }
+  ],
+  "validDomains": [
+    "teams-test-tab.azurewebsites.net"
   ],
   "permissions": [
     "identity",
