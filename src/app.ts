@@ -394,7 +394,6 @@ export const initializeAppModules = () => {
         type: "object",
         name: "taskInfo"
       }],
-      hasOutput: false,
       action: function (taskInfo) {
         microsoftTeams.tasks.updateTask(taskInfo);
       }
