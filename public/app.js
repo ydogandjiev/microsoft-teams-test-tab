@@ -628,6 +628,18 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "tasks.updateTask",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "taskInfo"
+                }],
+            hasOutput: true,
+            action: function (taskInfo) {
+                MicrosoftTeams_min["tasks"].updateTask(taskInfo);
+            }
+        });
+        addModule({
             name: "downloadFile ShowNotificationOnly",
             initializedRequired: true,
             inputs: [{
