@@ -289,6 +289,14 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "getTabInstances",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["getTabInstances"](output);
+            }
+        });
+        addModule({
             name: "navigateCrossDomain",
             initializedRequired: true,
             inputs: [{
@@ -634,7 +642,6 @@ const initializeAppModules = () => {
                     type: "object",
                     name: "taskInfo"
                 }],
-            hasOutput: true,
             action: function (taskInfo) {
                 MicrosoftTeams_min["tasks"].updateTask(taskInfo);
             }
