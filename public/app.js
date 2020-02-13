@@ -297,6 +297,14 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "getMRUTabInstances",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min["getMruTabInstances"](output);
+            }
+        });
+        addModule({
             name: "navigateCrossDomain",
             initializedRequired: true,
             inputs: [{
