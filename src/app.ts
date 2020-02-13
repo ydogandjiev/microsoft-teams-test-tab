@@ -18,6 +18,15 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "getTabInstances",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.getTabInstances(output);
+      }
+    });
+
+    addModule({
       name: "navigateCrossDomain",
       initializedRequired: true,
       inputs: [{
