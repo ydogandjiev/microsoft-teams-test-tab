@@ -472,11 +472,18 @@ export const initializeAppModules = () => {
     addModule({
       name: "registerBeforeUnload",
       initializedRequired: true,
-      hasOutput: true,
-      action: function (output) {
+      inputs: [{
+        type: "string",
+        name: "readyToUnloadDelay"
+      }],
+      action: function (readyToUnloadDelay) {
+        const delay = Number(readyToUnloadDelay);
         microsoftTeams.registerBeforeUnloadHandler(function (readyToUnload) {
           (window as any).readyToUnload = readyToUnload;
-          alert('beforeUnload recieved');
+          setTimeout(() => {
+            readyToUnload();
+          }, delay);
+          alert(`beforeUnload recieved; calling readyToUnload in ${delay / 1000} seconds`);
           return true;
         });
       }
