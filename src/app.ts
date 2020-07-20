@@ -280,6 +280,13 @@ export const initializeAppModules = () => {
       action: function (output) {
         microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
           (window as any).saveEvent = saveEvent;
+          const configUrl = window.location.href;
+          microsoftTeams.settings.setSettings({
+            websiteUrl: configUrl,
+            contentUrl: configUrl,
+            entityId: "tabconfig",
+            suggestedDisplayName: "Test Tab RegisterOnSave"
+        });
           output("SaveEvent recieved");
         });
       }
