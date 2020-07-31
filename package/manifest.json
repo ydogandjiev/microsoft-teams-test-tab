@@ -11,7 +11,7 @@
     "termsOfUseUrl": "https://teams-todolist.azurewebsites.net/termsofuse"
   },
   "name": {
-    "short": "Teams Test Tab"
+    "short": "Teams Test Tab in meeting"
   },
   "description": {
     "short": "Test tabs.",
@@ -39,6 +39,10 @@
       "scopes": [
         "team",
         "groupchat"
+      ],
+      "meetingSurfaces": [
+        "Stage",
+        "SidePanel"
       ]
     }
   ],
