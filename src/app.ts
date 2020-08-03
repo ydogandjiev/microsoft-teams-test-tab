@@ -570,7 +570,24 @@ export const initializeAppModules = () => {
         }
     });
 
-    // Get the modal
+    addModule({
+      name: "captureImage",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.captureImage(function(err, files) {
+          if (err) {
+            output(err);
+            return;
+          }
+          
+          const file = files[0];
+          output("format: " + file.format + ", size: " + file.size + ", mimeType: " + file.mimeType + ", content: " + file.content);
+        });
+      } 
+  });
+
+  // Get the modal
     var modal = document.getElementById("myModal");
 
     // Get the <span> element that closes the modal
