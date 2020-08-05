@@ -570,6 +570,156 @@ export const initializeAppModules = () => {
         }
     });
 
+    addModule({
+      name: "captureImage",
+      initializedRequired: true,
+      hasOutput: true,
+      action: (output) => {
+        microsoftTeams.captureImage((err: microsoftTeams.SdkError, files: microsoftTeams.File[]) => {
+          if (err) {
+            output(err);
+            return;
+          }
+          
+          const file: microsoftTeams.File = files[0];
+          let content: string = "";
+          let len = 20;
+          if (file.content) {
+            len = Math.min(len, file.content.length);
+            content = file.content.substr(0, len);
+          }
+          output("format: " + file.format + ", size: " + file.size + ", mimeType: " + file.mimeType + ", content: " + content);
+        });
+      } 
+    });
+
+    addModule({
+      name: "selectMedia",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "mediaInputs"
+      }],
+      action: (mediaInputs: microsoftTeams.MediaInputs, output) => {
+        microsoftTeams.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.Media[]) => {
+          if (err) {
+            output(err);
+            return;
+          }
+
+          let message = "";
+          for (let i = 0; i < medias.length; i++) {
+            const media: microsoftTeams.Media = medias[i];
+            let preview: string = "";
+            let len = 20;
+            if (media.preview) {
+              len = Math.min(len, media.preview.length);
+              preview = media.preview.substr(0, len);
+            }
+            message += "[format: " + media.format + ", size: " + media.size 
+              + ", mimeType: " + media.mimeType + ", content: " + media.content
+              + ", preview: " + preview + "],"
+          }
+          output(message);
+        });
+      } 
+    });
+
+    addModule({
+      name: "getMedia",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "mediaInputs"
+      }],
+      action: (mediaInputs: microsoftTeams.MediaInputs, output) => {
+        microsoftTeams.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.Media[]) => {
+          if (err) {
+            output(err);
+            return;
+          }
+
+          const media: microsoftTeams.Media = medias[0] as microsoftTeams.Media;
+          media.getMedia((gmErr: microsoftTeams.SdkError, blob: Blob) => {
+            if (gmErr) {
+              output(gmErr);
+              return;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(blob); 
+            reader.onloadend = () => {
+              if (reader.result) {
+                output("Received Blob");           
+              }
+            }
+          });
+        });
+      } 
+    });
+
+    addModule({
+      name: "viewImagesWithId",
+      initializedRequired: true,
+      hasOutput: true,
+      action: (output) => {
+        const mediaInputs = {
+          maxMediaCount: 5,
+          mediaType: microsoftTeams.MediaType.Image
+        } as microsoftTeams.MediaInputs;
+        microsoftTeams.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.Media[]) => {
+          if (err) {
+            output(err);
+            return;
+          }
+          const urlList: microsoftTeams.ImageUri[] = [];
+          for (let i = 0; i < medias.length; i++) {
+            const media = medias[i];
+            urlList.push({
+              value: media.content,
+              type: microsoftTeams.ImageUriType.ID
+            } as microsoftTeams.ImageUri)
+          }
+          
+          microsoftTeams.viewImages(urlList, (gmErr: microsoftTeams.SdkError) => {
+            if (gmErr) {
+              output(gmErr);
+              return;
+            }
+            output("Success");
+          });
+        });
+      } 
+    });
+
+    addModule({
+      name: "viewImagesWithUrls",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "imageUrls"
+      }],
+      action: (imageUrls, output) => {
+        const urlList = [];
+        for (let i = 0; i < imageUrls.length; i++) {
+          const imageUrl = imageUrls[i];
+          urlList.push({
+            value: imageUrl,
+            type: microsoftTeams.ImageUriType.URL
+          } as microsoftTeams.ImageUri)
+        }
+        microsoftTeams.viewImages(urlList, (err: microsoftTeams.SdkError) => {
+          if (err) {
+            output(err);
+            return;
+          }
+          output("Success");
+        });
+      } 
+    });
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
