@@ -15,6 +15,7 @@
     "build": "webpack",
     "build-saching": "webpack -o public/saching/app.js",
     "build-debo": "webpack -o public/dechowdh/app.js",
+    "build-anand": "webpack -o public/anandnat/app.js",
     "watch": "webpack -w",
     "start": "node server.js"
   },
