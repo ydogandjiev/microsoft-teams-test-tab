@@ -406,8 +406,13 @@ export const initializeAppModules = () => {
       }],
       hasOutput: true,
       action: function (taskInfo, output) {
-        microsoftTeams.tasks.startTask(taskInfo, (result) => {
-          output("Result: " + result);
+        microsoftTeams.tasks.startTask(taskInfo, (error, result) => {
+          if (error) {
+            output("Error: " + error);
+          }
+          else {
+            output("Result: " + result);
+          }
         });
       }
     });
