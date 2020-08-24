@@ -90,6 +90,29 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "registerAppButtonClickHandler",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.registerAppButtonClickHandler(function () {
+          output("Click event recieved");
+        });
+      }
+    });
+
+    addModule({
+      name: "registerAppButtonHoverHandler",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.registerAppButtonHoverHandler(function () {
+          const date = new Date()
+          output(`Hover event recieved ${date}`);
+        });
+      }
+    });
+
+    addModule({
       name: "shareDeepLink",
       initializedRequired: true,
       inputs: [{
