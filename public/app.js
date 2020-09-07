@@ -910,7 +910,7 @@ const initializeAppModules = () => {
             action: (output) => {
                 const mediaInputs = {
                     maxMediaCount: 5,
-                    mediaType: MicrosoftTeams_min["MediaType"].Image
+                    mediaType: 1
                 };
                 MicrosoftTeams_min["selectMedia"](mediaInputs, (err, medias) => {
                     if (err) {
@@ -922,7 +922,7 @@ const initializeAppModules = () => {
                         const media = medias[i];
                         urlList.push({
                             value: media.content,
-                            type: MicrosoftTeams_min["ImageUriType"].ID
+                            type: 1
                         });
                     }
                     MicrosoftTeams_min["viewImages"](urlList, (gmErr) => {
@@ -949,7 +949,7 @@ const initializeAppModules = () => {
                     const imageUrl = imageUrls[i];
                     urlList.push({
                         value: imageUrl,
-                        type: MicrosoftTeams_min["ImageUriType"].URL
+                        type: 2
                     });
                 }
                 MicrosoftTeams_min["viewImages"](urlList, (err) => {
