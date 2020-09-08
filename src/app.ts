@@ -694,7 +694,7 @@ export const initializeAppModules = () => {
       action: (output) => {
         const mediaInputs = {
           maxMediaCount: 5,
-          mediaType: 1
+          mediaType: 1 //microsoftTeams.MediaType.Image
         } as microsoftTeams.MediaInputs;
         microsoftTeams.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.Media[]) => {
           if (err) {
@@ -706,7 +706,7 @@ export const initializeAppModules = () => {
             const media = medias[i];
             urlList.push({
               value: media.content,
-              type: 1
+              type: 1 //microsoftTeams.ImageUriType.ID
             } as microsoftTeams.ImageUri)
           }
           
@@ -735,7 +735,7 @@ export const initializeAppModules = () => {
           const imageUrl = imageUrls[i];
           urlList.push({
             value: imageUrl,
-            type: 2
+            type: 2 //microsoftTeams.ImageUriType.URL
           } as microsoftTeams.ImageUri)
         }
         microsoftTeams.viewImages(urlList, (err: microsoftTeams.SdkError) => {
