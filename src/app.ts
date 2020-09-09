@@ -153,7 +153,7 @@ export const initializeAppModules = () => {
           failureCallback: function (reason) {
             output("Failure:" + reason);
             MessageEvent
-          },
+          }
         });
       }
     });
@@ -461,27 +461,6 @@ export const initializeAppModules = () => {
       }],
       action: function (showNotificationParameters) {
         microsoftTeams.showNotification(showNotificationParameters);
-      }
-    });
-
-    addModule({
-      name: "getAuthToken",
-      initializedRequired: true,
-      hasOutput: true,
-      inputs: [{
-        type: "object",
-        name: "getAuthTokenParameters"
-      }],
-      action: function (getAuthTokenParameters, output) {
-        getAuthTokenParameters.successCallback = (token: string) => {
-          output("Success: " + token);
-        }
-
-        getAuthTokenParameters.failureCallback = (reason: string) => {
-          output("Failure: " + reason);
-        }
-
-        microsoftTeams.authentication.getAuthToken(getAuthTokenParameters);
       }
     });
 
