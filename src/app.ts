@@ -95,19 +95,29 @@ export const initializeAppModules = () => {
       hasOutput: true,
       action: function (output) {
         microsoftTeams.registerAppButtonClickHandler(function () {
-          output("Click event recieved");
+          output("Click event received");
         });
       }
     });
 
     addModule({
-      name: "registerAppButtonHoverHandler",
+      name: "registerAppButtonHoverEnterHandler",
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.registerAppButtonHoverHandler(function () {
-          const date = new Date()
-          output(`Hover event recieved ${date}`);
+        microsoftTeams.registerAppButtonHoverEnterHandler(function () {
+          output(`Hover enter event received`);
+        });
+      }
+    });
+
+    addModule({
+      name: "registerAppButtonHoverLeaveHandler",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.registerAppButtonHoverLeaveHandler(function () {
+          output(`Hover leave event received`);
         });
       }
     });
