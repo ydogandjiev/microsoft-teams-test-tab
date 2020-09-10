@@ -9,6 +9,7 @@ export function addModule(config: moduleConfig) {
 
   var button = document.createElement("button");
   button.appendChild(document.createTextNode(config.name));
+  button.setAttribute("aria-label", config.name);
   button.id = "button-" + config.name;
   element.appendChild(button);
   element.appendChild(document.createElement("br"));
@@ -51,7 +52,7 @@ export function addModule(config: moduleConfig) {
       }
 
       config.inputs[i].valueGetter = valueGetter;
-
+      input.setAttribute("aria-label", "input-" + config.name);
       input.id = "input-" + config.name + "-" + i;
       element.appendChild(input);
       inputs[input.id] = input;
@@ -66,6 +67,7 @@ export function addModule(config: moduleConfig) {
     element.appendChild(label);
     element.appendChild(document.createElement("br"));
     var textarea = document.createElement("textarea");
+    textarea.setAttribute("aria-label", "textarea-" + config.name);
     textarea.id = "textarea-" + config.name;
     element.appendChild(textarea);
   }
