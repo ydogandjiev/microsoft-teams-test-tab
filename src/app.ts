@@ -592,13 +592,13 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: (output) => {
-        microsoftTeams.captureImage((err: microsoftTeams.SdkError, files: microsoftTeams.File[]) => {
+        microsoftTeams.media.captureImage((err: microsoftTeams.SdkError, files: microsoftTeams.media.File[]) => {
           if (err) {
             output(err);
             return;
           }
           
-          const file: microsoftTeams.File = files[0];
+          const file: microsoftTeams.media.File = files[0];
           let content: string = "";
           let len = 20;
           if (file.content) {
@@ -618,8 +618,8 @@ export const initializeAppModules = () => {
         type: "object",
         name: "mediaInputs"
       }],
-      action: (mediaInputs: microsoftTeams.MediaInputs, output) => {
-        microsoftTeams.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.Media[]) => {
+      action: (mediaInputs: microsoftTeams.media.MediaInputs, output) => {
+        microsoftTeams.media.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
           if (err) {
             output(err);
             return;
@@ -627,7 +627,7 @@ export const initializeAppModules = () => {
 
           let message = "";
           for (let i = 0; i < medias.length; i++) {
-            const media: microsoftTeams.Media = medias[i];
+            const media: microsoftTeams.media.Media = medias[i];
             let preview: string = "";
             let len = 20;
             if (media.preview) {
@@ -651,14 +651,14 @@ export const initializeAppModules = () => {
         type: "object",
         name: "mediaInputs"
       }],
-      action: (mediaInputs: microsoftTeams.MediaInputs, output) => {
-        microsoftTeams.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.Media[]) => {
+      action: (mediaInputs: microsoftTeams.media.MediaInputs, output) => {
+        microsoftTeams.media.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
           if (err) {
             output(err);
             return;
           }
 
-          const media: microsoftTeams.Media = medias[0] as microsoftTeams.Media;
+          const media: microsoftTeams.media.Media = medias[0] as microsoftTeams.media.Media;
           media.getMedia((gmErr: microsoftTeams.SdkError, blob: Blob) => {
             if (gmErr) {
               output(gmErr);
@@ -684,22 +684,22 @@ export const initializeAppModules = () => {
         const mediaInputs = {
           maxMediaCount: 5,
           mediaType: 1 //microsoftTeams.MediaType.Image
-        } as microsoftTeams.MediaInputs;
-        microsoftTeams.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.Media[]) => {
+        } as microsoftTeams.media.MediaInputs;
+        microsoftTeams.media.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
           if (err) {
             output(err);
             return;
           }
-          const urlList: microsoftTeams.ImageUri[] = [];
+          const urlList: microsoftTeams.media.ImageUri[] = [];
           for (let i = 0; i < medias.length; i++) {
             const media = medias[i];
             urlList.push({
               value: media.content,
               type: 1 //microsoftTeams.ImageUriType.ID
-            } as microsoftTeams.ImageUri)
+            } as microsoftTeams.media.ImageUri)
           }
           
-          microsoftTeams.viewImages(urlList, (gmErr: microsoftTeams.SdkError) => {
+          microsoftTeams.media.viewImages(urlList, (gmErr: microsoftTeams.SdkError) => {
             if (gmErr) {
               output(gmErr);
               return;
@@ -725,14 +725,54 @@ export const initializeAppModules = () => {
           urlList.push({
             value: imageUrl,
             type: 2 //microsoftTeams.ImageUriType.URL
-          } as microsoftTeams.ImageUri)
+          } as microsoftTeams.media.ImageUri)
         }
-        microsoftTeams.viewImages(urlList, (err: microsoftTeams.SdkError) => {
+        microsoftTeams.media.viewImages(urlList, (err: microsoftTeams.SdkError) => {
           if (err) {
             output(err);
             return;
           }
           output("Success");
+        });
+      } 
+    });
+
+    addModule({
+      name: "getLocation",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "locationProps"
+      }],
+      action: (locationProps: microsoftTeams.location.LocationProps, output) => {
+        microsoftTeams.location.getLocation(locationProps, (err: microsoftTeams.SdkError, location: microsoftTeams.location.Location) => {
+          if (err) {
+            output(err);
+            return;
+          }
+
+          output(JSON.stringify(location));
+        });
+      } 
+    });
+
+    addModule({
+      name: "showLocation",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "location"
+      }],
+      action: (location: microsoftTeams.location.Location, output) => {
+        microsoftTeams.location.showLocation(location, (err: microsoftTeams.SdkError, result: boolean) => {
+          if (err) {
+            output(err);
+            return;
+          }
+
+          output(result);
         });
       } 
     });

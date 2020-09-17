@@ -20,7 +20,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@microsoft/teams-js": "1.8.0-beta.4",
+    "@microsoft/teams-js": "1.8.0-beta.5",
     "express": "^4.16.3",
     "history": "^4.9.0",
     "serve-static": "^1.13.2"
