@@ -48,6 +48,18 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "returnFocus",
+      initializedRequired: true,
+      inputs: [{
+        type: "boolean",
+        name: "navigateForward"
+      }],
+      action: function (navigateForward) {
+        microsoftTeams.returnFocus(navigateForward);
+      }
+    });
+
+    addModule({
       name: "registerOnThemeChangeHandler",
       initializedRequired: true,
       hasOutput: true,
