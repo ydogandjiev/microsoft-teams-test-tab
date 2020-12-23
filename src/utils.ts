@@ -23,6 +23,7 @@ export function addModule(config: moduleConfig) {
       element.appendChild(document.createElement("br"));
       let input;
       let valueGetter;
+      const defaultInputValue = (config.inputs[i].defaultValue) ? config.inputs[i].defaultValue : null;
       switch (config.inputs[i].type) {
         case "string":
           input = document.createElement("input");
@@ -45,6 +46,10 @@ export function addModule(config: moduleConfig) {
               return JSON.parse(input.value);
             } catch (e) {
               input.style.backgroundColor = "red";
+              if (defaultInputValue) {
+                input.value = defaultInputValue;
+              }
+
               return null;
             }
           };
