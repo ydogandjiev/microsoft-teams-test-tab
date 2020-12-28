@@ -628,7 +628,8 @@ export const initializeAppModules = () => {
       hasOutput: true,
       inputs: [{
         type: "object",
-        name: "mediaInputs"
+        name: "mediaInputs",
+        defaultValue: "{\"mediaType\":1,\"maxMediaCount\":1,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
       }],
       action: (mediaInputs: microsoftTeams.media.MediaInputs, output) => {
         microsoftTeams.media.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
@@ -661,10 +662,11 @@ export const initializeAppModules = () => {
       hasOutput: true,
       inputs: [{
         type: "object",
-        name: "mediaInputs"
+        name: "inputParams",
+        defaultValue: "{\"mediaType\":1,\"maxMediaCount\":1,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
       }],
-      action: (mediaInputs: microsoftTeams.media.MediaInputs, output) => {
-        microsoftTeams.media.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
+      action: (inputParams: microsoftTeams.media.MediaInputs, output) => {
+        microsoftTeams.media.selectMedia(inputParams, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
           if (err) {
             output(err);
             return;
@@ -680,7 +682,7 @@ export const initializeAppModules = () => {
             reader.readAsDataURL(blob); 
             reader.onloadend = () => {
               if (reader.result) {
-                output("Received Blob");           
+                output("Received Blob");
               }
             }
           });
@@ -692,12 +694,13 @@ export const initializeAppModules = () => {
       name: "viewImagesWithId",
       initializedRequired: true,
       hasOutput: true,
-      action: (output) => {
-        const mediaInputs = {
-          maxMediaCount: 5,
-          mediaType: 1 //microsoftTeams.MediaType.Image
-        } as microsoftTeams.media.MediaInputs;
-        microsoftTeams.media.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
+      inputs: [{
+        type: "object",
+        name: "selectMediaInputs",
+        defaultValue: "{\"mediaType\":1,\"maxMediaCount\":5,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
+      }],
+      action: (selectMediaInputs, output) => {
+        microsoftTeams.media.selectMedia(selectMediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
           if (err) {
             output(err);
             return;
@@ -728,7 +731,8 @@ export const initializeAppModules = () => {
       hasOutput: true,
       inputs: [{
         type: "object",
-        name: "imageUrls"
+        name: "imageUrls",
+        defaultValue: "[\"https://www.w3schools.com/images/picture.jpg\",\"https://www.w3schools.com/images/picture.jpg\"]"
       }],
       action: (imageUrls, output) => {
         const urlList = [];
@@ -755,7 +759,8 @@ export const initializeAppModules = () => {
       hasOutput: true,
       inputs: [{
         type: "object",
-        name: "locationProps"
+        name: "locationProps",
+        defaultValue: "{\"allowChooseLocation\":true,\"showMap\":true}"
       }],
       action: (locationProps: microsoftTeams.location.LocationProps, output) => {
         microsoftTeams.location.getLocation(locationProps, (err: microsoftTeams.SdkError, location: microsoftTeams.location.Location) => {
@@ -775,7 +780,8 @@ export const initializeAppModules = () => {
       hasOutput: true,
       inputs: [{
         type: "object",
-        name: "location"
+        name: "location",
+        defaultValue: "{\"latitude\":17,\"longitude\":17}"
       }],
       action: (location: microsoftTeams.location.Location, output) => {
         microsoftTeams.location.showLocation(location, (err: microsoftTeams.SdkError, result: boolean) => {
@@ -786,6 +792,27 @@ export const initializeAppModules = () => {
 
           output(result);
         });
+      } 
+    });
+
+    addModule({
+      name: "media.scanBarCode",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "scanBarCodeConfig",
+        defaultValue: "{\"timeOutIntervalInSec\":30}"
+      }],
+      action: (scanBarCodeConfig: microsoftTeams.media.BarCodeConfig, output) => {
+        microsoftTeams.media.scanBarCode((err: microsoftTeams.SdkError, result: string) => {
+          if (err) {
+            output(err);
+            return;
+          }
+
+          output(result);
+        }, scanBarCodeConfig);
       } 
     });
 
