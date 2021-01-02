@@ -526,22 +526,25 @@ function sendMessageRequestToParent(actionName,
 // tslint:disable-next-line: no-any
 args) {
     var targetWindow = globalVars_1.GlobalVars.parentWindow;
-    var request = createMessageRequest(actionName, args);
+    var utcTime = getUtcTime();
+    var request = createMessageRequest(actionName, args, utcTime);
     if (globalVars_1.GlobalVars.isFramelessWindow) {
         if (globalVars_1.GlobalVars.currentWindow && globalVars_1.GlobalVars.currentWindow.nativeInterface) {
             globalVars_1.GlobalVars.currentWindow.nativeInterface.framelessPostMessage(JSON.stringify(request));
         }
     }
     else {
-        var targetOrigin = getTargetOrigin(targetWindow);
-        // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
-        // queue the message and send it after the origin is established
-        if (targetWindow && targetOrigin) {
-            targetWindow.postMessage(request, targetOrigin);
-        }
-        else {
-            getTargetMessageQueue(targetWindow).push(request);
-        }
+        var targetOrigin_1 = getTargetOrigin(targetWindow);
+        setTimeout(function () {
+            // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
+            // queue the message and send it after the origin is established
+            if (targetWindow && targetOrigin_1) {
+                targetWindow.postMessage(request, targetOrigin_1);
+            }
+            else {
+                getTargetMessageQueue(targetWindow).push(request);
+            }
+        }, 5000);
     }
     return request.id;
 }
@@ -580,12 +583,12 @@ args) {
 }
 exports.sendMessageEventToChild = sendMessageEventToChild;
 // tslint:disable-next-line:no-any
-function createMessageRequest(func, args) {
+function createMessageRequest(func, args, utcTime) {
     return {
         id: globalVars_1.GlobalVars.nextMessageId++,
         func: func,
         args: args || [],
-        utcTime: getUtcTime(),
+        utcTime: utcTime || getUtcTime(),
     };
 }
 function getUtcTime() {
