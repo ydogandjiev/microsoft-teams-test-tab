@@ -3651,8 +3651,15 @@ const initializeAppModules = () => {
     try {
         var childWindow;
         let totalStates = 0;
-        MicrosoftTeams["initialize"]();
-        MicrosoftTeams["appInitialization"].notifyAppLoaded();
+        addModule({
+            name: "initialize",
+            initializedRequired: false,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams["initialize"](output);
+                MicrosoftTeams["appInitialization"].notifySuccess();
+            }
+        });
         addModule({
             name: "getContext",
             initializedRequired: true,
@@ -4411,10 +4418,10 @@ const initializeAppModules = () => {
                 modal.style.display = "none";
             }
         };
-        MicrosoftTeams["appInitialization"].notifySuccess();
+        // microsoftTeams.appInitialization.notifySuccess();
     }
     catch (err) {
-        MicrosoftTeams["appInitialization"].notifyFailure({ reason: MicrosoftTeams["appInitialization"].FailedReason.Other, message: err.message });
+        // microsoftTeams.appInitialization.notifyFailure({ reason: microsoftTeams.appInitialization.FailedReason.Other, message: err.message });
     }
 };
 
