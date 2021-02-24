@@ -1,19 +1,37 @@
 import { addModule } from "./utils";
-import * as microsoftTeams from '@microsoft/teams-js';
+import {
+    appInitialization,
+    authentication,
+    conversations,
+    core,
+    getChatMembers,
+    getUserJoinedTeams,
+    location as teamsLocation,
+    media,
+    navigateCrossDomain,
+    openFilePreview,
+    ParentAppWindow,
+    returnFocus,
+    SdkError,
+    settings,
+    showNotification,
+    tasks,
+    teamsCore,
+} from "@microsoft/metaos-app-sdk";
 
 export const initializeAppModules = () => {
   try {
     var childWindow;
     let totalStates = 0;
-    microsoftTeams.initialize();
-    microsoftTeams.appInitialization.notifyAppLoaded();
+    core.initialize();
+    appInitialization.notifyAppLoaded();
 
     addModule({
       name: "getContext",
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.getContext(output);
+        core.getContext(output);
       }
     });
 
@@ -22,7 +40,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.getTabInstances(output);
+        teamsCore.getTabInstances(output);
       }
     });
 
@@ -31,7 +49,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.getMruTabInstances(output);
+        teamsCore.getMruTabInstances(output);
       }
     });
 
@@ -43,7 +61,7 @@ export const initializeAppModules = () => {
         name: "url"
       }],
       action: function (url) {
-        microsoftTeams.navigateCrossDomain(url);
+        navigateCrossDomain(url);
       }
     });
 
@@ -55,7 +73,7 @@ export const initializeAppModules = () => {
         name: "navigateForward"
       }],
       action: function (navigateForward) {
-        microsoftTeams.returnFocus(navigateForward);
+        returnFocus(navigateForward);
       }
     });
 
@@ -64,7 +82,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.registerOnThemeChangeHandler(output);
+        core.registerOnThemeChangeHandler(output);
       }
     });
 
@@ -76,7 +94,7 @@ export const initializeAppModules = () => {
         name: "url"
       }],
       action: function (url) {
-        microsoftTeams.navigateCrossDomain(url);
+        navigateCrossDomain(url);
       }
     });
 
@@ -85,7 +103,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.registerOnThemeChangeHandler(output);
+        core.registerOnThemeChangeHandler(output);
       }
     });
 
@@ -95,7 +113,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.registerChangeSettingsHandler(function () {
+        teamsCore.registerChangeSettingsHandler(function () {
           output("Change Settings Event recieved");
         });
       }
@@ -106,7 +124,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.registerAppButtonClickHandler(function () {
+        teamsCore.registerAppButtonClickHandler(function () {
           output("Click event received");
         });
       }
@@ -117,7 +135,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.registerAppButtonHoverEnterHandler(function () {
+        teamsCore.registerAppButtonHoverEnterHandler(function () {
           output(`Hover enter event received`);
         });
       }
@@ -128,7 +146,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.registerAppButtonHoverLeaveHandler(function () {
+        teamsCore.registerAppButtonHoverLeaveHandler(function () {
           output(`Hover leave event received`);
         });
       }
@@ -142,7 +160,7 @@ export const initializeAppModules = () => {
         name: "deepLinkParameters"
       }],
       action: function (deepLinkParameters) {
-        microsoftTeams.shareDeepLink(deepLinkParameters);
+        core.shareDeepLink(deepLinkParameters);
       }
     });
 
@@ -154,7 +172,7 @@ export const initializeAppModules = () => {
         name: "deepLink"
       }],
       action: function (deepLink) {
-        microsoftTeams.executeDeepLink(deepLink);
+        core.executeDeepLink(deepLink);
       }
     });
 
@@ -167,7 +185,7 @@ export const initializeAppModules = () => {
       }],
       hasOutput: true,
       action: function (url, output) {
-        microsoftTeams.authentication.authenticate({
+        authentication.authenticate({
           url: url,
           successCallback: function (result) {
             output("Success:" + result);
@@ -189,7 +207,7 @@ export const initializeAppModules = () => {
         name: "taskInfo"
       }],
       action: function (taskInfo, output) {
-        childWindow = microsoftTeams.tasks.startTask(taskInfo);
+        childWindow = tasks.startTask(taskInfo);
         childWindow.addEventListener("message", function (message) {
           output("Message from task module: " + message);
           childWindow.postMessage("tab received - " + message);
@@ -224,7 +242,7 @@ export const initializeAppModules = () => {
         name: "message"
       }],
       action: function (message, output) {
-        var parentWindow = microsoftTeams.ParentAppWindow.Instance;
+        var parentWindow = ParentAppWindow.Instance;
         if (parentWindow) {
           parentWindow.postMessage(message);
           output("message sent to parent(tab)");
@@ -240,7 +258,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        var parentWindow = microsoftTeams.ParentAppWindow.Instance;
+        var parentWindow = ParentAppWindow.Instance;
         if (parentWindow) {
           parentWindow.addEventListener("message", function (message) {
             output("message from tab: " + message);
@@ -260,7 +278,7 @@ export const initializeAppModules = () => {
         name: "showNotificationParameters"
       }],
       action: function (showNotificationParameters) {
-        microsoftTeams.showNotification(showNotificationParameters);
+        showNotification(showNotificationParameters);
       }
     });
 
@@ -281,7 +299,7 @@ export const initializeAppModules = () => {
           output("Failure: " + reason);
         }
 
-        microsoftTeams.authentication.getAuthToken(getAuthTokenParameters);
+        authentication.getAuthToken(getAuthTokenParameters);
       }
     });
 
@@ -293,7 +311,7 @@ export const initializeAppModules = () => {
         name: "reason"
       }],
       action: function (reason) {
-        microsoftTeams.authentication.notifyFailure(reason);
+        authentication.notifyFailure(reason);
       }
     });
 
@@ -305,7 +323,7 @@ export const initializeAppModules = () => {
         name: "result"
       }],
       action: function (result) {
-        microsoftTeams.authentication.notifySuccess(result);
+        authentication.notifySuccess(result);
       }
     });
 
@@ -314,7 +332,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.settings.getSettings(output);
+        settings.getSettings(output);
       }
     });
 
@@ -323,10 +341,10 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+        settings.registerOnSaveHandler(function (saveEvent) {
           (window as any).saveEvent = saveEvent;
           const configUrl = window.location.href;
-          microsoftTeams.settings.setSettings({
+          settings.setSettings({
             websiteUrl: configUrl,
             contentUrl: configUrl,
             entityId: "tabconfig",
@@ -366,7 +384,7 @@ export const initializeAppModules = () => {
       }],
       hasOutput: true,
       action: function (settings, output) {
-        microsoftTeams.settings.setSettings(settings);
+        settings.setSettings(settings);
       }
     });
 
@@ -378,7 +396,7 @@ export const initializeAppModules = () => {
         name: "validityState"
       }],
       action: function (validityState) {
-        microsoftTeams.settings.setValidityState(validityState);
+        settings.setValidityState(validityState);
       }
     });
 
@@ -387,7 +405,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.settings.registerOnRemoveHandler(function (removeEvent) {
+        settings.registerOnRemoveHandler(function (removeEvent) {
           (window as any).removeEvent = removeEvent;
           output("RemoveEvent recieved");
         });
@@ -422,7 +440,7 @@ export const initializeAppModules = () => {
         name: "filePreviewParameters"
       }],
       action: function (filePreviewParameters) {
-        microsoftTeams.openFilePreview(filePreviewParameters);
+        openFilePreview(filePreviewParameters);
       }
     });
 
@@ -438,7 +456,7 @@ export const initializeAppModules = () => {
         name: "appId"
       }],
       action: function (result, appId) {
-        microsoftTeams.tasks.submitTask(result, appId);
+        tasks.submitTask(result, appId);
       }
     });
 
@@ -451,7 +469,7 @@ export const initializeAppModules = () => {
       }],
       hasOutput: true,
       action: function (taskInfo, output) {
-        microsoftTeams.tasks.startTask(taskInfo, (error, result) => {
+        tasks.startTask(taskInfo, (error, result) => {
           if (error) {
             output("Error: " + error);
           }
@@ -470,7 +488,7 @@ export const initializeAppModules = () => {
         name: "taskInfo"
       }],
       action: function (taskInfo) {
-        microsoftTeams.tasks.updateTask(taskInfo);
+        tasks.updateTask(taskInfo);
       }
     });
 
@@ -482,7 +500,7 @@ export const initializeAppModules = () => {
         name: "showNotificationParameters"
       }],
       action: function (showNotificationParameters) {
-        microsoftTeams.showNotification(showNotificationParameters);
+        showNotification(showNotificationParameters);
       }
     });
 
@@ -491,7 +509,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.getChatMembers(output);
+        getChatMembers(output);
       }
     });
 
@@ -500,8 +518,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams
-        microsoftTeams.getUserJoinedTeams(output);
+        getUserJoinedTeams(output);
       }
     });
 
@@ -514,7 +531,7 @@ export const initializeAppModules = () => {
       }],
       action: function (readyToUnloadDelay) {
         const delay = Number(readyToUnloadDelay);
-        microsoftTeams.registerBeforeUnloadHandler(function (readyToUnload) {
+        teamsCore.registerBeforeUnloadHandler(function (readyToUnload) {
           (window as any).readyToUnload = readyToUnload;
           setTimeout(() => {
             readyToUnload();
@@ -556,7 +573,7 @@ export const initializeAppModules = () => {
       hasOutput: true,
       action: function (output) {
         output("total States: " + totalStates);
-        microsoftTeams.registerBackButtonHandler(function () {
+        teamsCore.registerBackButtonHandler(function () {
           if (totalStates > 0) {
             totalStates--;
             output("back button clicked. total remaining state: " + totalStates);
@@ -583,7 +600,7 @@ export const initializeAppModules = () => {
               output("Start Conversation Subentity Id " + conversationResponse.subEntityId + " Conversation Id: " + conversationResponse.conversationId + " Entity Id: " + conversationResponse.entityId + " Channel Id: " + conversationResponse.channelId);
           };
           try {
-            microsoftTeams.conversations.openConversation(openConversationRequest);
+            conversations.openConversation(openConversationRequest);
           }
           catch (e) {
               output("Error" + e);
@@ -595,7 +612,7 @@ export const initializeAppModules = () => {
         name: "conversations.closeConversation",
         initializedRequired: true,
         action: function () {
-          microsoftTeams.conversations.closeConversation();
+          conversations.closeConversation();
         }
     });
 
@@ -604,13 +621,13 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: (output) => {
-        microsoftTeams.media.captureImage((err: microsoftTeams.SdkError, files: microsoftTeams.media.File[]) => {
+        media.captureImage((err: SdkError, files: media.File[]) => {
           if (err) {
             output(err);
             return;
           }
           
-          const file: microsoftTeams.media.File = files[0];
+          const file: media.File = files[0];
           let content: string = "";
           let len = 20;
           if (file.content) {
@@ -631,8 +648,8 @@ export const initializeAppModules = () => {
         name: "mediaInputs",
         defaultValue: "{\"mediaType\":1,\"maxMediaCount\":1,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
       }],
-      action: (mediaInputs: microsoftTeams.media.MediaInputs, output) => {
-        microsoftTeams.media.selectMedia(mediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
+      action: (mediaInputs: media.MediaInputs, output) => {
+        media.selectMedia(mediaInputs, (err: SdkError, medias: media.Media[]) => {
           if (err) {
             output(err);
             return;
@@ -640,7 +657,7 @@ export const initializeAppModules = () => {
 
           let message = "";
           for (let i = 0; i < medias.length; i++) {
-            const media: microsoftTeams.media.Media = medias[i];
+            const media: media.Media = medias[i];
             let preview: string = "";
             let len = 20;
             if (media.preview) {
@@ -665,15 +682,15 @@ export const initializeAppModules = () => {
         name: "inputParams",
         defaultValue: "{\"mediaType\":1,\"maxMediaCount\":1,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
       }],
-      action: (inputParams: microsoftTeams.media.MediaInputs, output) => {
-        microsoftTeams.media.selectMedia(inputParams, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
+      action: (inputParams: media.MediaInputs, output) => {
+        media.selectMedia(inputParams, (err: SdkError, medias: media.Media[]) => {
           if (err) {
             output(err);
             return;
           }
 
-          const media: microsoftTeams.media.Media = medias[0] as microsoftTeams.media.Media;
-          media.getMedia((gmErr: microsoftTeams.SdkError, blob: Blob) => {
+          const media: media.Media = medias[0] as media.Media;
+          media.getMedia((gmErr: SdkError, blob: Blob) => {
             if (gmErr) {
               output(gmErr);
               return;
@@ -700,21 +717,21 @@ export const initializeAppModules = () => {
         defaultValue: "{\"mediaType\":1,\"maxMediaCount\":5,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
       }],
       action: (selectMediaInputs, output) => {
-        microsoftTeams.media.selectMedia(selectMediaInputs, (err: microsoftTeams.SdkError, medias: microsoftTeams.media.Media[]) => {
+        media.selectMedia(selectMediaInputs, (err: SdkError, medias: media.Media[]) => {
           if (err) {
             output(err);
             return;
           }
-          const urlList: microsoftTeams.media.ImageUri[] = [];
+          const urlList: media.ImageUri[] = [];
           for (let i = 0; i < medias.length; i++) {
             const media = medias[i];
             urlList.push({
               value: media.content,
-              type: 1 //microsoftTeams.ImageUriType.ID
-            } as microsoftTeams.media.ImageUri)
+              type: 1 //ImageUriType.ID
+            } as media.ImageUri)
           }
           
-          microsoftTeams.media.viewImages(urlList, (gmErr: microsoftTeams.SdkError) => {
+          media.viewImages(urlList, (gmErr: SdkError) => {
             if (gmErr) {
               output(gmErr);
               return;
@@ -740,10 +757,10 @@ export const initializeAppModules = () => {
           const imageUrl = imageUrls[i];
           urlList.push({
             value: imageUrl,
-            type: 2 //microsoftTeams.ImageUriType.URL
-          } as microsoftTeams.media.ImageUri)
+            type: 2 //ImageUriType.URL
+          } as media.ImageUri)
         }
-        microsoftTeams.media.viewImages(urlList, (err: microsoftTeams.SdkError) => {
+        media.viewImages(urlList, (err: SdkError) => {
           if (err) {
             output(err);
             return;
@@ -762,8 +779,8 @@ export const initializeAppModules = () => {
         name: "locationProps",
         defaultValue: "{\"allowChooseLocation\":true,\"showMap\":true}"
       }],
-      action: (locationProps: microsoftTeams.location.LocationProps, output) => {
-        microsoftTeams.location.getLocation(locationProps, (err: microsoftTeams.SdkError, location: microsoftTeams.location.Location) => {
+      action: (locationProps: teamsLocation.LocationProps, output) => {
+        teamsLocation.getLocation(locationProps, (err: SdkError, location: teamsLocation.Location) => {
           if (err) {
             output(err);
             return;
@@ -783,8 +800,8 @@ export const initializeAppModules = () => {
         name: "location",
         defaultValue: "{\"latitude\":17,\"longitude\":17}"
       }],
-      action: (location: microsoftTeams.location.Location, output) => {
-        microsoftTeams.location.showLocation(location, (err: microsoftTeams.SdkError, result: boolean) => {
+      action: (location: teamsLocation.Location, output) => {
+        teamsLocation.showLocation(location, (err: SdkError, result: boolean) => {
           if (err) {
             output(err);
             return;
@@ -804,8 +821,8 @@ export const initializeAppModules = () => {
         name: "scanBarCodeConfig",
         defaultValue: "{\"timeOutIntervalInSec\":30}"
       }],
-      action: (scanBarCodeConfig: microsoftTeams.media.BarCodeConfig, output) => {
-        microsoftTeams.media.scanBarCode((err: microsoftTeams.SdkError, result: string) => {
+      action: (scanBarCodeConfig: media.BarCodeConfig, output) => {
+        media.scanBarCode((err: SdkError, result: string) => {
           if (err) {
             output(err);
             return;
@@ -834,9 +851,9 @@ export const initializeAppModules = () => {
       }
     };
 
-    microsoftTeams.appInitialization.notifySuccess();
+    appInitialization.notifySuccess();
   }
   catch (err) {
-    microsoftTeams.appInitialization.notifyFailure({ reason: microsoftTeams.appInitialization.FailedReason.Other, message: err.message });
+    appInitialization.notifyFailure({ reason: appInitialization.FailedReason.Other, message: err.message });
   }
 };
