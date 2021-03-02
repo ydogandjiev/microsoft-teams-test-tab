@@ -34,6 +34,8 @@
 /******/ 	}
 /******/ 	
 /************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
 
@@ -968,6 +970,20 @@ const initializeAppModules = () => {
                     }
                     output(result);
                 }, scanBarCodeConfig);
+            }
+        });
+        addModule({
+            name: "meeting.getMeetingDetails",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.getMeetingDetails((err, getMeetingDetails) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(getMeetingDetails);
+                });
             }
         });
         // Get the modal
