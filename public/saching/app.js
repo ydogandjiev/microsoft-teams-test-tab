@@ -1,92 +1,8 @@
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ 115:
+/***/ ((module) => {
 
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
@@ -98,7 +14,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	var installedModules = {};
 /******/
 /******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
+/******/ 	function __nested_webpack_require_571__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId]) {
@@ -112,7 +28,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		};
 /******/
 /******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __nested_webpack_require_571__);
 /******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
@@ -123,20 +39,20 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
+/******/ 	__nested_webpack_require_571__.m = modules;
 /******/
 /******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
+/******/ 	__nested_webpack_require_571__.c = installedModules;
 /******/
 /******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 	__nested_webpack_require_571__.d = function(exports, name, getter) {
+/******/ 		if(!__nested_webpack_require_571__.o(exports, name)) {
 /******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
 /******/ 	};
 /******/
 /******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
+/******/ 	__nested_webpack_require_571__.r = function(exports) {
 /******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 		}
@@ -148,35 +64,35 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// mode & 2: merge all properties of value into the ns
 /******/ 	// mode & 4: return value when already ns object
 /******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 	__nested_webpack_require_571__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __nested_webpack_require_571__(value);
 /******/ 		if(mode & 8) return value;
 /******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
 /******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
+/******/ 		__nested_webpack_require_571__.r(ns);
 /******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __nested_webpack_require_571__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
 /******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
+/******/ 	__nested_webpack_require_571__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
 /******/ 			function getDefault() { return module['default']; } :
 /******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		__nested_webpack_require_571__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
 /******/
 /******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/ 	__nested_webpack_require_571__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__nested_webpack_require_571__.p = "";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __nested_webpack_require_571__(__nested_webpack_require_571__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -208,15 +124,15 @@ exports.GlobalVars = GlobalVars;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_4838__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var navigation_1 = __webpack_require__(6);
-var constants_1 = __webpack_require__(4);
-var globalVars_1 = __webpack_require__(0);
-var utils_1 = __webpack_require__(3);
+var navigation_1 = __nested_webpack_require_4838__(6);
+var constants_1 = __nested_webpack_require_4838__(4);
+var globalVars_1 = __nested_webpack_require_4838__(0);
+var utils_1 = __nested_webpack_require_4838__(3);
 // ::::::::::::::::::::MicrosoftTeams SDK Internal :::::::::::::::::
 globalVars_1.GlobalVars.handlers['themeChange'] = handleThemeChange;
 globalVars_1.GlobalVars.handlers['fullScreenChange'] = handleFullScreenChange;
@@ -416,7 +332,7 @@ function handleParentMessage(evt) {
         var message = evt.data;
         var callback = globalVars_1.GlobalVars.callbacks[message.id];
         if (callback) {
-            callback.apply(null, message.args);
+            callback.apply(null, message.args.concat([message.isPartialResponse]));
             // Remove the callback to ensure that the callback is called only once and to free up memory if response is a complete response
             if (!isPartialResponse(evt)) {
                 delete globalVars_1.GlobalVars.callbacks[message.id];
@@ -458,7 +374,8 @@ function handleChildMessage(evt) {
                     args[_i] = arguments[_i];
                 }
                 if (globalVars_1.GlobalVars.childWindow) {
-                    sendMessageResponseToChild(message_1.id, args);
+                    var isPartialResponse_1 = args.pop();
+                    sendMessageResponseToChild(message_1.id, args, isPartialResponse_1);
                 }
             };
         }
@@ -526,25 +443,22 @@ function sendMessageRequestToParent(actionName,
 // tslint:disable-next-line: no-any
 args) {
     var targetWindow = globalVars_1.GlobalVars.parentWindow;
-    var utcTime = getUtcTime();
-    var request = createMessageRequest(actionName, args, utcTime);
+    var request = createMessageRequest(actionName, args);
     if (globalVars_1.GlobalVars.isFramelessWindow) {
         if (globalVars_1.GlobalVars.currentWindow && globalVars_1.GlobalVars.currentWindow.nativeInterface) {
             globalVars_1.GlobalVars.currentWindow.nativeInterface.framelessPostMessage(JSON.stringify(request));
         }
     }
     else {
-        var targetOrigin_1 = getTargetOrigin(targetWindow);
-        setTimeout(function () {
-            // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
-            // queue the message and send it after the origin is established
-            if (targetWindow && targetOrigin_1) {
-                targetWindow.postMessage(request, targetOrigin_1);
-            }
-            else {
-                getTargetMessageQueue(targetWindow).push(request);
-            }
-        }, 5000);
+        var targetOrigin = getTargetOrigin(targetWindow);
+        // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
+        // queue the message and send it after the origin is established
+        if (targetWindow && targetOrigin) {
+            targetWindow.postMessage(request, targetOrigin);
+        }
+        else {
+            getTargetMessageQueue(targetWindow).push(request);
+        }
     }
     return request.id;
 }
@@ -554,9 +468,9 @@ exports.sendMessageRequestToParent = sendMessageRequestToParent;
  */
 function sendMessageResponseToChild(id, 
 // tslint:disable-next-line:no-any
-args) {
+args, isPartialResponse) {
     var targetWindow = globalVars_1.GlobalVars.childWindow;
-    var response = createMessageResponse(id, args);
+    var response = createMessageResponse(id, args, isPartialResponse);
     var targetOrigin = getTargetOrigin(targetWindow);
     if (targetWindow && targetOrigin) {
         targetWindow.postMessage(response, targetOrigin);
@@ -583,24 +497,19 @@ args) {
 }
 exports.sendMessageEventToChild = sendMessageEventToChild;
 // tslint:disable-next-line:no-any
-function createMessageRequest(func, args, utcTime) {
+function createMessageRequest(func, args) {
     return {
         id: globalVars_1.GlobalVars.nextMessageId++,
         func: func,
         args: args || [],
-        utcTime: utcTime || getUtcTime(),
     };
 }
-function getUtcTime() {
-    var x = new Date();
-    var UTCMilliseconds = x.getTime() + x.getTimezoneOffset() * 60 * 1000;
-    return UTCMilliseconds;
-}
 // tslint:disable-next-line:no-any
-function createMessageResponse(id, args) {
+function createMessageResponse(id, args, isPartialResponse) {
     return {
         id: id,
         args: args || [],
+        isPartialResponse: isPartialResponse,
     };
 }
 /**
@@ -683,12 +592,12 @@ var ChannelType;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_24454__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var uuid = __webpack_require__(16);
+var uuid = __nested_webpack_require_24454__(16);
 // This will return a reg expression a given url
 function generateRegExpFromUrl(url) {
     var urlRegExpPart = '^';
@@ -777,13 +686,13 @@ exports.generateGUID = generateGUID;
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_27287__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(3);
-exports.version = '1.7.0';
+var utils_1 = __nested_webpack_require_27287__(3);
+exports.version = '1.9.0';
 /**
  * This is the SDK version when all SDK APIs started to check platform compatibility for the APIs.
  */
@@ -797,6 +706,7 @@ exports.validOrigins = [
     'https://gov.teams.microsoft.us',
     'https://dod.teams.microsoft.us',
     'https://int.teams.microsoft.com',
+    'https://teams.live.com',
     'https://devspaces.skype.com',
     'https://ssauth.skype.com',
     'https://local.teams.office.com',
@@ -893,15 +803,15 @@ var ErrorCode;
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_31156__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var utils_1 = __webpack_require__(3);
-var constants_1 = __webpack_require__(2);
+var internalAPIs_1 = __nested_webpack_require_31156__(1);
+var globalVars_1 = __nested_webpack_require_31156__(0);
+var utils_1 = __nested_webpack_require_31156__(3);
+var constants_1 = __nested_webpack_require_31156__(2);
 /**
  * Navigation specific part of the SDK.
  */
@@ -1025,13 +935,13 @@ module.exports = bytesToUuid;
 
 /***/ }),
 /* 9 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_36498__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
+var internalAPIs_1 = __nested_webpack_require_36498__(1);
+var globalVars_1 = __nested_webpack_require_36498__(0);
 /**
  * Namespace to interact with the logging part of the SDK.
  * This object is used to send the app logs on demand to the host client
@@ -1066,15 +976,15 @@ var logs;
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_37832__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var internalAPIs_1 = __nested_webpack_require_37832__(1);
+var globalVars_1 = __nested_webpack_require_37832__(0);
+var constants_1 = __nested_webpack_require_37832__(2);
+var utils_1 = __nested_webpack_require_37832__(3);
 /**
  * Namespace to interact with the settings-specific part of the SDK.
  * This object is usable only on the settings frame.
@@ -1137,7 +1047,7 @@ var settings;
      * @param handler The handler to invoke when the user selects the remove button.
      */
     function registerOnRemoveHandler(handler) {
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.remove);
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.remove, constants_1.FrameContexts.settings);
         removeHandler = handler;
         handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['remove']);
     }
@@ -1218,15 +1128,15 @@ var settings;
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_44693__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var internalAPIs_1 = __nested_webpack_require_44693__(1);
+var globalVars_1 = __nested_webpack_require_44693__(0);
+var constants_1 = __nested_webpack_require_44693__(2);
+var utils_1 = __nested_webpack_require_44693__(3);
 var ChildAppWindow = /** @class */ (function () {
     function ChildAppWindow() {
     }
@@ -1271,7 +1181,7 @@ exports.ParentAppWindow = ParentAppWindow;
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_46816__) {
 
 "use strict";
 
@@ -1286,12 +1196,12 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var globalVars_1 = __webpack_require__(0);
-var interfaces_1 = __webpack_require__(5);
-var internalAPIs_1 = __webpack_require__(1);
-var constants_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
-var mediaUtil_1 = __webpack_require__(29);
+var globalVars_1 = __nested_webpack_require_46816__(0);
+var interfaces_1 = __nested_webpack_require_46816__(5);
+var internalAPIs_1 = __nested_webpack_require_46816__(1);
+var constants_1 = __nested_webpack_require_46816__(2);
+var utils_1 = __nested_webpack_require_46816__(3);
+var mediaUtil_1 = __nested_webpack_require_46816__(29);
 var media;
 (function (media) {
     /**
@@ -1612,7 +1522,7 @@ var media;
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_63228__) {
 
 "use strict";
 
@@ -1620,27 +1530,27 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(14));
-__export(__webpack_require__(24));
+__export(__nested_webpack_require_63228__(14));
+__export(__nested_webpack_require_63228__(24));
 
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_63558__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var bot_1 = __webpack_require__(15);
+var bot_1 = __nested_webpack_require_63558__(15);
 exports.bot = bot_1.bot;
-var menus_1 = __webpack_require__(19);
+var menus_1 = __nested_webpack_require_63558__(19);
 exports.menus = menus_1.menus;
-var logs_1 = __webpack_require__(9);
+var logs_1 = __nested_webpack_require_63558__(9);
 exports.logs = logs_1.logs;
-var interfaces_1 = __webpack_require__(20);
+var interfaces_1 = __nested_webpack_require_63558__(20);
 exports.NotificationTypes = interfaces_1.NotificationTypes;
 exports.ViewerActionTypes = interfaces_1.ViewerActionTypes;
-var privateAPIs_1 = __webpack_require__(21);
+var privateAPIs_1 = __nested_webpack_require_63558__(21);
 exports.enterFullscreen = privateAPIs_1.enterFullscreen;
 exports.exitFullscreen = privateAPIs_1.exitFullscreen;
 exports.getChatMembers = privateAPIs_1.getChatMembers;
@@ -1652,21 +1562,21 @@ exports.showNotification = privateAPIs_1.showNotification;
 exports.sendCustomEvent = privateAPIs_1.sendCustomEvent;
 exports.registerCustomHandler = privateAPIs_1.registerCustomHandler;
 exports.uploadCustomApp = privateAPIs_1.uploadCustomApp;
-var conversations_1 = __webpack_require__(22);
+var conversations_1 = __nested_webpack_require_63558__(22);
 exports.conversations = conversations_1.conversations;
-var meetingRoom_1 = __webpack_require__(23);
+var meetingRoom_1 = __nested_webpack_require_63558__(23);
 exports.meetingRoom = meetingRoom_1.meetingRoom;
 
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_64992__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var globalVars_1 = __webpack_require__(0);
-var internalAPIs_1 = __webpack_require__(1);
+var globalVars_1 = __nested_webpack_require_64992__(0);
+var internalAPIs_1 = __nested_webpack_require_64992__(1);
 /**
  * @private
  * Namespace to interact with bots using the SDK.
@@ -1748,10 +1658,10 @@ var bot;
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_68061__) {
 
-var v1 = __webpack_require__(17);
-var v4 = __webpack_require__(18);
+var v1 = __nested_webpack_require_68061__(17);
+var v4 = __nested_webpack_require_68061__(18);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -1762,10 +1672,10 @@ module.exports = uuid;
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_68275__) {
 
-var rng = __webpack_require__(7);
-var bytesToUuid = __webpack_require__(8);
+var rng = __nested_webpack_require_68275__(7);
+var bytesToUuid = __nested_webpack_require_68275__(8);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -1877,10 +1787,10 @@ module.exports = v1;
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_71685__) {
 
-var rng = __webpack_require__(7);
-var bytesToUuid = __webpack_require__(8);
+var rng = __nested_webpack_require_71685__(7);
+var bytesToUuid = __nested_webpack_require_71685__(8);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -1912,13 +1822,13 @@ module.exports = v4;
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_72439__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
+var internalAPIs_1 = __nested_webpack_require_72439__(1);
+var globalVars_1 = __nested_webpack_require_72439__(0);
 /**
  * Namespace to interact with the menu-specific part of the SDK.
  * This object is used to show View Configuration, Action Menu and Navigation Bar Menu.
@@ -2041,15 +1951,15 @@ var ViewerActionTypes;
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_77413__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(2);
-var utils_1 = __webpack_require__(3);
+var internalAPIs_1 = __nested_webpack_require_77413__(1);
+var globalVars_1 = __nested_webpack_require_77413__(0);
+var constants_1 = __nested_webpack_require_77413__(2);
+var utils_1 = __nested_webpack_require_77413__(3);
 /**
  * @private
  * Hide from docs
@@ -2239,14 +2149,14 @@ exports.getConfigSetting = getConfigSetting;
 
 /***/ }),
 /* 22 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_84776__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(2);
+var internalAPIs_1 = __nested_webpack_require_84776__(1);
+var globalVars_1 = __nested_webpack_require_84776__(0);
+var constants_1 = __nested_webpack_require_84776__(2);
 /**
  * Namespace to interact with the conversational subEntities inside the tab
  */
@@ -2296,13 +2206,13 @@ var conversations;
 
 /***/ }),
 /* 23 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_87066__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
+var internalAPIs_1 = __nested_webpack_require_87066__(1);
+var globalVars_1 = __nested_webpack_require_87066__(0);
 var meetingRoom;
 (function (meetingRoom) {
     /**
@@ -2439,25 +2349,25 @@ var meetingRoom;
 
 /***/ }),
 /* 24 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_93261__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var appInitialization_1 = __webpack_require__(25);
+var appInitialization_1 = __nested_webpack_require_93261__(25);
 exports.appInitialization = appInitialization_1.appInitialization;
-var authentication_1 = __webpack_require__(26);
+var authentication_1 = __nested_webpack_require_93261__(26);
 exports.authentication = authentication_1.authentication;
-var constants_1 = __webpack_require__(2);
+var constants_1 = __nested_webpack_require_93261__(2);
 exports.FrameContexts = constants_1.FrameContexts;
 exports.HostClientType = constants_1.HostClientType;
 exports.TaskModuleDimension = constants_1.TaskModuleDimension;
 exports.TeamType = constants_1.TeamType;
 exports.UserTeamRole = constants_1.UserTeamRole;
 exports.ChannelType = constants_1.ChannelType;
-var interfaces_1 = __webpack_require__(5);
+var interfaces_1 = __nested_webpack_require_93261__(5);
 exports.ErrorCode = interfaces_1.ErrorCode;
-var publicAPIs_1 = __webpack_require__(27);
+var publicAPIs_1 = __nested_webpack_require_93261__(27);
 exports.enablePrintCapability = publicAPIs_1.enablePrintCapability;
 exports.executeDeepLink = publicAPIs_1.executeDeepLink;
 exports.getContext = publicAPIs_1.getContext;
@@ -2477,35 +2387,35 @@ exports.registerAppButtonHoverEnterHandler = publicAPIs_1.registerAppButtonHover
 exports.registerAppButtonHoverLeaveHandler = publicAPIs_1.registerAppButtonHoverLeaveHandler;
 exports.setFrameContext = publicAPIs_1.setFrameContext;
 exports.shareDeepLink = publicAPIs_1.shareDeepLink;
-var navigation_1 = __webpack_require__(6);
+var navigation_1 = __nested_webpack_require_93261__(6);
 exports.returnFocus = navigation_1.returnFocus;
 exports.navigateBack = navigation_1.navigateBack;
 exports.navigateCrossDomain = navigation_1.navigateCrossDomain;
 exports.navigateToTab = navigation_1.navigateToTab;
-var settings_1 = __webpack_require__(10);
+var settings_1 = __nested_webpack_require_93261__(10);
 exports.settings = settings_1.settings;
-var tasks_1 = __webpack_require__(28);
+var tasks_1 = __nested_webpack_require_93261__(28);
 exports.tasks = tasks_1.tasks;
-var appWindow_1 = __webpack_require__(11);
+var appWindow_1 = __nested_webpack_require_93261__(11);
 exports.ChildAppWindow = appWindow_1.ChildAppWindow;
 exports.ParentAppWindow = appWindow_1.ParentAppWindow;
-var media_1 = __webpack_require__(12);
+var media_1 = __nested_webpack_require_93261__(12);
 exports.media = media_1.media;
-var location_1 = __webpack_require__(30);
+var location_1 = __nested_webpack_require_93261__(30);
 exports.location = location_1.location;
-var meeting_1 = __webpack_require__(31);
+var meeting_1 = __nested_webpack_require_93261__(31);
 exports.meeting = meeting_1.meeting;
 
 
 /***/ }),
 /* 25 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_96255__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var constants_1 = __webpack_require__(4);
+var internalAPIs_1 = __nested_webpack_require_96255__(1);
+var constants_1 = __nested_webpack_require_96255__(4);
 var appInitialization;
 (function (appInitialization) {
     /**
@@ -2546,14 +2456,14 @@ var appInitialization;
 
 /***/ }),
 /* 26 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_98029__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(2);
+var internalAPIs_1 = __nested_webpack_require_98029__(1);
+var globalVars_1 = __nested_webpack_require_98029__(0);
+var constants_1 = __nested_webpack_require_98029__(2);
 /**
  * Namespace to interact with the authentication-specific part of the SDK.
  * This object is used for starting or completing authentication flows.
@@ -2843,18 +2753,18 @@ var authentication;
 
 /***/ }),
 /* 27 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_113022__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(4);
-var settings_1 = __webpack_require__(10);
-var utils_1 = __webpack_require__(3);
-var logs_1 = __webpack_require__(9);
-var constants_2 = __webpack_require__(2);
+var internalAPIs_1 = __nested_webpack_require_113022__(1);
+var globalVars_1 = __nested_webpack_require_113022__(0);
+var constants_1 = __nested_webpack_require_113022__(4);
+var settings_1 = __nested_webpack_require_113022__(10);
+var utils_1 = __nested_webpack_require_113022__(3);
+var logs_1 = __nested_webpack_require_113022__(9);
+var constants_2 = __nested_webpack_require_113022__(2);
 // ::::::::::::::::::::::: MicrosoftTeams SDK public API ::::::::::::::::::::
 /**
  * Initializes the library. This must be called before any other SDK calls
@@ -3173,7 +3083,7 @@ exports.initializeWithFrameContext = initializeWithFrameContext;
 
 /***/ }),
 /* 28 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_129853__) {
 
 "use strict";
 
@@ -3187,10 +3097,10 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(2);
-var appWindow_1 = __webpack_require__(11);
+var internalAPIs_1 = __nested_webpack_require_129853__(1);
+var globalVars_1 = __nested_webpack_require_129853__(0);
+var constants_1 = __nested_webpack_require_129853__(2);
+var appWindow_1 = __nested_webpack_require_129853__(11);
 /**
  * Namespace to interact with the task module-specific part of the SDK.
  * This object is usable only on the content frame.
@@ -3240,12 +3150,12 @@ var tasks;
 
 /***/ }),
 /* 29 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_133013__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var media_1 = __webpack_require__(12);
+var media_1 = __nested_webpack_require_133013__(12);
 /**
  * Helper function to create a blob from media chunks based on their sequence
  */
@@ -3340,15 +3250,15 @@ exports.validateScanBarCodeInput = validateScanBarCodeInput;
 
 /***/ }),
 /* 30 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_136253__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var globalVars_1 = __webpack_require__(0);
-var interfaces_1 = __webpack_require__(5);
-var internalAPIs_1 = __webpack_require__(1);
-var constants_1 = __webpack_require__(2);
+var globalVars_1 = __nested_webpack_require_136253__(0);
+var interfaces_1 = __nested_webpack_require_136253__(5);
+var internalAPIs_1 = __nested_webpack_require_136253__(1);
+var constants_1 = __nested_webpack_require_136253__(2);
 var location;
 (function (location_1) {
     /**
@@ -3407,20 +3317,29 @@ var location;
 
 /***/ }),
 /* 31 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_139196__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __webpack_require__(1);
-var globalVars_1 = __webpack_require__(0);
+var internalAPIs_1 = __nested_webpack_require_139196__(1);
+var globalVars_1 = __nested_webpack_require_139196__(0);
 var meeting;
 (function (meeting) {
+    var MeetingType;
+    (function (MeetingType) {
+        MeetingType["Unknown"] = "Unknown";
+        MeetingType["Adhoc"] = "Adhoc";
+        MeetingType["Scheduled"] = "Scheduled";
+        MeetingType["Recurring"] = "Recurring";
+        MeetingType["Broadcast"] = "Broadcast";
+        MeetingType["MeetNow"] = "MeetNow";
+    })(MeetingType = meeting.MeetingType || (meeting.MeetingType = {}));
     /**
      * Allows an app to get the incoming audio speaker setting for the meeting user
      * @param callback Callback contains 2 parameters, error and result.
      * error can either contain an error of type SdkError, incase of an error, or null when fetch is successful
-     * result can either contain the true/false value, incase of a successful toggle or null when the fetching fails
+     * result can either contain the true/false value, incase of a successful fetch or null when the fetching fails
      * result: True means incoming audio is muted and false means incoming audio is unmuted
      */
     function getIncomingClientAudioState(callback) {
@@ -3448,6 +3367,37 @@ var meeting;
         globalVars_1.GlobalVars.callbacks[messageId] = callback;
     }
     meeting.toggleIncomingClientAudio = toggleIncomingClientAudio;
+    /**
+     * Allows an app to get the meeting details for the meeting
+     * @param callback Callback contains 2 parameters, error and meetingDetails.
+     * error can either contain an error of type SdkError, incase of an error, or null when get is successful
+     * result can either contain a IMeetingDetails value, incase of a successful get or null when the get fails
+     */
+    function getMeetingDetails(callback) {
+        if (!callback) {
+            throw new Error('[get meeting details] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized();
+        var messageId = internalAPIs_1.sendMessageRequestToParent('meeting.getMeetingDetails');
+        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+    }
+    meeting.getMeetingDetails = getMeetingDetails;
+    /**
+     * @private
+     * Allows an app to get the authentication token for the anonymous or guest user in the meeting
+     * @param callback Callback contains 2 parameters, error and authenticationTokenOfAnonymousUser.
+     * error can either contain an error of type SdkError, incase of an error, or null when get is successful
+     * authenticationTokenOfAnonymousUser can either contain a string value, incase of a successful get or null when the get fails
+     */
+    function getAuthenticationTokenForAnonymousUser(callback) {
+        if (!callback) {
+            throw new Error('[get Authentication Token For AnonymousUser] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized();
+        var messageId = internalAPIs_1.sendMessageRequestToParent('meeting.getAuthenticationTokenForAnonymousUser');
+        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+    }
+    meeting.getAuthenticationTokenForAnonymousUser = getAuthenticationTokenForAnonymousUser;
 })(meeting = exports.meeting || (exports.meeting = {}));
 
 
@@ -3456,14 +3406,38 @@ var meeting;
 });
 //# sourceMappingURL=MicrosoftTeams.js.map
 
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ })
 
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+(() => {
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 
-// CONCATENATED MODULE: ./src/utils.ts
+;// CONCATENATED MODULE: ./src/utils.ts
 let inputs = {};
 let container = document.createElement("div");
 container.classList.add("moduleContainer");
@@ -3641,23 +3615,23 @@ function downloadHandler() {
     }
 }
 
-// EXTERNAL MODULE: ../microsoft-teams-library-js/dist/MicrosoftTeams.js
-var MicrosoftTeams = __webpack_require__(0);
-
-// CONCATENATED MODULE: ./src/app.ts
+// EXTERNAL MODULE: ./node_modules/@microsoft/teams-js/dist/MicrosoftTeams.js
+var MicrosoftTeams = __webpack_require__(115);
+;// CONCATENATED MODULE: ./src/app.ts
 
 
 const initializeAppModules = () => {
     try {
         var childWindow;
         let totalStates = 0;
+        // microsoftTeams.initialize();
+        // microsoftTeams.appInitialization.notifyAppLoaded();
         addModule({
             name: "initialize",
-            initializedRequired: false,
-            hasOutput: true,
-            action: function (output) {
-                MicrosoftTeams["initialize"](output);
-                MicrosoftTeams["appInitialization"].notifySuccess();
+            initializedRequired: true,
+            hasOutput: false,
+            action: function () {
+                MicrosoftTeams.initialize();
             }
         });
         addModule({
@@ -3665,7 +3639,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["getContext"](output);
+                MicrosoftTeams.getContext(output);
             }
         });
         addModule({
@@ -3673,7 +3647,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["getTabInstances"](output);
+                MicrosoftTeams.getTabInstances(output);
             }
         });
         addModule({
@@ -3681,7 +3655,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["getMruTabInstances"](output);
+                MicrosoftTeams.getMruTabInstances(output);
             }
         });
         addModule({
@@ -3692,7 +3666,7 @@ const initializeAppModules = () => {
                     name: "url"
                 }],
             action: function (url) {
-                MicrosoftTeams["navigateCrossDomain"](url);
+                MicrosoftTeams.navigateCrossDomain(url);
             }
         });
         addModule({
@@ -3703,7 +3677,7 @@ const initializeAppModules = () => {
                     name: "navigateForward"
                 }],
             action: function (navigateForward) {
-                MicrosoftTeams["returnFocus"](navigateForward);
+                MicrosoftTeams.returnFocus(navigateForward);
             }
         });
         addModule({
@@ -3711,7 +3685,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["registerOnThemeChangeHandler"](output);
+                MicrosoftTeams.registerOnThemeChangeHandler(output);
             }
         });
         addModule({
@@ -3722,7 +3696,7 @@ const initializeAppModules = () => {
                     name: "url"
                 }],
             action: function (url) {
-                MicrosoftTeams["navigateCrossDomain"](url);
+                MicrosoftTeams.navigateCrossDomain(url);
             }
         });
         addModule({
@@ -3730,7 +3704,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["registerOnThemeChangeHandler"](output);
+                MicrosoftTeams.registerOnThemeChangeHandler(output);
             }
         });
         addModule({
@@ -3738,7 +3712,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["registerChangeSettingsHandler"](function () {
+                MicrosoftTeams.registerChangeSettingsHandler(function () {
                     output("Change Settings Event recieved");
                 });
             }
@@ -3748,7 +3722,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["registerAppButtonClickHandler"](function () {
+                MicrosoftTeams.registerAppButtonClickHandler(function () {
                     output("Click event received");
                 });
             }
@@ -3758,7 +3732,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["registerAppButtonHoverEnterHandler"](function () {
+                MicrosoftTeams.registerAppButtonHoverEnterHandler(function () {
                     output(`Hover enter event received`);
                 });
             }
@@ -3768,7 +3742,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["registerAppButtonHoverLeaveHandler"](function () {
+                MicrosoftTeams.registerAppButtonHoverLeaveHandler(function () {
                     output(`Hover leave event received`);
                 });
             }
@@ -3781,7 +3755,7 @@ const initializeAppModules = () => {
                     name: "deepLinkParameters"
                 }],
             action: function (deepLinkParameters) {
-                MicrosoftTeams["shareDeepLink"](deepLinkParameters);
+                MicrosoftTeams.shareDeepLink(deepLinkParameters);
             }
         });
         addModule({
@@ -3792,7 +3766,7 @@ const initializeAppModules = () => {
                     name: "deepLink"
                 }],
             action: function (deepLink) {
-                MicrosoftTeams["executeDeepLink"](deepLink);
+                MicrosoftTeams.executeDeepLink(deepLink);
             }
         });
         addModule({
@@ -3804,7 +3778,7 @@ const initializeAppModules = () => {
                 }],
             hasOutput: true,
             action: function (url, output) {
-                MicrosoftTeams["authentication"].authenticate({
+                MicrosoftTeams.authentication.authenticate({
                     url: url,
                     successCallback: function (result) {
                         output("Success:" + result);
@@ -3825,7 +3799,7 @@ const initializeAppModules = () => {
                     name: "taskInfo"
                 }],
             action: function (taskInfo, output) {
-                childWindow = MicrosoftTeams["tasks"].startTask(taskInfo);
+                childWindow = MicrosoftTeams.tasks.startTask(taskInfo);
                 childWindow.addEventListener("message", function (message) {
                     output("Message from task module: " + message);
                     childWindow.postMessage("tab received - " + message);
@@ -3858,7 +3832,7 @@ const initializeAppModules = () => {
                     name: "message"
                 }],
             action: function (message, output) {
-                var parentWindow = MicrosoftTeams["ParentAppWindow"].Instance;
+                var parentWindow = MicrosoftTeams.ParentAppWindow.Instance;
                 if (parentWindow) {
                     parentWindow.postMessage(message);
                     output("message sent to parent(tab)");
@@ -3873,7 +3847,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                var parentWindow = MicrosoftTeams["ParentAppWindow"].Instance;
+                var parentWindow = MicrosoftTeams.ParentAppWindow.Instance;
                 if (parentWindow) {
                     parentWindow.addEventListener("message", function (message) {
                         output("message from tab: " + message);
@@ -3892,7 +3866,7 @@ const initializeAppModules = () => {
                     name: "showNotificationParameters"
                 }],
             action: function (showNotificationParameters) {
-                MicrosoftTeams["showNotification"](showNotificationParameters);
+                MicrosoftTeams.showNotification(showNotificationParameters);
             }
         });
         addModule({
@@ -3910,7 +3884,7 @@ const initializeAppModules = () => {
                 getAuthTokenParameters.failureCallback = (reason) => {
                     output("Failure: " + reason);
                 };
-                MicrosoftTeams["authentication"].getAuthToken(getAuthTokenParameters);
+                MicrosoftTeams.authentication.getAuthToken(getAuthTokenParameters);
             }
         });
         addModule({
@@ -3921,7 +3895,7 @@ const initializeAppModules = () => {
                     name: "reason"
                 }],
             action: function (reason) {
-                MicrosoftTeams["authentication"].notifyFailure(reason);
+                MicrosoftTeams.authentication.notifyFailure(reason);
             }
         });
         addModule({
@@ -3932,7 +3906,7 @@ const initializeAppModules = () => {
                     name: "result"
                 }],
             action: function (result) {
-                MicrosoftTeams["authentication"].notifySuccess(result);
+                MicrosoftTeams.authentication.notifySuccess(result);
             }
         });
         addModule({
@@ -3940,7 +3914,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["settings"].getSettings(output);
+                MicrosoftTeams.settings.getSettings(output);
             }
         });
         addModule({
@@ -3948,10 +3922,10 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["settings"].registerOnSaveHandler(function (saveEvent) {
+                MicrosoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
                     window.saveEvent = saveEvent;
                     const configUrl = window.location.href;
-                    MicrosoftTeams["settings"].setSettings({
+                    MicrosoftTeams.settings.setSettings({
                         websiteUrl: configUrl,
                         contentUrl: configUrl,
                         entityId: "tabconfig",
@@ -3988,7 +3962,7 @@ const initializeAppModules = () => {
                 }],
             hasOutput: true,
             action: function (settings, output) {
-                MicrosoftTeams["settings"].setSettings(settings);
+                MicrosoftTeams.settings.setSettings(settings);
             }
         });
         addModule({
@@ -3999,7 +3973,7 @@ const initializeAppModules = () => {
                     name: "validityState"
                 }],
             action: function (validityState) {
-                MicrosoftTeams["settings"].setValidityState(validityState);
+                MicrosoftTeams.settings.setValidityState(validityState);
             }
         });
         addModule({
@@ -4007,7 +3981,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["settings"].registerOnRemoveHandler(function (removeEvent) {
+                MicrosoftTeams.settings.registerOnRemoveHandler(function (removeEvent) {
                     window.removeEvent = removeEvent;
                     output("RemoveEvent recieved");
                 });
@@ -4039,7 +4013,7 @@ const initializeAppModules = () => {
                     name: "filePreviewParameters"
                 }],
             action: function (filePreviewParameters) {
-                MicrosoftTeams["openFilePreview"](filePreviewParameters);
+                MicrosoftTeams.openFilePreview(filePreviewParameters);
             }
         });
         addModule({
@@ -4054,7 +4028,7 @@ const initializeAppModules = () => {
                     name: "appId"
                 }],
             action: function (result, appId) {
-                MicrosoftTeams["tasks"].submitTask(result, appId);
+                MicrosoftTeams.tasks.submitTask(result, appId);
             }
         });
         addModule({
@@ -4066,7 +4040,7 @@ const initializeAppModules = () => {
                 }],
             hasOutput: true,
             action: function (taskInfo, output) {
-                MicrosoftTeams["tasks"].startTask(taskInfo, (error, result) => {
+                MicrosoftTeams.tasks.startTask(taskInfo, (error, result) => {
                     if (error) {
                         output("Error: " + error);
                     }
@@ -4084,7 +4058,7 @@ const initializeAppModules = () => {
                     name: "taskInfo"
                 }],
             action: function (taskInfo) {
-                MicrosoftTeams["tasks"].updateTask(taskInfo);
+                MicrosoftTeams.tasks.updateTask(taskInfo);
             }
         });
         addModule({
@@ -4095,7 +4069,7 @@ const initializeAppModules = () => {
                     name: "showNotificationParameters"
                 }],
             action: function (showNotificationParameters) {
-                MicrosoftTeams["showNotification"](showNotificationParameters);
+                MicrosoftTeams.showNotification(showNotificationParameters);
             }
         });
         addModule({
@@ -4103,7 +4077,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams["getChatMembers"](output);
+                MicrosoftTeams.getChatMembers(output);
             }
         });
         addModule({
@@ -4112,7 +4086,7 @@ const initializeAppModules = () => {
             hasOutput: true,
             action: function (output) {
                 MicrosoftTeams;
-                MicrosoftTeams["getUserJoinedTeams"](output);
+                MicrosoftTeams.getUserJoinedTeams(output);
             }
         });
         addModule({
@@ -4124,7 +4098,7 @@ const initializeAppModules = () => {
                 }],
             action: function (readyToUnloadDelay) {
                 const delay = Number(readyToUnloadDelay);
-                MicrosoftTeams["registerBeforeUnloadHandler"](function (readyToUnload) {
+                MicrosoftTeams.registerBeforeUnloadHandler(function (readyToUnload) {
                     window.readyToUnload = readyToUnload;
                     setTimeout(() => {
                         readyToUnload();
@@ -4162,7 +4136,7 @@ const initializeAppModules = () => {
             hasOutput: true,
             action: function (output) {
                 output("total States: " + totalStates);
-                MicrosoftTeams["registerBackButtonHandler"](function () {
+                MicrosoftTeams.registerBackButtonHandler(function () {
                     if (totalStates > 0) {
                         totalStates--;
                         output("back button clicked. total remaining state: " + totalStates);
@@ -4188,7 +4162,7 @@ const initializeAppModules = () => {
                     output("Start Conversation Subentity Id " + conversationResponse.subEntityId + " Conversation Id: " + conversationResponse.conversationId + " Entity Id: " + conversationResponse.entityId + " Channel Id: " + conversationResponse.channelId);
                 };
                 try {
-                    MicrosoftTeams["conversations"].openConversation(openConversationRequest);
+                    MicrosoftTeams.conversations.openConversation(openConversationRequest);
                 }
                 catch (e) {
                     output("Error" + e);
@@ -4199,7 +4173,7 @@ const initializeAppModules = () => {
             name: "conversations.closeConversation",
             initializedRequired: true,
             action: function () {
-                MicrosoftTeams["conversations"].closeConversation();
+                MicrosoftTeams.conversations.closeConversation();
             }
         });
         addModule({
@@ -4207,7 +4181,7 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: (output) => {
-                MicrosoftTeams["media"].captureImage((err, files) => {
+                MicrosoftTeams.media.captureImage((err, files) => {
                     if (err) {
                         output(err);
                         return;
@@ -4233,7 +4207,7 @@ const initializeAppModules = () => {
                     defaultValue: "{\"mediaType\":1,\"maxMediaCount\":1,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
                 }],
             action: (mediaInputs, output) => {
-                MicrosoftTeams["media"].selectMedia(mediaInputs, (err, medias) => {
+                MicrosoftTeams.media.selectMedia(mediaInputs, (err, medias) => {
                     if (err) {
                         output(err);
                         return;
@@ -4265,7 +4239,7 @@ const initializeAppModules = () => {
                     defaultValue: "{\"mediaType\":1,\"maxMediaCount\":1,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
                 }],
             action: (inputParams, output) => {
-                MicrosoftTeams["media"].selectMedia(inputParams, (err, medias) => {
+                MicrosoftTeams.media.selectMedia(inputParams, (err, medias) => {
                     if (err) {
                         output(err);
                         return;
@@ -4297,7 +4271,7 @@ const initializeAppModules = () => {
                     defaultValue: "{\"mediaType\":1,\"maxMediaCount\":5,\"imageProps\":{\"sources\":[1,2],\"startMode\":1,\"ink\":true,\"cameraSwitcher\":true,\"textSticker\":true,\"enableFilter\":false}}"
                 }],
             action: (selectMediaInputs, output) => {
-                MicrosoftTeams["media"].selectMedia(selectMediaInputs, (err, medias) => {
+                MicrosoftTeams.media.selectMedia(selectMediaInputs, (err, medias) => {
                     if (err) {
                         output(err);
                         return;
@@ -4310,7 +4284,7 @@ const initializeAppModules = () => {
                             type: 1 //microsoftTeams.ImageUriType.ID
                         });
                     }
-                    MicrosoftTeams["media"].viewImages(urlList, (gmErr) => {
+                    MicrosoftTeams.media.viewImages(urlList, (gmErr) => {
                         if (gmErr) {
                             output(gmErr);
                             return;
@@ -4338,7 +4312,7 @@ const initializeAppModules = () => {
                         type: 2 //microsoftTeams.ImageUriType.URL
                     });
                 }
-                MicrosoftTeams["media"].viewImages(urlList, (err) => {
+                MicrosoftTeams.media.viewImages(urlList, (err) => {
                     if (err) {
                         output(err);
                         return;
@@ -4357,7 +4331,7 @@ const initializeAppModules = () => {
                     defaultValue: "{\"allowChooseLocation\":true,\"showMap\":true}"
                 }],
             action: (locationProps, output) => {
-                MicrosoftTeams["location"].getLocation(locationProps, (err, location) => {
+                MicrosoftTeams.location.getLocation(locationProps, (err, location) => {
                     if (err) {
                         output(err);
                         return;
@@ -4376,7 +4350,7 @@ const initializeAppModules = () => {
                     defaultValue: "{\"latitude\":17,\"longitude\":17}"
                 }],
             action: (location, output) => {
-                MicrosoftTeams["location"].showLocation(location, (err, result) => {
+                MicrosoftTeams.location.showLocation(location, (err, result) => {
                     if (err) {
                         output(err);
                         return;
@@ -4395,7 +4369,7 @@ const initializeAppModules = () => {
                     defaultValue: "{\"timeOutIntervalInSec\":30}"
                 }],
             action: (scanBarCodeConfig, output) => {
-                MicrosoftTeams["media"].scanBarCode((err, result) => {
+                MicrosoftTeams.media.scanBarCode((err, result) => {
                     if (err) {
                         output(err);
                         return;
@@ -4425,7 +4399,7 @@ const initializeAppModules = () => {
     }
 };
 
-// CONCATENATED MODULE: ./src/index.ts
+;// CONCATENATED MODULE: ./src/index.ts
 
 
 (function () {
@@ -4437,7 +4411,8 @@ const initializeAppModules = () => {
     window.addEventListener("load", downloadHandler);
 })();
 
+})();
 
-/***/ })
-/******/ ]);
+/******/ })()
+;
 //# sourceMappingURL=app.js.map
