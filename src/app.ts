@@ -816,6 +816,21 @@ export const initializeAppModules = () => {
       } 
     });
 
+    addModule({
+      name: "meeting.getMeetingDetails",
+      initializedRequired : true,
+      hasOutput : true,
+      action: function (output) {
+          microsoftTeams.meeting.getMeetingDetails((err: microsoftTeams.SdkError, getMeetingDetails : microsoftTeams.meeting.IMeetingDetails) => {
+              if (err) {
+                output(err);
+                return;
+              }
+              output(getMeetingDetails);
+          });
+      }
+    });
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
