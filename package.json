@@ -17,7 +17,7 @@
     "build-debo": "webpack -o public/dechowdh/app.js",
     "build-anand": "webpack -o public/anandnat/app.js",
     "build-chharpe": "webpack -o public/chharpe/",
-    "build-erinha": "webpack -o public/erinha/app.js",
+    "build-erinha": "webpack -o public/erinha",
     "watch": "webpack -w",
     "start": "node server.js"
   },
