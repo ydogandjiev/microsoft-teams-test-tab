@@ -14,6 +14,7 @@
   "scripts": {
     "build": "webpack",
     "build-saching": "webpack -o public/saching/app.js",
+    "build-kaela": "webpack -o public/kaelapolnitz/",
     "build-debo": "webpack -o public/dechowdh/app.js",
     "build-anand": "webpack -o public/anandnat/app.js",
     "build-chharpe": "webpack -o public/chharpe/",
