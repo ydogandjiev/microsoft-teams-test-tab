@@ -18,12 +18,12 @@
     "build-debo": "webpack -o public/dechowdh/app.js",
     "build-anand": "webpack -o public/anandnat/app.js",
     "build-chharpe": "webpack -o public/chharpe/",
-    "build-erinha": "webpack -o public/erinha/app.js",
+    "build-erinha": "webpack -o public/erinha",
     "watch": "webpack -w",
     "start": "node server.js"
   },
   "dependencies": {
-    "@microsoft/teams-js": "^1.9.0",
+    "@microsoft/teams-js": "^1.10.0-beta.4",
     "express": "^4.17.1",
     "history": "^5.0.0",
     "serve-static": "^1.14.1"
