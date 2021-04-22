@@ -53,5 +53,9 @@
     "identity",
     "messageTeamMembers"
   ],
+  "devicePermissions": [
+        "media",
+        "geolocation"
+    ],
   "showLoadingIndicator": true
 }
