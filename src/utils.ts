@@ -1,4 +1,5 @@
 import { moduleConfig } from "./moduleConfig.interface";
+import { Context, FrameContexts } from '@microsoft/teams-js';
 export let inputs = {};
 
 export let container = document.createElement("div");
@@ -195,4 +196,50 @@ export function downloadHandler() {
       return (number / 1048576).toFixed(1) + "MB";
     }
   }
+}
+
+export function outputTabRenderedLocation(context: Context) {
+  
+  var appLocation = 'unidentified location...';
+
+  if (context.meetingId) {
+    appLocation = 'Meeting'
+  } else if(context.chatId) {
+    appLocation = 'Chat'
+  } else if(context.teamId && context.channelId) {
+    appLocation = `${context.channelName} channel in ${context.teamName}`
+  } else {
+    appLocation = 'Teams App'
+  }
+
+  if (isInConfig()) {
+    appLocation = `Config page of ${appLocation}`
+  } else if(isInSidePanel()) {
+    appLocation = `${appLocation} (Side Panel)`
+  }
+  
+  add_page_header(`Currently running in: ${appLocation}.`)
+
+  function isInConfig() {
+    return context.frameContext === FrameContexts.settings
+  }
+
+  function isInSidePanel() {
+    return context.frameContext === FrameContexts.sidePanel
+  }
+};
+
+export function isInTeams() {  
+  if ((window.parent === window.self && (window as any).nativeInterface) || 
+      window.name === "embedded-page-container" || 
+      window.name === "extension-tab-frame") {    
+      return true;  
+  }  
+  return false;
+}
+
+export function add_page_header(content: string){
+  var h2 = document.createElement("h2");
+  h2.textContent = content;
+  container.prepend(h2);
 }
