@@ -213,7 +213,7 @@ export function outputTabRenderedLocation(context: Context) {
   }
 
   if (isInConfig()) {
-    appLocation = `Config page of ${appLocation}`
+    appLocation = `${appLocation} (Config page)`
   } else if(isInSidePanel()) {
     appLocation = `${appLocation} (Side Panel)`
   }
