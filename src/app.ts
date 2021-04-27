@@ -831,6 +831,27 @@ export const initializeAppModules = () => {
       }
     });
 
+    addModule({
+      name: "people.selectPeople",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "peoplePickerInputs",
+        defaultValue: "{\"title\":\"\", \"setSelected\":[], \"openOrgWideSearchInChatOrChannel\":false, \"singleSelect\":false}"
+      }],
+      action: (peoplePickerInputs: microsoftTeams.people.PeoplePickerInputs, output) => {
+        microsoftTeams.people.selectPeople((err: microsoftTeams.SdkError, people: microsoftTeams.people.PeoplePickerResult[]) => {
+          if (err) {
+            output(err);
+            return;
+          }
+
+          output("People length: " + people.length + " " + JSON.stringify(people));
+        }, peoplePickerInputs);
+      } 
+    });
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
