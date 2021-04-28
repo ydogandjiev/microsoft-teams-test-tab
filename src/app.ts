@@ -1,4 +1,4 @@
-import { addModule } from "./utils";
+import { addModule, outputTabRenderedLocation } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
 
 export const initializeAppModules = () => {
@@ -7,6 +7,8 @@ export const initializeAppModules = () => {
     let totalStates = 0;
     microsoftTeams.initialize();
     microsoftTeams.appInitialization.notifyAppLoaded();
+
+    outputTabRenderedLocation(microsoftTeams.getContext);
 
     addModule({
       name: "getContext",
