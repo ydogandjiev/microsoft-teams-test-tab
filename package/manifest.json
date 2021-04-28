@@ -41,8 +41,8 @@
         "groupchat"
       ],
       "meetingSurfaces": [
-        "stage",
-        "sidePanel"
+        "Stage",
+        "SidePanel"
       ]
     }
   ],

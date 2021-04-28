@@ -1,4 +1,4 @@
-import { addModule, add_page_header, isInTeams, outputTabRenderedLocation } from "./utils";
+import { addModule, outputTabRenderedLocation } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
 
 export const initializeAppModules = () => {
@@ -8,11 +8,7 @@ export const initializeAppModules = () => {
     microsoftTeams.initialize();
     microsoftTeams.appInitialization.notifyAppLoaded();
 
-    if (isInTeams()){
-      microsoftTeams.getContext(outputTabRenderedLocation);
-    }else{
-      add_page_header(`Currently running outside of Microsoft Teams.`);
-    }
+    outputTabRenderedLocation(microsoftTeams.getContext);
 
     addModule({
       name: "getContext",

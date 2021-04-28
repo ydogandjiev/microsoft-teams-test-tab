@@ -198,8 +198,24 @@ export function downloadHandler() {
   }
 }
 
-export function outputTabRenderedLocation(context: Context) {
-  
+export function outputTabRenderedLocation(getContext: (callback: (context: microsoftTeams.Context) => void) => void) {
+  if (isInTeams()) {
+    getContext(outputTabRenderedLocationInTeams);
+  } else {
+    add_page_header(`Currently running outside of Microsoft Teams.`);
+  }
+
+  function isInTeams() {  
+    if ((window.parent === window.self && (window as any).nativeInterface) || 
+        window.name === "embedded-page-container" || 
+        window.name === "extension-tab-frame") {    
+        return true;  
+    }  
+    return false;
+  }
+}
+
+function outputTabRenderedLocationInTeams(context: Context) {
   var appLocation = 'unidentified location...';
 
   if (context.meetingId) {
@@ -217,8 +233,8 @@ export function outputTabRenderedLocation(context: Context) {
   } else if(isInSidePanel()) {
     appLocation = `${appLocation} (Side Panel)`
   }
-  
-  add_page_header(`Currently running in: ${appLocation}.`)
+
+  add_page_header(`Currently running in: ${appLocation}.`)  
 
   function isInConfig() {
     return context.frameContext === FrameContexts.settings
@@ -229,16 +245,8 @@ export function outputTabRenderedLocation(context: Context) {
   }
 };
 
-export function isInTeams() {  
-  if ((window.parent === window.self && (window as any).nativeInterface) || 
-      window.name === "embedded-page-container" || 
-      window.name === "extension-tab-frame") {    
-      return true;  
-  }  
-  return false;
-}
 
-export function add_page_header(content: string){
+function add_page_header(content: string){
   var h2 = document.createElement("h2");
   h2.textContent = content;
   container.prepend(h2);
