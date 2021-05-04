@@ -198,6 +198,34 @@ export function downloadHandler() {
   }
 }
 
+export function initializeDownloadLinks() {
+  const csv = "Id,Value\n1,Hello world!\n";
+  const data = new Blob([csv]);
+  const downloadLink = document.getElementById("downloadLink") as HTMLAnchorElement;
+  downloadLink.href = URL.createObjectURL(data);
+  
+  const downloadButton = document.getElementById("downloadButton") as HTMLButtonElement;
+  downloadButton.onclick = () => {
+    const csv = "Id, Value\n1,Hello world!\n";
+    const data = new Blob([csv]);
+    let downloadLink = document.getElementById("hiddenDownloadLink") as HTMLAnchorElement;
+    
+    if (downloadLink == null) {
+      downloadLink = document.createElement('a');
+      downloadLink.setAttribute('download', 'DownloadViaButton.csv');
+      downloadLink.setAttribute('id', 'hiddenDownloadLink');
+      
+      document.body.appendChild(downloadLink);
+    }
+    
+    downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data as any));
+    downloadLink.href = URL.createObjectURL(data);
+    
+    downloadLink.style.display = 'none';
+    downloadLink.click();
+  };
+}
+
 export function outputTabRenderedLocation(getContext: (callback: (context: microsoftTeams.Context) => void) => void) {
   if (isInTeams()) {
     getContext(outputTabRenderedLocationInTeams);
