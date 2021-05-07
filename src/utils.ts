@@ -1,4 +1,5 @@
 import { moduleConfig } from "./moduleConfig.interface";
+import { Context, FrameContexts } from '@microsoft/teams-js';
 export let inputs = {};
 
 export let container = document.createElement("div");
@@ -195,4 +196,86 @@ export function downloadHandler() {
       return (number / 1048576).toFixed(1) + "MB";
     }
   }
+}
+
+export function initializeDownloadLinks() {
+  const csv = "Id,Value\n1,Hello world!\n";
+  const data = new Blob([csv]);
+  const downloadLink = document.getElementById("downloadLink") as HTMLAnchorElement;
+  downloadLink.href = URL.createObjectURL(data);
+  
+  const downloadButton = document.getElementById("downloadButton") as HTMLButtonElement;
+  downloadButton.onclick = () => {
+    const csv = "Id, Value\n1,Hello world!\n";
+    const data = new Blob([csv]);
+    let downloadLink = document.getElementById("hiddenDownloadLink") as HTMLAnchorElement;
+    
+    if (downloadLink == null) {
+      downloadLink = document.createElement('a');
+      downloadLink.setAttribute('download', 'DownloadViaButton.csv');
+      downloadLink.setAttribute('id', 'hiddenDownloadLink');
+      
+      document.body.appendChild(downloadLink);
+    }
+    
+    downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data as any));
+    downloadLink.href = URL.createObjectURL(data);
+    
+    downloadLink.style.display = 'none';
+    downloadLink.click();
+  };
+}
+
+export function outputTabRenderedLocation(getContext: (callback: (context: microsoftTeams.Context) => void) => void) {
+  if (isInTeams()) {
+    getContext(outputTabRenderedLocationInTeams);
+  } else {
+    add_page_header(`Currently running outside of Microsoft Teams.`);
+  }
+
+  function isInTeams() {  
+    if ((window.parent === window.self && (window as any).nativeInterface) || 
+        window.name === "embedded-page-container" || 
+        window.name === "extension-tab-frame") {    
+        return true;  
+    }  
+    return false;
+  }
+}
+
+function outputTabRenderedLocationInTeams(context: Context) {
+  var appLocation = 'unidentified location...';
+
+  if (context.meetingId) {
+    appLocation = 'Meeting'
+  } else if(context.chatId) {
+    appLocation = 'Chat'
+  } else if(context.teamId && context.channelId) {
+    appLocation = `${context.channelName} channel in ${context.teamName}`
+  } else {
+    appLocation = 'Teams App'
+  }
+
+  if (isInConfig()) {
+    appLocation = `${appLocation} (Config page)`
+  } else if(isInSidePanel()) {
+    appLocation = `${appLocation} (Side Panel)`
+  }
+
+  add_page_header(`Currently running in: ${appLocation}.`)  
+
+  function isInConfig() {
+    return context.frameContext === FrameContexts.settings
+  }
+
+  function isInSidePanel() {
+    return context.frameContext === FrameContexts.sidePanel
+  }
+};
+
+
+function add_page_header(content: string){
+  var h2 = document.createElement("h2");
+  h2.textContent = content;
+  container.prepend(h2);
 }

@@ -6,6 +6,7 @@ import { initializeAppModules } from './app';
   initializeAppModules();
 
   document.body.appendChild(container);
+
   // Give the DOM a chance to update from the appendChild above
   setTimeout(restoreState, 0);
   window.addEventListener("beforeunload", saveState);
