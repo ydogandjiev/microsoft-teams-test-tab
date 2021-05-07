@@ -348,14 +348,6 @@ const initializeAppModules = () => {
             }
         });
         addModule({
-            name: "registerOnThemeChangeHandler",
-            initializedRequired: true,
-            hasOutput: true,
-            action: function (output) {
-                MicrosoftTeams_min.registerOnThemeChangeHandler(output);
-            }
-        });
-        addModule({
             name: "navigateCrossDomain",
             initializedRequired: true,
             inputs: [{
