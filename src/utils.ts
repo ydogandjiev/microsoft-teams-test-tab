@@ -245,7 +245,7 @@ export function outputTabRenderedLocation(getContext: (callback: (context: micro
 
 function outputTabRenderedLocationInTeams(context: Context) {
   var appLocation = 'unidentified location...';
-
+  const perfData = window.performance;
   if (context.meetingId) {
     appLocation = 'Meeting'
   } else if(context.chatId) {
@@ -262,7 +262,7 @@ function outputTabRenderedLocationInTeams(context: Context) {
     appLocation = `${appLocation} (Side Panel)`
   }
 
-  add_page_header(`Currently running in: ${appLocation}.`)  
+  add_page_header(`Currently running in: ${appLocation}.  with time ${perfData.timing.navigationStart - context.userClickTime}`)  
 
   function isInConfig() {
     return context.frameContext === FrameContexts.settings
