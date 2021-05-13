@@ -1053,7 +1053,7 @@ const initializeAppModules = () => {
             }
         });
         addModule({
-            name: "meeting.getIncomingClientAudioState",
+            name: "getIncomingClientAudioState",
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
@@ -1067,7 +1067,7 @@ const initializeAppModules = () => {
             }
         });
         addModule({
-            name: "meeting.toggleIncomingClientAudio",
+            name: "toggleIncomingClientAudio",
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
