@@ -83,6 +83,34 @@ export const initializeAppModules = () => {
       }
     });
 
+    addModule({
+      name: "registerFocusChangeHandler",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.registerFocusChangeHandler(function () {
+          output("OnFocusChange Event received");
+        });
+      }
+    });
+
+    addModule({
+      name: "registerBackButtonHandler",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        output("total States: " + totalStates);
+        microsoftTeams.registerBackButtonHandler(function () {
+          if (totalStates > 0) {
+            totalStates--;
+            output("back button clicked. total remaining state: " + totalStates);
+            return true;
+          }
+          return false;
+        });
+      }
+    });
+
 
     addModule({
       name: "registerChangeSettingsHandler",
