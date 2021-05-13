@@ -19,6 +19,7 @@
     "build-anand": "webpack -o public/anandnat/app.js",
     "build-chharpe": "webpack -o public/chharpe/",
     "build-erinha": "webpack -o public/erinha",
+    "build-saket": "webpack -o public/saket",
     "watch": "webpack -w",
     "start": "node server.js"
   },
