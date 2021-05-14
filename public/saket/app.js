@@ -374,6 +374,7 @@ const initializeAppModules = () => {
             action: function (output) {
                 MicrosoftTeams_min.registerFocusChangeHandler(function () {
                     output("OnFocusChange Event received");
+                    return true;
                 });
             }
         });
