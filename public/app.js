@@ -1053,6 +1053,48 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "getIncomingClientAudioState",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.getIncomingClientAudioState((err, result) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(result);
+                });
+            }
+        });
+        addModule({
+            name: "toggleIncomingClientAudio",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.toggleIncomingClientAudio((err, result) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(result);
+                });
+            }
+        });
+        addModule({
+            name: "meeting.getAuthenticationTokenForAnonymousUser",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.getAuthenticationTokenForAnonymousUser((err, authenticationTokenOfAnonymousUser) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(authenticationTokenOfAnonymousUser);
+                });
+            }
+        });
+        addModule({
             name: "people.selectPeople",
             initializedRequired: true,
             hasOutput: true,

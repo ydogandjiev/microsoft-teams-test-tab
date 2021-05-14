@@ -826,6 +826,51 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "getIncomingClientAudioState",
+      initializedRequired : true,
+      hasOutput : true,
+      action: function (output) {
+          microsoftTeams.meeting.getIncomingClientAudioState((err: microsoftTeams.SdkError, result : boolean) => {
+              if (err) {
+                output(err);
+                return;
+              }
+              output(result);
+          });
+      }
+    });
+
+    addModule({
+      name: "toggleIncomingClientAudio",
+      initializedRequired : true,
+      hasOutput : true,
+      action: function (output) {
+          microsoftTeams.meeting.toggleIncomingClientAudio((err: microsoftTeams.SdkError, result : boolean) => {
+              if (err) {
+                output(err);
+                return;
+              }
+              output(result);
+          });
+      }
+    });
+
+    addModule({
+      name: "meeting.getAuthenticationTokenForAnonymousUser",
+      initializedRequired : true,
+      hasOutput : true,
+      action: function (output) {
+          microsoftTeams.meeting.getAuthenticationTokenForAnonymousUser((err: microsoftTeams.SdkError, authenticationTokenOfAnonymousUser : string) => {
+              if (err) {
+                output(err);
+                return;
+              }
+              output(authenticationTokenOfAnonymousUser);
+          });
+      }
+    });
+
+    addModule({
       name: "people.selectPeople",
       initializedRequired: true,
       hasOutput: true,
