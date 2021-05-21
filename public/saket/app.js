@@ -394,6 +394,7 @@ const initializeAppModules = () => {
             action: function (output) {
                 MicrosoftTeams_min.registerFocusChangeHandler(function () {
                     document.getElementById("textarea-registerFocusChangeHandler").focus();
+                    document.getElementById("textarea-registerFocusChangeHandler").style.borderColor = "red";
                     output("OnFocusChange Event received");
                     return true;
                 });
