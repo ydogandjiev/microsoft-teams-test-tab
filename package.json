@@ -13,10 +13,10 @@
   "homepage": "https://github.com/ydogandjiev/microsoft-teams-test-tab#readme",
   "scripts": {
     "build": "webpack",
-    "build-saching": "webpack -o public/saching/app.js",
+    "build-saching": "webpack -o public/saching/",
     "build-kaela": "webpack -o public/kaelapolnitz/",
-    "build-debo": "webpack -o public/dechowdh/app.js",
-    "build-anand": "webpack -o public/anandnat/app.js",
+    "build-debo": "webpack -o public/dechowdh/",
+    "build-anand": "webpack -o public/anandnat/",
     "build-chharpe": "webpack -o public/chharpe/",
     "build-erinha": "webpack -o public/erinha",
     "watch": "webpack -w",
