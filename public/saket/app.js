@@ -368,7 +368,7 @@ const initializeAppModules = () => {
             }
         });
         addModule({
-            name: "registerChangeSettingsHandler",
+            name: "registerEnterSettingsHandler",
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
@@ -396,9 +396,9 @@ const initializeAppModules = () => {
                     name: "navigateForward"
                 }],
             action: function (output) {
-                MicrosoftTeams_min.registerFocusEnterHandler(function () {
+                MicrosoftTeams_min.registerFocusEnterHandler(function (navigateForward) {
                     document.getElementById("textarea-registerFocusEnterHandler").focus();
-                    output("OnFocusEnter Event received");
+                    output("OnFocusEnter Event received", navigateForward);
                     return true;
                 });
             }
@@ -417,9 +417,9 @@ const initializeAppModules = () => {
             name: "registerAppButtonHoverLeaveHandler",
             initializedRequired: true,
             hasOutput: true,
-            action: function (output, navigateForward) {
+            action: function (output) {
                 MicrosoftTeams_min.registerAppButtonHoverLeaveHandler(function () {
-                    output(`Hover leave event received`, navigateForward);
+                    output(`Hover leave event received`);
                 });
             }
         });
