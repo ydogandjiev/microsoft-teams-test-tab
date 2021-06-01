@@ -391,6 +391,10 @@ const initializeAppModules = () => {
             name: "registerFocusEnterHandler",
             initializedRequired: true,
             hasOutput: true,
+            inputs: [{
+                    type: "boolean",
+                    name: "navigateForward"
+                }],
             action: function (output) {
                 MicrosoftTeams_min.registerFocusEnterHandler(function () {
                     document.getElementById("textarea-registerFocusEnterHandler").focus();
@@ -413,9 +417,9 @@ const initializeAppModules = () => {
             name: "registerAppButtonHoverLeaveHandler",
             initializedRequired: true,
             hasOutput: true,
-            action: function (output) {
+            action: function (output, navigateForward) {
                 MicrosoftTeams_min.registerAppButtonHoverLeaveHandler(function () {
-                    output(`Hover leave event received`);
+                    output(`Hover leave event received`, navigateForward);
                 });
             }
         });
