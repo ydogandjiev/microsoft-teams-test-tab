@@ -92,133 +92,328 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __nested_webpack_require_571__(__nested_webpack_require_571__.s = 13);
+/******/ 	return __nested_webpack_require_571__(__nested_webpack_require_571__.s = 19);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __nested_webpack_require_4036__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var GlobalVars = /** @class */ (function () {
-    function GlobalVars() {
+var constants_1 = __nested_webpack_require_4036__(4);
+var globalVars_1 = __nested_webpack_require_4036__(6);
+var handlers_1 = __nested_webpack_require_4036__(3);
+var Communication = /** @class */ (function () {
+    function Communication() {
     }
-    GlobalVars.initializeCalled = false;
-    GlobalVars.initializeCompleted = false;
-    GlobalVars.additionalValidOrigins = [];
-    GlobalVars.additionalValidOriginsRegexp = null;
-    GlobalVars.initializeCallbacks = [];
-    GlobalVars.isFramelessWindow = false;
-    GlobalVars.parentMessageQueue = [];
-    GlobalVars.childMessageQueue = [];
-    GlobalVars.nextMessageId = 0;
-    GlobalVars.handlers = {};
-    GlobalVars.callbacks = {};
-    GlobalVars.printCapabilityEnabled = false;
-    return GlobalVars;
+    return Communication;
 }());
-exports.GlobalVars = GlobalVars;
+exports.Communication = Communication;
+var CommunicationPrivate = /** @class */ (function () {
+    function CommunicationPrivate() {
+    }
+    CommunicationPrivate.parentMessageQueue = [];
+    CommunicationPrivate.childMessageQueue = [];
+    CommunicationPrivate.nextMessageId = 0;
+    CommunicationPrivate.callbacks = {};
+    return CommunicationPrivate;
+}());
+function initializeCommunication(callback, validMessageOrigins) {
+    // Listen for messages post to our window
+    CommunicationPrivate.messageListener = function (evt) { return processMessage(evt); };
+    // If we are in an iframe, our parent window is the one hosting us (i.e., window.parent); otherwise,
+    // it's the window that opened us (i.e., window.opener)
+    Communication.currentWindow = Communication.currentWindow || window;
+    Communication.parentWindow =
+        Communication.currentWindow.parent !== Communication.currentWindow.self
+            ? Communication.currentWindow.parent
+            : Communication.currentWindow.opener;
+    // Listen to messages from the parent or child frame.
+    // Frameless windows will only receive this event from child frames and if validMessageOrigins is passed.
+    if (Communication.parentWindow || validMessageOrigins) {
+        Communication.currentWindow.addEventListener('message', CommunicationPrivate.messageListener, false);
+    }
+    if (!Communication.parentWindow) {
+        globalVars_1.GlobalVars.isFramelessWindow = true;
+        // @ts-ignore: window as ExtendedWindow
+        window.onNativeMessage = handleParentMessage;
+    }
+    try {
+        // Send the initialized message to any origin, because at this point we most likely don't know the origin
+        // of the parent window, and this message contains no data that could pose a security risk.
+        Communication.parentOrigin = '*';
+        sendMessageToParent('initialize', [constants_1.version], callback);
+    }
+    finally {
+        Communication.parentOrigin = null;
+    }
+}
+exports.initializeCommunication = initializeCommunication;
+function uninitializeCommunication() {
+    Communication.currentWindow.removeEventListener('message', CommunicationPrivate.messageListener, false);
+    Communication.parentWindow = null;
+    Communication.parentOrigin = null;
+    Communication.childWindow = null;
+    Communication.childOrigin = null;
+    CommunicationPrivate.parentMessageQueue = [];
+    CommunicationPrivate.childMessageQueue = [];
+    CommunicationPrivate.nextMessageId = 0;
+    CommunicationPrivate.callbacks = {};
+}
+exports.uninitializeCommunication = uninitializeCommunication;
+function sendMessageToParent(actionName, argsOrCallback, callback) {
+    var args;
+    if (argsOrCallback instanceof Function) {
+        callback = argsOrCallback;
+    }
+    else if (argsOrCallback instanceof Array) {
+        args = argsOrCallback;
+    }
+    var targetWindow = Communication.parentWindow;
+    var request = createMessageRequest(actionName, args);
+    if (globalVars_1.GlobalVars.isFramelessWindow) {
+        if (Communication.currentWindow && Communication.currentWindow.nativeInterface) {
+            Communication.currentWindow.nativeInterface.framelessPostMessage(JSON.stringify(request));
+        }
+    }
+    else {
+        var targetOrigin = getTargetOrigin(targetWindow);
+        // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
+        // queue the message and send it after the origin is established
+        if (targetWindow && targetOrigin) {
+            targetWindow.postMessage(request, targetOrigin);
+        }
+        else {
+            getTargetMessageQueue(targetWindow).push(request);
+        }
+    }
+    if (callback) {
+        CommunicationPrivate.callbacks[request.id] = callback;
+    }
+}
+exports.sendMessageToParent = sendMessageToParent;
+function processMessage(evt) {
+    // Process only if we received a valid message
+    if (!evt || !evt.data || typeof evt.data !== 'object') {
+        return;
+    }
+    // Process only if the message is coming from a different window and a valid origin
+    // valid origins are either a pre-known
+    var messageSource = evt.source || (evt.originalEvent && evt.originalEvent.source);
+    var messageOrigin = evt.origin || (evt.originalEvent && evt.originalEvent.origin);
+    if (!shouldProcessMessage(messageSource, messageOrigin)) {
+        return;
+    }
+    // Update our parent and child relationships based on this message
+    updateRelationships(messageSource, messageOrigin);
+    // Handle the message
+    if (messageSource === Communication.parentWindow) {
+        handleParentMessage(evt);
+    }
+    else if (messageSource === Communication.childWindow) {
+        handleChildMessage(evt);
+    }
+}
+/**
+ * Validates the message source and origin, if it should be processed
+ */
+function shouldProcessMessage(messageSource, messageOrigin) {
+    // Process if message source is a different window and if origin is either in
+    // Teams' pre-known whitelist or supplied as valid origin by user during initialization
+    if (Communication.currentWindow && messageSource === Communication.currentWindow) {
+        return false;
+    }
+    else if (Communication.currentWindow &&
+        Communication.currentWindow.location &&
+        messageOrigin &&
+        messageOrigin === Communication.currentWindow.location.origin) {
+        return true;
+    }
+    else if (constants_1.validOriginRegExp.test(messageOrigin.toLowerCase()) ||
+        (globalVars_1.GlobalVars.additionalValidOriginsRegexp &&
+            globalVars_1.GlobalVars.additionalValidOriginsRegexp.test(messageOrigin.toLowerCase()))) {
+        return true;
+    }
+    return false;
+}
+function updateRelationships(messageSource, messageOrigin) {
+    // Determine whether the source of the message is our parent or child and update our
+    // window and origin pointer accordingly
+    // For frameless windows (i.e mobile), there is no parent frame, so the message must be from the child.
+    if (!globalVars_1.GlobalVars.isFramelessWindow &&
+        (!Communication.parentWindow || Communication.parentWindow.closed || messageSource === Communication.parentWindow)) {
+        Communication.parentWindow = messageSource;
+        Communication.parentOrigin = messageOrigin;
+    }
+    else if (!Communication.childWindow ||
+        Communication.childWindow.closed ||
+        messageSource === Communication.childWindow) {
+        Communication.childWindow = messageSource;
+        Communication.childOrigin = messageOrigin;
+    }
+    // Clean up pointers to closed parent and child windows
+    if (Communication.parentWindow && Communication.parentWindow.closed) {
+        Communication.parentWindow = null;
+        Communication.parentOrigin = null;
+    }
+    if (Communication.childWindow && Communication.childWindow.closed) {
+        Communication.childWindow = null;
+        Communication.childOrigin = null;
+    }
+    // If we have any messages in our queue, send them now
+    flushMessageQueue(Communication.parentWindow);
+    flushMessageQueue(Communication.childWindow);
+}
+function handleParentMessage(evt) {
+    if ('id' in evt.data && typeof evt.data.id === 'number') {
+        // Call any associated Communication.callbacks
+        var message = evt.data;
+        var callback = CommunicationPrivate.callbacks[message.id];
+        if (callback) {
+            callback.apply(null, message.args.concat([message.isPartialResponse]));
+            // Remove the callback to ensure that the callback is called only once and to free up memory if response is a complete response
+            if (!isPartialResponse(evt)) {
+                delete CommunicationPrivate.callbacks[message.id];
+            }
+        }
+    }
+    else if ('func' in evt.data && typeof evt.data.func === 'string') {
+        // Delegate the request to the proper handler
+        var message = evt.data;
+        handlers_1.callHandler(message.func, message.args);
+    }
+}
+function isPartialResponse(evt) {
+    return evt.data.isPartialResponse === true;
+}
+function handleChildMessage(evt) {
+    if ('id' in evt.data && 'func' in evt.data) {
+        // Try to delegate the request to the proper handler, if defined
+        var message_1 = evt.data;
+        var _a = handlers_1.callHandler(message_1.func, message_1.args), called = _a[0], result = _a[1];
+        if (called && typeof result !== 'undefined') {
+            sendMessageResponseToChild(message_1.id, Array.isArray(result) ? result : [result]);
+        }
+        else {
+            // No handler, proxy to parent
+            // tslint:disable-next-line:no-any
+            sendMessageToParent(message_1.func, message_1.args, function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i] = arguments[_i];
+                }
+                if (Communication.childWindow) {
+                    var isPartialResponse_1 = args.pop();
+                    sendMessageResponseToChild(message_1.id, args, isPartialResponse_1);
+                }
+            });
+        }
+    }
+}
+function getTargetMessageQueue(targetWindow) {
+    return targetWindow === Communication.parentWindow
+        ? CommunicationPrivate.parentMessageQueue
+        : targetWindow === Communication.childWindow
+            ? CommunicationPrivate.childMessageQueue
+            : [];
+}
+function getTargetOrigin(targetWindow) {
+    return targetWindow === Communication.parentWindow
+        ? Communication.parentOrigin
+        : targetWindow === Communication.childWindow
+            ? Communication.childOrigin
+            : null;
+}
+function flushMessageQueue(targetWindow) {
+    var targetOrigin = getTargetOrigin(targetWindow);
+    var targetMessageQueue = getTargetMessageQueue(targetWindow);
+    while (targetWindow && targetOrigin && targetMessageQueue.length > 0) {
+        targetWindow.postMessage(targetMessageQueue.shift(), targetOrigin);
+    }
+}
+function waitForMessageQueue(targetWindow, callback) {
+    var messageQueueMonitor = Communication.currentWindow.setInterval(function () {
+        if (getTargetMessageQueue(targetWindow).length === 0) {
+            clearInterval(messageQueueMonitor);
+            callback();
+        }
+    }, 100);
+}
+exports.waitForMessageQueue = waitForMessageQueue;
+/**
+ * Send a response to child for a message request that was from child
+ */
+function sendMessageResponseToChild(id, 
+// tslint:disable-next-line:no-any
+args, isPartialResponse) {
+    var targetWindow = Communication.childWindow;
+    var response = createMessageResponse(id, args, isPartialResponse);
+    var targetOrigin = getTargetOrigin(targetWindow);
+    if (targetWindow && targetOrigin) {
+        targetWindow.postMessage(response, targetOrigin);
+    }
+}
+/**
+ * Send a custom message object that can be sent to child window,
+ * instead of a response message to a child
+ */
+function sendMessageEventToChild(actionName, 
+// tslint:disable-next-line: no-any
+args) {
+    var targetWindow = Communication.childWindow;
+    var customEvent = createMessageEvent(actionName, args);
+    var targetOrigin = getTargetOrigin(targetWindow);
+    // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
+    // queue the message and send it after the origin is established
+    if (targetWindow && targetOrigin) {
+        targetWindow.postMessage(customEvent, targetOrigin);
+    }
+    else {
+        getTargetMessageQueue(targetWindow).push(customEvent);
+    }
+}
+exports.sendMessageEventToChild = sendMessageEventToChild;
+// tslint:disable-next-line:no-any
+function createMessageRequest(func, args) {
+    return {
+        id: CommunicationPrivate.nextMessageId++,
+        func: func,
+        timestamp: Date.now(),
+        args: args || [],
+    };
+}
+// tslint:disable-next-line:no-any
+function createMessageResponse(id, args, isPartialResponse) {
+    return {
+        id: id,
+        args: args || [],
+        isPartialResponse: isPartialResponse,
+    };
+}
+/**
+ * Creates a message object without any id, used for custom actions being sent to child frame/window
+ */
+// tslint:disable-next-line:no-any
+function createMessageEvent(func, args) {
+    return {
+        func: func,
+        args: args || [],
+    };
+}
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __nested_webpack_require_4838__) {
+/***/ (function(module, exports, __nested_webpack_require_16956__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var navigation_1 = __nested_webpack_require_4838__(6);
-var constants_1 = __nested_webpack_require_4838__(4);
-var globalVars_1 = __nested_webpack_require_4838__(0);
-var utils_1 = __nested_webpack_require_4838__(3);
-// ::::::::::::::::::::MicrosoftTeams SDK Internal :::::::::::::::::
-globalVars_1.GlobalVars.handlers['themeChange'] = handleThemeChange;
-globalVars_1.GlobalVars.handlers['fullScreenChange'] = handleFullScreenChange;
-globalVars_1.GlobalVars.handlers['backButtonPress'] = handleBackButtonPress;
-globalVars_1.GlobalVars.handlers['load'] = handleLoad;
-globalVars_1.GlobalVars.handlers['beforeUnload'] = handleBeforeUnload;
-globalVars_1.GlobalVars.handlers['changeSettings'] = handleChangeSettings;
-globalVars_1.GlobalVars.handlers['startConversation'] = handleStartConversation;
-globalVars_1.GlobalVars.handlers['closeConversation'] = handleCloseConversation;
-globalVars_1.GlobalVars.handlers['appButtonClick'] = handleAppButtonClick;
-globalVars_1.GlobalVars.handlers['appButtonHoverEnter'] = handleAppButtonHoverEnter;
-globalVars_1.GlobalVars.handlers['appButtonHoverLeave'] = handleAppButtonHoverLeave;
-function handleStartConversation(subEntityId, conversationId, channelId, entityId) {
-    if (globalVars_1.GlobalVars.onStartConversationHandler) {
-        globalVars_1.GlobalVars.onStartConversationHandler({
-            subEntityId: subEntityId,
-            conversationId: conversationId,
-            channelId: channelId,
-            entityId: entityId,
-        });
-    }
-}
-function handleCloseConversation(subEntityId, conversationId, channelId, entityId) {
-    if (globalVars_1.GlobalVars.onCloseConversationHandler) {
-        globalVars_1.GlobalVars.onCloseConversationHandler({
-            subEntityId: subEntityId,
-            conversationId: conversationId,
-            channelId: channelId,
-            entityId: entityId,
-        });
-    }
-}
-function handleThemeChange(theme) {
-    if (globalVars_1.GlobalVars.themeChangeHandler) {
-        globalVars_1.GlobalVars.themeChangeHandler(theme);
-    }
-    if (globalVars_1.GlobalVars.childWindow) {
-        sendMessageEventToChild('themeChange', [theme]);
-    }
-}
-function handleFullScreenChange(isFullScreen) {
-    if (globalVars_1.GlobalVars.fullScreenChangeHandler) {
-        globalVars_1.GlobalVars.fullScreenChangeHandler(isFullScreen);
-    }
-}
-function handleBackButtonPress() {
-    if (!globalVars_1.GlobalVars.backButtonPressHandler || !globalVars_1.GlobalVars.backButtonPressHandler()) {
-        navigation_1.navigateBack();
-    }
-}
-function handleLoad(context) {
-    if (globalVars_1.GlobalVars.loadHandler) {
-        globalVars_1.GlobalVars.loadHandler(context);
-    }
-    if (globalVars_1.GlobalVars.childWindow) {
-        sendMessageEventToChild('load', [context]);
-    }
-}
-function handleBeforeUnload() {
-    var readyToUnload = function () {
-        sendMessageRequestToParent('readyToUnload', []);
-    };
-    if (!globalVars_1.GlobalVars.beforeUnloadHandler || !globalVars_1.GlobalVars.beforeUnloadHandler(readyToUnload)) {
-        readyToUnload();
-    }
-}
-function handleChangeSettings() {
-    if (globalVars_1.GlobalVars.changeSettingsHandler) {
-        globalVars_1.GlobalVars.changeSettingsHandler();
-    }
-}
-function handleAppButtonClick() {
-    if (globalVars_1.GlobalVars.appButtonClickHandler) {
-        globalVars_1.GlobalVars.appButtonClickHandler();
-    }
-}
-function handleAppButtonHoverEnter() {
-    if (globalVars_1.GlobalVars.appButtonHoverEnterHandler) {
-        globalVars_1.GlobalVars.appButtonHoverEnterHandler();
-    }
-}
-function handleAppButtonHoverLeave() {
-    if (globalVars_1.GlobalVars.appButtonHoverLeaveHandler) {
-        globalVars_1.GlobalVars.appButtonHoverLeaveHandler();
-    }
-}
+var constants_1 = __nested_webpack_require_16956__(4);
+var globalVars_1 = __nested_webpack_require_16956__(6);
+var utils_1 = __nested_webpack_require_16956__(5);
 function ensureInitialized() {
     var expectedFrameContexts = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -255,132 +450,6 @@ function isAPISupportedByPlatform(requiredVersion) {
     return value >= 0;
 }
 exports.isAPISupportedByPlatform = isAPISupportedByPlatform;
-function processMessage(evt) {
-    // Process only if we received a valid message
-    if (!evt || !evt.data || typeof evt.data !== 'object') {
-        return;
-    }
-    // Process only if the message is coming from a different window and a valid origin
-    // valid origins are either a pre-known
-    var messageSource = evt.source || (evt.originalEvent && evt.originalEvent.source);
-    var messageOrigin = evt.origin || (evt.originalEvent && evt.originalEvent.origin);
-    if (!shouldProcessMessage(messageSource, messageOrigin)) {
-        return;
-    }
-    // Update our parent and child relationships based on this message
-    updateRelationships(messageSource, messageOrigin);
-    // Handle the message
-    if (messageSource === globalVars_1.GlobalVars.parentWindow) {
-        handleParentMessage(evt);
-    }
-    else if (messageSource === globalVars_1.GlobalVars.childWindow) {
-        handleChildMessage(evt);
-    }
-}
-exports.processMessage = processMessage;
-/**
- * Validates the message source and origin, if it should be processed
- */
-function shouldProcessMessage(messageSource, messageOrigin) {
-    // Process if message source is a different window and if origin is either in
-    // Teams' pre-known whitelist or supplied as valid origin by user during initialization
-    if (globalVars_1.GlobalVars.currentWindow && messageSource === globalVars_1.GlobalVars.currentWindow) {
-        return false;
-    }
-    else if (globalVars_1.GlobalVars.currentWindow &&
-        globalVars_1.GlobalVars.currentWindow.location &&
-        messageOrigin &&
-        messageOrigin === globalVars_1.GlobalVars.currentWindow.location.origin) {
-        return true;
-    }
-    else if (constants_1.validOriginRegExp.test(messageOrigin.toLowerCase()) ||
-        (globalVars_1.GlobalVars.additionalValidOriginsRegexp &&
-            globalVars_1.GlobalVars.additionalValidOriginsRegexp.test(messageOrigin.toLowerCase()))) {
-        return true;
-    }
-    return false;
-}
-function updateRelationships(messageSource, messageOrigin) {
-    // Determine whether the source of the message is our parent or child and update our
-    // window and origin pointer accordingly
-    // For frameless windows (i.e mobile), there is no parent frame, so the message must be from the child.
-    if (!globalVars_1.GlobalVars.isFramelessWindow &&
-        (!globalVars_1.GlobalVars.parentWindow || globalVars_1.GlobalVars.parentWindow.closed || messageSource === globalVars_1.GlobalVars.parentWindow)) {
-        globalVars_1.GlobalVars.parentWindow = messageSource;
-        globalVars_1.GlobalVars.parentOrigin = messageOrigin;
-    }
-    else if (!globalVars_1.GlobalVars.childWindow || globalVars_1.GlobalVars.childWindow.closed || messageSource === globalVars_1.GlobalVars.childWindow) {
-        globalVars_1.GlobalVars.childWindow = messageSource;
-        globalVars_1.GlobalVars.childOrigin = messageOrigin;
-    }
-    // Clean up pointers to closed parent and child windows
-    if (globalVars_1.GlobalVars.parentWindow && globalVars_1.GlobalVars.parentWindow.closed) {
-        globalVars_1.GlobalVars.parentWindow = null;
-        globalVars_1.GlobalVars.parentOrigin = null;
-    }
-    if (globalVars_1.GlobalVars.childWindow && globalVars_1.GlobalVars.childWindow.closed) {
-        globalVars_1.GlobalVars.childWindow = null;
-        globalVars_1.GlobalVars.childOrigin = null;
-    }
-    // If we have any messages in our queue, send them now
-    flushMessageQueue(globalVars_1.GlobalVars.parentWindow);
-    flushMessageQueue(globalVars_1.GlobalVars.childWindow);
-}
-function handleParentMessage(evt) {
-    if ('id' in evt.data && typeof evt.data.id === 'number') {
-        // Call any associated GlobalVars.callbacks
-        var message = evt.data;
-        var callback = globalVars_1.GlobalVars.callbacks[message.id];
-        if (callback) {
-            callback.apply(null, message.args.concat([message.isPartialResponse]));
-            // Remove the callback to ensure that the callback is called only once and to free up memory if response is a complete response
-            if (!isPartialResponse(evt)) {
-                delete globalVars_1.GlobalVars.callbacks[message.id];
-            }
-        }
-    }
-    else if ('func' in evt.data && typeof evt.data.func === 'string') {
-        // Delegate the request to the proper handler
-        var message = evt.data;
-        var handler = globalVars_1.GlobalVars.handlers[message.func];
-        if (handler) {
-            // We don't expect any handler to respond at this point
-            handler.apply(this, message.args);
-        }
-    }
-}
-exports.handleParentMessage = handleParentMessage;
-function isPartialResponse(evt) {
-    return evt.data.isPartialResponse === true;
-}
-function handleChildMessage(evt) {
-    if ('id' in evt.data && 'func' in evt.data) {
-        // Try to delegate the request to the proper handler, if defined
-        var message_1 = evt.data;
-        var handler = message_1.func ? globalVars_1.GlobalVars.handlers[message_1.func] : null;
-        if (handler) {
-            var result = handler.apply(this, message_1.args);
-            if (typeof result !== 'undefined') {
-                sendMessageResponseToChild(message_1.id, Array.isArray(result) ? result : [result]);
-            }
-        }
-        else {
-            // No handler, proxy to parent
-            var messageId = sendMessageRequestToParent(message_1.func, message_1.args);
-            // tslint:disable-next-line:no-any
-            globalVars_1.GlobalVars.callbacks[messageId] = function () {
-                var args = [];
-                for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i] = arguments[_i];
-                }
-                if (globalVars_1.GlobalVars.childWindow) {
-                    var isPartialResponse_1 = args.pop();
-                    sendMessageResponseToChild(message_1.id, args, isPartialResponse_1);
-                }
-            };
-        }
-    }
-}
 /**
  * Processes the valid origins specifuied by the user, de-duplicates and converts them into a regexp
  * which is used later for message source/origin validation
@@ -406,122 +475,6 @@ function processAdditionalValidOrigins(validMessageOrigins) {
     }
 }
 exports.processAdditionalValidOrigins = processAdditionalValidOrigins;
-function getTargetMessageQueue(targetWindow) {
-    return targetWindow === globalVars_1.GlobalVars.parentWindow
-        ? globalVars_1.GlobalVars.parentMessageQueue
-        : targetWindow === globalVars_1.GlobalVars.childWindow
-            ? globalVars_1.GlobalVars.childMessageQueue
-            : [];
-}
-function getTargetOrigin(targetWindow) {
-    return targetWindow === globalVars_1.GlobalVars.parentWindow
-        ? globalVars_1.GlobalVars.parentOrigin
-        : targetWindow === globalVars_1.GlobalVars.childWindow
-            ? globalVars_1.GlobalVars.childOrigin
-            : null;
-}
-function flushMessageQueue(targetWindow) {
-    var targetOrigin = getTargetOrigin(targetWindow);
-    var targetMessageQueue = getTargetMessageQueue(targetWindow);
-    while (targetWindow && targetOrigin && targetMessageQueue.length > 0) {
-        targetWindow.postMessage(targetMessageQueue.shift(), targetOrigin);
-    }
-}
-function waitForMessageQueue(targetWindow, callback) {
-    var messageQueueMonitor = globalVars_1.GlobalVars.currentWindow.setInterval(function () {
-        if (getTargetMessageQueue(targetWindow).length === 0) {
-            clearInterval(messageQueueMonitor);
-            callback();
-        }
-    }, 100);
-}
-exports.waitForMessageQueue = waitForMessageQueue;
-/**
- * Send a message to parent. Uses nativeInterface on mobile to communicate with parent context
- */
-function sendMessageRequestToParent(actionName, 
-// tslint:disable-next-line: no-any
-args) {
-    var targetWindow = globalVars_1.GlobalVars.parentWindow;
-    var request = createMessageRequest(actionName, args);
-    if (globalVars_1.GlobalVars.isFramelessWindow) {
-        if (globalVars_1.GlobalVars.currentWindow && globalVars_1.GlobalVars.currentWindow.nativeInterface) {
-            globalVars_1.GlobalVars.currentWindow.nativeInterface.framelessPostMessage(JSON.stringify(request));
-        }
-    }
-    else {
-        var targetOrigin = getTargetOrigin(targetWindow);
-        // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
-        // queue the message and send it after the origin is established
-        if (targetWindow && targetOrigin) {
-            targetWindow.postMessage(request, targetOrigin);
-        }
-        else {
-            getTargetMessageQueue(targetWindow).push(request);
-        }
-    }
-    return request.id;
-}
-exports.sendMessageRequestToParent = sendMessageRequestToParent;
-/**
- * Send a response to child for a message request that was from child
- */
-function sendMessageResponseToChild(id, 
-// tslint:disable-next-line:no-any
-args, isPartialResponse) {
-    var targetWindow = globalVars_1.GlobalVars.childWindow;
-    var response = createMessageResponse(id, args, isPartialResponse);
-    var targetOrigin = getTargetOrigin(targetWindow);
-    if (targetWindow && targetOrigin) {
-        targetWindow.postMessage(response, targetOrigin);
-    }
-}
-/**
- * Send a custom message object that can be sent to child window,
- * instead of a response message to a child
- */
-function sendMessageEventToChild(actionName, 
-// tslint:disable-next-line: no-any
-args) {
-    var targetWindow = globalVars_1.GlobalVars.childWindow;
-    var customEvent = createMessageEvent(actionName, args);
-    var targetOrigin = getTargetOrigin(targetWindow);
-    // If the target window isn't closed and we already know its origin, send the message right away; otherwise,
-    // queue the message and send it after the origin is established
-    if (targetWindow && targetOrigin) {
-        targetWindow.postMessage(customEvent, targetOrigin);
-    }
-    else {
-        getTargetMessageQueue(targetWindow).push(customEvent);
-    }
-}
-exports.sendMessageEventToChild = sendMessageEventToChild;
-// tslint:disable-next-line:no-any
-function createMessageRequest(func, args) {
-    return {
-        id: globalVars_1.GlobalVars.nextMessageId++,
-        func: func,
-        args: args || [],
-    };
-}
-// tslint:disable-next-line:no-any
-function createMessageResponse(id, args, isPartialResponse) {
-    return {
-        id: id,
-        args: args || [],
-        isPartialResponse: isPartialResponse,
-    };
-}
-/**
- * Creates a message object without any id, used for custom actions being sent to child frame/window
- */
-// tslint:disable-next-line:no-any
-function createMessageEvent(func, args) {
-    return {
-        func: func,
-        args: args || [],
-    };
-}
 
 
 /***/ }),
@@ -538,6 +491,7 @@ var HostClientType;
     HostClientType["android"] = "android";
     HostClientType["ios"] = "ios";
     HostClientType["rigel"] = "rigel";
+    HostClientType["surfaceHub"] = "surfaceHub";
 })(HostClientType = exports.HostClientType || (exports.HostClientType = {}));
 // Ensure these declarations stay in sync with the framework.
 var FrameContexts;
@@ -549,6 +503,7 @@ var FrameContexts;
     FrameContexts["task"] = "task";
     FrameContexts["sidePanel"] = "sidePanel";
     FrameContexts["stage"] = "stage";
+    FrameContexts["meetingStage"] = "meetingStage";
 })(FrameContexts = exports.FrameContexts || (exports.FrameContexts = {}));
 /**
  * Indicates the team type, currently used to distinguish between different team
@@ -587,17 +542,198 @@ var ChannelType;
 (function (ChannelType) {
     ChannelType["Regular"] = "Regular";
     ChannelType["Private"] = "Private";
+    ChannelType["Shared"] = "Shared";
 })(ChannelType = exports.ChannelType || (exports.ChannelType = {}));
 
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __nested_webpack_require_24454__) {
+/***/ (function(module, exports, __nested_webpack_require_22543__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var uuid = __nested_webpack_require_24454__(16);
+var public_1 = __nested_webpack_require_22543__(8);
+var communication_1 = __nested_webpack_require_22543__(0);
+var HandlersPrivate = /** @class */ (function () {
+    function HandlersPrivate() {
+    }
+    HandlersPrivate.handlers = {};
+    return HandlersPrivate;
+}());
+function initializeHandlers() {
+    // ::::::::::::::::::::MicrosoftTeams SDK Internal :::::::::::::::::
+    HandlersPrivate.handlers['themeChange'] = handleThemeChange;
+    HandlersPrivate.handlers['backButtonPress'] = handleBackButtonPress;
+    HandlersPrivate.handlers['load'] = handleLoad;
+    HandlersPrivate.handlers['beforeUnload'] = handleBeforeUnload;
+}
+exports.initializeHandlers = initializeHandlers;
+function callHandler(name, args) {
+    var handler = HandlersPrivate.handlers[name];
+    if (handler) {
+        var result = handler.apply(this, args);
+        return [true, result];
+    }
+    else {
+        return [false, undefined];
+    }
+}
+exports.callHandler = callHandler;
+function registerHandler(name, handler, sendMessage, args) {
+    if (sendMessage === void 0) { sendMessage = true; }
+    if (args === void 0) { args = []; }
+    if (handler) {
+        HandlersPrivate.handlers[name] = handler;
+        sendMessage && communication_1.sendMessageToParent('registerHandler', [name].concat(args));
+    }
+    else {
+        delete HandlersPrivate.handlers[name];
+    }
+}
+exports.registerHandler = registerHandler;
+function removeHandler(name) {
+    delete HandlersPrivate.handlers[name];
+}
+exports.removeHandler = removeHandler;
+function registerOnThemeChangeHandler(handler) {
+    HandlersPrivate.themeChangeHandler = handler;
+    handler && communication_1.sendMessageToParent('registerHandler', ['themeChange']);
+}
+exports.registerOnThemeChangeHandler = registerOnThemeChangeHandler;
+function handleThemeChange(theme) {
+    if (HandlersPrivate.themeChangeHandler) {
+        HandlersPrivate.themeChangeHandler(theme);
+    }
+    if (communication_1.Communication.childWindow) {
+        communication_1.sendMessageEventToChild('themeChange', [theme]);
+    }
+}
+exports.handleThemeChange = handleThemeChange;
+function registerBackButtonHandler(handler) {
+    HandlersPrivate.backButtonPressHandler = handler;
+    handler && communication_1.sendMessageToParent('registerHandler', ['backButton']);
+}
+exports.registerBackButtonHandler = registerBackButtonHandler;
+function handleBackButtonPress() {
+    if (!HandlersPrivate.backButtonPressHandler || !HandlersPrivate.backButtonPressHandler()) {
+        public_1.navigateBack();
+    }
+}
+function registerOnLoadHandler(handler) {
+    HandlersPrivate.loadHandler = handler;
+    handler && communication_1.sendMessageToParent('registerHandler', ['load']);
+}
+exports.registerOnLoadHandler = registerOnLoadHandler;
+function handleLoad(context) {
+    if (HandlersPrivate.loadHandler) {
+        HandlersPrivate.loadHandler(context);
+    }
+    if (communication_1.Communication.childWindow) {
+        communication_1.sendMessageEventToChild('load', [context]);
+    }
+}
+function registerBeforeUnloadHandler(handler) {
+    HandlersPrivate.beforeUnloadHandler = handler;
+    handler && communication_1.sendMessageToParent('registerHandler', ['beforeUnload']);
+}
+exports.registerBeforeUnloadHandler = registerBeforeUnloadHandler;
+function handleBeforeUnload() {
+    var readyToUnload = function () {
+        communication_1.sendMessageToParent('readyToUnload', []);
+    };
+    if (!HandlersPrivate.beforeUnloadHandler || !HandlersPrivate.beforeUnloadHandler(readyToUnload)) {
+        readyToUnload();
+    }
+}
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __nested_webpack_require_26295__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __nested_webpack_require_26295__(5);
+exports.version = '1.10.0';
+/**
+ * This is the SDK version when all SDK APIs started to check platform compatibility for the APIs.
+ */
+exports.defaultSDKVersionForCompatCheck = '1.6.0';
+/**
+ * Minimum required client supported version for {@link getUserJoinedTeams} to be supported on {@link HostClientType.android}
+ */
+exports.getUserJoinedTeamsSupportedAndroidClientVersion = '2.0.1';
+/**
+ * This is the SDK version when location APIs (getLocation and showLocation) are supported.
+ */
+exports.locationAPIsRequiredVersion = '1.9.0';
+/**
+ * This is the SDK version when people picker API is supported on mobile.
+ */
+exports.peoplePickerRequiredVersion = '2.0.0';
+/**
+ * This is the SDK version when captureImage API is supported on mobile.
+ */
+exports.captureImageMobileSupportVersion = '1.7.0';
+/**
+ * This is the SDK version when media APIs are supported on all three platforms ios, android and web.
+ */
+exports.mediaAPISupportVersion = '1.8.0';
+/**
+ * This is the SDK version when getMedia API is supported via Callbacks on all three platforms ios, android and web.
+ */
+exports.getMediaCallbackSupportVersion = '2.0.0';
+/**
+ * This is the SDK version when scanBarCode API is supported on mobile.
+ */
+exports.scanBarCodeAPIMobileSupportVersion = '1.9.0';
+/**
+ * List of supported Host origins
+ */
+exports.validOrigins = [
+    'https://teams.microsoft.com',
+    'https://teams.microsoft.us',
+    'https://gov.teams.microsoft.us',
+    'https://dod.teams.microsoft.us',
+    'https://int.teams.microsoft.com',
+    'https://teams.live.com',
+    'https://devspaces.skype.com',
+    'https://ssauth.skype.com',
+    'https://local.teams.live.com',
+    'https://local.teams.live.com:8080',
+    'https://local.teams.office.com',
+    'https://local.teams.office.com:8080',
+    'https://msft.spoppe.com',
+    'https://*.sharepoint.com',
+    'https://*.sharepoint-df.com',
+    'https://*.sharepointonline.com',
+    'https://outlook.office.com',
+    'https://outlook-sdf.office.com',
+    'https://*.teams.microsoft.com',
+    'https://www.office.com',
+    'https://word.office.com',
+    'https://excel.office.com',
+    'https://powerpoint.office.com',
+    'https://www.officeppe.com',
+    'https://*.www.office.com',
+];
+exports.validOriginRegExp = utils_1.generateRegExpFromUrls(exports.validOrigins);
+/**
+ * USer specified message origins should satisfy this test
+ */
+exports.userOriginUrlValidationRegExp = /^https\:\/\//;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __nested_webpack_require_28970__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var uuid = __nested_webpack_require_28970__(22);
 // This will return a reg expression a given url
 function generateRegExpFromUrl(url) {
     var urlRegExpPart = '^';
@@ -662,10 +798,10 @@ function compareSDKVersions(v1, v2) {
         v2parts.push('0');
     }
     for (var i = 0; i < v1parts.length; ++i) {
-        if (v1parts[i] == v2parts[i]) {
+        if (Number(v1parts[i]) == Number(v2parts[i])) {
             continue;
         }
-        else if (v1parts[i] > v2parts[i]) {
+        else if (Number(v1parts[i]) > Number(v2parts[i])) {
             return 1;
         }
         else {
@@ -685,61 +821,43 @@ exports.generateGUID = generateGUID;
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __nested_webpack_require_27287__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __nested_webpack_require_27287__(3);
-exports.version = '1.9.0';
-/**
- * This is the SDK version when all SDK APIs started to check platform compatibility for the APIs.
- */
-exports.defaultSDKVersionForCompatCheck = '1.6.0';
-/**
- * List of supported Host origins
- */
-exports.validOrigins = [
-    'https://teams.microsoft.com',
-    'https://teams.microsoft.us',
-    'https://gov.teams.microsoft.us',
-    'https://dod.teams.microsoft.us',
-    'https://int.teams.microsoft.com',
-    'https://teams.live.com',
-    'https://devspaces.skype.com',
-    'https://ssauth.skype.com',
-    'https://local.teams.office.com',
-    'https://local.teams.office.com:8080',
-    'https://msft.spoppe.com',
-    'https://*.sharepoint.com',
-    'https://*.sharepoint-df.com',
-    'https://*.sharepointonline.com',
-    'https://outlook.office.com',
-    'https://outlook-sdf.office.com',
-    'https://*.teams.microsoft.com',
-    'https://www.office.com',
-    'https://word.office.com',
-    'https://excel.office.com',
-    'https://powerpoint.office.com',
-    'https://www.officeppe.com',
-    'https://*.www.office.com',
-    'http://127.0.0.1:5000',
-];
-exports.validOriginRegExp = utils_1.generateRegExpFromUrls(exports.validOrigins);
-/**
- * USer specified message origins should satisfy this test
- */
-exports.userOriginUrlValidationRegExp = /^https\:\/\//;
-
-
-/***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var GlobalVars = /** @class */ (function () {
+    function GlobalVars() {
+    }
+    GlobalVars.initializeCalled = false;
+    GlobalVars.initializeCompleted = false;
+    GlobalVars.additionalValidOrigins = [];
+    GlobalVars.additionalValidOriginsRegexp = null;
+    GlobalVars.initializeCallbacks = [];
+    GlobalVars.isFramelessWindow = false;
+    GlobalVars.printCapabilityEnabled = false;
+    return GlobalVars;
+}());
+exports.GlobalVars = GlobalVars;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Allowed user file open preferences
+ */
+var FileOpenPreference;
+(function (FileOpenPreference) {
+    FileOpenPreference["Inline"] = "inline";
+    FileOpenPreference["Desktop"] = "desktop";
+    FileOpenPreference["Web"] = "web";
+})(FileOpenPreference = exports.FileOpenPreference || (exports.FileOpenPreference = {}));
 var ErrorCode;
 (function (ErrorCode) {
     /**
@@ -750,6 +868,10 @@ var ErrorCode;
      * Internal error encountered while performing the required operation.
      */
     ErrorCode[ErrorCode["INTERNAL_ERROR"] = 500] = "INTERNAL_ERROR";
+    /**
+     * API is not supported in the current context
+     */
+    ErrorCode[ErrorCode["NOT_SUPPORTED_IN_CURRENT_CONTEXT"] = 501] = "NOT_SUPPORTED_IN_CURRENT_CONTEXT";
     /**
     Permissions denied by user
     */
@@ -802,69 +924,70 @@ var ErrorCode;
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __nested_webpack_require_31156__) {
+/* 8 */
+/***/ (function(module, exports, __nested_webpack_require_35310__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_31156__(1);
-var globalVars_1 = __nested_webpack_require_31156__(0);
-var utils_1 = __nested_webpack_require_31156__(3);
-var constants_1 = __nested_webpack_require_31156__(2);
-/**
- * Navigation specific part of the SDK.
- */
-/**
- * Return focus to the main Teams app. Will focus search bar if navigating foward and app bar if navigating back.
- * @param navigateForward Determines the direction to focus in teams app.
- */
-function returnFocus(navigateForward) {
-    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
-    internalAPIs_1.sendMessageRequestToParent('returnFocus', [navigateForward]);
-}
-exports.returnFocus = returnFocus;
-/**
- * Navigates the Microsoft Teams app to the specified tab instance.
- * @param tabInstance The tab instance to navigate to.
- */
-function navigateToTab(tabInstance, onComplete) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('navigateToTab', [tabInstance]);
-    var errorMessage = 'Invalid internalTabInstanceId and/or channelId were/was provided';
-    globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler(errorMessage);
-}
-exports.navigateToTab = navigateToTab;
-/**
- * Navigates the frame to a new cross-domain URL. The domain of this URL must match at least one of the
- * valid domains specified in the validDomains block of the manifest; otherwise, an exception will be
- * thrown. This function needs to be used only when navigating the frame to a URL in a different domain
- * than the current one in a way that keeps the app informed of the change and allows the SDK to
- * continue working.
- * @param url The URL to navigate the frame to.
- */
-function navigateCrossDomain(url, onComplete) {
-    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.settings, constants_1.FrameContexts.remove, constants_1.FrameContexts.task, constants_1.FrameContexts.stage);
-    var messageId = internalAPIs_1.sendMessageRequestToParent('navigateCrossDomain', [url]);
-    var errorMessage = 'Cross-origin navigation is only supported for URLs matching the pattern registered in the manifest.';
-    globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler(errorMessage);
-}
-exports.navigateCrossDomain = navigateCrossDomain;
-/**
- * Navigates back in the Teams client. See registerBackButtonHandler for more information on when
- * it's appropriate to use this method.
- */
-function navigateBack(onComplete) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('navigateBack', []);
-    var errorMessage = 'Back navigation is not supported in the current client or context.';
-    globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler(errorMessage);
-}
-exports.navigateBack = navigateBack;
+var appInitialization_1 = __nested_webpack_require_35310__(25);
+exports.appInitialization = appInitialization_1.appInitialization;
+var authentication_1 = __nested_webpack_require_35310__(11);
+exports.authentication = authentication_1.authentication;
+var constants_1 = __nested_webpack_require_35310__(2);
+exports.FrameContexts = constants_1.FrameContexts;
+exports.HostClientType = constants_1.HostClientType;
+exports.TaskModuleDimension = constants_1.TaskModuleDimension;
+exports.TeamType = constants_1.TeamType;
+exports.UserTeamRole = constants_1.UserTeamRole;
+exports.ChannelType = constants_1.ChannelType;
+var interfaces_1 = __nested_webpack_require_35310__(7);
+exports.ErrorCode = interfaces_1.ErrorCode;
+exports.FileOpenPreference = interfaces_1.FileOpenPreference;
+var publicAPIs_1 = __nested_webpack_require_35310__(26);
+exports.enablePrintCapability = publicAPIs_1.enablePrintCapability;
+exports.executeDeepLink = publicAPIs_1.executeDeepLink;
+exports.getContext = publicAPIs_1.getContext;
+exports.getMruTabInstances = publicAPIs_1.getMruTabInstances;
+exports.getTabInstances = publicAPIs_1.getTabInstances;
+exports.initialize = publicAPIs_1.initialize;
+exports.initializeWithFrameContext = publicAPIs_1.initializeWithFrameContext;
+exports.print = publicAPIs_1.print;
+exports.registerBackButtonHandler = publicAPIs_1.registerBackButtonHandler;
+exports.registerBeforeUnloadHandler = publicAPIs_1.registerBeforeUnloadHandler;
+exports.registerChangeSettingsHandler = publicAPIs_1.registerChangeSettingsHandler;
+exports.registerFullScreenHandler = publicAPIs_1.registerFullScreenHandler;
+exports.registerOnLoadHandler = publicAPIs_1.registerOnLoadHandler;
+exports.registerOnThemeChangeHandler = publicAPIs_1.registerOnThemeChangeHandler;
+exports.registerAppButtonClickHandler = publicAPIs_1.registerAppButtonClickHandler;
+exports.registerAppButtonHoverEnterHandler = publicAPIs_1.registerAppButtonHoverEnterHandler;
+exports.registerAppButtonHoverLeaveHandler = publicAPIs_1.registerAppButtonHoverLeaveHandler;
+exports.setFrameContext = publicAPIs_1.setFrameContext;
+exports.shareDeepLink = publicAPIs_1.shareDeepLink;
+var navigation_1 = __nested_webpack_require_35310__(27);
+exports.returnFocus = navigation_1.returnFocus;
+exports.navigateBack = navigation_1.navigateBack;
+exports.navigateCrossDomain = navigation_1.navigateCrossDomain;
+exports.navigateToTab = navigation_1.navigateToTab;
+var settings_1 = __nested_webpack_require_35310__(12);
+exports.settings = settings_1.settings;
+var tasks_1 = __nested_webpack_require_35310__(28);
+exports.tasks = tasks_1.tasks;
+var appWindow_1 = __nested_webpack_require_35310__(16);
+exports.ChildAppWindow = appWindow_1.ChildAppWindow;
+exports.ParentAppWindow = appWindow_1.ParentAppWindow;
+var media_1 = __nested_webpack_require_35310__(17);
+exports.media = media_1.media;
+var location_1 = __nested_webpack_require_35310__(29);
+exports.location = location_1.location;
+var meeting_1 = __nested_webpack_require_35310__(30);
+exports.meeting = meeting_1.meeting;
+var people_1 = __nested_webpack_require_35310__(31);
+exports.people = people_1.people;
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -904,7 +1027,7 @@ if (getRandomValues) {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports) {
 
 /**
@@ -934,57 +1057,308 @@ module.exports = bytesToUuid;
 
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __nested_webpack_require_36498__) {
+/* 11 */
+/***/ (function(module, exports, __nested_webpack_require_40616__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_36498__(1);
-var globalVars_1 = __nested_webpack_require_36498__(0);
+var internalAPIs_1 = __nested_webpack_require_40616__(1);
+var globalVars_1 = __nested_webpack_require_40616__(6);
+var constants_1 = __nested_webpack_require_40616__(2);
+var communication_1 = __nested_webpack_require_40616__(0);
+var handlers_1 = __nested_webpack_require_40616__(3);
 /**
- * Namespace to interact with the logging part of the SDK.
- * This object is used to send the app logs on demand to the host client
- *
- * @private
- * Hide from docs
+ * Namespace to interact with the authentication-specific part of the SDK.
+ * This object is used for starting or completing authentication flows.
  */
-var logs;
-(function (logs) {
-    globalVars_1.GlobalVars.handlers['log.request'] = handleGetLogRequest;
-    function handleGetLogRequest() {
-        if (globalVars_1.GlobalVars.getLogHandler) {
-            var log = globalVars_1.GlobalVars.getLogHandler();
-            internalAPIs_1.sendMessageRequestToParent('log.receive', [log]);
+var authentication;
+(function (authentication) {
+    var authParams;
+    var authWindowMonitor;
+    function initialize() {
+        handlers_1.registerHandler('authentication.authenticate.success', handleSuccess, false);
+        handlers_1.registerHandler('authentication.authenticate.failure', handleFailure, false);
+    }
+    authentication.initialize = initialize;
+    /**
+     * Registers the authentication Communication.handlers
+     * @param authenticateParameters A set of values that configure the authentication pop-up.
+     */
+    function registerAuthenticationHandlers(authenticateParameters) {
+        authParams = authenticateParameters;
+    }
+    authentication.registerAuthenticationHandlers = registerAuthenticationHandlers;
+    /**
+     * Initiates an authentication request, which opens a new window with the specified settings.
+     */
+    function authenticate(authenticateParameters) {
+        var authenticateParams = authenticateParameters !== undefined ? authenticateParameters : authParams;
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.settings, constants_1.FrameContexts.remove, constants_1.FrameContexts.task, constants_1.FrameContexts.stage, constants_1.FrameContexts.meetingStage);
+        if (globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.desktop ||
+            globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.android ||
+            globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.ios ||
+            globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.rigel) {
+            // Convert any relative URLs into absolute URLs before sending them over to the parent window.
+            var link = document.createElement('a');
+            link.href = authenticateParams.url;
+            // Ask the parent window to open an authentication window with the parameters provided by the caller.
+            communication_1.sendMessageToParent('authentication.authenticate', [link.href, authenticateParams.width, authenticateParams.height], function (success, response) {
+                if (success) {
+                    authenticateParams.successCallback(response);
+                }
+                else {
+                    authenticateParams.failureCallback(response);
+                }
+            });
+        }
+        else {
+            // Open an authentication window with the parameters provided by the caller.
+            openAuthenticationWindow(authenticateParams);
+        }
+    }
+    authentication.authenticate = authenticate;
+    /**
+     * Requests an Azure AD token to be issued on behalf of the app. The token is acquired from the cache
+     * if it is not expired. Otherwise a request is sent to Azure AD to obtain a new token.
+     * @param authTokenRequest A set of values that configure the token request.
+     */
+    function getAuthToken(authTokenRequest) {
+        internalAPIs_1.ensureInitialized();
+        communication_1.sendMessageToParent('authentication.getAuthToken', [authTokenRequest.resources, authTokenRequest.claims, authTokenRequest.silent], function (success, result) {
+            if (success) {
+                authTokenRequest.successCallback(result);
+            }
+            else {
+                authTokenRequest.failureCallback(result);
+            }
+        });
+    }
+    authentication.getAuthToken = getAuthToken;
+    /**
+     * @private
+     * Hide from docs.
+     * ------
+     * Requests the decoded Azure AD user identity on behalf of the app.
+     */
+    function getUser(userRequest) {
+        internalAPIs_1.ensureInitialized();
+        communication_1.sendMessageToParent('authentication.getUser', function (success, result) {
+            if (success) {
+                userRequest.successCallback(result);
+            }
+            else {
+                userRequest.failureCallback(result);
+            }
+        });
+    }
+    authentication.getUser = getUser;
+    function closeAuthenticationWindow() {
+        // Stop monitoring the authentication window
+        stopAuthenticationWindowMonitor();
+        // Try to close the authentication window and clear all properties associated with it
+        try {
+            if (communication_1.Communication.childWindow) {
+                communication_1.Communication.childWindow.close();
+            }
+        }
+        finally {
+            communication_1.Communication.childWindow = null;
+            communication_1.Communication.childOrigin = null;
+        }
+    }
+    function openAuthenticationWindow(authenticateParameters) {
+        authParams = authenticateParameters;
+        // Close the previously opened window if we have one
+        closeAuthenticationWindow();
+        // Start with a sensible default size
+        var width = authParams.width || 600;
+        var height = authParams.height || 400;
+        // Ensure that the new window is always smaller than our app's window so that it never fully covers up our app
+        width = Math.min(width, communication_1.Communication.currentWindow.outerWidth - 400);
+        height = Math.min(height, communication_1.Communication.currentWindow.outerHeight - 200);
+        // Convert any relative URLs into absolute URLs before sending them over to the parent window
+        var link = document.createElement('a');
+        link.href = authParams.url;
+        // We are running in the browser, so we need to center the new window ourselves
+        var left = typeof communication_1.Communication.currentWindow.screenLeft !== 'undefined'
+            ? communication_1.Communication.currentWindow.screenLeft
+            : communication_1.Communication.currentWindow.screenX;
+        var top = typeof communication_1.Communication.currentWindow.screenTop !== 'undefined'
+            ? communication_1.Communication.currentWindow.screenTop
+            : communication_1.Communication.currentWindow.screenY;
+        left += communication_1.Communication.currentWindow.outerWidth / 2 - width / 2;
+        top += communication_1.Communication.currentWindow.outerHeight / 2 - height / 2;
+        // Open a child window with a desired set of standard browser features
+        communication_1.Communication.childWindow = communication_1.Communication.currentWindow.open(link.href, '_blank', 'toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top=' +
+            top +
+            ', left=' +
+            left +
+            ', width=' +
+            width +
+            ', height=' +
+            height);
+        if (communication_1.Communication.childWindow) {
+            // Start monitoring the authentication window so that we can detect if it gets closed before the flow completes
+            startAuthenticationWindowMonitor();
+        }
+        else {
+            // If we failed to open the window, fail the authentication flow
+            handleFailure('FailedToOpenWindow');
+        }
+    }
+    function stopAuthenticationWindowMonitor() {
+        if (authWindowMonitor) {
+            clearInterval(authWindowMonitor);
+            authWindowMonitor = 0;
+        }
+        handlers_1.removeHandler('initialize');
+        handlers_1.removeHandler('navigateCrossDomain');
+    }
+    function startAuthenticationWindowMonitor() {
+        // Stop the previous window monitor if one is running
+        stopAuthenticationWindowMonitor();
+        // Create an interval loop that
+        // - Notifies the caller of failure if it detects that the authentication window is closed
+        // - Keeps pinging the authentication window while it is open to re-establish
+        //   contact with any pages along the authentication flow that need to communicate
+        //   with us
+        authWindowMonitor = communication_1.Communication.currentWindow.setInterval(function () {
+            if (!communication_1.Communication.childWindow || communication_1.Communication.childWindow.closed) {
+                handleFailure('CancelledByUser');
+            }
+            else {
+                var savedChildOrigin = communication_1.Communication.childOrigin;
+                try {
+                    communication_1.Communication.childOrigin = '*';
+                    communication_1.sendMessageEventToChild('ping');
+                }
+                finally {
+                    communication_1.Communication.childOrigin = savedChildOrigin;
+                }
+            }
+        }, 100);
+        // Set up an initialize-message handler that gives the authentication window its frame context
+        handlers_1.registerHandler('initialize', function () {
+            return [constants_1.FrameContexts.authentication, globalVars_1.GlobalVars.hostClientType];
+        });
+        // Set up a navigateCrossDomain message handler that blocks cross-domain re-navigation attempts
+        // in the authentication window. We could at some point choose to implement this method via a call to
+        // authenticationWindow.location.href = url; however, we would first need to figure out how to
+        // validate the URL against the tab's list of valid domains.
+        handlers_1.registerHandler('navigateCrossDomain', function () {
+            return false;
+        });
+    }
+    /**
+     * Notifies the frame that initiated this authentication request that the request was successful.
+     * This function is usable only on the authentication window.
+     * This call causes the authentication window to be closed.
+     * @param result Specifies a result for the authentication. If specified, the frame that initiated the authentication pop-up receives this value in its callback.
+     * @param callbackUrl Specifies the url to redirect back to if the client is Win32 Outlook.
+     */
+    function notifySuccess(result, callbackUrl) {
+        redirectIfWin32Outlook(callbackUrl, 'result', result);
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.authentication);
+        communication_1.sendMessageToParent('authentication.authenticate.success', [result]);
+        // Wait for the message to be sent before closing the window
+        communication_1.waitForMessageQueue(communication_1.Communication.parentWindow, function () { return setTimeout(function () { return communication_1.Communication.currentWindow.close(); }, 200); });
+    }
+    authentication.notifySuccess = notifySuccess;
+    /**
+     * Notifies the frame that initiated this authentication request that the request failed.
+     * This function is usable only on the authentication window.
+     * This call causes the authentication window to be closed.
+     * @param result Specifies a result for the authentication. If specified, the frame that initiated the authentication pop-up receives this value in its callback.
+     * @param callbackUrl Specifies the url to redirect back to if the client is Win32 Outlook.
+     */
+    function notifyFailure(reason, callbackUrl) {
+        redirectIfWin32Outlook(callbackUrl, 'reason', reason);
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.authentication);
+        communication_1.sendMessageToParent('authentication.authenticate.failure', [reason]);
+        // Wait for the message to be sent before closing the window
+        communication_1.waitForMessageQueue(communication_1.Communication.parentWindow, function () { return setTimeout(function () { return communication_1.Communication.currentWindow.close(); }, 200); });
+    }
+    authentication.notifyFailure = notifyFailure;
+    function handleSuccess(result) {
+        try {
+            if (authParams && authParams.successCallback) {
+                authParams.successCallback(result);
+            }
+        }
+        finally {
+            authParams = null;
+            closeAuthenticationWindow();
+        }
+    }
+    function handleFailure(reason) {
+        try {
+            if (authParams && authParams.failureCallback) {
+                authParams.failureCallback(reason);
+            }
+        }
+        finally {
+            authParams = null;
+            closeAuthenticationWindow();
         }
     }
     /**
-     * @private
-     * Hide from docs
-     * ------
-     * Registers a handler for getting app log
-     * @param handler The handler to invoke to get the app log
+     * Validates that the callbackUrl param is a valid connector url, appends the result/reason and authSuccess/authFailure as URL fragments and redirects the window
+     * @param callbackUrl - the connectors url to redirect to
+     * @param key - "result" in case of success and "reason" in case of failure
+     * @param value - the value of the passed result/reason parameter
      */
-    function registerGetLogHandler(handler) {
-        internalAPIs_1.ensureInitialized();
-        globalVars_1.GlobalVars.getLogHandler = handler;
-        handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['log.request']);
+    function redirectIfWin32Outlook(callbackUrl, key, value) {
+        if (callbackUrl) {
+            var link = document.createElement('a');
+            link.href = decodeURIComponent(callbackUrl);
+            if (link.host &&
+                link.host !== window.location.host &&
+                link.host === 'outlook.office.com' &&
+                link.search.indexOf('client_type=Win32_Outlook') > -1) {
+                if (key && key === 'result') {
+                    if (value) {
+                        link.href = updateUrlParameter(link.href, 'result', value);
+                    }
+                    communication_1.Communication.currentWindow.location.assign(updateUrlParameter(link.href, 'authSuccess', ''));
+                }
+                if (key && key === 'reason') {
+                    if (value) {
+                        link.href = updateUrlParameter(link.href, 'reason', value);
+                    }
+                    communication_1.Communication.currentWindow.location.assign(updateUrlParameter(link.href, 'authFailure', ''));
+                }
+            }
+        }
     }
-    logs.registerGetLogHandler = registerGetLogHandler;
-})(logs = exports.logs || (exports.logs = {}));
+    /**
+     * Appends either result or reason as a fragment to the 'callbackUrl'
+     * @param uri - the url to modify
+     * @param key - the fragment key
+     * @param value - the fragment value
+     */
+    function updateUrlParameter(uri, key, value) {
+        var i = uri.indexOf('#');
+        var hash = i === -1 ? '#' : uri.substr(i);
+        hash = hash + '&' + key + (value !== '' ? '=' + value : '');
+        uri = i === -1 ? uri : uri.substr(0, i);
+        return uri + hash;
+    }
+})(authentication = exports.authentication || (exports.authentication = {}));
 
 
 /***/ }),
-/* 10 */
-/***/ (function(module, exports, __nested_webpack_require_37832__) {
+/* 12 */
+/***/ (function(module, exports, __nested_webpack_require_55595__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_37832__(1);
-var globalVars_1 = __nested_webpack_require_37832__(0);
-var constants_1 = __nested_webpack_require_37832__(2);
-var utils_1 = __nested_webpack_require_37832__(3);
+var internalAPIs_1 = __nested_webpack_require_55595__(1);
+var constants_1 = __nested_webpack_require_55595__(2);
+var utils_1 = __nested_webpack_require_55595__(5);
+var communication_1 = __nested_webpack_require_55595__(0);
+var handlers_1 = __nested_webpack_require_55595__(3);
 /**
  * Namespace to interact with the settings-specific part of the SDK.
  * This object is usable only on the settings frame.
@@ -993,8 +1367,11 @@ var settings;
 (function (settings) {
     var saveHandler;
     var removeHandler;
-    globalVars_1.GlobalVars.handlers['settings.save'] = handleSave;
-    globalVars_1.GlobalVars.handlers['settings.remove'] = handleRemove;
+    function initialize() {
+        handlers_1.registerHandler('settings.save', handleSave, false);
+        handlers_1.registerHandler('settings.remove', handleRemove, false);
+    }
+    settings.initialize = initialize;
     /**
      * Sets the validity state for the settings.
      * The initial value is false, so the user cannot save the settings until this is called with true.
@@ -1002,7 +1379,7 @@ var settings;
      */
     function setValidityState(validityState) {
         internalAPIs_1.ensureInitialized(constants_1.FrameContexts.settings, constants_1.FrameContexts.remove);
-        internalAPIs_1.sendMessageRequestToParent('settings.setValidityState', [validityState]);
+        communication_1.sendMessageToParent('settings.setValidityState', [validityState]);
     }
     settings.setValidityState = setValidityState;
     /**
@@ -1010,9 +1387,8 @@ var settings;
      * @param callback The callback to invoke when the {@link Settings} object is retrieved.
      */
     function getSettings(callback) {
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.settings, constants_1.FrameContexts.remove);
-        var messageId = internalAPIs_1.sendMessageRequestToParent('settings.getSettings');
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.settings, constants_1.FrameContexts.remove, constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('settings.getSettings', callback);
     }
     settings.getSettings = getSettings;
     /**
@@ -1021,9 +1397,8 @@ var settings;
      * @param settings The desired settings for this instance.
      */
     function setSettings(instanceSettings, onComplete) {
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.settings);
-        var messageId = internalAPIs_1.sendMessageRequestToParent('settings.setSettings', [instanceSettings]);
-        globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler();
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.settings, constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('settings.setSettings', [instanceSettings], onComplete ? onComplete : utils_1.getGenericOnCompleteHandler());
     }
     settings.setSettings = setSettings;
     /**
@@ -1036,7 +1411,7 @@ var settings;
     function registerOnSaveHandler(handler) {
         internalAPIs_1.ensureInitialized(constants_1.FrameContexts.settings);
         saveHandler = handler;
-        handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['save']);
+        handler && communication_1.sendMessageToParent('registerHandler', ['save']);
     }
     settings.registerOnSaveHandler = registerOnSaveHandler;
     /**
@@ -1049,7 +1424,7 @@ var settings;
     function registerOnRemoveHandler(handler) {
         internalAPIs_1.ensureInitialized(constants_1.FrameContexts.remove, constants_1.FrameContexts.settings);
         removeHandler = handler;
-        handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['remove']);
+        handler && communication_1.sendMessageToParent('registerHandler', ['remove']);
     }
     settings.registerOnRemoveHandler = registerOnRemoveHandler;
     function handleSave(result) {
@@ -1073,12 +1448,12 @@ var settings;
         }
         SaveEventImpl.prototype.notifySuccess = function () {
             this.ensureNotNotified();
-            internalAPIs_1.sendMessageRequestToParent('settings.save.success');
+            communication_1.sendMessageToParent('settings.save.success');
             this.notified = true;
         };
         SaveEventImpl.prototype.notifyFailure = function (reason) {
             this.ensureNotNotified();
-            internalAPIs_1.sendMessageRequestToParent('settings.save.failure', [reason]);
+            communication_1.sendMessageToParent('settings.save.failure', [reason]);
             this.notified = true;
         };
         SaveEventImpl.prototype.ensureNotNotified = function () {
@@ -1108,12 +1483,12 @@ var settings;
         }
         RemoveEventImpl.prototype.notifySuccess = function () {
             this.ensureNotNotified();
-            internalAPIs_1.sendMessageRequestToParent('settings.remove.success');
+            communication_1.sendMessageToParent('settings.remove.success');
             this.notified = true;
         };
         RemoveEventImpl.prototype.notifyFailure = function (reason) {
             this.ensureNotNotified();
-            internalAPIs_1.sendMessageRequestToParent('settings.remove.failure', [reason]);
+            communication_1.sendMessageToParent('settings.remove.failure', [reason]);
             this.notified = true;
         };
         RemoveEventImpl.prototype.ensureNotNotified = function () {
@@ -1127,27 +1502,387 @@ var settings;
 
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports, __nested_webpack_require_44693__) {
+/* 13 */
+/***/ (function(module, exports, __nested_webpack_require_62460__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_44693__(1);
-var globalVars_1 = __nested_webpack_require_44693__(0);
-var constants_1 = __nested_webpack_require_44693__(2);
-var utils_1 = __nested_webpack_require_44693__(3);
+var internalAPIs_1 = __nested_webpack_require_62460__(1);
+var communication_1 = __nested_webpack_require_62460__(0);
+var handlers_1 = __nested_webpack_require_62460__(3);
+/**
+ * Namespace to interact with the logging part of the SDK.
+ * This object is used to send the app logs on demand to the host client
+ *
+ * @private
+ * Hide from docs
+ */
+var logs;
+(function (logs) {
+    /**
+     * @private
+     * Hide from docs
+     * ------
+     * Registers a handler for getting app log
+     * @param handler The handler to invoke to get the app log
+     */
+    function registerGetLogHandler(handler) {
+        internalAPIs_1.ensureInitialized();
+        if (handler) {
+            handlers_1.registerHandler('log.request', function () {
+                var log = handler();
+                communication_1.sendMessageToParent('log.receive', [log]);
+            });
+        }
+        else {
+            handlers_1.removeHandler('log.request');
+        }
+    }
+    logs.registerGetLogHandler = registerGetLogHandler;
+})(logs = exports.logs || (exports.logs = {}));
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __nested_webpack_require_63670__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __nested_webpack_require_63670__(1);
+var constants_1 = __nested_webpack_require_63670__(2);
+var utils_1 = __nested_webpack_require_63670__(5);
+var communication_1 = __nested_webpack_require_63670__(0);
+var menus_1 = __nested_webpack_require_63670__(15);
+var handlers_1 = __nested_webpack_require_63670__(3);
+var globalVars_1 = __nested_webpack_require_63670__(6);
+var interfaces_1 = __nested_webpack_require_63670__(7);
+var constants_2 = __nested_webpack_require_63670__(4);
+function initializePrivateApis() {
+    menus_1.menus.initialize();
+}
+exports.initializePrivateApis = initializePrivateApis;
+/**
+ * @private
+ * Hide from docs
+ * ------
+ * Allows an app to retrieve information of all user joined teams
+ * @param callback The callback to invoke when the {@link TeamInstanceParameters} object is retrieved.
+ * @param teamInstanceParameters OPTIONAL Flags that specify whether to scope call to favorite teams
+ */
+function getUserJoinedTeams(callback, teamInstanceParameters) {
+    internalAPIs_1.ensureInitialized();
+    if (globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.android &&
+        !internalAPIs_1.isAPISupportedByPlatform(constants_2.getUserJoinedTeamsSupportedAndroidClientVersion)) {
+        var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
+        throw new Error(JSON.stringify(oldPlatformError));
+    }
+    communication_1.sendMessageToParent('getUserJoinedTeams', [teamInstanceParameters], callback);
+}
+exports.getUserJoinedTeams = getUserJoinedTeams;
+/**
+ * @private
+ * Hide from docs
+ * ------
+ * Place the tab into full-screen mode.
+ */
+function enterFullscreen() {
+    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
+    communication_1.sendMessageToParent('enterFullscreen', []);
+}
+exports.enterFullscreen = enterFullscreen;
+/**
+ * @private
+ * Hide from docs
+ * ------
+ * Reverts the tab into normal-screen mode.
+ */
+function exitFullscreen() {
+    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
+    communication_1.sendMessageToParent('exitFullscreen', []);
+}
+exports.exitFullscreen = exitFullscreen;
+/**
+ * @private
+ * Hide from docs.
+ * ------
+ * Opens a client-friendly preview of the specified file.
+ * @param file The file to preview.
+ */
+function openFilePreview(filePreviewParameters) {
+    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
+    var params = [
+        filePreviewParameters.entityId,
+        filePreviewParameters.title,
+        filePreviewParameters.description,
+        filePreviewParameters.type,
+        filePreviewParameters.objectUrl,
+        filePreviewParameters.downloadUrl,
+        filePreviewParameters.webPreviewUrl,
+        filePreviewParameters.webEditUrl,
+        filePreviewParameters.baseUrl,
+        filePreviewParameters.editFile,
+        filePreviewParameters.subEntityId,
+        filePreviewParameters.viewerAction,
+        filePreviewParameters.fileOpenPreference,
+    ];
+    communication_1.sendMessageToParent('openFilePreview', params);
+}
+exports.openFilePreview = openFilePreview;
+/**
+ * @private
+ * Hide from docs.
+ * ------
+ * display notification API.
+ * @param message Notification message.
+ * @param notificationType Notification type
+ */
+function showNotification(showNotificationParameters) {
+    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
+    var params = [showNotificationParameters.message, showNotificationParameters.notificationType];
+    communication_1.sendMessageToParent('showNotification', params);
+}
+exports.showNotification = showNotification;
+/**
+ * @private
+ * Hide from docs.
+ * ------
+ * Upload a custom App manifest directly to both team and personal scopes.
+ * This method works just for the first party Apps.
+ */
+function uploadCustomApp(manifestBlob, onComplete) {
+    internalAPIs_1.ensureInitialized();
+    communication_1.sendMessageToParent('uploadCustomApp', [manifestBlob], onComplete ? onComplete : utils_1.getGenericOnCompleteHandler());
+}
+exports.uploadCustomApp = uploadCustomApp;
+/**
+ * @private
+ * Internal use only
+ * Sends a custom action MessageRequest to Teams or parent window
+ * @param actionName Specifies name of the custom action to be sent
+ * @param args Specifies additional arguments passed to the action
+ * @param callback Optionally specify a callback to receive response parameters from the parent
+ * @returns id of sent message
+ */
+function sendCustomMessage(actionName, 
+// tslint:disable-next-line:no-any
+args, 
+// tslint:disable-next-line:no-any
+callback) {
+    internalAPIs_1.ensureInitialized();
+    communication_1.sendMessageToParent(actionName, args, callback);
+}
+exports.sendCustomMessage = sendCustomMessage;
+/**
+ * @private
+ * Internal use only
+ * Sends a custom action MessageEvent to a child iframe/window, only if you are not using auth popup.
+ * Otherwise it will go to the auth popup (which becomes the child)
+ * @param actionName Specifies name of the custom action to be sent
+ * @param args Specifies additional arguments passed to the action
+ * @returns id of sent message
+ */
+function sendCustomEvent(actionName, 
+// tslint:disable-next-line:no-any
+args) {
+    internalAPIs_1.ensureInitialized();
+    //validate childWindow
+    if (!communication_1.Communication.childWindow) {
+        throw new Error('The child window has not yet been initialized or is not present');
+    }
+    communication_1.sendMessageEventToChild(actionName, args);
+}
+exports.sendCustomEvent = sendCustomEvent;
+/**
+ * @private
+ * Internal use only
+ * Adds a handler for an action sent by a child window or parent window
+ * @param actionName Specifies name of the action message to handle
+ * @param customHandler The callback to invoke when the action message is received. The return value is sent to the child
+ */
+function registerCustomHandler(actionName, customHandler) {
+    var _this = this;
+    internalAPIs_1.ensureInitialized();
+    handlers_1.registerHandler(actionName, function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
+        return customHandler.apply(_this, args);
+    });
+}
+exports.registerCustomHandler = registerCustomHandler;
+/**
+ * @private
+ * Hide from docs
+ * ------
+ * Allows an app to retrieve information of all chat members
+ * Because a malicious party run your content in a browser, this value should
+ * be used only as a hint as to who the members are and never as proof of membership.
+ * @param callback The callback to invoke when the {@link ChatMembersInformation} object is retrieved.
+ */
+function getChatMembers(callback) {
+    internalAPIs_1.ensureInitialized();
+    communication_1.sendMessageToParent('getChatMembers', callback);
+}
+exports.getChatMembers = getChatMembers;
+/**
+ * @private
+ * Hide from docs
+ * ------
+ * Allows an app to get the configuration setting value
+ * @param callback The callback to invoke when the value is retrieved.
+ * @param key The key for the config setting
+ */
+function getConfigSetting(callback, key) {
+    internalAPIs_1.ensureInitialized();
+    communication_1.sendMessageToParent('getConfigSetting', [key], callback);
+}
+exports.getConfigSetting = getConfigSetting;
+/**
+ * @private
+ * register a handler to be called when a user setting changes. The changed setting type & value is provided in the callback.
+ * @param settingTypes List of user setting changes to subscribe
+ * @param handler When a subscribed setting is updated this handler is called
+ */
+function registerUserSettingsChangeHandler(settingTypes, handler) {
+    internalAPIs_1.ensureInitialized();
+    handlers_1.registerHandler('userSettingsChange', handler, true, [settingTypes]);
+}
+exports.registerUserSettingsChangeHandler = registerUserSettingsChangeHandler;
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __nested_webpack_require_71682__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __nested_webpack_require_71682__(1);
+var communication_1 = __nested_webpack_require_71682__(0);
+var handlers_1 = __nested_webpack_require_71682__(3);
+/**
+ * Namespace to interact with the menu-specific part of the SDK.
+ * This object is used to show View Configuration, Action Menu and Navigation Bar Menu.
+ *
+ * @private
+ * Hide from docs until feature is complete
+ */
+var menus;
+(function (menus) {
+    /**
+     * Represents information about menu item for Action Menu and Navigation Bar Menu.
+     */
+    var MenuItem = /** @class */ (function () {
+        function MenuItem() {
+            /**
+             * State of the menu item
+             */
+            this.enabled = true;
+            /**
+             * Whether the menu item is selected or not
+             */
+            this.selected = false;
+        }
+        return MenuItem;
+    }());
+    menus.MenuItem = MenuItem;
+    /**
+     * Represents information about type of list to display in Navigation Bar Menu.
+     */
+    var MenuListType;
+    (function (MenuListType) {
+        MenuListType["dropDown"] = "dropDown";
+        MenuListType["popOver"] = "popOver";
+    })(MenuListType = menus.MenuListType || (menus.MenuListType = {}));
+    var navBarMenuItemPressHandler;
+    var actionMenuItemPressHandler;
+    var viewConfigItemPressHandler;
+    function initialize() {
+        handlers_1.registerHandler('navBarMenuItemPress', handleNavBarMenuItemPress, false);
+        handlers_1.registerHandler('actionMenuItemPress', handleActionMenuItemPress, false);
+        handlers_1.registerHandler('setModuleView', handleViewConfigItemPress, false);
+    }
+    menus.initialize = initialize;
+    /**
+     * Registers list of view configurations and it's handler.
+     * Handler is responsible for listening selection of View Configuration.
+     * @param viewConfig List of view configurations. Minimum 1 value is required.
+     * @param handler The handler to invoke when the user selects view configuration.
+     */
+    function setUpViews(viewConfig, handler) {
+        internalAPIs_1.ensureInitialized();
+        viewConfigItemPressHandler = handler;
+        communication_1.sendMessageToParent('setUpViews', [viewConfig]);
+    }
+    menus.setUpViews = setUpViews;
+    function handleViewConfigItemPress(id) {
+        if (!viewConfigItemPressHandler || !viewConfigItemPressHandler(id)) {
+            internalAPIs_1.ensureInitialized();
+            communication_1.sendMessageToParent('viewConfigItemPress', [id]);
+        }
+    }
+    /**
+     * Used to set menu items on the Navigation Bar. If icon is available, icon will be shown, otherwise title will be shown.
+     * @param items List of MenuItems for Navigation Bar Menu.
+     * @param handler The handler to invoke when the user selects menu item.
+     */
+    function setNavBarMenu(items, handler) {
+        internalAPIs_1.ensureInitialized();
+        navBarMenuItemPressHandler = handler;
+        communication_1.sendMessageToParent('setNavBarMenu', [items]);
+    }
+    menus.setNavBarMenu = setNavBarMenu;
+    function handleNavBarMenuItemPress(id) {
+        if (!navBarMenuItemPressHandler || !navBarMenuItemPressHandler(id)) {
+            internalAPIs_1.ensureInitialized();
+            communication_1.sendMessageToParent('handleNavBarMenuItemPress', [id]);
+        }
+    }
+    /**
+     * Used to show Action Menu.
+     * @param params Parameters for Menu Parameters
+     * @param handler The handler to invoke when the user selects menu item.
+     */
+    function showActionMenu(params, handler) {
+        internalAPIs_1.ensureInitialized();
+        actionMenuItemPressHandler = handler;
+        communication_1.sendMessageToParent('showActionMenu', [params]);
+    }
+    menus.showActionMenu = showActionMenu;
+    function handleActionMenuItemPress(id) {
+        if (!actionMenuItemPressHandler || !actionMenuItemPressHandler(id)) {
+            internalAPIs_1.ensureInitialized();
+            communication_1.sendMessageToParent('handleActionMenuItemPress', [id]);
+        }
+    }
+})(menus = exports.menus || (exports.menus = {}));
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __nested_webpack_require_75978__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __nested_webpack_require_75978__(1);
+var constants_1 = __nested_webpack_require_75978__(2);
+var utils_1 = __nested_webpack_require_75978__(5);
+var communication_1 = __nested_webpack_require_75978__(0);
+var handlers_1 = __nested_webpack_require_75978__(3);
 var ChildAppWindow = /** @class */ (function () {
     function ChildAppWindow() {
     }
     ChildAppWindow.prototype.postMessage = function (message, onComplete) {
         internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('messageForChild', [message]);
-        globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler();
+        communication_1.sendMessageToParent('messageForChild', [message], onComplete ? onComplete : utils_1.getGenericOnCompleteHandler());
     };
     ChildAppWindow.prototype.addEventListener = function (type, listener) {
         if (type === 'message') {
-            globalVars_1.GlobalVars.handlers['messageForParent'] = listener;
+            handlers_1.registerHandler('messageForParent', listener);
         }
     };
     return ChildAppWindow;
@@ -1166,12 +1901,11 @@ var ParentAppWindow = /** @class */ (function () {
     });
     ParentAppWindow.prototype.postMessage = function (message, onComplete) {
         internalAPIs_1.ensureInitialized(constants_1.FrameContexts.task);
-        var messageId = internalAPIs_1.sendMessageRequestToParent('messageForParent', [message]);
-        globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler();
+        communication_1.sendMessageToParent('messageForParent', [message], onComplete ? onComplete : utils_1.getGenericOnCompleteHandler());
     };
     ParentAppWindow.prototype.addEventListener = function (type, listener) {
         if (type === 'message') {
-            globalVars_1.GlobalVars.handlers['messageForChild'] = listener;
+            handlers_1.registerHandler('messageForChild', listener);
         }
     };
     return ParentAppWindow;
@@ -1180,8 +1914,8 @@ exports.ParentAppWindow = ParentAppWindow;
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __nested_webpack_require_46816__) {
+/* 17 */
+/***/ (function(module, exports, __nested_webpack_require_77976__) {
 
 "use strict";
 
@@ -1196,30 +1930,17 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var globalVars_1 = __nested_webpack_require_46816__(0);
-var interfaces_1 = __nested_webpack_require_46816__(5);
-var internalAPIs_1 = __nested_webpack_require_46816__(1);
-var constants_1 = __nested_webpack_require_46816__(2);
-var utils_1 = __nested_webpack_require_46816__(3);
-var mediaUtil_1 = __nested_webpack_require_46816__(29);
+var globalVars_1 = __nested_webpack_require_77976__(6);
+var interfaces_1 = __nested_webpack_require_77976__(7);
+var internalAPIs_1 = __nested_webpack_require_77976__(1);
+var constants_1 = __nested_webpack_require_77976__(2);
+var utils_1 = __nested_webpack_require_77976__(5);
+var mediaUtil_1 = __nested_webpack_require_77976__(18);
+var communication_1 = __nested_webpack_require_77976__(0);
+var handlers_1 = __nested_webpack_require_77976__(3);
+var constants_2 = __nested_webpack_require_77976__(4);
 var media;
 (function (media) {
-    /**
-     * This is the SDK version when captureImage API is supported on mobile.
-     */
-    var captureImageMobileSupportVersion = '1.7.0';
-    /**
-     * This is the SDK version when media APIs is supported on all three platforms ios, android and web.
-     */
-    var mediaAPISupportVersion = '1.8.0';
-    /**
-     * This is the SDK version when getMedia API is supported via Callbacks on all three platforms ios, android and web.
-     */
-    var getMediaCallbackSupportVersion = '2.0.0';
-    /**
-     * This is the SDK version when scanBarCode API is supported on mobile.
-     */
-    var scanBarCodeAPIMobileSupportVersion = '1.9.0';
     /**
      * Enum for file formats supported
      */
@@ -1257,13 +1978,12 @@ var media;
             callback(notSupportedError, undefined);
             return;
         }
-        if (!internalAPIs_1.isAPISupportedByPlatform(captureImageMobileSupportVersion)) {
+        if (!internalAPIs_1.isAPISupportedByPlatform(constants_2.captureImageMobileSupportVersion)) {
             var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
             callback(oldPlatformError, undefined);
             return;
         }
-        var messageId = internalAPIs_1.sendMessageRequestToParent('captureImage');
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+        communication_1.sendMessageToParent('captureImage', callback);
     }
     media.captureImage = captureImage;
     /**
@@ -1293,7 +2013,7 @@ var media;
                 throw new Error('[get Media] Callback cannot be null');
             }
             internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.task);
-            if (!internalAPIs_1.isAPISupportedByPlatform(mediaAPISupportVersion)) {
+            if (!internalAPIs_1.isAPISupportedByPlatform(constants_2.mediaAPISupportVersion)) {
                 var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
                 callback(oldPlatformError, null);
                 return;
@@ -1304,7 +2024,7 @@ var media;
                 return;
             }
             // Call the new get media implementation via callbacks if the client version is greater than or equal to '2.0.0'
-            if (internalAPIs_1.isAPISupportedByPlatform(getMediaCallbackSupportVersion)) {
+            if (internalAPIs_1.isAPISupportedByPlatform(constants_2.getMediaCallbackSupportVersion)) {
                 this.getMediaViaCallback(callback);
             }
             else {
@@ -1317,7 +2037,6 @@ var media;
                 assembleAttachment: [],
             };
             var localUriId = [this.content];
-            var messageId = internalAPIs_1.sendMessageRequestToParent('getMedia', localUriId);
             function handleGetMediaCallbackRequest(mediaResult) {
                 if (callback) {
                     if (mediaResult && mediaResult.error) {
@@ -1343,7 +2062,7 @@ var media;
                     }
                 }
             }
-            globalVars_1.GlobalVars.callbacks[messageId] = handleGetMediaCallbackRequest;
+            communication_1.sendMessageToParent('getMedia', localUriId, handleGetMediaCallbackRequest);
         };
         Media.prototype.getMediaViaHandler = function (callback) {
             var actionName = utils_1.generateGUID();
@@ -1352,13 +2071,13 @@ var media;
                 assembleAttachment: [],
             };
             var params = [actionName, this.content];
-            this.content && callback && internalAPIs_1.sendMessageRequestToParent('getMedia', params);
+            this.content && callback && communication_1.sendMessageToParent('getMedia', params);
             function handleGetMediaRequest(response) {
                 if (callback) {
                     var mediaResult = JSON.parse(response);
                     if (mediaResult.error) {
                         callback(mediaResult.error, null);
-                        delete globalVars_1.GlobalVars.handlers['getMedia' + actionName];
+                        handlers_1.removeHandler('getMedia' + actionName);
                     }
                     else {
                         if (mediaResult.mediaChunk) {
@@ -1367,7 +2086,7 @@ var media;
                             if (mediaResult.mediaChunk.chunkSequence <= 0) {
                                 var file = mediaUtil_1.createFile(helper.assembleAttachment, helper.mediaMimeType);
                                 callback(mediaResult.error, file);
-                                delete globalVars_1.GlobalVars.handlers['getMedia' + actionName];
+                                handlers_1.removeHandler('getMedia' + actionName);
                             }
                             else {
                                 // Keep pushing chunks into assemble attachment
@@ -1377,12 +2096,12 @@ var media;
                         }
                         else {
                             callback({ errorCode: interfaces_1.ErrorCode.INTERNAL_ERROR, message: 'data receieved is null' }, null);
-                            delete globalVars_1.GlobalVars.handlers['getMedia' + actionName];
+                            handlers_1.removeHandler('getMedia' + actionName);
                         }
                     }
                 }
             }
-            globalVars_1.GlobalVars.handlers['getMedia' + actionName] = handleGetMediaRequest;
+            handlers_1.registerHandler('getMedia' + actionName, handleGetMediaRequest);
         };
         return Media;
     }(File));
@@ -1433,7 +2152,7 @@ var media;
             throw new Error('[select Media] Callback cannot be null');
         }
         internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.task);
-        if (!internalAPIs_1.isAPISupportedByPlatform(mediaAPISupportVersion)) {
+        if (!internalAPIs_1.isAPISupportedByPlatform(constants_2.mediaAPISupportVersion)) {
             var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
             callback(oldPlatformError, null);
             return;
@@ -1444,9 +2163,8 @@ var media;
             return;
         }
         var params = [mediaInputs];
-        var messageId = internalAPIs_1.sendMessageRequestToParent('selectMedia', params);
         // What comes back from native at attachments would just be objects and will be missing getMedia method on them.
-        globalVars_1.GlobalVars.callbacks[messageId] = function (err, localAttachments) {
+        communication_1.sendMessageToParent('selectMedia', params, function (err, localAttachments) {
             if (!localAttachments) {
                 callback(err, null);
                 return;
@@ -1457,7 +2175,7 @@ var media;
                 mediaArray.push(new Media(attachment));
             }
             callback(err, mediaArray);
-        };
+        });
     }
     media.selectMedia = selectMedia;
     /**
@@ -1470,7 +2188,7 @@ var media;
             throw new Error('[view images] Callback cannot be null');
         }
         internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.task);
-        if (!internalAPIs_1.isAPISupportedByPlatform(mediaAPISupportVersion)) {
+        if (!internalAPIs_1.isAPISupportedByPlatform(constants_2.mediaAPISupportVersion)) {
             var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
             callback(oldPlatformError);
             return;
@@ -1481,8 +2199,7 @@ var media;
             return;
         }
         var params = [uriList];
-        var messageId = internalAPIs_1.sendMessageRequestToParent('viewImages', params);
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+        communication_1.sendMessageToParent('viewImages', params, callback);
     }
     media.viewImages = viewImages;
     /**
@@ -1503,7 +2220,7 @@ var media;
             callback(notSupportedError, null);
             return;
         }
-        if (!internalAPIs_1.isAPISupportedByPlatform(scanBarCodeAPIMobileSupportVersion)) {
+        if (!internalAPIs_1.isAPISupportedByPlatform(constants_2.scanBarCodeAPIMobileSupportVersion)) {
             var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
             callback(oldPlatformError, null);
             return;
@@ -1513,16 +2230,144 @@ var media;
             callback(invalidInput, null);
             return;
         }
-        var messageId = internalAPIs_1.sendMessageRequestToParent('media.scanBarCode', [config]);
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+        communication_1.sendMessageToParent('media.scanBarCode', [config], callback);
     }
     media.scanBarCode = scanBarCode;
 })(media = exports.media || (exports.media = {}));
 
 
 /***/ }),
-/* 13 */
-/***/ (function(module, exports, __nested_webpack_require_63228__) {
+/* 18 */
+/***/ (function(module, exports, __nested_webpack_require_93483__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var media_1 = __nested_webpack_require_93483__(17);
+/**
+ * Helper function to create a blob from media chunks based on their sequence
+ */
+function createFile(assembleAttachment, mimeType) {
+    if (assembleAttachment == null || mimeType == null || assembleAttachment.length <= 0) {
+        return null;
+    }
+    var file;
+    var sequence = 1;
+    assembleAttachment.sort(function (a, b) { return (a.sequence > b.sequence ? 1 : -1); });
+    assembleAttachment.forEach(function (item) {
+        if (item.sequence == sequence) {
+            if (file) {
+                file = new Blob([file, item.file], { type: mimeType });
+            }
+            else {
+                file = new Blob([item.file], { type: mimeType });
+            }
+            sequence++;
+        }
+    });
+    return file;
+}
+exports.createFile = createFile;
+/**
+ * Helper function to convert Media chunks into another object type which can be later assemebled
+ * Converts base 64 encoded string to byte array and then into an array of blobs
+ */
+function decodeAttachment(attachment, mimeType) {
+    if (attachment == null || mimeType == null) {
+        return null;
+    }
+    var decoded = atob(attachment.chunk);
+    var byteNumbers = new Array(decoded.length);
+    for (var i = 0; i < decoded.length; i++) {
+        byteNumbers[i] = decoded.charCodeAt(i);
+    }
+    var byteArray = new Uint8Array(byteNumbers);
+    var blob = new Blob([byteArray], { type: mimeType });
+    var assemble = {
+        sequence: attachment.chunkSequence,
+        file: blob,
+    };
+    return assemble;
+}
+exports.decodeAttachment = decodeAttachment;
+/**
+ * Returns true if the mediaInput params are valid and false otherwise
+ */
+function validateSelectMediaInputs(mediaInputs) {
+    if (mediaInputs == null || mediaInputs.maxMediaCount > 10) {
+        return false;
+    }
+    return true;
+}
+exports.validateSelectMediaInputs = validateSelectMediaInputs;
+/**
+ * Returns true if the get Media params are valid and false otherwise
+ */
+function validateGetMediaInputs(mimeType, format, content) {
+    if (mimeType == null || format == null || format != media_1.media.FileFormat.ID || content == null) {
+        return false;
+    }
+    return true;
+}
+exports.validateGetMediaInputs = validateGetMediaInputs;
+/**
+ * Returns true if the view images param is valid and false otherwise
+ */
+function validateViewImagesInput(uriList) {
+    if (uriList == null || uriList.length <= 0 || uriList.length > 10) {
+        return false;
+    }
+    return true;
+}
+exports.validateViewImagesInput = validateViewImagesInput;
+/**
+ * Returns true if the scan barcode param is valid and false otherwise
+ */
+function validateScanBarCodeInput(barCodeConfig) {
+    if (barCodeConfig) {
+        if (barCodeConfig.timeOutIntervalInSec === null ||
+            barCodeConfig.timeOutIntervalInSec <= 0 ||
+            barCodeConfig.timeOutIntervalInSec > 60) {
+            return false;
+        }
+    }
+    return true;
+}
+exports.validateScanBarCodeInput = validateScanBarCodeInput;
+/**
+ * Returns true if the people picker params are valid and false otherwise
+ */
+function validatePeoplePickerInput(peoplePickerInputs) {
+    if (peoplePickerInputs) {
+        if (peoplePickerInputs.title) {
+            if (typeof peoplePickerInputs.title !== 'string') {
+                return false;
+            }
+        }
+        if (peoplePickerInputs.setSelected) {
+            if (typeof peoplePickerInputs.setSelected !== 'object') {
+                return false;
+            }
+        }
+        if (peoplePickerInputs.openOrgWideSearchInChatOrChannel) {
+            if (typeof peoplePickerInputs.openOrgWideSearchInChatOrChannel !== 'boolean') {
+                return false;
+            }
+        }
+        if (peoplePickerInputs.singleSelect) {
+            if (typeof peoplePickerInputs.singleSelect !== 'boolean') {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+exports.validatePeoplePickerInput = validatePeoplePickerInput;
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __nested_webpack_require_97723__) {
 
 "use strict";
 
@@ -1530,27 +2375,28 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__nested_webpack_require_63228__(14));
-__export(__nested_webpack_require_63228__(24));
+__export(__nested_webpack_require_97723__(20));
+__export(__nested_webpack_require_97723__(8));
 
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports, __nested_webpack_require_63558__) {
+/* 20 */
+/***/ (function(module, exports, __nested_webpack_require_98052__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var bot_1 = __nested_webpack_require_63558__(15);
+var bot_1 = __nested_webpack_require_98052__(21);
 exports.bot = bot_1.bot;
-var menus_1 = __nested_webpack_require_63558__(19);
+var menus_1 = __nested_webpack_require_98052__(15);
 exports.menus = menus_1.menus;
-var logs_1 = __nested_webpack_require_63558__(9);
+var logs_1 = __nested_webpack_require_98052__(13);
 exports.logs = logs_1.logs;
-var interfaces_1 = __nested_webpack_require_63558__(20);
+var interfaces_1 = __nested_webpack_require_98052__(32);
 exports.NotificationTypes = interfaces_1.NotificationTypes;
 exports.ViewerActionTypes = interfaces_1.ViewerActionTypes;
-var privateAPIs_1 = __nested_webpack_require_63558__(21);
+exports.UserSettingTypes = interfaces_1.UserSettingTypes;
+var privateAPIs_1 = __nested_webpack_require_98052__(14);
 exports.enterFullscreen = privateAPIs_1.enterFullscreen;
 exports.exitFullscreen = privateAPIs_1.exitFullscreen;
 exports.getChatMembers = privateAPIs_1.getChatMembers;
@@ -1562,21 +2408,28 @@ exports.showNotification = privateAPIs_1.showNotification;
 exports.sendCustomEvent = privateAPIs_1.sendCustomEvent;
 exports.registerCustomHandler = privateAPIs_1.registerCustomHandler;
 exports.uploadCustomApp = privateAPIs_1.uploadCustomApp;
-var conversations_1 = __nested_webpack_require_63558__(22);
+exports.registerUserSettingsChangeHandler = privateAPIs_1.registerUserSettingsChangeHandler;
+var conversations_1 = __nested_webpack_require_98052__(33);
 exports.conversations = conversations_1.conversations;
-var meetingRoom_1 = __nested_webpack_require_63558__(23);
+var meetingRoom_1 = __nested_webpack_require_98052__(34);
 exports.meetingRoom = meetingRoom_1.meetingRoom;
+var remoteCamera_1 = __nested_webpack_require_98052__(35);
+exports.remoteCamera = remoteCamera_1.remoteCamera;
+var files_1 = __nested_webpack_require_98052__(36);
+exports.files = files_1.files;
+var appEntity_1 = __nested_webpack_require_98052__(37);
+exports.appEntity = appEntity_1.appEntity;
 
 
 /***/ }),
-/* 15 */
-/***/ (function(module, exports, __nested_webpack_require_64992__) {
+/* 21 */
+/***/ (function(module, exports, __nested_webpack_require_99900__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var globalVars_1 = __nested_webpack_require_64992__(0);
-var internalAPIs_1 = __nested_webpack_require_64992__(1);
+var communication_1 = __nested_webpack_require_99900__(0);
+var internalAPIs_1 = __nested_webpack_require_99900__(1);
 /**
  * @private
  * Namespace to interact with bots using the SDK.
@@ -1594,15 +2447,14 @@ var bot;
      */
     function sendQuery(botRequest, onSuccess, onError) {
         internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('bot.executeQuery', [botRequest]);
-        globalVars_1.GlobalVars.callbacks[messageId] = function (success, response) {
+        communication_1.sendMessageToParent('bot.executeQuery', [botRequest], function (success, response) {
             if (success) {
                 onSuccess(response);
             }
             else {
                 onError(response);
             }
-        };
+        });
     }
     bot.sendQuery = sendQuery;
     /**
@@ -1615,15 +2467,14 @@ var bot;
      */
     function getSupportedCommands(onSuccess, onError) {
         internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('bot.getSupportedCommands');
-        globalVars_1.GlobalVars.callbacks[messageId] = function (success, response) {
+        communication_1.sendMessageToParent('bot.getSupportedCommands', function (success, response) {
             if (success) {
                 onSuccess(response);
             }
             else {
                 onError(response);
             }
-        };
+        });
     }
     bot.getSupportedCommands = getSupportedCommands;
     /**
@@ -1637,15 +2488,14 @@ var bot;
      */
     function authenticate(authRequest, onSuccess, onError) {
         internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('bot.authenticate', [authRequest]);
-        globalVars_1.GlobalVars.callbacks[messageId] = function (success, response) {
+        communication_1.sendMessageToParent('bot.authenticate', [authRequest], function (success, response) {
             if (success) {
                 onSuccess(response);
             }
             else {
                 onError(response);
             }
-        };
+        });
     }
     bot.authenticate = authenticate;
     var ResponseType;
@@ -1657,11 +2507,11 @@ var bot;
 
 
 /***/ }),
-/* 16 */
-/***/ (function(module, exports, __nested_webpack_require_68061__) {
+/* 22 */
+/***/ (function(module, exports, __nested_webpack_require_102738__) {
 
-var v1 = __nested_webpack_require_68061__(17);
-var v4 = __nested_webpack_require_68061__(18);
+var v1 = __nested_webpack_require_102738__(23);
+var v4 = __nested_webpack_require_102738__(24);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -1671,11 +2521,11 @@ module.exports = uuid;
 
 
 /***/ }),
-/* 17 */
-/***/ (function(module, exports, __nested_webpack_require_68275__) {
+/* 23 */
+/***/ (function(module, exports, __nested_webpack_require_102952__) {
 
-var rng = __nested_webpack_require_68275__(7);
-var bytesToUuid = __nested_webpack_require_68275__(8);
+var rng = __nested_webpack_require_102952__(9);
+var bytesToUuid = __nested_webpack_require_102952__(10);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -1786,11 +2636,11 @@ module.exports = v1;
 
 
 /***/ }),
-/* 18 */
-/***/ (function(module, exports, __nested_webpack_require_71685__) {
+/* 24 */
+/***/ (function(module, exports, __nested_webpack_require_106363__) {
 
-var rng = __nested_webpack_require_71685__(7);
-var bytesToUuid = __nested_webpack_require_71685__(8);
+var rng = __nested_webpack_require_106363__(9);
+var bytesToUuid = __nested_webpack_require_106363__(10);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -1821,111 +2671,737 @@ module.exports = v4;
 
 
 /***/ }),
-/* 19 */
-/***/ (function(module, exports, __nested_webpack_require_72439__) {
+/* 25 */
+/***/ (function(module, exports, __nested_webpack_require_107118__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_72439__(1);
-var globalVars_1 = __nested_webpack_require_72439__(0);
-/**
- * Namespace to interact with the menu-specific part of the SDK.
- * This object is used to show View Configuration, Action Menu and Navigation Bar Menu.
- *
- * @private
- * Hide from docs until feature is complete
- */
-var menus;
-(function (menus) {
+var internalAPIs_1 = __nested_webpack_require_107118__(1);
+var constants_1 = __nested_webpack_require_107118__(4);
+var communication_1 = __nested_webpack_require_107118__(0);
+var appInitialization;
+(function (appInitialization) {
+    appInitialization.Messages = {
+        AppLoaded: 'appInitialization.appLoaded',
+        Success: 'appInitialization.success',
+        Failure: 'appInitialization.failure',
+        ExpectedFailure: 'appInitialization.expectedFailure',
+    };
+    var FailedReason;
+    (function (FailedReason) {
+        FailedReason["AuthFailed"] = "AuthFailed";
+        FailedReason["Timeout"] = "Timeout";
+        FailedReason["Other"] = "Other";
+    })(FailedReason = appInitialization.FailedReason || (appInitialization.FailedReason = {}));
+    var ExpectedFailureReason;
+    (function (ExpectedFailureReason) {
+        ExpectedFailureReason["PermissionError"] = "PermissionError";
+        ExpectedFailureReason["NotFound"] = "NotFound";
+        ExpectedFailureReason["Throttling"] = "Throttling";
+        ExpectedFailureReason["Offline"] = "Offline";
+        ExpectedFailureReason["Other"] = "Other";
+    })(ExpectedFailureReason = appInitialization.ExpectedFailureReason || (appInitialization.ExpectedFailureReason = {}));
     /**
-     * Represents information about menu item for Action Menu and Navigation Bar Menu.
+     * Notifies the frame that app has loaded and to hide the loading indicator if one is shown.
      */
-    var MenuItem = /** @class */ (function () {
-        function MenuItem() {
-            /**
-             * State of the menu item
-             */
-            this.enabled = true;
-            /**
-             * Whether the menu item is selected or not
-             */
-            this.selected = false;
-        }
-        return MenuItem;
-    }());
-    menus.MenuItem = MenuItem;
-    /**
-     * Represents information about type of list to display in Navigation Bar Menu.
-     */
-    var MenuListType;
-    (function (MenuListType) {
-        MenuListType["dropDown"] = "dropDown";
-        MenuListType["popOver"] = "popOver";
-    })(MenuListType = menus.MenuListType || (menus.MenuListType = {}));
-    var navBarMenuItemPressHandler;
-    globalVars_1.GlobalVars.handlers['navBarMenuItemPress'] = handleNavBarMenuItemPress;
-    var actionMenuItemPressHandler;
-    globalVars_1.GlobalVars.handlers['actionMenuItemPress'] = handleActionMenuItemPress;
-    var viewConfigItemPressHandler;
-    globalVars_1.GlobalVars.handlers['setModuleView'] = handleViewConfigItemPress;
-    /**
-     * Registers list of view configurations and it's handler.
-     * Handler is responsible for listening selection of View Configuration.
-     * @param viewConfig List of view configurations. Minimum 1 value is required.
-     * @param handler The handler to invoke when the user selects view configuration.
-     */
-    function setUpViews(viewConfig, handler) {
+    function notifyAppLoaded() {
         internalAPIs_1.ensureInitialized();
-        viewConfigItemPressHandler = handler;
-        internalAPIs_1.sendMessageRequestToParent('setUpViews', [viewConfig]);
+        communication_1.sendMessageToParent(appInitialization.Messages.AppLoaded, [constants_1.version]);
     }
-    menus.setUpViews = setUpViews;
-    function handleViewConfigItemPress(id) {
-        if (!viewConfigItemPressHandler || !viewConfigItemPressHandler(id)) {
-            internalAPIs_1.ensureInitialized();
-            internalAPIs_1.sendMessageRequestToParent('viewConfigItemPress', [id]);
-        }
-    }
+    appInitialization.notifyAppLoaded = notifyAppLoaded;
     /**
-     * Used to set menu items on the Navigation Bar. If icon is available, icon will be shown, otherwise title will be shown.
-     * @param items List of MenuItems for Navigation Bar Menu.
-     * @param handler The handler to invoke when the user selects menu item.
+     * Notifies the frame that app initialization is successful and is ready for user interaction.
      */
-    function setNavBarMenu(items, handler) {
+    function notifySuccess() {
         internalAPIs_1.ensureInitialized();
-        navBarMenuItemPressHandler = handler;
-        internalAPIs_1.sendMessageRequestToParent('setNavBarMenu', [items]);
+        communication_1.sendMessageToParent(appInitialization.Messages.Success, [constants_1.version]);
     }
-    menus.setNavBarMenu = setNavBarMenu;
-    function handleNavBarMenuItemPress(id) {
-        if (!navBarMenuItemPressHandler || !navBarMenuItemPressHandler(id)) {
-            internalAPIs_1.ensureInitialized();
-            internalAPIs_1.sendMessageRequestToParent('handleNavBarMenuItemPress', [id]);
-        }
-    }
+    appInitialization.notifySuccess = notifySuccess;
     /**
-     * Used to show Action Menu.
-     * @param params Parameters for Menu Parameters
-     * @param handler The handler to invoke when the user selects menu item.
+     * Notifies the frame that app initialization has failed and to show an error page in its place.
      */
-    function showActionMenu(params, handler) {
+    function notifyFailure(appInitializationFailedRequest) {
         internalAPIs_1.ensureInitialized();
-        actionMenuItemPressHandler = handler;
-        internalAPIs_1.sendMessageRequestToParent('showActionMenu', [params]);
+        communication_1.sendMessageToParent(appInitialization.Messages.Failure, [
+            appInitializationFailedRequest.reason,
+            appInitializationFailedRequest.message,
+        ]);
     }
-    menus.showActionMenu = showActionMenu;
-    function handleActionMenuItemPress(id) {
-        if (!actionMenuItemPressHandler || !actionMenuItemPressHandler(id)) {
-            internalAPIs_1.ensureInitialized();
-            internalAPIs_1.sendMessageRequestToParent('handleActionMenuItemPress', [id]);
-        }
+    appInitialization.notifyFailure = notifyFailure;
+    /**
+     * Notifies the frame that app initialized with some expected errors.
+     */
+    function notifyExpectedFailure(expectedFailureRequest) {
+        internalAPIs_1.ensureInitialized();
+        communication_1.sendMessageToParent(appInitialization.Messages.ExpectedFailure, [expectedFailureRequest.reason, expectedFailureRequest.message]);
     }
-})(menus = exports.menus || (exports.menus = {}));
+    appInitialization.notifyExpectedFailure = notifyExpectedFailure;
+})(appInitialization = exports.appInitialization || (exports.appInitialization = {}));
 
 
 /***/ }),
-/* 20 */
+/* 26 */
+/***/ (function(module, exports, __nested_webpack_require_110242__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __nested_webpack_require_110242__(1);
+var globalVars_1 = __nested_webpack_require_110242__(6);
+var constants_1 = __nested_webpack_require_110242__(4);
+var settings_1 = __nested_webpack_require_110242__(12);
+var utils_1 = __nested_webpack_require_110242__(5);
+var logs_1 = __nested_webpack_require_110242__(13);
+var constants_2 = __nested_webpack_require_110242__(2);
+var communication_1 = __nested_webpack_require_110242__(0);
+var authentication_1 = __nested_webpack_require_110242__(11);
+var privateAPIs_1 = __nested_webpack_require_110242__(14);
+var Handlers = __nested_webpack_require_110242__(3); // Conflict with some names
+// ::::::::::::::::::::::: MicrosoftTeams SDK public API ::::::::::::::::::::
+/**
+ * Initializes the library. This must be called before any other SDK calls
+ * but after the frame is loaded successfully.
+ * @param callback Optionally specify a callback to invoke when Teams SDK has successfully initialized
+ * @param validMessageOrigins Optionally specify a list of cross frame message origins. There must have
+ * https: protocol otherwise they will be ignored. Example: https://www.example.com
+ */
+function initialize(callback, validMessageOrigins) {
+    // Independent components might not know whether the SDK is initialized so might call it to be safe.
+    // Just no-op if that happens to make it easier to use.
+    if (!globalVars_1.GlobalVars.initializeCalled) {
+        globalVars_1.GlobalVars.initializeCalled = true;
+        Handlers.initializeHandlers();
+        communication_1.initializeCommunication(function (context, clientType, clientSupportedSDKVersion) {
+            if (clientSupportedSDKVersion === void 0) { clientSupportedSDKVersion = constants_1.defaultSDKVersionForCompatCheck; }
+            globalVars_1.GlobalVars.frameContext = context;
+            globalVars_1.GlobalVars.hostClientType = clientType;
+            globalVars_1.GlobalVars.clientSupportedSDKVersion = clientSupportedSDKVersion;
+            // Notify all waiting callers that the initialization has completed
+            globalVars_1.GlobalVars.initializeCallbacks.forEach(function (initCallback) { return initCallback(); });
+            globalVars_1.GlobalVars.initializeCallbacks = [];
+            globalVars_1.GlobalVars.initializeCompleted = true;
+        }, validMessageOrigins);
+        authentication_1.authentication.initialize();
+        settings_1.settings.initialize();
+        privateAPIs_1.initializePrivateApis();
+        // Undocumented function used to clear state between unit tests
+        this._uninitialize = function () {
+            if (globalVars_1.GlobalVars.frameContext) {
+                registerOnThemeChangeHandler(null);
+                registerFullScreenHandler(null);
+                registerBackButtonHandler(null);
+                registerBeforeUnloadHandler(null);
+                registerOnLoadHandler(null);
+                logs_1.logs.registerGetLogHandler(null);
+            }
+            if (globalVars_1.GlobalVars.frameContext === constants_2.FrameContexts.settings) {
+                settings_1.settings.registerOnSaveHandler(null);
+            }
+            if (globalVars_1.GlobalVars.frameContext === constants_2.FrameContexts.remove) {
+                settings_1.settings.registerOnRemoveHandler(null);
+            }
+            globalVars_1.GlobalVars.initializeCalled = false;
+            globalVars_1.GlobalVars.initializeCompleted = false;
+            globalVars_1.GlobalVars.initializeCallbacks = [];
+            globalVars_1.GlobalVars.additionalValidOrigins = [];
+            globalVars_1.GlobalVars.frameContext = null;
+            globalVars_1.GlobalVars.hostClientType = null;
+            globalVars_1.GlobalVars.isFramelessWindow = false;
+            communication_1.uninitializeCommunication();
+        };
+    }
+    // Handle additional valid message origins if specified
+    if (Array.isArray(validMessageOrigins)) {
+        internalAPIs_1.processAdditionalValidOrigins(validMessageOrigins);
+    }
+    // Handle the callback if specified:
+    // 1. If initialization has already completed then just call it right away
+    // 2. If initialization hasn't completed then add it to the array of callbacks
+    //    that should be invoked once initialization does complete
+    if (callback) {
+        globalVars_1.GlobalVars.initializeCompleted ? callback() : globalVars_1.GlobalVars.initializeCallbacks.push(callback);
+    }
+}
+exports.initialize = initialize;
+/**
+ * @private
+ * Hide from docs.
+ * ------
+ * Undocumented function used to set a mock window for unit tests
+ */
+function _initialize(hostWindow) {
+    communication_1.Communication.currentWindow = hostWindow;
+}
+exports._initialize = _initialize;
+/**
+ * @private
+ * Hide from docs.
+ * ------
+ * Undocumented function used to clear state between unit tests
+ */
+function _uninitialize() { }
+exports._uninitialize = _uninitialize;
+/**
+ * Enable print capability to support printing page using Ctrl+P and cmd+P
+ */
+function enablePrintCapability() {
+    if (!globalVars_1.GlobalVars.printCapabilityEnabled) {
+        globalVars_1.GlobalVars.printCapabilityEnabled = true;
+        internalAPIs_1.ensureInitialized();
+        // adding ctrl+P and cmd+P handler
+        document.addEventListener('keydown', function (event) {
+            if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
+                print();
+                event.cancelBubble = true;
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
+        });
+    }
+}
+exports.enablePrintCapability = enablePrintCapability;
+/**
+ * default print handler
+ */
+function print() {
+    window.print();
+}
+exports.print = print;
+/**
+ * Retrieves the current context the frame is running in.
+ * @param callback The callback to invoke when the {@link Context} object is retrieved.
+ */
+function getContext(callback) {
+    internalAPIs_1.ensureInitialized();
+    communication_1.sendMessageToParent('getContext', function (context) {
+        if (!context.frameContext) {
+            // Fallback logic for frameContext properties
+            context.frameContext = globalVars_1.GlobalVars.frameContext;
+        }
+        callback(context);
+    });
+}
+exports.getContext = getContext;
+/**
+ * Registers a handler for theme changes.
+ * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+ * @param handler The handler to invoke when the user changes their theme.
+ */
+function registerOnThemeChangeHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    Handlers.registerOnThemeChangeHandler(handler);
+}
+exports.registerOnThemeChangeHandler = registerOnThemeChangeHandler;
+/**
+ * Registers a handler for changes from or to full-screen view for a tab.
+ * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+ * @param handler The handler to invoke when the user toggles full-screen view for a tab.
+ */
+function registerFullScreenHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    Handlers.registerHandler('fullScreenChange', handler);
+}
+exports.registerFullScreenHandler = registerFullScreenHandler;
+/**
+ * Registers a handler for clicking the app button.
+ * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+ * @param handler The handler to invoke when the personal app button is clicked in the app bar.
+ */
+function registerAppButtonClickHandler(handler) {
+    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
+    Handlers.registerHandler('appButtonClick', handler);
+}
+exports.registerAppButtonClickHandler = registerAppButtonClickHandler;
+/**
+ * Registers a handler for entering hover of the app button.
+ * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+ * @param handler The handler to invoke when entering hover of the personal app button in the app bar.
+ */
+function registerAppButtonHoverEnterHandler(handler) {
+    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
+    Handlers.registerHandler('appButtonHoverEnter', handler);
+}
+exports.registerAppButtonHoverEnterHandler = registerAppButtonHoverEnterHandler;
+/**
+ * Registers a handler for exiting hover of the app button.
+ * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+ * @param handler The handler to invoke when exiting hover of the personal app button in the app bar.
+ */
+function registerAppButtonHoverLeaveHandler(handler) {
+    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
+    Handlers.registerHandler('appButtonHoverLeave', handler);
+}
+exports.registerAppButtonHoverLeaveHandler = registerAppButtonHoverLeaveHandler;
+/**
+ * Registers a handler for user presses of the Team client's back button. Experiences that maintain an internal
+ * navigation stack should use this handler to navigate the user back within their frame. If an app finds
+ * that after running its back button handler it cannot handle the event it should call the navigateBack
+ * method to ask the Teams client to handle it instead.
+ * @param handler The handler to invoke when the user presses their Team client's back button.
+ */
+function registerBackButtonHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    Handlers.registerBackButtonHandler(handler);
+}
+exports.registerBackButtonHandler = registerBackButtonHandler;
+/**
+ * @private
+ * Registers a handler to be called when the page has been requested to load.
+ * @param handler The handler to invoke when the page is loaded.
+ */
+function registerOnLoadHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    Handlers.registerOnLoadHandler(handler);
+}
+exports.registerOnLoadHandler = registerOnLoadHandler;
+/**
+ * @private
+ * Registers a handler to be called before the page is unloaded.
+ * @param handler The handler to invoke before the page is unloaded. If this handler returns true the page should
+ * invoke the readyToUnload function provided to it once it's ready to be unloaded.
+ */
+function registerBeforeUnloadHandler(handler) {
+    internalAPIs_1.ensureInitialized();
+    Handlers.registerBeforeUnloadHandler(handler);
+}
+exports.registerBeforeUnloadHandler = registerBeforeUnloadHandler;
+/**
+ * Registers a handler for when the user reconfigurated tab
+ * @param handler The handler to invoke when the user click on Settings.
+ */
+function registerChangeSettingsHandler(handler) {
+    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
+    Handlers.registerHandler('changeSettings', handler);
+}
+exports.registerChangeSettingsHandler = registerChangeSettingsHandler;
+/**
+ * Allows an app to retrieve for this user tabs that are owned by this app.
+ * If no TabInstanceParameters are passed, the app defaults to favorite teams and favorite channels.
+ * @param callback The callback to invoke when the {@link TabInstanceParameters} object is retrieved.
+ * @param tabInstanceParameters OPTIONAL Flags that specify whether to scope call to favorite teams or channels.
+ */
+function getTabInstances(callback, tabInstanceParameters) {
+    internalAPIs_1.ensureInitialized();
+    communication_1.sendMessageToParent('getTabInstances', [tabInstanceParameters], callback);
+}
+exports.getTabInstances = getTabInstances;
+/**
+ * Allows an app to retrieve the most recently used tabs for this user.
+ * @param callback The callback to invoke when the {@link TabInformation} object is retrieved.
+ * @param tabInstanceParameters OPTIONAL Ignored, kept for future use
+ */
+function getMruTabInstances(callback, tabInstanceParameters) {
+    internalAPIs_1.ensureInitialized();
+    communication_1.sendMessageToParent('getMruTabInstances', [tabInstanceParameters], callback);
+}
+exports.getMruTabInstances = getMruTabInstances;
+/**
+ * Shares a deep link that a user can use to navigate back to a specific state in this page.
+ * @param deepLinkParameters ID and label for the link and fallback URL.
+ */
+function shareDeepLink(deepLinkParameters) {
+    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content, constants_2.FrameContexts.sidePanel, constants_2.FrameContexts.meetingStage);
+    communication_1.sendMessageToParent('shareDeepLink', [
+        deepLinkParameters.subEntityId,
+        deepLinkParameters.subEntityLabel,
+        deepLinkParameters.subEntityWebUrl,
+    ]);
+}
+exports.shareDeepLink = shareDeepLink;
+/**
+ * execute deep link API.
+ * @param deepLink deep link.
+ */
+function executeDeepLink(deepLink, onComplete) {
+    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content, constants_2.FrameContexts.sidePanel, constants_2.FrameContexts.settings, constants_2.FrameContexts.task, constants_2.FrameContexts.stage, constants_2.FrameContexts.meetingStage);
+    communication_1.sendMessageToParent('executeDeepLink', [deepLink], onComplete ? onComplete : utils_1.getGenericOnCompleteHandler());
+}
+exports.executeDeepLink = executeDeepLink;
+function setFrameContext(frameContext) {
+    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
+    communication_1.sendMessageToParent('setFrameContext', [frameContext]);
+}
+exports.setFrameContext = setFrameContext;
+function initializeWithFrameContext(frameContext, callback, validMessageOrigins) {
+    initialize(callback, validMessageOrigins);
+    setFrameContext(frameContext);
+}
+exports.initializeWithFrameContext = initializeWithFrameContext;
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __nested_webpack_require_124009__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __nested_webpack_require_124009__(1);
+var utils_1 = __nested_webpack_require_124009__(5);
+var constants_1 = __nested_webpack_require_124009__(2);
+var communication_1 = __nested_webpack_require_124009__(0);
+/**
+ * Navigation specific part of the SDK.
+ */
+/**
+ * Return focus to the main Teams app. Will focus search bar if navigating foward and app bar if navigating back.
+ * @param navigateForward Determines the direction to focus in teams app.
+ */
+function returnFocus(navigateForward) {
+    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
+    communication_1.sendMessageToParent('returnFocus', [navigateForward]);
+}
+exports.returnFocus = returnFocus;
+/**
+ * Navigates the Microsoft Teams app to the specified tab instance.
+ * @param tabInstance The tab instance to navigate to.
+ */
+function navigateToTab(tabInstance, onComplete) {
+    internalAPIs_1.ensureInitialized();
+    var errorMessage = 'Invalid internalTabInstanceId and/or channelId were/was provided';
+    communication_1.sendMessageToParent('navigateToTab', [tabInstance], onComplete ? onComplete : utils_1.getGenericOnCompleteHandler(errorMessage));
+}
+exports.navigateToTab = navigateToTab;
+/**
+ * Navigates the frame to a new cross-domain URL. The domain of this URL must match at least one of the
+ * valid domains specified in the validDomains block of the manifest; otherwise, an exception will be
+ * thrown. This function needs to be used only when navigating the frame to a URL in a different domain
+ * than the current one in a way that keeps the app informed of the change and allows the SDK to
+ * continue working.
+ * @param url The URL to navigate the frame to.
+ */
+function navigateCrossDomain(url, onComplete) {
+    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.settings, constants_1.FrameContexts.remove, constants_1.FrameContexts.task, constants_1.FrameContexts.stage, constants_1.FrameContexts.meetingStage);
+    var errorMessage = 'Cross-origin navigation is only supported for URLs matching the pattern registered in the manifest.';
+    communication_1.sendMessageToParent('navigateCrossDomain', [url], onComplete ? onComplete : utils_1.getGenericOnCompleteHandler(errorMessage));
+}
+exports.navigateCrossDomain = navigateCrossDomain;
+/**
+ * Navigates back in the Teams client. See registerBackButtonHandler for more information on when
+ * it's appropriate to use this method.
+ */
+function navigateBack(onComplete) {
+    internalAPIs_1.ensureInitialized();
+    var errorMessage = 'Back navigation is not supported in the current client or context.';
+    communication_1.sendMessageToParent('navigateBack', [], onComplete ? onComplete : utils_1.getGenericOnCompleteHandler(errorMessage));
+}
+exports.navigateBack = navigateBack;
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __nested_webpack_require_126996__) {
+
+"use strict";
+
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var constants_1 = __nested_webpack_require_126996__(2);
+var appWindow_1 = __nested_webpack_require_126996__(16);
+var communication_1 = __nested_webpack_require_126996__(0);
+var internalAPIs_1 = __nested_webpack_require_126996__(1);
+/**
+ * Namespace to interact with the task module-specific part of the SDK.
+ * This object is usable only on the content frame.
+ */
+var tasks;
+(function (tasks) {
+    /**
+     * Allows an app to open the task module.
+     * @param taskInfo An object containing the parameters of the task module
+     * @param submitHandler Handler to call when the task module is completed
+     */
+    function startTask(taskInfo, submitHandler) {
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.meetingStage);
+        communication_1.sendMessageToParent('tasks.startTask', [taskInfo], submitHandler);
+        return new appWindow_1.ChildAppWindow();
+    }
+    tasks.startTask = startTask;
+    /**
+     * Update height/width task info properties.
+     * @param taskInfo An object containing width and height properties
+     */
+    function updateTask(taskInfo) {
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.task, constants_1.FrameContexts.meetingStage);
+        var width = taskInfo.width, height = taskInfo.height, extra = __rest(taskInfo, ["width", "height"]);
+        if (!Object.keys(extra).length) {
+            communication_1.sendMessageToParent('tasks.updateTask', [taskInfo]);
+        }
+        else {
+            throw new Error('updateTask requires a taskInfo argument containing only width and height');
+        }
+    }
+    tasks.updateTask = updateTask;
+    /**
+     * Submit the task module.
+     * @param result Contains the result to be sent to the bot or the app. Typically a JSON object or a serialized version of it
+     * @param appIds Helps to validate that the call originates from the same appId as the one that invoked the task module
+     */
+    function submitTask(result, appIds) {
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.task, constants_1.FrameContexts.meetingStage);
+        // Send tasks.completeTask instead of tasks.submitTask message for backward compatibility with Mobile clients
+        communication_1.sendMessageToParent('tasks.completeTask', [result, Array.isArray(appIds) ? appIds : [appIds]]);
+    }
+    tasks.submitTask = submitTask;
+})(tasks = exports.tasks || (exports.tasks = {}));
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __nested_webpack_require_130189__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var interfaces_1 = __nested_webpack_require_130189__(7);
+var internalAPIs_1 = __nested_webpack_require_130189__(1);
+var constants_1 = __nested_webpack_require_130189__(2);
+var communication_1 = __nested_webpack_require_130189__(0);
+var constants_2 = __nested_webpack_require_130189__(4);
+var location;
+(function (location_1) {
+    /**
+     * Fetches current user coordinates or allows user to choose location on map
+     * @param callback Callback to invoke when current user location is fetched
+     */
+    function getLocation(props, callback) {
+        if (!callback) {
+            throw new Error('[location.getLocation] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.task);
+        if (!internalAPIs_1.isAPISupportedByPlatform(constants_2.locationAPIsRequiredVersion)) {
+            var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
+            callback(oldPlatformError, undefined);
+            return;
+        }
+        if (!props) {
+            var invalidInput = { errorCode: interfaces_1.ErrorCode.INVALID_ARGUMENTS };
+            callback(invalidInput, undefined);
+            return;
+        }
+        communication_1.sendMessageToParent('location.getLocation', [props], callback);
+    }
+    location_1.getLocation = getLocation;
+    /**
+     * Shows the location on map corresponding to the given coordinates
+     * @param location {@link Location} which needs to be shown on map
+     * @param callback Callback to invoke when the location is opened on map
+     */
+    function showLocation(location, callback) {
+        if (!callback) {
+            throw new Error('[location.showLocation] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.task);
+        if (!internalAPIs_1.isAPISupportedByPlatform(constants_2.locationAPIsRequiredVersion)) {
+            var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
+            callback(oldPlatformError, undefined);
+            return;
+        }
+        if (!location) {
+            var invalidInput = { errorCode: interfaces_1.ErrorCode.INVALID_ARGUMENTS };
+            callback(invalidInput, undefined);
+            return;
+        }
+        communication_1.sendMessageToParent('location.showLocation', [location], callback);
+    }
+    location_1.showLocation = showLocation;
+})(location = exports.location || (exports.location = {}));
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __nested_webpack_require_132854__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var communication_1 = __nested_webpack_require_132854__(0);
+var handlers_1 = __nested_webpack_require_132854__(3);
+var internalAPIs_1 = __nested_webpack_require_132854__(1);
+var constants_1 = __nested_webpack_require_132854__(2);
+var meeting;
+(function (meeting) {
+    var MeetingType;
+    (function (MeetingType) {
+        MeetingType["Unknown"] = "Unknown";
+        MeetingType["Adhoc"] = "Adhoc";
+        MeetingType["Scheduled"] = "Scheduled";
+        MeetingType["Recurring"] = "Recurring";
+        MeetingType["Broadcast"] = "Broadcast";
+        MeetingType["MeetNow"] = "MeetNow";
+    })(MeetingType = meeting.MeetingType || (meeting.MeetingType = {}));
+    /**
+     * Allows an app to get the incoming audio speaker setting for the meeting user
+     * @param callback Callback contains 2 parameters, error and result.
+     * error can either contain an error of type SdkError, incase of an error, or null when fetch is successful
+     * result can either contain the true/false value, incase of a successful fetch or null when the fetching fails
+     * result: True means incoming audio is muted and false means incoming audio is unmuted
+     */
+    function getIncomingClientAudioState(callback) {
+        if (!callback) {
+            throw new Error('[get incoming client audio state] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized();
+        communication_1.sendMessageToParent('getIncomingClientAudioState', callback);
+    }
+    meeting.getIncomingClientAudioState = getIncomingClientAudioState;
+    /**
+     * Allows an app to toggle the incoming audio speaker setting for the meeting user from mute to unmute or vice-versa
+     * @param callback Callback contains 2 parameters, error and result.
+     * error can either contain an error of type SdkError, incase of an error, or null when toggle is successful
+     * result can either contain the true/false value, incase of a successful toggle or null when the toggling fails
+     * result: True means incoming audio is muted and false means incoming audio is unmuted
+     */
+    function toggleIncomingClientAudio(callback) {
+        if (!callback) {
+            throw new Error('[toggle incoming client audio] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized();
+        communication_1.sendMessageToParent('toggleIncomingClientAudio', callback);
+    }
+    meeting.toggleIncomingClientAudio = toggleIncomingClientAudio;
+    /**
+     * @private
+     * Hide from docs
+     * Allows an app to get the meeting details for the meeting
+     * @param callback Callback contains 2 parameters, error and meetingDetails.
+     * error can either contain an error of type SdkError, incase of an error, or null when get is successful
+     * result can either contain a IMeetingDetails value, incase of a successful get or null when the get fails
+     */
+    function getMeetingDetails(callback) {
+        if (!callback) {
+            throw new Error('[get meeting details] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized();
+        communication_1.sendMessageToParent('meeting.getMeetingDetails', callback);
+    }
+    meeting.getMeetingDetails = getMeetingDetails;
+    /**
+     * @private
+     * Allows an app to get the authentication token for the anonymous or guest user in the meeting
+     * @param callback Callback contains 2 parameters, error and authenticationTokenOfAnonymousUser.
+     * error can either contain an error of type SdkError, incase of an error, or null when get is successful
+     * authenticationTokenOfAnonymousUser can either contain a string value, incase of a successful get or null when the get fails
+     */
+    function getAuthenticationTokenForAnonymousUser(callback) {
+        if (!callback) {
+            throw new Error('[get Authentication Token For AnonymousUser] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized();
+        communication_1.sendMessageToParent('meeting.getAuthenticationTokenForAnonymousUser', callback);
+    }
+    meeting.getAuthenticationTokenForAnonymousUser = getAuthenticationTokenForAnonymousUser;
+    /**
+     * Allows an app to get the state of the live stream in the current meeting
+     * @param callback Callback contains 2 parameters: error and liveStreamState.
+     * error can either contain an error of type SdkError, in case of an error, or null when get is successful
+     * liveStreamState can either contain a LiveStreamState value, or null when operation fails
+     */
+    function getLiveStreamState(callback) {
+        if (!callback) {
+            throw new Error('[get live stream state] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('meeting.getLiveStreamState', callback);
+    }
+    meeting.getLiveStreamState = getLiveStreamState;
+    /**
+     * Allows an app to request the live streaming be started at the given streaming url
+     * @param streamUrl the url to the stream resource
+     * @param streamKey the key to the stream resource
+     * @param callback Callback contains error parameter which can be of type SdkError in case of an error, or null when operation is successful
+     * Use getLiveStreamState or registerLiveStreamChangedHandler to get updates on the live stream state
+     */
+    function requestStartLiveStreaming(callback, streamUrl, streamKey) {
+        if (!callback) {
+            throw new Error('[request start live streaming] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('meeting.requestStartLiveStreaming', [streamUrl, streamKey], callback);
+    }
+    meeting.requestStartLiveStreaming = requestStartLiveStreaming;
+    /**
+     * Allows an app to request the live streaming be stopped at the given streaming url
+     * @param callback Callback contains error parameter which can be of type SdkError in case of an error, or null when operation is successful
+     * Use getLiveStreamState or registerLiveStreamChangedHandler to get updates on the live stream state
+     */
+    function requestStopLiveStreaming(callback) {
+        if (!callback) {
+            throw new Error('[request stop live streaming] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('meeting.requestStopLiveStreaming', callback);
+    }
+    meeting.requestStopLiveStreaming = requestStopLiveStreaming;
+    /**
+     * Registers a handler for changes to the live stream.
+     * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+     * @param handler The handler to invoke when the live stream state changes
+     */
+    function registerLiveStreamChangedHandler(handler) {
+        if (!handler) {
+            throw new Error('[register live stream changed handler] Handler cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        handlers_1.registerHandler('meeting.liveStreamChanged', handler);
+    }
+    meeting.registerLiveStreamChangedHandler = registerLiveStreamChangedHandler;
+})(meeting = exports.meeting || (exports.meeting = {}));
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __nested_webpack_require_140431__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var internalAPIs_1 = __nested_webpack_require_140431__(1);
+var constants_1 = __nested_webpack_require_140431__(2);
+var interfaces_1 = __nested_webpack_require_140431__(7);
+var mediaUtil_1 = __nested_webpack_require_140431__(18);
+var communication_1 = __nested_webpack_require_140431__(0);
+var constants_2 = __nested_webpack_require_140431__(4);
+var people;
+(function (people_1) {
+    /**
+     * Launches a people picker and allows the user to select one or more people from the list
+     * If the app is added to personal app scope the people picker launched is org wide and if the app is added to a chat/channel, people picker launched is also limited to the members of chat/channel
+     * @param callback Returns list of JSON object of type PeoplePickerResult which consists of AAD IDs, display names and emails of the selected users
+     * @param peoplePickerInputs Input parameters to launch customized people picker
+     */
+    function selectPeople(callback, peoplePickerInputs) {
+        if (!callback) {
+            throw new Error('[people picker] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.task, constants_1.FrameContexts.settings);
+        if (!internalAPIs_1.isAPISupportedByPlatform(constants_2.peoplePickerRequiredVersion)) {
+            var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
+            callback(oldPlatformError, undefined);
+            return;
+        }
+        if (!mediaUtil_1.validatePeoplePickerInput(peoplePickerInputs)) {
+            var invalidInput = { errorCode: interfaces_1.ErrorCode.INVALID_ARGUMENTS };
+            callback(invalidInput, null);
+            return;
+        }
+        communication_1.sendMessageToParent('people.selectPeople', [peoplePickerInputs], callback);
+    }
+    people_1.selectPeople = selectPeople;
+})(people = exports.people || (exports.people = {}));
+
+
+/***/ }),
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1947,216 +3423,36 @@ var ViewerActionTypes;
     ViewerActionTypes["edit"] = "edit";
     ViewerActionTypes["editNew"] = "editNew";
 })(ViewerActionTypes = exports.ViewerActionTypes || (exports.ViewerActionTypes = {}));
+/**
+ * * @private
+ * Hide from docs.
+ * ------
+ * User setting changes that can be subscribed to,
+ */
+var UserSettingTypes;
+(function (UserSettingTypes) {
+    /**
+     * Use this key to subscribe to changes in user's file open preference
+     */
+    UserSettingTypes["fileOpenPreference"] = "fileOpenPreference";
+    /**
+     * Use this key to subscribe to theme changes
+     */
+    UserSettingTypes["theme"] = "theme";
+})(UserSettingTypes = exports.UserSettingTypes || (exports.UserSettingTypes = {}));
 
 
 /***/ }),
-/* 21 */
-/***/ (function(module, exports, __nested_webpack_require_77413__) {
+/* 33 */
+/***/ (function(module, exports, __nested_webpack_require_143770__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_77413__(1);
-var globalVars_1 = __nested_webpack_require_77413__(0);
-var constants_1 = __nested_webpack_require_77413__(2);
-var utils_1 = __nested_webpack_require_77413__(3);
-/**
- * @private
- * Hide from docs
- * ------
- * Allows an app to retrieve information of all user joined teams
- * @param callback The callback to invoke when the {@link TeamInstanceParameters} object is retrieved.
- * @param teamInstanceParameters OPTIONAL Flags that specify whether to scope call to favorite teams
- */
-function getUserJoinedTeams(callback, teamInstanceParameters) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('getUserJoinedTeams', [teamInstanceParameters]);
-    globalVars_1.GlobalVars.callbacks[messageId] = callback;
-}
-exports.getUserJoinedTeams = getUserJoinedTeams;
-/**
- * @private
- * Hide from docs
- * ------
- * Place the tab into full-screen mode.
- */
-function enterFullscreen() {
-    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
-    internalAPIs_1.sendMessageRequestToParent('enterFullscreen', []);
-}
-exports.enterFullscreen = enterFullscreen;
-/**
- * @private
- * Hide from docs
- * ------
- * Reverts the tab into normal-screen mode.
- */
-function exitFullscreen() {
-    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
-    internalAPIs_1.sendMessageRequestToParent('exitFullscreen', []);
-}
-exports.exitFullscreen = exitFullscreen;
-/**
- * @private
- * Hide from docs.
- * ------
- * Opens a client-friendly preview of the specified file.
- * @param file The file to preview.
- */
-function openFilePreview(filePreviewParameters) {
-    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
-    var params = [
-        filePreviewParameters.entityId,
-        filePreviewParameters.title,
-        filePreviewParameters.description,
-        filePreviewParameters.type,
-        filePreviewParameters.objectUrl,
-        filePreviewParameters.downloadUrl,
-        filePreviewParameters.webPreviewUrl,
-        filePreviewParameters.webEditUrl,
-        filePreviewParameters.baseUrl,
-        filePreviewParameters.editFile,
-        filePreviewParameters.subEntityId,
-        filePreviewParameters.viewerAction,
-    ];
-    internalAPIs_1.sendMessageRequestToParent('openFilePreview', params);
-}
-exports.openFilePreview = openFilePreview;
-/**
- * @private
- * Hide from docs.
- * ------
- * display notification API.
- * @param message Notification message.
- * @param notificationType Notification type
- */
-function showNotification(showNotificationParameters) {
-    internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
-    var params = [showNotificationParameters.message, showNotificationParameters.notificationType];
-    internalAPIs_1.sendMessageRequestToParent('showNotification', params);
-}
-exports.showNotification = showNotification;
-/**
- * @private
- * Hide from docs.
- * ------
- * Upload a custom App manifest directly to both team and personal scopes.
- * This method works just for the first party Apps.
- */
-function uploadCustomApp(manifestBlob, onComplete) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('uploadCustomApp', [manifestBlob]);
-    globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler();
-}
-exports.uploadCustomApp = uploadCustomApp;
-/**
- * @private
- * Internal use only
- * Sends a custom action MessageRequest to Teams or parent window
- * @param actionName Specifies name of the custom action to be sent
- * @param args Specifies additional arguments passed to the action
- * @param callback Optionally specify a callback to receive response parameters from the parent
- * @returns id of sent message
- */
-function sendCustomMessage(actionName, 
-// tslint:disable-next-line:no-any
-args, 
-// tslint:disable-next-line:no-any
-callback) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent(actionName, args);
-    if (typeof callback === 'function') {
-        globalVars_1.GlobalVars.callbacks[messageId] = function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i] = arguments[_i];
-            }
-            callback.apply(null, args);
-        };
-    }
-    return messageId;
-}
-exports.sendCustomMessage = sendCustomMessage;
-/**
- * @private
- * Internal use only
- * Sends a custom action MessageEvent to a child iframe/window, only if you are not using auth popup.
- * Otherwise it will go to the auth popup (which becomes the child)
- * @param actionName Specifies name of the custom action to be sent
- * @param args Specifies additional arguments passed to the action
- * @returns id of sent message
- */
-function sendCustomEvent(actionName, 
-// tslint:disable-next-line:no-any
-args) {
-    internalAPIs_1.ensureInitialized();
-    //validate childWindow
-    if (!globalVars_1.GlobalVars.childWindow) {
-        throw new Error('The child window has not yet been initialized or is not present');
-    }
-    internalAPIs_1.sendMessageEventToChild(actionName, args);
-}
-exports.sendCustomEvent = sendCustomEvent;
-/**
- * @private
- * Internal use only
- * Adds a handler for an action sent by a child window or parent window
- * @param actionName Specifies name of the action message to handle
- * @param customHandler The callback to invoke when the action message is received. The return value is sent to the child
- */
-function registerCustomHandler(actionName, customHandler) {
-    var _this = this;
-    internalAPIs_1.ensureInitialized();
-    globalVars_1.GlobalVars.handlers[actionName] = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        return customHandler.apply(_this, args);
-    };
-}
-exports.registerCustomHandler = registerCustomHandler;
-/**
- * @private
- * Hide from docs
- * ------
- * Allows an app to retrieve information of all chat members
- * Because a malicious party run your content in a browser, this value should
- * be used only as a hint as to who the members are and never as proof of membership.
- * @param callback The callback to invoke when the {@link ChatMembersInformation} object is retrieved.
- */
-function getChatMembers(callback) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('getChatMembers');
-    globalVars_1.GlobalVars.callbacks[messageId] = callback;
-}
-exports.getChatMembers = getChatMembers;
-/**
- * @private
- * Hide from docs
- * ------
- * Allows an app to get the configuration setting value
- * @param callback The callback to invoke when the value is retrieved.
- * @param key The key for the config setting
- */
-function getConfigSetting(callback, key) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('getConfigSetting', [key]);
-    globalVars_1.GlobalVars.callbacks[messageId] = callback;
-}
-exports.getConfigSetting = getConfigSetting;
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __nested_webpack_require_84776__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_84776__(1);
-var globalVars_1 = __nested_webpack_require_84776__(0);
-var constants_1 = __nested_webpack_require_84776__(2);
+var internalAPIs_1 = __nested_webpack_require_143770__(1);
+var constants_1 = __nested_webpack_require_143770__(2);
+var communication_1 = __nested_webpack_require_143770__(0);
+var handlers_1 = __nested_webpack_require_143770__(3);
 /**
  * Namespace to interact with the conversational subEntities inside the tab
  */
@@ -2170,7 +3466,7 @@ var conversations;
      */
     function openConversation(openConversationRequest) {
         internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
-        var messageId = internalAPIs_1.sendMessageRequestToParent('conversations.openConversation', [
+        communication_1.sendMessageToParent('conversations.openConversation', [
             {
                 title: openConversationRequest.title,
                 subEntityId: openConversationRequest.subEntityId,
@@ -2178,14 +3474,31 @@ var conversations;
                 channelId: openConversationRequest.channelId,
                 entityId: openConversationRequest.entityId,
             },
-        ]);
-        globalVars_1.GlobalVars.onCloseConversationHandler = openConversationRequest.onCloseConversation;
-        globalVars_1.GlobalVars.onStartConversationHandler = openConversationRequest.onStartConversation;
-        globalVars_1.GlobalVars.callbacks[messageId] = function (status, reason) {
+        ], function (status, reason) {
             if (!status) {
                 throw new Error(reason);
             }
-        };
+        });
+        if (openConversationRequest.onStartConversation) {
+            handlers_1.registerHandler('startConversation', function (subEntityId, conversationId, channelId, entityId) {
+                return openConversationRequest.onStartConversation({
+                    subEntityId: subEntityId,
+                    conversationId: conversationId,
+                    channelId: channelId,
+                    entityId: entityId,
+                });
+            });
+        }
+        if (openConversationRequest.onCloseConversation) {
+            handlers_1.registerHandler('closeConversation', function (subEntityId, conversationId, channelId, entityId) {
+                return openConversationRequest.onCloseConversation({
+                    subEntityId: subEntityId,
+                    conversationId: conversationId,
+                    channelId: channelId,
+                    entityId: entityId,
+                });
+            });
+        }
     }
     conversations.openConversation = openConversation;
     /**
@@ -2196,23 +3509,24 @@ var conversations;
      */
     function closeConversation() {
         internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content);
-        internalAPIs_1.sendMessageRequestToParent('conversations.closeConversation');
-        globalVars_1.GlobalVars.onCloseConversationHandler = null;
-        globalVars_1.GlobalVars.onStartConversationHandler = null;
+        communication_1.sendMessageToParent('conversations.closeConversation');
+        handlers_1.removeHandler('startConversation');
+        handlers_1.removeHandler('closeConversation');
     }
     conversations.closeConversation = closeConversation;
 })(conversations = exports.conversations || (exports.conversations = {}));
 
 
 /***/ }),
-/* 23 */
-/***/ (function(module, exports, __nested_webpack_require_87066__) {
+/* 34 */
+/***/ (function(module, exports, __nested_webpack_require_146755__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_87066__(1);
-var globalVars_1 = __nested_webpack_require_87066__(0);
+var internalAPIs_1 = __nested_webpack_require_146755__(1);
+var communication_1 = __nested_webpack_require_146755__(0);
+var handlers_1 = __nested_webpack_require_146755__(3);
 var meetingRoom;
 (function (meetingRoom) {
     /**
@@ -2264,8 +3578,6 @@ var meetingRoom;
          */
         Capability["leaveMeeting"] = "leaveMeeting";
     })(Capability = meetingRoom.Capability || (meetingRoom.Capability = {}));
-    globalVars_1.GlobalVars.handlers['meetingRoom.meetingRoomCapabilitiesUpdate'] = handleMeetingRoomCapabilitiesUpdate;
-    globalVars_1.GlobalVars.handlers['meetingRoom.meetingRoomStatesUpdate'] = handleMeetingRoomStatesUpdate;
     /**
      * @private
      * Hide from docs
@@ -2275,8 +3587,7 @@ var meetingRoom;
      */
     function getPairedMeetingRoomInfo(callback) {
         internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('meetingRoom.getPairedMeetingRoomInfo');
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+        communication_1.sendMessageToParent('meetingRoom.getPairedMeetingRoomInfo', callback);
     }
     meetingRoom.getPairedMeetingRoomInfo = getPairedMeetingRoomInfo;
     /**
@@ -2295,8 +3606,7 @@ var meetingRoom;
             throw new Error('[meetingRoom.sendCommandToPairedMeetingRoom] Callback cannot be null');
         }
         internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('meetingRoom.sendCommandToPairedMeetingRoom', [commandName]);
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+        communication_1.sendMessageToParent('meetingRoom.sendCommandToPairedMeetingRoom', [commandName], callback);
     }
     meetingRoom.sendCommandToPairedMeetingRoom = sendCommandToPairedMeetingRoom;
     /**
@@ -2312,8 +3622,11 @@ var meetingRoom;
             throw new Error('[meetingRoom.registerMeetingRoomCapabilitiesUpdateHandler] Handler cannot be null');
         }
         internalAPIs_1.ensureInitialized();
-        globalVars_1.GlobalVars.meetingRoomCapabilitiesUpdateHandler = handler;
-        handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['meetingRoom.meetingRoomCapabilitiesUpdate']);
+        handlers_1.registerHandler('meetingRoom.meetingRoomCapabilitiesUpdate', function (capabilities) {
+            internalAPIs_1.ensureInitialized();
+            handler(capabilities);
+        });
+        // handler && Communication.sendMessageToParent('registerHandler', ['meetingRoom.meetingRoomCapabilitiesUpdate']);
     }
     meetingRoom.registerMeetingRoomCapabilitiesUpdateHandler = registerMeetingRoomCapabilitiesUpdateHandler;
     /**
@@ -2328,1077 +3641,402 @@ var meetingRoom;
             throw new Error('[meetingRoom.registerMeetingRoomStatesUpdateHandler] Handler cannot be null');
         }
         internalAPIs_1.ensureInitialized();
-        globalVars_1.GlobalVars.meetingRoomStatesUpdateHandler = handler;
-        handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['meetingRoom.meetingRoomStatesUpdate']);
+        handlers_1.registerHandler('meetingRoom.meetingRoomStatesUpdate', function (states) {
+            internalAPIs_1.ensureInitialized();
+            handler(states);
+        });
+        // handler && Communication.sendMessageToParent('registerHandler', ['meetingRoom.meetingRoomStatesUpdate']);
     }
     meetingRoom.registerMeetingRoomStatesUpdateHandler = registerMeetingRoomStatesUpdateHandler;
-    function handleMeetingRoomCapabilitiesUpdate(capabilities) {
-        if (globalVars_1.GlobalVars.meetingRoomCapabilitiesUpdateHandler != null) {
-            internalAPIs_1.ensureInitialized();
-            globalVars_1.GlobalVars.meetingRoomCapabilitiesUpdateHandler(capabilities);
-        }
-    }
-    function handleMeetingRoomStatesUpdate(states) {
-        if (globalVars_1.GlobalVars.meetingRoomStatesUpdateHandler != null) {
-            internalAPIs_1.ensureInitialized();
-            globalVars_1.GlobalVars.meetingRoomStatesUpdateHandler(states);
-        }
-    }
 })(meetingRoom = exports.meetingRoom || (exports.meetingRoom = {}));
 
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __nested_webpack_require_93261__) {
+/* 35 */
+/***/ (function(module, exports, __nested_webpack_require_152249__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var appInitialization_1 = __nested_webpack_require_93261__(25);
-exports.appInitialization = appInitialization_1.appInitialization;
-var authentication_1 = __nested_webpack_require_93261__(26);
-exports.authentication = authentication_1.authentication;
-var constants_1 = __nested_webpack_require_93261__(2);
-exports.FrameContexts = constants_1.FrameContexts;
-exports.HostClientType = constants_1.HostClientType;
-exports.TaskModuleDimension = constants_1.TaskModuleDimension;
-exports.TeamType = constants_1.TeamType;
-exports.UserTeamRole = constants_1.UserTeamRole;
-exports.ChannelType = constants_1.ChannelType;
-var interfaces_1 = __nested_webpack_require_93261__(5);
-exports.ErrorCode = interfaces_1.ErrorCode;
-var publicAPIs_1 = __nested_webpack_require_93261__(27);
-exports.enablePrintCapability = publicAPIs_1.enablePrintCapability;
-exports.executeDeepLink = publicAPIs_1.executeDeepLink;
-exports.getContext = publicAPIs_1.getContext;
-exports.getMruTabInstances = publicAPIs_1.getMruTabInstances;
-exports.getTabInstances = publicAPIs_1.getTabInstances;
-exports.initialize = publicAPIs_1.initialize;
-exports.initializeWithFrameContext = publicAPIs_1.initializeWithFrameContext;
-exports.print = publicAPIs_1.print;
-exports.registerBackButtonHandler = publicAPIs_1.registerBackButtonHandler;
-exports.registerBeforeUnloadHandler = publicAPIs_1.registerBeforeUnloadHandler;
-exports.registerChangeSettingsHandler = publicAPIs_1.registerChangeSettingsHandler;
-exports.registerFullScreenHandler = publicAPIs_1.registerFullScreenHandler;
-exports.registerOnLoadHandler = publicAPIs_1.registerOnLoadHandler;
-exports.registerOnThemeChangeHandler = publicAPIs_1.registerOnThemeChangeHandler;
-exports.registerAppButtonClickHandler = publicAPIs_1.registerAppButtonClickHandler;
-exports.registerAppButtonHoverEnterHandler = publicAPIs_1.registerAppButtonHoverEnterHandler;
-exports.registerAppButtonHoverLeaveHandler = publicAPIs_1.registerAppButtonHoverLeaveHandler;
-exports.setFrameContext = publicAPIs_1.setFrameContext;
-exports.shareDeepLink = publicAPIs_1.shareDeepLink;
-var navigation_1 = __nested_webpack_require_93261__(6);
-exports.returnFocus = navigation_1.returnFocus;
-exports.navigateBack = navigation_1.navigateBack;
-exports.navigateCrossDomain = navigation_1.navigateCrossDomain;
-exports.navigateToTab = navigation_1.navigateToTab;
-var settings_1 = __nested_webpack_require_93261__(10);
-exports.settings = settings_1.settings;
-var tasks_1 = __nested_webpack_require_93261__(28);
-exports.tasks = tasks_1.tasks;
-var appWindow_1 = __nested_webpack_require_93261__(11);
-exports.ChildAppWindow = appWindow_1.ChildAppWindow;
-exports.ParentAppWindow = appWindow_1.ParentAppWindow;
-var media_1 = __nested_webpack_require_93261__(12);
-exports.media = media_1.media;
-var location_1 = __nested_webpack_require_93261__(30);
-exports.location = location_1.location;
-var meeting_1 = __nested_webpack_require_93261__(31);
-exports.meeting = meeting_1.meeting;
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __nested_webpack_require_96255__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_96255__(1);
-var constants_1 = __nested_webpack_require_96255__(4);
-var appInitialization;
-(function (appInitialization) {
-    /**
-     * To notify app loaded to hide loading indicator
-     */
-    function notifyAppLoaded() {
-        internalAPIs_1.ensureInitialized();
-        internalAPIs_1.sendMessageRequestToParent('appInitialization.appLoaded', [constants_1.version]);
-    }
-    appInitialization.notifyAppLoaded = notifyAppLoaded;
-    /**
-     * To notify app Initialization successs and ready for user interaction
-     */
-    function notifySuccess() {
-        internalAPIs_1.ensureInitialized();
-        internalAPIs_1.sendMessageRequestToParent('appInitialization.success', [constants_1.version]);
-    }
-    appInitialization.notifySuccess = notifySuccess;
-    /**
-     * To notify app Initialization failed
-     */
-    function notifyFailure(appInitializationFailedRequest) {
-        internalAPIs_1.ensureInitialized();
-        internalAPIs_1.sendMessageRequestToParent('appInitialization.failure', [
-            appInitializationFailedRequest.reason,
-            appInitializationFailedRequest.message,
-        ]);
-    }
-    appInitialization.notifyFailure = notifyFailure;
-    var FailedReason;
-    (function (FailedReason) {
-        FailedReason["AuthFailed"] = "AuthFailed";
-        FailedReason["Timeout"] = "Timeout";
-        FailedReason["Other"] = "Other";
-    })(FailedReason = appInitialization.FailedReason || (appInitialization.FailedReason = {}));
-})(appInitialization = exports.appInitialization || (exports.appInitialization = {}));
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __nested_webpack_require_98029__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_98029__(1);
-var globalVars_1 = __nested_webpack_require_98029__(0);
-var constants_1 = __nested_webpack_require_98029__(2);
-/**
- * Namespace to interact with the authentication-specific part of the SDK.
- * This object is used for starting or completing authentication flows.
- */
-var authentication;
-(function (authentication) {
-    var authParams;
-    var authWindowMonitor;
-    globalVars_1.GlobalVars.handlers['authentication.authenticate.success'] = handleSuccess;
-    globalVars_1.GlobalVars.handlers['authentication.authenticate.failure'] = handleFailure;
-    /**
-     * Registers the authentication GlobalVars.handlers
-     * @param authenticateParameters A set of values that configure the authentication pop-up.
-     */
-    function registerAuthenticationHandlers(authenticateParameters) {
-        authParams = authenticateParameters;
-    }
-    authentication.registerAuthenticationHandlers = registerAuthenticationHandlers;
-    /**
-     * Initiates an authentication request, which opens a new window with the specified settings.
-     */
-    function authenticate(authenticateParameters) {
-        var authenticateParams = authenticateParameters !== undefined ? authenticateParameters : authParams;
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.settings, constants_1.FrameContexts.remove, constants_1.FrameContexts.task, constants_1.FrameContexts.stage);
-        if (globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.desktop ||
-            globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.android ||
-            globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.ios ||
-            globalVars_1.GlobalVars.hostClientType === constants_1.HostClientType.rigel) {
-            // Convert any relative URLs into absolute URLs before sending them over to the parent window.
-            var link = document.createElement('a');
-            link.href = authenticateParams.url;
-            // Ask the parent window to open an authentication window with the parameters provided by the caller.
-            var messageId = internalAPIs_1.sendMessageRequestToParent('authentication.authenticate', [
-                link.href,
-                authenticateParams.width,
-                authenticateParams.height,
-            ]);
-            globalVars_1.GlobalVars.callbacks[messageId] = function (success, response) {
-                if (success) {
-                    authenticateParams.successCallback(response);
-                }
-                else {
-                    authenticateParams.failureCallback(response);
-                }
-            };
-        }
-        else {
-            // Open an authentication window with the parameters provided by the caller.
-            openAuthenticationWindow(authenticateParams);
-        }
-    }
-    authentication.authenticate = authenticate;
-    /**
-     * Requests an Azure AD token to be issued on behalf of the app. The token is acquired from the cache
-     * if it is not expired. Otherwise a request is sent to Azure AD to obtain a new token.
-     * @param authTokenRequest A set of values that configure the token request.
-     */
-    function getAuthToken(authTokenRequest) {
-        internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('authentication.getAuthToken', [
-            authTokenRequest.resources,
-            authTokenRequest.claims,
-            authTokenRequest.silent,
-        ]);
-        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
-            if (success) {
-                authTokenRequest.successCallback(result);
-            }
-            else {
-                authTokenRequest.failureCallback(result);
-            }
-        };
-    }
-    authentication.getAuthToken = getAuthToken;
+var internalAPIs_1 = __nested_webpack_require_152249__(1);
+var constants_1 = __nested_webpack_require_152249__(2);
+var communication_1 = __nested_webpack_require_152249__(0);
+var handlers_1 = __nested_webpack_require_152249__(3);
+var remoteCamera;
+(function (remoteCamera) {
     /**
      * @private
-     * Hide from docs.
-     * ------
-     * Requests the decoded Azure AD user identity on behalf of the app.
+     * Hide from docs
+     *
+     * Enum used to indicate possible camera control commands.
      */
-    function getUser(userRequest) {
-        internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('authentication.getUser');
-        globalVars_1.GlobalVars.callbacks[messageId] = function (success, result) {
-            if (success) {
-                userRequest.successCallback(result);
-            }
-            else {
-                userRequest.failureCallback(result);
-            }
-        };
-    }
-    authentication.getUser = getUser;
-    function closeAuthenticationWindow() {
-        // Stop monitoring the authentication window
-        stopAuthenticationWindowMonitor();
-        // Try to close the authentication window and clear all properties associated with it
-        try {
-            if (globalVars_1.GlobalVars.childWindow) {
-                globalVars_1.GlobalVars.childWindow.close();
-            }
-        }
-        finally {
-            globalVars_1.GlobalVars.childWindow = null;
-            globalVars_1.GlobalVars.childOrigin = null;
-        }
-    }
-    function openAuthenticationWindow(authenticateParameters) {
-        authParams = authenticateParameters;
-        // Close the previously opened window if we have one
-        closeAuthenticationWindow();
-        // Start with a sensible default size
-        var width = authParams.width || 600;
-        var height = authParams.height || 400;
-        // Ensure that the new window is always smaller than our app's window so that it never fully covers up our app
-        width = Math.min(width, globalVars_1.GlobalVars.currentWindow.outerWidth - 400);
-        height = Math.min(height, globalVars_1.GlobalVars.currentWindow.outerHeight - 200);
-        // Convert any relative URLs into absolute URLs before sending them over to the parent window
-        var link = document.createElement('a');
-        link.href = authParams.url;
-        // We are running in the browser, so we need to center the new window ourselves
-        var left = typeof globalVars_1.GlobalVars.currentWindow.screenLeft !== 'undefined'
-            ? globalVars_1.GlobalVars.currentWindow.screenLeft
-            : globalVars_1.GlobalVars.currentWindow.screenX;
-        var top = typeof globalVars_1.GlobalVars.currentWindow.screenTop !== 'undefined'
-            ? globalVars_1.GlobalVars.currentWindow.screenTop
-            : globalVars_1.GlobalVars.currentWindow.screenY;
-        left += globalVars_1.GlobalVars.currentWindow.outerWidth / 2 - width / 2;
-        top += globalVars_1.GlobalVars.currentWindow.outerHeight / 2 - height / 2;
-        // Open a child window with a desired set of standard browser features
-        globalVars_1.GlobalVars.childWindow = globalVars_1.GlobalVars.currentWindow.open(link.href, '_blank', 'toolbar=no, location=yes, status=no, menubar=no, scrollbars=yes, top=' +
-            top +
-            ', left=' +
-            left +
-            ', width=' +
-            width +
-            ', height=' +
-            height);
-        if (globalVars_1.GlobalVars.childWindow) {
-            // Start monitoring the authentication window so that we can detect if it gets closed before the flow completes
-            startAuthenticationWindowMonitor();
-        }
-        else {
-            // If we failed to open the window, fail the authentication flow
-            handleFailure('FailedToOpenWindow');
-        }
-    }
-    function stopAuthenticationWindowMonitor() {
-        if (authWindowMonitor) {
-            clearInterval(authWindowMonitor);
-            authWindowMonitor = 0;
-        }
-        delete globalVars_1.GlobalVars.handlers['initialize'];
-        delete globalVars_1.GlobalVars.handlers['navigateCrossDomain'];
-    }
-    function startAuthenticationWindowMonitor() {
-        // Stop the previous window monitor if one is running
-        stopAuthenticationWindowMonitor();
-        // Create an interval loop that
-        // - Notifies the caller of failure if it detects that the authentication window is closed
-        // - Keeps pinging the authentication window while it is open to re-establish
-        //   contact with any pages along the authentication flow that need to communicate
-        //   with us
-        authWindowMonitor = globalVars_1.GlobalVars.currentWindow.setInterval(function () {
-            if (!globalVars_1.GlobalVars.childWindow || globalVars_1.GlobalVars.childWindow.closed) {
-                handleFailure('CancelledByUser');
-            }
-            else {
-                var savedChildOrigin = globalVars_1.GlobalVars.childOrigin;
-                try {
-                    globalVars_1.GlobalVars.childOrigin = '*';
-                    internalAPIs_1.sendMessageEventToChild('ping');
-                }
-                finally {
-                    globalVars_1.GlobalVars.childOrigin = savedChildOrigin;
-                }
-            }
-        }, 100);
-        // Set up an initialize-message handler that gives the authentication window its frame context
-        globalVars_1.GlobalVars.handlers['initialize'] = function () {
-            return [constants_1.FrameContexts.authentication, globalVars_1.GlobalVars.hostClientType];
-        };
-        // Set up a navigateCrossDomain message handler that blocks cross-domain re-navigation attempts
-        // in the authentication window. We could at some point choose to implement this method via a call to
-        // authenticationWindow.location.href = url; however, we would first need to figure out how to
-        // validate the URL against the tab's list of valid domains.
-        globalVars_1.GlobalVars.handlers['navigateCrossDomain'] = function () {
-            return false;
-        };
-    }
+    var ControlCommand;
+    (function (ControlCommand) {
+        ControlCommand["Reset"] = "Reset";
+        ControlCommand["ZoomIn"] = "ZoomIn";
+        ControlCommand["ZoomOut"] = "ZoomOut";
+        ControlCommand["PanLeft"] = "PanLeft";
+        ControlCommand["PanRight"] = "PanRight";
+        ControlCommand["TiltUp"] = "TiltUp";
+        ControlCommand["TiltDown"] = "TiltDown";
+    })(ControlCommand = remoteCamera.ControlCommand || (remoteCamera.ControlCommand = {}));
     /**
-     * Notifies the frame that initiated this authentication request that the request was successful.
-     * This function is usable only on the authentication window.
-     * This call causes the authentication window to be closed.
-     * @param result Specifies a result for the authentication. If specified, the frame that initiated the authentication pop-up receives this value in its callback.
-     * @param callbackUrl Specifies the url to redirect back to if the client is Win32 Outlook.
+     * @private
+     * Hide from docs
+     *
+     * Enum used to indicate the reason for the error.
      */
-    function notifySuccess(result, callbackUrl) {
-        redirectIfWin32Outlook(callbackUrl, 'result', result);
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.authentication);
-        internalAPIs_1.sendMessageRequestToParent('authentication.authenticate.success', [result]);
-        // Wait for the message to be sent before closing the window
-        internalAPIs_1.waitForMessageQueue(globalVars_1.GlobalVars.parentWindow, function () { return setTimeout(function () { return globalVars_1.GlobalVars.currentWindow.close(); }, 200); });
-    }
-    authentication.notifySuccess = notifySuccess;
+    var ErrorReason;
+    (function (ErrorReason) {
+        ErrorReason[ErrorReason["CommandResetError"] = 0] = "CommandResetError";
+        ErrorReason[ErrorReason["CommandZoomInError"] = 1] = "CommandZoomInError";
+        ErrorReason[ErrorReason["CommandZoomOutError"] = 2] = "CommandZoomOutError";
+        ErrorReason[ErrorReason["CommandPanLeftError"] = 3] = "CommandPanLeftError";
+        ErrorReason[ErrorReason["CommandPanRightError"] = 4] = "CommandPanRightError";
+        ErrorReason[ErrorReason["CommandTiltUpError"] = 5] = "CommandTiltUpError";
+        ErrorReason[ErrorReason["CommandTiltDownError"] = 6] = "CommandTiltDownError";
+        ErrorReason[ErrorReason["SendDataError"] = 7] = "SendDataError";
+    })(ErrorReason = remoteCamera.ErrorReason || (remoteCamera.ErrorReason = {}));
     /**
-     * Notifies the frame that initiated this authentication request that the request failed.
-     * This function is usable only on the authentication window.
-     * This call causes the authentication window to be closed.
-     * @param result Specifies a result for the authentication. If specified, the frame that initiated the authentication pop-up receives this value in its callback.
-     * @param callbackUrl Specifies the url to redirect back to if the client is Win32 Outlook.
+     * @private
+     * Hide from docs
+     *
+     * Enum used to indicate the reason the session was terminated.
      */
-    function notifyFailure(reason, callbackUrl) {
-        redirectIfWin32Outlook(callbackUrl, 'reason', reason);
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.authentication);
-        internalAPIs_1.sendMessageRequestToParent('authentication.authenticate.failure', [reason]);
-        // Wait for the message to be sent before closing the window
-        internalAPIs_1.waitForMessageQueue(globalVars_1.GlobalVars.parentWindow, function () { return setTimeout(function () { return globalVars_1.GlobalVars.currentWindow.close(); }, 200); });
-    }
-    authentication.notifyFailure = notifyFailure;
-    function handleSuccess(result) {
-        try {
-            if (authParams && authParams.successCallback) {
-                authParams.successCallback(result);
-            }
-        }
-        finally {
-            authParams = null;
-            closeAuthenticationWindow();
-        }
-    }
-    function handleFailure(reason) {
-        try {
-            if (authParams && authParams.failureCallback) {
-                authParams.failureCallback(reason);
-            }
-        }
-        finally {
-            authParams = null;
-            closeAuthenticationWindow();
-        }
-    }
+    var SessionTerminatedReason;
+    (function (SessionTerminatedReason) {
+        SessionTerminatedReason[SessionTerminatedReason["None"] = 0] = "None";
+        SessionTerminatedReason[SessionTerminatedReason["ControlDenied"] = 1] = "ControlDenied";
+        SessionTerminatedReason[SessionTerminatedReason["ControlNoResponse"] = 2] = "ControlNoResponse";
+        SessionTerminatedReason[SessionTerminatedReason["ControlBusy"] = 3] = "ControlBusy";
+        SessionTerminatedReason[SessionTerminatedReason["AckTimeout"] = 4] = "AckTimeout";
+        SessionTerminatedReason[SessionTerminatedReason["ControlTerminated"] = 5] = "ControlTerminated";
+        SessionTerminatedReason[SessionTerminatedReason["ControllerTerminated"] = 6] = "ControllerTerminated";
+        SessionTerminatedReason[SessionTerminatedReason["DataChannelError"] = 7] = "DataChannelError";
+        SessionTerminatedReason[SessionTerminatedReason["ControllerCancelled"] = 8] = "ControllerCancelled";
+        SessionTerminatedReason[SessionTerminatedReason["ControlDisabled"] = 9] = "ControlDisabled";
+    })(SessionTerminatedReason = remoteCamera.SessionTerminatedReason || (remoteCamera.SessionTerminatedReason = {}));
     /**
-     * Validates that the callbackUrl param is a valid connector url, appends the result/reason and authSuccess/authFailure as URL fragments and redirects the window
-     * @param callbackUrl - the connectors url to redirect to
-     * @param key - "result" in case of success and "reason" in case of failure
-     * @param value - the value of the passed result/reason parameter
-     */
-    function redirectIfWin32Outlook(callbackUrl, key, value) {
-        if (callbackUrl) {
-            var link = document.createElement('a');
-            link.href = decodeURIComponent(callbackUrl);
-            if (link.host &&
-                link.host !== window.location.host &&
-                link.host === 'outlook.office.com' &&
-                link.search.indexOf('client_type=Win32_Outlook') > -1) {
-                if (key && key === 'result') {
-                    if (value) {
-                        link.href = updateUrlParameter(link.href, 'result', value);
-                    }
-                    globalVars_1.GlobalVars.currentWindow.location.assign(updateUrlParameter(link.href, 'authSuccess', ''));
-                }
-                if (key && key === 'reason') {
-                    if (value) {
-                        link.href = updateUrlParameter(link.href, 'reason', value);
-                    }
-                    globalVars_1.GlobalVars.currentWindow.location.assign(updateUrlParameter(link.href, 'authFailure', ''));
-                }
-            }
-        }
-    }
-    /**
-     * Appends either result or reason as a fragment to the 'callbackUrl'
-     * @param uri - the url to modify
-     * @param key - the fragment key
-     * @param value - the fragment value
-     */
-    function updateUrlParameter(uri, key, value) {
-        var i = uri.indexOf('#');
-        var hash = i === -1 ? '#' : uri.substr(i);
-        hash = hash + '&' + key + (value !== '' ? '=' + value : '');
-        uri = i === -1 ? uri : uri.substr(0, i);
-        return uri + hash;
-    }
-})(authentication = exports.authentication || (exports.authentication = {}));
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __nested_webpack_require_113022__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_113022__(1);
-var globalVars_1 = __nested_webpack_require_113022__(0);
-var constants_1 = __nested_webpack_require_113022__(4);
-var settings_1 = __nested_webpack_require_113022__(10);
-var utils_1 = __nested_webpack_require_113022__(3);
-var logs_1 = __nested_webpack_require_113022__(9);
-var constants_2 = __nested_webpack_require_113022__(2);
-// ::::::::::::::::::::::: MicrosoftTeams SDK public API ::::::::::::::::::::
-/**
- * Initializes the library. This must be called before any other SDK calls
- * but after the frame is loaded successfully.
- * @param callback Optionally specify a callback to invoke when Teams SDK has successfully initialized
- * @param validMessageOrigins Optionally specify a list of cross frame message origins. There must have
- * https: protocol otherwise they will be ignored. Example: https://www.example.com
- */
-function initialize(callback, validMessageOrigins) {
-    // Independent components might not know whether the SDK is initialized so might call it to be safe.
-    // Just no-op if that happens to make it easier to use.
-    if (!globalVars_1.GlobalVars.initializeCalled) {
-        globalVars_1.GlobalVars.initializeCalled = true;
-        // Listen for messages post to our window
-        var messageListener_1 = function (evt) { return internalAPIs_1.processMessage(evt); };
-        // If we are in an iframe, our parent window is the one hosting us (i.e., window.parent); otherwise,
-        // it's the window that opened us (i.e., window.opener)
-        globalVars_1.GlobalVars.currentWindow = globalVars_1.GlobalVars.currentWindow || window;
-        globalVars_1.GlobalVars.parentWindow =
-            globalVars_1.GlobalVars.currentWindow.parent !== globalVars_1.GlobalVars.currentWindow.self
-                ? globalVars_1.GlobalVars.currentWindow.parent
-                : globalVars_1.GlobalVars.currentWindow.opener;
-        // Listen to messages from the parent or child frame.
-        // Frameless windows will only receive this event from child frames and if validMessageOrigins is passed.
-        if (globalVars_1.GlobalVars.parentWindow || validMessageOrigins) {
-            globalVars_1.GlobalVars.currentWindow.addEventListener('message', messageListener_1, false);
-        }
-        if (!globalVars_1.GlobalVars.parentWindow) {
-            globalVars_1.GlobalVars.isFramelessWindow = true;
-            window.onNativeMessage = internalAPIs_1.handleParentMessage;
-        }
-        try {
-            // Send the initialized message to any origin, because at this point we most likely don't know the origin
-            // of the parent window, and this message contains no data that could pose a security risk.
-            globalVars_1.GlobalVars.parentOrigin = '*';
-            var messageId = internalAPIs_1.sendMessageRequestToParent('initialize', [constants_1.version]);
-            globalVars_1.GlobalVars.callbacks[messageId] = function (context, clientType, clientSupportedSDKVersion) {
-                if (clientSupportedSDKVersion === void 0) { clientSupportedSDKVersion = constants_1.defaultSDKVersionForCompatCheck; }
-                globalVars_1.GlobalVars.frameContext = context;
-                globalVars_1.GlobalVars.hostClientType = clientType;
-                globalVars_1.GlobalVars.clientSupportedSDKVersion = clientSupportedSDKVersion;
-                // Notify all waiting callers that the initialization has completed
-                globalVars_1.GlobalVars.initializeCallbacks.forEach(function (initCallback) { return initCallback(); });
-                globalVars_1.GlobalVars.initializeCallbacks = [];
-                globalVars_1.GlobalVars.initializeCompleted = true;
-            };
-        }
-        finally {
-            globalVars_1.GlobalVars.parentOrigin = null;
-        }
-        // Undocumented function used to clear state between unit tests
-        this._uninitialize = function () {
-            if (globalVars_1.GlobalVars.frameContext) {
-                registerOnThemeChangeHandler(null);
-                registerFullScreenHandler(null);
-                registerBackButtonHandler(null);
-                registerBeforeUnloadHandler(null);
-                registerOnLoadHandler(null);
-                logs_1.logs.registerGetLogHandler(null);
-            }
-            if (globalVars_1.GlobalVars.frameContext === constants_2.FrameContexts.settings) {
-                settings_1.settings.registerOnSaveHandler(null);
-            }
-            if (globalVars_1.GlobalVars.frameContext === constants_2.FrameContexts.remove) {
-                settings_1.settings.registerOnRemoveHandler(null);
-            }
-            globalVars_1.GlobalVars.currentWindow.removeEventListener('message', messageListener_1, false);
-            globalVars_1.GlobalVars.initializeCalled = false;
-            globalVars_1.GlobalVars.initializeCompleted = false;
-            globalVars_1.GlobalVars.initializeCallbacks = [];
-            globalVars_1.GlobalVars.additionalValidOrigins = [];
-            globalVars_1.GlobalVars.parentWindow = null;
-            globalVars_1.GlobalVars.parentOrigin = null;
-            globalVars_1.GlobalVars.parentMessageQueue = [];
-            globalVars_1.GlobalVars.childWindow = null;
-            globalVars_1.GlobalVars.childOrigin = null;
-            globalVars_1.GlobalVars.childMessageQueue = [];
-            globalVars_1.GlobalVars.nextMessageId = 0;
-            globalVars_1.GlobalVars.callbacks = {};
-            globalVars_1.GlobalVars.frameContext = null;
-            globalVars_1.GlobalVars.hostClientType = null;
-            globalVars_1.GlobalVars.isFramelessWindow = false;
-        };
-    }
-    // Handle additional valid message origins if specified
-    if (Array.isArray(validMessageOrigins)) {
-        internalAPIs_1.processAdditionalValidOrigins(validMessageOrigins);
-    }
-    // Handle the callback if specified:
-    // 1. If initialization has already completed then just call it right away
-    // 2. If initialization hasn't completed then add it to the array of callbacks
-    //    that should be invoked once initialization does complete
-    if (callback) {
-        globalVars_1.GlobalVars.initializeCompleted ? callback() : globalVars_1.GlobalVars.initializeCallbacks.push(callback);
-    }
-}
-exports.initialize = initialize;
-/**
- * @private
- * Hide from docs.
- * ------
- * Undocumented function used to set a mock window for unit tests
- */
-function _initialize(hostWindow) {
-    globalVars_1.GlobalVars.currentWindow = hostWindow;
-}
-exports._initialize = _initialize;
-/**
- * @private
- * Hide from docs.
- * ------
- * Undocumented function used to clear state between unit tests
- */
-function _uninitialize() { }
-exports._uninitialize = _uninitialize;
-/**
- * Enable print capability to support printing page using Ctrl+P and cmd+P
- */
-function enablePrintCapability() {
-    if (!globalVars_1.GlobalVars.printCapabilityEnabled) {
-        globalVars_1.GlobalVars.printCapabilityEnabled = true;
-        internalAPIs_1.ensureInitialized();
-        // adding ctrl+P and cmd+P handler
-        document.addEventListener('keydown', function (event) {
-            if ((event.ctrlKey || event.metaKey) && event.keyCode === 80) {
-                print();
-                event.cancelBubble = true;
-                event.preventDefault();
-                event.stopImmediatePropagation();
-            }
-        });
-    }
-}
-exports.enablePrintCapability = enablePrintCapability;
-/**
- * default print handler
- */
-function print() {
-    window.print();
-}
-exports.print = print;
-/**
- * Retrieves the current context the frame is running in.
- * @param callback The callback to invoke when the {@link Context} object is retrieved.
- */
-function getContext(callback) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('getContext');
-    globalVars_1.GlobalVars.callbacks[messageId] = function (context) {
-        if (!context.frameContext) {
-            // Fallback logic for frameContext properties
-            context.frameContext = globalVars_1.GlobalVars.frameContext;
-        }
-        callback(context);
-    };
-}
-exports.getContext = getContext;
-/**
- * Registers a handler for theme changes.
- * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
- * @param handler The handler to invoke when the user changes their theme.
- */
-function registerOnThemeChangeHandler(handler) {
-    internalAPIs_1.ensureInitialized();
-    globalVars_1.GlobalVars.themeChangeHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['themeChange']);
-}
-exports.registerOnThemeChangeHandler = registerOnThemeChangeHandler;
-/**
- * Registers a handler for changes from or to full-screen view for a tab.
- * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
- * @param handler The handler to invoke when the user toggles full-screen view for a tab.
- */
-function registerFullScreenHandler(handler) {
-    internalAPIs_1.ensureInitialized();
-    globalVars_1.GlobalVars.fullScreenChangeHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['fullScreen']);
-}
-exports.registerFullScreenHandler = registerFullScreenHandler;
-/**
- * Registers a handler for clicking the app button.
- * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
- * @param handler The handler to invoke when the personal app button is clicked in the app bar.
- */
-function registerAppButtonClickHandler(handler) {
-    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
-    globalVars_1.GlobalVars.appButtonClickHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['appButtonClick']);
-}
-exports.registerAppButtonClickHandler = registerAppButtonClickHandler;
-/**
- * Registers a handler for entering hover of the app button.
- * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
- * @param handler The handler to invoke when entering hover of the personal app button in the app bar.
- */
-function registerAppButtonHoverEnterHandler(handler) {
-    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
-    globalVars_1.GlobalVars.appButtonHoverEnterHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['appButtonHoverEnter']);
-}
-exports.registerAppButtonHoverEnterHandler = registerAppButtonHoverEnterHandler;
-/**
- * Registers a handler for exiting hover of the app button.
- * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
- * @param handler The handler to invoke when exiting hover of the personal app button in the app bar.
- */
-function registerAppButtonHoverLeaveHandler(handler) {
-    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
-    globalVars_1.GlobalVars.appButtonHoverLeaveHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['appButtonHoverLeave']);
-}
-exports.registerAppButtonHoverLeaveHandler = registerAppButtonHoverLeaveHandler;
-/**
- * Registers a handler for user presses of the Team client's back button. Experiences that maintain an internal
- * navigation stack should use this handler to navigate the user back within their frame. If an app finds
- * that after running its back button handler it cannot handle the event it should call the navigateBack
- * method to ask the Teams client to handle it instead.
- * @param handler The handler to invoke when the user presses their Team client's back button.
- */
-function registerBackButtonHandler(handler) {
-    internalAPIs_1.ensureInitialized();
-    globalVars_1.GlobalVars.backButtonPressHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['backButton']);
-}
-exports.registerBackButtonHandler = registerBackButtonHandler;
-/**
- * @private
- * Registers a handler to be called when the page has been requested to load.
- * @param handler The handler to invoke when the page is loaded.
- */
-function registerOnLoadHandler(handler) {
-    internalAPIs_1.ensureInitialized();
-    globalVars_1.GlobalVars.loadHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['load']);
-}
-exports.registerOnLoadHandler = registerOnLoadHandler;
-/**
- * @private
- * Registers a handler to be called before the page is unloaded.
- * @param handler The handler to invoke before the page is unloaded. If this handler returns true the page should
- * invoke the readyToUnload function provided to it once it's ready to be unloaded.
- */
-function registerBeforeUnloadHandler(handler) {
-    internalAPIs_1.ensureInitialized();
-    globalVars_1.GlobalVars.beforeUnloadHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['beforeUnload']);
-}
-exports.registerBeforeUnloadHandler = registerBeforeUnloadHandler;
-/**
- * Registers a handler for when the user reconfigurated tab
- * @param handler The handler to invoke when the user click on Settings.
- */
-function registerChangeSettingsHandler(handler) {
-    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
-    globalVars_1.GlobalVars.changeSettingsHandler = handler;
-    handler && internalAPIs_1.sendMessageRequestToParent('registerHandler', ['changeSettings']);
-}
-exports.registerChangeSettingsHandler = registerChangeSettingsHandler;
-/**
- * Allows an app to retrieve for this user tabs that are owned by this app.
- * If no TabInstanceParameters are passed, the app defaults to favorite teams and favorite channels.
- * @param callback The callback to invoke when the {@link TabInstanceParameters} object is retrieved.
- * @param tabInstanceParameters OPTIONAL Flags that specify whether to scope call to favorite teams or channels.
- */
-function getTabInstances(callback, tabInstanceParameters) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('getTabInstances', [tabInstanceParameters]);
-    globalVars_1.GlobalVars.callbacks[messageId] = callback;
-}
-exports.getTabInstances = getTabInstances;
-/**
- * Allows an app to retrieve the most recently used tabs for this user.
- * @param callback The callback to invoke when the {@link TabInformation} object is retrieved.
- * @param tabInstanceParameters OPTIONAL Ignored, kept for future use
- */
-function getMruTabInstances(callback, tabInstanceParameters) {
-    internalAPIs_1.ensureInitialized();
-    var messageId = internalAPIs_1.sendMessageRequestToParent('getMruTabInstances', [tabInstanceParameters]);
-    globalVars_1.GlobalVars.callbacks[messageId] = callback;
-}
-exports.getMruTabInstances = getMruTabInstances;
-/**
- * Shares a deep link that a user can use to navigate back to a specific state in this page.
- * @param deepLinkParameters ID and label for the link and fallback URL.
- */
-function shareDeepLink(deepLinkParameters) {
-    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content, constants_2.FrameContexts.sidePanel);
-    internalAPIs_1.sendMessageRequestToParent('shareDeepLink', [
-        deepLinkParameters.subEntityId,
-        deepLinkParameters.subEntityLabel,
-        deepLinkParameters.subEntityWebUrl,
-    ]);
-}
-exports.shareDeepLink = shareDeepLink;
-/**
- * execute deep link API.
- * @param deepLink deep link.
- */
-function executeDeepLink(deepLink, onComplete) {
-    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content, constants_2.FrameContexts.sidePanel, constants_2.FrameContexts.settings, constants_2.FrameContexts.task, constants_2.FrameContexts.stage);
-    var messageId = internalAPIs_1.sendMessageRequestToParent('executeDeepLink', [deepLink]);
-    globalVars_1.GlobalVars.callbacks[messageId] = onComplete ? onComplete : utils_1.getGenericOnCompleteHandler();
-}
-exports.executeDeepLink = executeDeepLink;
-function setFrameContext(frameContext) {
-    internalAPIs_1.ensureInitialized(constants_2.FrameContexts.content);
-    internalAPIs_1.sendMessageRequestToParent('setFrameContext', [frameContext]);
-}
-exports.setFrameContext = setFrameContext;
-function initializeWithFrameContext(frameContext, callback, validMessageOrigins) {
-    initialize(callback, validMessageOrigins);
-    setFrameContext(frameContext);
-}
-exports.initializeWithFrameContext = initializeWithFrameContext;
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __nested_webpack_require_129853__) {
-
-"use strict";
-
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-            t[p[i]] = s[p[i]];
-    return t;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_129853__(1);
-var globalVars_1 = __nested_webpack_require_129853__(0);
-var constants_1 = __nested_webpack_require_129853__(2);
-var appWindow_1 = __nested_webpack_require_129853__(11);
-/**
- * Namespace to interact with the task module-specific part of the SDK.
- * This object is usable only on the content frame.
- */
-var tasks;
-(function (tasks) {
-    /**
-     * Allows an app to open the task module.
-     * @param taskInfo An object containing the parameters of the task module
-     * @param submitHandler Handler to call when the task module is completed
-     */
-    function startTask(taskInfo, submitHandler) {
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel);
-        var messageId = internalAPIs_1.sendMessageRequestToParent('tasks.startTask', [taskInfo]);
-        globalVars_1.GlobalVars.callbacks[messageId] = submitHandler;
-        return new appWindow_1.ChildAppWindow();
-    }
-    tasks.startTask = startTask;
-    /**
-     * Update height/width task info properties.
-     * @param taskInfo An object containing width and height properties
-     */
-    function updateTask(taskInfo) {
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.task);
-        var width = taskInfo.width, height = taskInfo.height, extra = __rest(taskInfo, ["width", "height"]);
-        if (!Object.keys(extra).length) {
-            internalAPIs_1.sendMessageRequestToParent('tasks.updateTask', [taskInfo]);
-        }
-        else {
-            throw new Error('updateTask requires a taskInfo argument containing only width and height');
-        }
-    }
-    tasks.updateTask = updateTask;
-    /**
-     * Submit the task module.
-     * @param result Contains the result to be sent to the bot or the app. Typically a JSON object or a serialized version of it
-     * @param appIds Helps to validate that the call originates from the same appId as the one that invoked the task module
-     */
-    function submitTask(result, appIds) {
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.sidePanel, constants_1.FrameContexts.task);
-        // Send tasks.completeTask instead of tasks.submitTask message for backward compatibility with Mobile clients
-        internalAPIs_1.sendMessageRequestToParent('tasks.completeTask', [result, Array.isArray(appIds) ? appIds : [appIds]]);
-    }
-    tasks.submitTask = submitTask;
-})(tasks = exports.tasks || (exports.tasks = {}));
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __nested_webpack_require_133013__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var media_1 = __nested_webpack_require_133013__(12);
-/**
- * Helper function to create a blob from media chunks based on their sequence
- */
-function createFile(assembleAttachment, mimeType) {
-    if (assembleAttachment == null || mimeType == null || assembleAttachment.length <= 0) {
-        return null;
-    }
-    var file;
-    var sequence = 1;
-    assembleAttachment.sort(function (a, b) { return (a.sequence > b.sequence ? 1 : -1); });
-    assembleAttachment.forEach(function (item) {
-        if (item.sequence == sequence) {
-            if (file) {
-                file = new Blob([file, item.file], { type: mimeType });
-            }
-            else {
-                file = new Blob([item.file], { type: mimeType });
-            }
-            sequence++;
-        }
-    });
-    return file;
-}
-exports.createFile = createFile;
-/**
- * Helper function to convert Media chunks into another object type which can be later assemebled
- * Converts base 64 encoded string to byte array and then into an array of blobs
- */
-function decodeAttachment(attachment, mimeType) {
-    if (attachment == null || mimeType == null) {
-        return null;
-    }
-    var decoded = atob(attachment.chunk);
-    var byteNumbers = new Array(decoded.length);
-    for (var i = 0; i < decoded.length; i++) {
-        byteNumbers[i] = decoded.charCodeAt(i);
-    }
-    var byteArray = new Uint8Array(byteNumbers);
-    var blob = new Blob([byteArray], { type: mimeType });
-    var assemble = {
-        sequence: attachment.chunkSequence,
-        file: blob,
-    };
-    return assemble;
-}
-exports.decodeAttachment = decodeAttachment;
-/**
- * Returns true if the mediaInput params are valid and false otherwise
- */
-function validateSelectMediaInputs(mediaInputs) {
-    if (mediaInputs == null || mediaInputs.maxMediaCount > 10) {
-        return false;
-    }
-    return true;
-}
-exports.validateSelectMediaInputs = validateSelectMediaInputs;
-/**
- * Returns true if the get Media params are valid and false otherwise
- */
-function validateGetMediaInputs(mimeType, format, content) {
-    if (mimeType == null || format == null || format != media_1.media.FileFormat.ID || content == null) {
-        return false;
-    }
-    return true;
-}
-exports.validateGetMediaInputs = validateGetMediaInputs;
-/**
- * Returns true if the view images param is valid and false otherwise
- */
-function validateViewImagesInput(uriList) {
-    if (uriList == null || uriList.length <= 0 || uriList.length > 10) {
-        return false;
-    }
-    return true;
-}
-exports.validateViewImagesInput = validateViewImagesInput;
-/**
- * Returns true if the scan barcode param is valid and false otherwise
- */
-function validateScanBarCodeInput(barCodeConfig) {
-    if (barCodeConfig) {
-        if (barCodeConfig.timeOutIntervalInSec === null ||
-            barCodeConfig.timeOutIntervalInSec <= 0 ||
-            barCodeConfig.timeOutIntervalInSec > 60) {
-            return false;
-        }
-    }
-    return true;
-}
-exports.validateScanBarCodeInput = validateScanBarCodeInput;
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __nested_webpack_require_136253__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var globalVars_1 = __nested_webpack_require_136253__(0);
-var interfaces_1 = __nested_webpack_require_136253__(5);
-var internalAPIs_1 = __nested_webpack_require_136253__(1);
-var constants_1 = __nested_webpack_require_136253__(2);
-var location;
-(function (location_1) {
-    /**
-     * This is the SDK version when location APIs (getLocation and showLocation) are supported.
-     */
-    location_1.locationAPIsRequiredVersion = '1.9.0';
-    /**
-     * Fetches current user coordinates or allows user to choose location on map
-     * @param callback Callback to invoke when current user location is fetched
-     */
-    function getLocation(props, callback) {
-        if (!callback) {
-            throw new Error('[location.getLocation] Callback cannot be null');
-        }
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.task);
-        if (!internalAPIs_1.isAPISupportedByPlatform(location_1.locationAPIsRequiredVersion)) {
-            var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
-            callback(oldPlatformError, undefined);
-            return;
-        }
-        if (!props) {
-            var invalidInput = { errorCode: interfaces_1.ErrorCode.INVALID_ARGUMENTS };
-            callback(invalidInput, undefined);
-            return;
-        }
-        var messageId = internalAPIs_1.sendMessageRequestToParent('location.getLocation', [props]);
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
-    }
-    location_1.getLocation = getLocation;
-    /**
-     * Shows the location on map corresponding to the given coordinates
-     * @param location {@link Location} which needs to be shown on map
-     * @param callback Callback to invoke when the location is opened on map
-     */
-    function showLocation(location, callback) {
-        if (!callback) {
-            throw new Error('[location.showLocation] Callback cannot be null');
-        }
-        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.content, constants_1.FrameContexts.task);
-        if (!internalAPIs_1.isAPISupportedByPlatform(location_1.locationAPIsRequiredVersion)) {
-            var oldPlatformError = { errorCode: interfaces_1.ErrorCode.OLD_PLATFORM };
-            callback(oldPlatformError, undefined);
-            return;
-        }
-        if (!location) {
-            var invalidInput = { errorCode: interfaces_1.ErrorCode.INVALID_ARGUMENTS };
-            callback(invalidInput, undefined);
-            return;
-        }
-        var messageId = internalAPIs_1.sendMessageRequestToParent('location.showLocation', [location]);
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
-    }
-    location_1.showLocation = showLocation;
-})(location = exports.location || (exports.location = {}));
-
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __nested_webpack_require_139196__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_139196__(1);
-var globalVars_1 = __nested_webpack_require_139196__(0);
-var meeting;
-(function (meeting) {
-    var MeetingType;
-    (function (MeetingType) {
-        MeetingType["Unknown"] = "Unknown";
-        MeetingType["Adhoc"] = "Adhoc";
-        MeetingType["Scheduled"] = "Scheduled";
-        MeetingType["Recurring"] = "Recurring";
-        MeetingType["Broadcast"] = "Broadcast";
-        MeetingType["MeetNow"] = "MeetNow";
-    })(MeetingType = meeting.MeetingType || (meeting.MeetingType = {}));
-    /**
-     * Allows an app to get the incoming audio speaker setting for the meeting user
-     * @param callback Callback contains 2 parameters, error and result.
+     * @private
+     * Hide from docs
+     *
+     * Fetch a list of the participants with controllable-cameras in a meeting.
+     * @param callback Callback contains 2 parameters, error and participants.
      * error can either contain an error of type SdkError, incase of an error, or null when fetch is successful
-     * result can either contain the true/false value, incase of a successful fetch or null when the fetching fails
-     * result: True means incoming audio is muted and false means incoming audio is unmuted
+     * participants can either contain an array of Participant objects, incase of a successful fetch or null when it fails
+     * participants: object that contains an array of participants with controllable-cameras
      */
-    function getIncomingClientAudioState(callback) {
+    function getCapableParticipants(callback) {
         if (!callback) {
-            throw new Error('[get incoming client audio state] Callback cannot be null');
+            throw new Error('[remoteCamera.getCapableParticipants] Callback cannot be null');
         }
-        internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('getIncomingClientAudioState');
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('remoteCamera.getCapableParticipants', callback);
     }
-    meeting.getIncomingClientAudioState = getIncomingClientAudioState;
-    /**
-     * Allows an app to toggle the incoming audio speaker setting for the meeting user from mute to unmute or vice-versa
-     * @param callback Callback contains 2 parameters, error and result.
-     * error can either contain an error of type SdkError, incase of an error, or null when toggle is successful
-     * result can either contain the true/false value, incase of a successful toggle or null when the toggling fails
-     * result: True means incoming audio is muted and false means incoming audio is unmuted
-     */
-    function toggleIncomingClientAudio(callback) {
-        if (!callback) {
-            throw new Error('[toggle incoming client audio] Callback cannot be null');
-        }
-        internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('toggleIncomingClientAudio');
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
-    }
-    meeting.toggleIncomingClientAudio = toggleIncomingClientAudio;
-    /**
-     * Allows an app to get the meeting details for the meeting
-     * @param callback Callback contains 2 parameters, error and meetingDetails.
-     * error can either contain an error of type SdkError, incase of an error, or null when get is successful
-     * result can either contain a IMeetingDetails value, incase of a successful get or null when the get fails
-     */
-    function getMeetingDetails(callback) {
-        if (!callback) {
-            throw new Error('[get meeting details] Callback cannot be null');
-        }
-        internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('meeting.getMeetingDetails');
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
-    }
-    meeting.getMeetingDetails = getMeetingDetails;
+    remoteCamera.getCapableParticipants = getCapableParticipants;
     /**
      * @private
-     * Allows an app to get the authentication token for the anonymous or guest user in the meeting
-     * @param callback Callback contains 2 parameters, error and authenticationTokenOfAnonymousUser.
-     * error can either contain an error of type SdkError, incase of an error, or null when get is successful
-     * authenticationTokenOfAnonymousUser can either contain a string value, incase of a successful get or null when the get fails
+     * Hide from docs
+     *
+     * Request control of a participant's camera.
+     * @param participant Participant specifies the participant to send the request for camera control.
+     * @param callback Callback contains 2 parameters, error and requestResponse.
+     * error can either contain an error of type SdkError, incase of an error, or null when fetch is successful
+     * requestResponse can either contain the true/false value, incase of a successful request or null when it fails
+     * requestResponse: True means request was accepted and false means request was denied
      */
-    function getAuthenticationTokenForAnonymousUser(callback) {
-        if (!callback) {
-            throw new Error('[get Authentication Token For AnonymousUser] Callback cannot be null');
+    function requestControl(participant, callback) {
+        if (!participant) {
+            throw new Error('[remoteCamera.requestControl] Participant cannot be null');
         }
-        internalAPIs_1.ensureInitialized();
-        var messageId = internalAPIs_1.sendMessageRequestToParent('meeting.getAuthenticationTokenForAnonymousUser');
-        globalVars_1.GlobalVars.callbacks[messageId] = callback;
+        if (!callback) {
+            throw new Error('[remoteCamera.requestControl] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('remoteCamera.requestControl', [participant], callback);
     }
-    meeting.getAuthenticationTokenForAnonymousUser = getAuthenticationTokenForAnonymousUser;
-})(meeting = exports.meeting || (exports.meeting = {}));
+    remoteCamera.requestControl = requestControl;
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Send control command to the participant's camera.
+     * @param ControlCommand ControlCommand specifies the command for controling the camera.
+     * @param callback Callback to invoke when the command response returns.
+     */
+    function sendControlCommand(ControlCommand, callback) {
+        if (!ControlCommand) {
+            throw new Error('[remoteCamera.sendControlCommand] ControlCommand cannot be null');
+        }
+        if (!callback) {
+            throw new Error('[remoteCamera.sendControlCommand] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('remoteCamera.sendControlCommand', [ControlCommand], callback);
+    }
+    remoteCamera.sendControlCommand = sendControlCommand;
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Terminate the remote  session
+     * @param callback Callback to invoke when the command response returns.
+     */
+    function terminateSession(callback) {
+        if (!callback) {
+            throw new Error('[remoteCamera.terminateSession] Callback cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        communication_1.sendMessageToParent('remoteCamera.terminateSession', callback);
+    }
+    remoteCamera.terminateSession = terminateSession;
+    /**
+     * Registers a handler for change in participants with controllable-cameras.
+     * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+     * @param handler The handler to invoke when the list of participants with controllable-cameras changes.
+     */
+    function registerOnCapableParticipantsChangeHandler(handler) {
+        if (!handler) {
+            throw new Error('[remoteCamera.registerOnCapableParticipantsChangeHandler] Handler cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        handlers_1.registerHandler('remoteCamera.capableParticipantsChange', handler);
+    }
+    remoteCamera.registerOnCapableParticipantsChangeHandler = registerOnCapableParticipantsChangeHandler;
+    /**
+     * Registers a handler for error.
+     * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+     * @param handler The handler to invoke when there is an error from the camera handler.
+     */
+    function registerOnErrorHandler(handler) {
+        if (!handler) {
+            throw new Error('[remoteCamera.registerOnErrorHandler] Handler cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        handlers_1.registerHandler('remoteCamera.handlerError', handler);
+    }
+    remoteCamera.registerOnErrorHandler = registerOnErrorHandler;
+    /**
+     * Registers a handler for device state change.
+     * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+     * @param handler The handler to invoke when the controlled device changes state.
+     */
+    function registerOnDeviceStateChangeHandler(handler) {
+        if (!handler) {
+            throw new Error('[remoteCamera.registerOnDeviceStateChangeHandler] Handler cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        handlers_1.registerHandler('remoteCamera.deviceStateChange', handler);
+    }
+    remoteCamera.registerOnDeviceStateChangeHandler = registerOnDeviceStateChangeHandler;
+    /**
+     * Registers a handler for session status change.
+     * Only one handler can be registered at a time. A subsequent registration replaces an existing registration.
+     * @param handler The handler to invoke when the current session status changes.
+     */
+    function registerOnSessionStatusChangeHandler(handler) {
+        if (!handler) {
+            throw new Error('[remoteCamera.registerOnSessionStatusChangeHandler] Handler cannot be null');
+        }
+        internalAPIs_1.ensureInitialized(constants_1.FrameContexts.sidePanel);
+        handlers_1.registerHandler('remoteCamera.sessionStatusChange', handler);
+    }
+    remoteCamera.registerOnSessionStatusChangeHandler = registerOnSessionStatusChangeHandler;
+})(remoteCamera = exports.remoteCamera || (exports.remoteCamera = {}));
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __nested_webpack_require_162186__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var communication_1 = __nested_webpack_require_162186__(0);
+var internalAPIs_1 = __nested_webpack_require_162186__(1);
+var public_1 = __nested_webpack_require_162186__(8);
+/**
+ * Namespace to interact with the files specific part of the SDK.
+ *
+ * @private
+ * Hide from docs
+ */
+var files;
+(function (files) {
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Cloud storage providers registered with Microsoft Teams
+     */
+    var CloudStorageProvider;
+    (function (CloudStorageProvider) {
+        CloudStorageProvider["Dropbox"] = "DROPBOX";
+        CloudStorageProvider["Box"] = "BOX";
+        CloudStorageProvider["Sharefile"] = "SHAREFILE";
+        CloudStorageProvider["GoogleDrive"] = "GOOGLEDRIVE";
+        CloudStorageProvider["Egnyte"] = "EGNYTE";
+    })(CloudStorageProvider = files.CloudStorageProvider || (files.CloudStorageProvider = {}));
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Cloud storage provider integration type
+     */
+    var CloudStorageProviderType;
+    (function (CloudStorageProviderType) {
+        CloudStorageProviderType[CloudStorageProviderType["Sharepoint"] = 0] = "Sharepoint";
+        CloudStorageProviderType[CloudStorageProviderType["WopiIntegration"] = 1] = "WopiIntegration";
+        CloudStorageProviderType[CloudStorageProviderType["Google"] = 2] = "Google";
+    })(CloudStorageProviderType = files.CloudStorageProviderType || (files.CloudStorageProviderType = {}));
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Gets a list of cloud storage folders added to the channel
+     * @param channelId ID of the channel whose cloud storage folders should be retrieved
+     * @param callback Callback that will be triggered post folders load
+     */
+    function getCloudStorageFolders(channelId, callback) {
+        internalAPIs_1.ensureInitialized(public_1.FrameContexts.content);
+        if (!channelId || channelId.length == 0) {
+            throw new Error('[files.getCloudStorageFolders] channelId name cannot be null or empty');
+        }
+        if (!callback) {
+            throw new Error('[files.getCloudStorageFolders] Callback cannot be null');
+        }
+        communication_1.sendMessageToParent('files.getCloudStorageFolders', [channelId], callback);
+    }
+    files.getCloudStorageFolders = getCloudStorageFolders;
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Initiates the add cloud storage folder flow
+     * @param channelId ID of the channel to add cloud storage folder
+     * @param callback Callback that will be triggered post add folder flow is compelete
+     */
+    function addCloudStorageFolder(channelId, callback) {
+        internalAPIs_1.ensureInitialized(public_1.FrameContexts.content);
+        if (!channelId || channelId.length == 0) {
+            throw new Error('[files.addCloudStorageFolder] channelId name cannot be null or empty');
+        }
+        if (!callback) {
+            throw new Error('[files.addCloudStorageFolder] Callback cannot be null');
+        }
+        communication_1.sendMessageToParent('files.addCloudStorageFolder', [channelId], callback);
+    }
+    files.addCloudStorageFolder = addCloudStorageFolder;
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Deletes a cloud storage folder from channel
+     * @param channelId ID of the channel where folder is to be deleted
+     * @param folderToDelete cloud storage folder to be deleted
+     * @param callback Callback that will be triggered post delete
+     */
+    function deleteCloudStorageFolder(channelId, folderToDelete, callback) {
+        internalAPIs_1.ensureInitialized(public_1.FrameContexts.content);
+        if (!channelId) {
+            throw new Error('[files.deleteCloudStorageFolder] channelId name cannot be null or empty');
+        }
+        if (!folderToDelete) {
+            throw new Error('[files.deleteCloudStorageFolder] folderToDelete cannot be null or empty');
+        }
+        if (!callback) {
+            throw new Error('[files.deleteCloudStorageFolder] Callback cannot be null');
+        }
+        communication_1.sendMessageToParent('files.deleteCloudStorageFolder', [channelId, folderToDelete], callback);
+    }
+    files.deleteCloudStorageFolder = deleteCloudStorageFolder;
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Fetches the contents of a Cloud storage folder (CloudStorageFolder) / sub directory
+     * @param folder Cloud storage folder (CloudStorageFolder) / sub directory (CloudStorageFolderItem)
+     * @param providerCode Code of the cloud storage folder provider
+     * @param callback Callback that will be triggered post contents are loaded
+     */
+    function getCloudStorageFolderContents(folder, providerCode, callback) {
+        internalAPIs_1.ensureInitialized(public_1.FrameContexts.content);
+        if (!folder || !providerCode) {
+            throw new Error('[files.getCloudStorageFolderContents] folder/providerCode name cannot be null or empty');
+        }
+        if (!callback) {
+            throw new Error('[files.getCloudStorageFolderContents] Callback cannot be null');
+        }
+        if ('isSubdirectory' in folder && !folder.isSubdirectory) {
+            throw new Error('[files.getCloudStorageFolderContents] provided folder is not a subDirectory');
+        }
+        communication_1.sendMessageToParent('files.getCloudStorageFolderContents', [folder, providerCode], callback);
+    }
+    files.getCloudStorageFolderContents = getCloudStorageFolderContents;
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Open a cloud storage file in teams
+     * @param file cloud storage file that should be opened
+     * @param providerCode Code of the cloud storage folder provider
+     * @param fileOpenPreference Whether file should be opened in web/inline
+     */
+    function openCloudStorageFile(file, providerCode, fileOpenPreference) {
+        internalAPIs_1.ensureInitialized(public_1.FrameContexts.content);
+        if (!file || !providerCode) {
+            throw new Error('[files.openCloudStorageFile] file/providerCode cannot be null or empty');
+        }
+        if (file.isSubdirectory) {
+            throw new Error('[files.openCloudStorageFile] provided file is a subDirectory');
+        }
+        communication_1.sendMessageToParent('files.openCloudStorageFile', [file, providerCode, fileOpenPreference]);
+    }
+    files.openCloudStorageFile = openCloudStorageFile;
+})(files = exports.files || (exports.files = {}));
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __nested_webpack_require_168880__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var communication_1 = __nested_webpack_require_168880__(0);
+var internalAPIs_1 = __nested_webpack_require_168880__(1);
+var public_1 = __nested_webpack_require_168880__(8);
+/**
+ * Namespace to interact with the application entities specific part of the SDK.
+ *
+ * @private
+ * Hide from docs
+ */
+var appEntity;
+(function (appEntity_1) {
+    /**
+     * @private
+     * Hide from docs
+     *
+     * Open the Tab Gallery and retrieve the app entity
+     * @param threadId ID of the thread where the app entity will be created
+     * @param categories A list of app categories that will be displayed in the open tab gallery
+     * @param callback Callback that will be triggered once the app entity information is available.
+     *                 The callback takes two arguments: the app entity configuration, if available and
+     *                 an optional SdkError in case something happened (i.e. the window was closed)
+     */
+    function selectAppEntity(threadId, categories, callback) {
+        internalAPIs_1.ensureInitialized(public_1.FrameContexts.content);
+        if (!threadId || threadId.length == 0) {
+            throw new Error('[appEntity.selectAppEntity] threadId name cannot be null or empty');
+        }
+        if (!callback) {
+            throw new Error('[appEntity.selectAppEntity] Callback cannot be null');
+        }
+        communication_1.sendMessageToParent('appEntity.selectAppEntity', [threadId, categories], callback);
+    }
+    appEntity_1.selectAppEntity = selectAppEntity;
+})(appEntity = exports.appEntity || (exports.appEntity = {}));
 
 
 /***/ })
@@ -3437,7 +4075,10 @@ var meeting;
 (() => {
 "use strict";
 
+// EXTERNAL MODULE: ./node_modules/@microsoft/teams-js/dist/MicrosoftTeams.js
+var MicrosoftTeams = __webpack_require__(115);
 ;// CONCATENATED MODULE: ./src/utils.ts
+
 let inputs = {};
 let container = document.createElement("div");
 container.classList.add("moduleContainer");
@@ -3614,9 +4255,80 @@ function downloadHandler() {
         }
     }
 }
+function initializeDownloadLinks() {
+    const csv = "Id,Value\n1,Hello world!\n";
+    const data = new Blob([csv]);
+    const downloadLink = document.getElementById("downloadLink");
+    downloadLink.href = URL.createObjectURL(data);
+    const downloadButton = document.getElementById("downloadButton");
+    downloadButton.onclick = () => {
+        const csv = "Id, Value\n1,Hello world!\n";
+        const data = new Blob([csv]);
+        let downloadLink = document.getElementById("hiddenDownloadLink");
+        if (downloadLink == null) {
+            downloadLink = document.createElement('a');
+            downloadLink.setAttribute('download', 'DownloadViaButton.csv');
+            downloadLink.setAttribute('id', 'hiddenDownloadLink');
+            document.body.appendChild(downloadLink);
+        }
+        downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+        downloadLink.href = URL.createObjectURL(data);
+        downloadLink.style.display = 'none';
+        downloadLink.click();
+    };
+}
+function outputTabRenderedLocation(getContext) {
+    if (isInTeams()) {
+        getContext(outputTabRenderedLocationInTeams);
+    }
+    else {
+        add_page_header(`Currently running outside of Microsoft Teams.`);
+    }
+    function isInTeams() {
+        if ((window.parent === window.self && window.nativeInterface) ||
+            window.name === "embedded-page-container" ||
+            window.name === "extension-tab-frame") {
+            return true;
+        }
+        return false;
+    }
+}
+function outputTabRenderedLocationInTeams(context) {
+    var appLocation = 'unidentified location...';
+    const perfData = window.performance;
+    if (context.meetingId) {
+        appLocation = 'Meeting';
+    }
+    else if (context.chatId) {
+        appLocation = 'Chat';
+    }
+    else if (context.teamId && context.channelId) {
+        appLocation = `${context.channelName} channel in ${context.teamName}`;
+    }
+    else {
+        appLocation = 'Teams App';
+    }
+    if (isInConfig()) {
+        appLocation = `${appLocation} (Config page)`;
+    }
+    else if (isInSidePanel()) {
+        appLocation = `${appLocation} (Side Panel)`;
+    }
+    add_page_header(`Currently running in: ${appLocation}.  with time ${perfData.timing.navigationStart - context.userClickTime}`);
+    function isInConfig() {
+        return context.frameContext === FrameContexts.settings;
+    }
+    function isInSidePanel() {
+        return context.frameContext === FrameContexts.sidePanel;
+    }
+}
+;
+function add_page_header(content) {
+    var h2 = document.createElement("h2");
+    h2.textContent = content;
+    container.prepend(h2);
+}
 
-// EXTERNAL MODULE: ./node_modules/@microsoft/teams-js/dist/MicrosoftTeams.js
-var MicrosoftTeams = __webpack_require__(115);
 ;// CONCATENATED MODULE: ./src/app.ts
 
 
@@ -3624,14 +4336,12 @@ const initializeAppModules = () => {
     try {
         var childWindow;
         let totalStates = 0;
-        // microsoftTeams.initialize();
-        // microsoftTeams.appInitialization.notifyAppLoaded();
         addModule({
             name: "initialize",
-            initializedRequired: true,
-            hasOutput: false,
-            action: function () {
-                MicrosoftTeams.initialize();
+            initializedRequired: false,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams.initialize(output);
             }
         });
         addModule({
@@ -3678,14 +4388,6 @@ const initializeAppModules = () => {
                 }],
             action: function (navigateForward) {
                 MicrosoftTeams.returnFocus(navigateForward);
-            }
-        });
-        addModule({
-            name: "registerOnThemeChangeHandler",
-            initializedRequired: true,
-            hasOutput: true,
-            action: function (output) {
-                MicrosoftTeams.registerOnThemeChangeHandler(output);
             }
         });
         addModule({
@@ -4378,6 +5080,81 @@ const initializeAppModules = () => {
                 }, scanBarCodeConfig);
             }
         });
+        addModule({
+            name: "meeting.getMeetingDetails",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams.meeting.getMeetingDetails((err, getMeetingDetails) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(getMeetingDetails);
+                });
+            }
+        });
+        addModule({
+            name: "getIncomingClientAudioState",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams.meeting.getIncomingClientAudioState((err, result) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(result);
+                });
+            }
+        });
+        addModule({
+            name: "toggleIncomingClientAudio",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams.meeting.toggleIncomingClientAudio((err, result) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(result);
+                });
+            }
+        });
+        addModule({
+            name: "meeting.getAuthenticationTokenForAnonymousUser",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams.meeting.getAuthenticationTokenForAnonymousUser((err, authenticationTokenOfAnonymousUser) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(authenticationTokenOfAnonymousUser);
+                });
+            }
+        });
+        addModule({
+            name: "people.selectPeople",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "object",
+                    name: "peoplePickerInputs",
+                    defaultValue: "{\"title\":\"\", \"setSelected\":[], \"openOrgWideSearchInChatOrChannel\":false, \"singleSelect\":false}"
+                }],
+            action: (peoplePickerInputs, output) => {
+                MicrosoftTeams.people.selectPeople((err, people) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output("People length: " + people.length + " " + JSON.stringify(people));
+                }, peoplePickerInputs);
+            }
+        });
         // Get the modal
         var modal = document.getElementById("myModal");
         // Get the <span> element that closes the modal
@@ -4392,7 +5169,7 @@ const initializeAppModules = () => {
                 modal.style.display = "none";
             }
         };
-        // microsoftTeams.appInitialization.notifySuccess();
+        //  microsoftTeams.appInitialization.notifySuccess();
     }
     catch (err) {
         // microsoftTeams.appInitialization.notifyFailure({ reason: microsoftTeams.appInitialization.FailedReason.Other, message: err.message });
