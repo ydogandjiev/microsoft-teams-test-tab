@@ -391,8 +391,8 @@ const initializeAppModules = () => {
             name: "registerFocusEnterHandler",
             initializedRequired: true,
             hasOutput: true,
-            action: function (navigateForward, output) {
-                MicrosoftTeams_min.registerFocusEnterHandler(function () {
+            action: function (output) {
+                MicrosoftTeams_min.registerFocusEnterHandler(function (navigateForward) {
                     document.getElementById("textarea-registerFocusEnterHandler").focus();
                     if (navigateForward) {
                         output("OnFocusEnter forward event received");
