@@ -395,10 +395,10 @@ const initializeAppModules = () => {
                 MicrosoftTeams_min.registerFocusEnterHandler(function (navigateForward) {
                     document.getElementById("textarea-registerFocusEnterHandler").focus();
                     if (navigateForward) {
-                        output("OnFocusEnter forward Event received");
+                        output("OnFocusEnter forward event received");
                     }
                     else {
-                        output("OnFocusEnter backward Event received");
+                        output("OnFocusEnter backward event received");
                     }
                     return true;
                 });
