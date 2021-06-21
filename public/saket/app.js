@@ -400,7 +400,6 @@ const initializeAppModules = () => {
                     else {
                         output("OnFocusEnter backward event received");
                     }
-                    return true;
                 });
             }
         });
