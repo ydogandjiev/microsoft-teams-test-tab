@@ -2,7 +2,7 @@
 <html>
  <head>
     <link href="../app.css" rel="stylesheet" />
-    <script src="https://statics.teams.microsoft.com/sdk/v1.4.1/js/MicrosoftTeams.min.js"></script>
+    <script src="./MicrosoftTeams.min.js"></script>
    </head>
 
 <body>
@@ -90,7 +90,8 @@
     }
 
     function openPurchaseExperience() {
-      microsoftTeams.openPurchaseExperience();
+      microsoftTeams.initialize();
+      microsoftTeams.monetization.openPurchaseExperience(() => {return;});
     }
   </script>
 </body>
