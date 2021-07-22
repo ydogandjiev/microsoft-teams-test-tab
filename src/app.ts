@@ -825,19 +825,19 @@ export const initializeAppModules = () => {
       }
     });
 
-    addModule({
-      name: "monetization.openPurchaseExperience",
-      initializedRequired : true,
-      hasOutput : true,
-      action: function (output) {
-        microsoftTeams.monetization.openPurchaseExperience((err: microsoftTeams.SdkError) => {
-          if(err){
-            output(err);
-          }
-          output(null);
-        });
-      }
-    });
+    // addModule({
+    //   name: "monetization.openPurchaseExperience",
+    //   initializedRequired : true,
+    //   hasOutput : true,
+    //   action: function (output) {
+    //     microsoftTeams.monetization.openPurchaseExperience((err: microsoftTeams.SdkError) => {
+    //       if(err){
+    //         output(err);
+    //       }
+    //       output(null);
+    //     });
+    //   }
+    // });
 
     addModule({
       name: "getIncomingClientAudioState",
