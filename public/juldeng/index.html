@@ -58,6 +58,7 @@
       <button onclick="openPurchaseExperience()">openPurchaseExperience</button>
     </div>
   </div>
+  <script src="./app.js"></script>
 <h2>Unstable API test module</h2>
   <div class="moduleContainer">
     
@@ -91,7 +92,13 @@
 
     function openPurchaseExperience() {
       microsoftTeams.initialize();
-      microsoftTeams.monetization.openPurchaseExperience(() => {return;});
+      let callbackcalled = false;
+      microsoftTeams.monetization.openPurchaseExperience((e) => {
+        console.log("callback is being called");
+        callbackcalled = true;  
+        return;
+      });
+      console.log("after callback: ",callbackcalled);
     }
   </script>
 </body>

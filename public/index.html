@@ -2,7 +2,6 @@
 <html>
  <head>
     <link href="./app.css" rel="stylesheet" />
-    <script src="./juldeng/MicrosoftTeams.min.js"></script>
    </head>
 
 <body>
@@ -53,38 +52,7 @@
       <div><a href="sip:yudogan@microsoft.com" target="_blank">Yuri Dogandjiev SIP URI</a></div>
     </div>
     
-    <div>
-      <div class="sectionTitle">openPurchaseExperience</div>
-      <button onclick="openPurchaseExperience()">openPurchaseExperience</button>
-    </div>
   <script src="./app.js"></script>
-  <script>
-    function enablePrintCapability() {
-      microsoftTeams.initialize();
-      microsoftTeams.enablePrintCapability();
-    }
-
-    function authenticate() {
-      microsoftTeams.initialize();
-      microsoftTeams.authentication.authenticate({
-            url: 'https://teams-test-tab.azurewebsites.net'
-      });
-    }
-
-    function enableImplicitExecuteDeepLink() {
-      microsoftTeams.initialize();
-      microsoftTeams.enableImplicitExecuteDeepLink();
-    }
-
-    function printHandler() {
-      microsoftTeams.print();
-    }
-
-    function openPurchaseExperience() {
-      microsoftTeams.initialize();
-      microsoftTeams.monetization.openPurchaseExperience(() => {return;});
-    }
-  </script>
 </body>
 
 </html>

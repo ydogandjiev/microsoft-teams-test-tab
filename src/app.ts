@@ -833,6 +833,7 @@ export const initializeAppModules = () => {
         microsoftTeams.monetization.openPurchaseExperience((err: microsoftTeams.SdkError) => {
           if(err){
             output(err);
+            return;
           }
           output(null);
         });
