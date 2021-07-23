@@ -14,6 +14,18 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.2.tgz#8f03a22a04de437254e8ce8cc84ba39689288752"
   integrity sha512-HyYEUDeIj5rRQU2Hk5HTB2uHsbRQpF70nvMhVzi+VJR0X+xNEhjPui4/kBf3VeH/wqD28PT4sVOm8qqLjBrSZg==
 
+"@microsoft/metaos-app-sdk@0.0.11-d1e3e12c7a":
+  version "0.0.11-d1e3e12c7a"
+  resolved "https://office.pkgs.visualstudio.com/_packaging/ISS/npm/registry/@microsoft/metaos-app-sdk/-/metaos-app-sdk-0.0.11-d1e3e12c7a.tgz#dc80ea38be8e9add9337b841e923849f907cf4e1"
+  integrity sha1-3IDqOL6Omt2TN7hB6SOEn5B89OE=
+  dependencies:
+    es6-promise "^4.2.8"
+
+"@microsoft/metaos-teams-compat@file:../metaos-teams-compat":
+  version "0.0.1"
+  dependencies:
+    "@microsoft/metaos-app-sdk" "0.0.11-d1e3e12c7a"
+
 "@microsoft/teams-js@^1.11.0-beta.2":
   version "1.11.0-beta.2"
   resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@microsoft/teams-js/-/teams-js-1.11.0-beta.2.tgz#390c8d1b6d2567c849f5bb8749d3253dbeac80a2"
@@ -448,6 +460,11 @@ es-module-lexer@^0.3.26:
   version "0.3.26"
   resolved "https://registry.yarnpkg.com/es-module-lexer/-/es-module-lexer-0.3.26.tgz#7b507044e97d5b03b01d4392c74ffeb9c177a83b"
   integrity sha512-Va0Q/xqtrss45hWzP8CZJwzGSZJjDM5/MJRE3IXXnUCcVLElR9BRaE9F62BopysASyc4nM3uwhSW7FFB9nlWAA==
+
+es6-promise@^4.2.8:
+  version "4.2.8"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
+  integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
 
 escalade@^3.1.1:
   version "3.1.1"
