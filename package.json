@@ -20,6 +20,7 @@
     "build-chharpe": "webpack -o public/chharpe/",
     "build-erinha": "webpack -o public/erinha",
     "build-juldeng": "webpack -o public/juldeng/",
+    "build-nan": "webpack -o public/lnan/",
     "watch": "webpack -w",
     "start": "node server.js"
   },
