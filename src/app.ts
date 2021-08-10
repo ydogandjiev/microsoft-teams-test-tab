@@ -11,156 +11,156 @@ export const initializeAppModules = () => {
     initializeDownloadLinks();
     outputTabRenderedLocation(microsoftTeams.getContext);
 
-    addModule({
-      name: "getContext",
-      initializedRequired: true,
-      hasOutput: true,
-      action: function (output) {
-        microsoftTeams.getContext(output);
-      }
-    });
+    // addModule({
+    //   name: "getContext",
+    //   initializedRequired: true,
+    //   hasOutput: true,
+    //   action: function (output) {
+    //     microsoftTeams.getContext(output);
+    //   }
+    // });
+
+    // addModule({
+    //   name: "getTabInstances",
+    //   initializedRequired: true,
+    //   hasOutput: true,
+    //   action: function (output) {
+    //     microsoftTeams.getTabInstances(output);
+    //   }
+    // });
+
+    // addModule({
+    //   name: "getMRUTabInstances",
+    //   initializedRequired: true,
+    //   hasOutput: true,
+    //   action: function (output) {
+    //     microsoftTeams.getMruTabInstances(output);
+    //   }
+    // });
+
+    // addModule({
+    //   name: "navigateCrossDomain",
+    //   initializedRequired: true,
+    //   inputs: [{
+    //     type: "string",
+    //     name: "url"
+    //   }],
+    //   action: function (url) {
+    //     microsoftTeams.navigateCrossDomain(url);
+    //   }
+    // });
+
+    // addModule({
+    //   name: "returnFocus",
+    //   initializedRequired: true,
+    //   inputs: [{
+    //     type: "boolean",
+    //     name: "navigateForward"
+    //   }],
+    //   action: function (navigateForward) {
+    //     microsoftTeams.returnFocus(navigateForward);
+    //   }
+    // });
+
+    // addModule({
+    //   name: "navigateCrossDomain",
+    //   initializedRequired: true,
+    //   inputs: [{
+    //     type: "string",
+    //     name: "url"
+    //   }],
+    //   action: function (url) {
+    //     microsoftTeams.navigateCrossDomain(url);
+    //   }
+    // });
+
+    // addModule({
+    //   name: "registerOnThemeChangeHandler",
+    //   initializedRequired: true,
+    //   hasOutput: true,
+    //   action: function (output) {
+    //     microsoftTeams.registerOnThemeChangeHandler(output);
+    //   }
+    // });
+
+
+    // addModule({
+    //   name: "registerEnterSettingsHandler",
+    //   initializedRequired: true,
+    //   hasOutput: true,
+    //   action: function (output) {
+    //     microsoftTeams.registerEnterSettingsHandler(function () {
+    //       output("Change Settings Event recieved");
+    //     });
+    //   }
+    // });
+
+    // addModule({
+    //   name: "registerAppButtonClickHandler",
+    //   initializedRequired: true,
+    //   hasOutput: true,
+    //   action: function (output) {
+    //     microsoftTeams.registerAppButtonClickHandler(function () {
+    //       output("Click event received");
+    //     });
+    //   }
+    // });
+
+    // addModule({
+    //   name: "registerAppButtonHoverEnterHandler",
+    //   initializedRequired: true,
+    //   hasOutput: true,
+    //   action: function (output) {
+    //     microsoftTeams.registerAppButtonHoverEnterHandler(function () {
+    //       output(`Hover enter event received`);
+    //     });
+    //   }
+    // });
+
+    // addModule({
+    //   name: "registerAppButtonHoverLeaveHandler",
+    //   initializedRequired: true,
+    //   hasOutput: true,
+    //   action: function (output) {
+    //     microsoftTeams.registerAppButtonHoverLeaveHandler(function () {
+    //       output(`Hover leave event received`);
+    //     });
+    //   }
+    // });
+
+    // addModule({
+    //   name: "shareDeepLink",
+    //   initializedRequired: true,
+    //   inputs: [{
+    //     type: "object",
+    //     name: "deepLinkParameters"
+    //   }],
+    //   action: function (deepLinkParameters) {
+    //     microsoftTeams.shareDeepLink(deepLinkParameters);
+    //   }
+    // });
+
+    // addModule({
+    //   name: "executeDeepLink",
+    //   initializedRequired: true,
+    //   inputs: [{
+    //     type: "string",
+    //     name: "deepLink"
+    //   }],
+    //   action: function (deepLink) {
+    //     microsoftTeams.executeDeepLink(deepLink);
+    //   }
+    // });
 
     addModule({
-      name: "getTabInstances",
-      initializedRequired: true,
-      hasOutput: true,
-      action: function (output) {
-        microsoftTeams.getTabInstances(output);
-      }
-    });
-
-    addModule({
-      name: "getMRUTabInstances",
-      initializedRequired: true,
-      hasOutput: true,
-      action: function (output) {
-        microsoftTeams.getMruTabInstances(output);
-      }
-    });
-
-    addModule({
-      name: "navigateCrossDomain",
+      name: "authentication.authenticate5",
       initializedRequired: true,
       inputs: [{
         type: "string",
         name: "url"
       }],
-      action: function (url) {
-        microsoftTeams.navigateCrossDomain(url);
-      }
-    });
-
-    addModule({
-      name: "returnFocus",
-      initializedRequired: true,
-      inputs: [{
-        type: "boolean",
-        name: "navigateForward"
-      }],
-      action: function (navigateForward) {
-        microsoftTeams.returnFocus(navigateForward);
-      }
-    });
-
-    addModule({
-      name: "navigateCrossDomain",
-      initializedRequired: true,
-      inputs: [{
-        type: "string",
-        name: "url"
-      }],
-      action: function (url) {
-        microsoftTeams.navigateCrossDomain(url);
-      }
-    });
-
-    addModule({
-      name: "registerOnThemeChangeHandler",
-      initializedRequired: true,
       hasOutput: true,
-      action: function (output) {
-        microsoftTeams.registerOnThemeChangeHandler(output);
-      }
-    });
-
-
-    addModule({
-      name: "registerEnterSettingsHandler",
-      initializedRequired: true,
-      hasOutput: true,
-      action: function (output) {
-        microsoftTeams.registerEnterSettingsHandler(function () {
-          output("Change Settings Event recieved");
-        });
-      }
-    });
-
-    addModule({
-      name: "registerAppButtonClickHandler",
-      initializedRequired: true,
-      hasOutput: true,
-      action: function (output) {
-        microsoftTeams.registerAppButtonClickHandler(function () {
-          output("Click event received");
-        });
-      }
-    });
-
-    addModule({
-      name: "registerAppButtonHoverEnterHandler",
-      initializedRequired: true,
-      hasOutput: true,
-      action: function (output) {
-        microsoftTeams.registerAppButtonHoverEnterHandler(function () {
-          output(`Hover enter event received`);
-        });
-      }
-    });
-
-    addModule({
-      name: "registerAppButtonHoverLeaveHandler",
-      initializedRequired: true,
-      hasOutput: true,
-      action: function (output) {
-        microsoftTeams.registerAppButtonHoverLeaveHandler(function () {
-          output(`Hover leave event received`);
-        });
-      }
-    });
-
-    addModule({
-      name: "shareDeepLink",
-      initializedRequired: true,
-      inputs: [{
-        type: "object",
-        name: "deepLinkParameters"
-      }],
-      action: function (deepLinkParameters) {
-        microsoftTeams.shareDeepLink(deepLinkParameters);
-      }
-    });
-
-    addModule({
-      name: "executeDeepLink",
-      initializedRequired: true,
-      inputs: [{
-        type: "string",
-        name: "deepLink"
-      }],
-      action: function (deepLink) {
-        microsoftTeams.executeDeepLink(deepLink);
-      }
-    });
-
-    addModule({
-      name: "authentication.authenticate",
-      initializedRequired: true,
-      inputs: [{
-        type: "string",
-        name: "url"
-      }],
-      hasOutput: true,
-      action: function (url, output) {
+      action: function (url, output) {console.log('aaaa')
         microsoftTeams.authentication.authenticate({
           url: url,
           successCallback: function (result) {
