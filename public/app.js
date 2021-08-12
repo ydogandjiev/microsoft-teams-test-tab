@@ -1130,6 +1130,18 @@ const initializeAppModules = () => {
                 }, peoplePickerInputs);
             }
         });
+        addModule({
+            name: "setFrameContext",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "frameContext",
+                    defaultValue: "{\"contentUrl\":\"\", \"websiteUrl\":\"\"}"
+                }],
+            action: (frameContext) => {
+                MicrosoftTeams_min.setFrameContext(frameContext);
+            }
+        });
         // Get the modal
         var modal = document.getElementById("myModal");
         // Get the <span> element that closes the modal

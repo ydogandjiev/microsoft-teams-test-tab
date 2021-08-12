@@ -906,6 +906,19 @@ export const initializeAppModules = () => {
       } 
     });
 
+    addModule({
+      name: "setFrameContext",
+      initializedRequired: true,
+      inputs: [{
+        type: "object",
+        name: "frameContext",
+        defaultValue: "{\"contentUrl\":\"\", \"websiteUrl\":\"\"}"
+      }],
+      action: (frameContext: microsoftTeams.FrameContext) => {
+        microsoftTeams.setFrameContext(frameContext);
+      } 
+    });
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
