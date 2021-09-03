@@ -1,9 +1,13 @@
+var path = require('path');
 var express = require('express');
 var serveStatic = require('serve-static');
-var lt = require('localtunnel');
+var localtunnel = require('localtunnel');
 
-var subdomain = 'lnan-test1';
-var restartingTunnel = false;
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
+var port = process.env.port || 3000;
+var subdomain = process.env.SUB_DOMAIN || 'teams-test1';
 
 var onTunnelCreated = (err, tunnel) => {
   if (err) {
@@ -13,7 +17,6 @@ var onTunnelCreated = (err, tunnel) => {
   }
 
   console.log("Tunnel started with url: " + tunnel.url + " on port: " + port);
-  restartingTunnel = false;
 }
 
 var app = express();
@@ -27,23 +30,21 @@ app.get('/aaa', (req, res) => {
   return res.send('done');
 });
 
-var port = process.env.port || 3000;
+app.get('/authredirect', (req, res) => {
+  return res.redirect(`msteams://teams.microsoft.com/l/auth-callback/${req.query.authId}/${req.query.code}`)
+});
+
+// app.get('/authredirect', (req, res) => {
+//   return res.send(`
+//   ${req.query.code}
+// `)
+// });
+
 app.listen(port, function () {
   console.log('Listening on http://localhost:' + port);
 
   setTimeout(() => {
-    var tunnel = lt(port, { subdomain }, onTunnelCreated);
-    tunnel.on('close', () => {
-      console.log("Tunnel closed!");
-      readline.keyInPause("\nProgram ended...")
-      process.exit();
-    });
-    tunnel.on('error', () => {
-      if (restartingTunnel) return;
-      restartingTunnel = true;
-      console.log("Restarting tunnel...");
-      tunnel = lt(port, { subdomain }, onTunnelCreated);
-    });
+    localtunnel(port, { subdomain }, onTunnelCreated);
   }, 1000);
 });
 

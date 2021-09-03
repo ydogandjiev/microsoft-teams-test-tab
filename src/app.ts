@@ -152,25 +152,44 @@ export const initializeAppModules = () => {
     //   }
     // });
 
+    // addModule({
+    //   name: "authentication.authenticate",
+    //   initializedRequired: true,
+    //   inputs: [{
+    //     type: "string",
+    //     name: "url"
+    //   }],
+    //   hasOutput: true,
+    //   action: function (url, output) {
+    //     microsoftTeams.authentication.authenticate({
+    //       url: url,
+    //       isExternal: false,
+    //       successCallback: function (result) {
+    //         output("Success:" + result);
+    //       },
+    //       failureCallback: function (reason) {
+    //         output("Failure:" + reason);
+    //         MessageEvent
+    //       }
+    //     });
+    //   }
+    // });
+
     addModule({
-      name: "authentication.authenticate5",
+      name: "authentication.external browser",
       initializedRequired: true,
-      inputs: [{
-        type: "string",
-        name: "url"
-      }],
       hasOutput: true,
-      action: function (url, output) {console.log('aaaa')
+      action: function (output) {
         microsoftTeams.authentication.authenticate({
-          url: url,
+          url: 'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/authredirect?authId={authId}&client_id=1073583513214-oplf5k63msf7at9rcj68vbrh265803vo.apps.googleusercontent.com&response_type=code&access_type=offline&scope=email%20profile',
+          isExternal: true,
           successCallback: function (result) {
             output("Success:" + result);
           },
           failureCallback: function (reason) {
             output("Failure:" + reason);
-            MessageEvent
           }
-        });
+  });
       }
     });
 
