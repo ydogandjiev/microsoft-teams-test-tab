@@ -919,6 +919,29 @@ export const initializeAppModules = () => {
       } 
     });
 
+    addModule({
+      name: "sharing.shareWebContent",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "shareWebContentRequest",
+        defaultValue: "{\"content\":[{\"type\":\"URL\",\"url\":\"https://teams-test-tab.azurewebsites.net/\"}]}"
+      }],
+      action: (shareWebContentRequest: microsoftTeams.sharing.IShareRequest<microsoftTeams.sharing.IURLContent>, output) => {
+        // Clear the output box prior to action
+        output("");
+        microsoftTeams.sharing.shareWebContent(shareWebContentRequest, (err) => {
+          if (err) {
+            output(err.message);
+            return;
+          }
+          output("Sharing was successful.");
+        });
+      } 
+    });
+
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
