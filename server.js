@@ -2,6 +2,7 @@ var path = require('path');
 var express = require('express');
 var serveStatic = require('serve-static');
 var localtunnel = require('localtunnel');
+var session = require('express-session');
 
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
@@ -20,25 +21,26 @@ var onTunnelCreated = (err, tunnel) => {
 }
 
 var app = express();
+app.set("view engine", "pug");
+app.use(session({ secret: 'auth test', cookie: { maxAge: 60000 }}));
 app.use(serveStatic(__dirname + '/public', {
   setHeaders: (res, path) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   }
 }));
 
-app.get('/aaa', (req, res) => {
-  return res.send('done');
+app.get('/auth', (req, res) => {
+  req.session.completionType = req.query.completionType;
+  req.session.authId = req.query.authId;
+  return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/authredirect&client_id=1073583513214-oplf5k63msf7at9rcj68vbrh265803vo.apps.googleusercontent.com&response_type=code&access_type=offline&scope=email%20profile`)
 });
 
 app.get('/authredirect', (req, res) => {
-  return res.redirect(`msteams://teams.microsoft.com/l/auth-callback/${req.query.authId}/${req.query.code}`)
+  if (req.session.completionType === 'deeplink')
+    return res.redirect(`msteams://teams.microsoft.com/l/auth-callback?authId=${req.session.authId}&code=${req.query.code}`);
+  else
+    return res.render('auth_end', { code: req.query.code });
 });
-
-// app.get('/authredirect', (req, res) => {
-//   return res.send(`
-//   ${req.query.code}
-// `)
-// });
 
 app.listen(port, function () {
   console.log('Listening on http://localhost:' + port);

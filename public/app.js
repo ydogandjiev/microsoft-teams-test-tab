@@ -1214,7 +1214,7 @@ var authentication;
         height = Math.min(height, communication_1.Communication.currentWindow.outerHeight - 200);
         // Convert any relative URLs into absolute URLs before sending them over to the parent window
         var link = document.createElement('a');
-        link.href = authParams.url;
+        link.href = authParams.url + `?completionType=web`;
         // We are running in the browser, so we need to center the new window ourselves
         var left = typeof communication_1.Communication.currentWindow.screenLeft !== 'undefined'
             ? communication_1.Communication.currentWindow.screenLeft
@@ -1284,7 +1284,6 @@ var authentication;
         handlers_1.registerHandler('navigateCrossDomain', function () {
             return false;
         });
-        communication_1.Communication.currentWindow.setTimeout(function () { return communication_1.Communication.childWindow.close(); }, 5000);
     }
     /**
      * Notifies the frame that initiated this authentication request that the request was successful.
@@ -1385,16 +1384,16 @@ var authentication;
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports, __nested_webpack_require_57933__) {
+/***/ (function(module, exports, __nested_webpack_require_57811__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_57933__(1);
-var constants_1 = __nested_webpack_require_57933__(2);
-var utils_1 = __nested_webpack_require_57933__(5);
-var communication_1 = __nested_webpack_require_57933__(0);
-var handlers_1 = __nested_webpack_require_57933__(3);
+var internalAPIs_1 = __nested_webpack_require_57811__(1);
+var constants_1 = __nested_webpack_require_57811__(2);
+var utils_1 = __nested_webpack_require_57811__(5);
+var communication_1 = __nested_webpack_require_57811__(0);
+var handlers_1 = __nested_webpack_require_57811__(3);
 /**
  * Namespace to interact with the settings-specific part of the SDK.
  * This object is usable only on the settings frame.
@@ -1539,14 +1538,14 @@ var settings;
 
 /***/ }),
 /* 13 */
-/***/ (function(module, exports, __nested_webpack_require_64805__) {
+/***/ (function(module, exports, __nested_webpack_require_64683__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_64805__(1);
-var communication_1 = __nested_webpack_require_64805__(0);
-var handlers_1 = __nested_webpack_require_64805__(3);
+var internalAPIs_1 = __nested_webpack_require_64683__(1);
+var communication_1 = __nested_webpack_require_64683__(0);
+var handlers_1 = __nested_webpack_require_64683__(3);
 /**
  * Namespace to interact with the logging part of the SDK.
  * This object is used to send the app logs on demand to the host client
@@ -1581,20 +1580,20 @@ var logs;
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports, __nested_webpack_require_66022__) {
+/***/ (function(module, exports, __nested_webpack_require_65900__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_66022__(1);
-var constants_1 = __nested_webpack_require_66022__(2);
-var utils_1 = __nested_webpack_require_66022__(5);
-var communication_1 = __nested_webpack_require_66022__(0);
-var menus_1 = __nested_webpack_require_66022__(15);
-var handlers_1 = __nested_webpack_require_66022__(3);
-var globalVars_1 = __nested_webpack_require_66022__(6);
-var interfaces_1 = __nested_webpack_require_66022__(7);
-var constants_2 = __nested_webpack_require_66022__(4);
+var internalAPIs_1 = __nested_webpack_require_65900__(1);
+var constants_1 = __nested_webpack_require_65900__(2);
+var utils_1 = __nested_webpack_require_65900__(5);
+var communication_1 = __nested_webpack_require_65900__(0);
+var menus_1 = __nested_webpack_require_65900__(15);
+var handlers_1 = __nested_webpack_require_65900__(3);
+var globalVars_1 = __nested_webpack_require_65900__(6);
+var interfaces_1 = __nested_webpack_require_65900__(7);
+var constants_2 = __nested_webpack_require_65900__(4);
 function initializePrivateApis() {
     menus_1.menus.initialize();
 }
@@ -1794,14 +1793,14 @@ exports.registerUserSettingsChangeHandler = registerUserSettingsChangeHandler;
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __nested_webpack_require_74333__) {
+/***/ (function(module, exports, __nested_webpack_require_74211__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_74333__(1);
-var communication_1 = __nested_webpack_require_74333__(0);
-var handlers_1 = __nested_webpack_require_74333__(3);
+var internalAPIs_1 = __nested_webpack_require_74211__(1);
+var communication_1 = __nested_webpack_require_74211__(0);
+var handlers_1 = __nested_webpack_require_74211__(3);
 /**
  * Namespace to interact with the menu-specific part of the SDK.
  * This object is used to show View Configuration, Action Menu and Navigation Bar Menu.
@@ -1902,16 +1901,16 @@ var menus;
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports, __nested_webpack_require_78636__) {
+/***/ (function(module, exports, __nested_webpack_require_78514__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_78636__(1);
-var constants_1 = __nested_webpack_require_78636__(2);
-var utils_1 = __nested_webpack_require_78636__(5);
-var communication_1 = __nested_webpack_require_78636__(0);
-var handlers_1 = __nested_webpack_require_78636__(3);
+var internalAPIs_1 = __nested_webpack_require_78514__(1);
+var constants_1 = __nested_webpack_require_78514__(2);
+var utils_1 = __nested_webpack_require_78514__(5);
+var communication_1 = __nested_webpack_require_78514__(0);
+var handlers_1 = __nested_webpack_require_78514__(3);
 var ChildAppWindow = /** @class */ (function () {
     function ChildAppWindow() {
     }
@@ -1954,7 +1953,7 @@ exports.ParentAppWindow = ParentAppWindow;
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports, __nested_webpack_require_80641__) {
+/***/ (function(module, exports, __nested_webpack_require_80519__) {
 
 "use strict";
 
@@ -1969,15 +1968,15 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var globalVars_1 = __nested_webpack_require_80641__(6);
-var interfaces_1 = __nested_webpack_require_80641__(7);
-var internalAPIs_1 = __nested_webpack_require_80641__(1);
-var constants_1 = __nested_webpack_require_80641__(2);
-var utils_1 = __nested_webpack_require_80641__(5);
-var mediaUtil_1 = __nested_webpack_require_80641__(18);
-var communication_1 = __nested_webpack_require_80641__(0);
-var handlers_1 = __nested_webpack_require_80641__(3);
-var constants_2 = __nested_webpack_require_80641__(4);
+var globalVars_1 = __nested_webpack_require_80519__(6);
+var interfaces_1 = __nested_webpack_require_80519__(7);
+var internalAPIs_1 = __nested_webpack_require_80519__(1);
+var constants_1 = __nested_webpack_require_80519__(2);
+var utils_1 = __nested_webpack_require_80519__(5);
+var mediaUtil_1 = __nested_webpack_require_80519__(18);
+var communication_1 = __nested_webpack_require_80519__(0);
+var handlers_1 = __nested_webpack_require_80519__(3);
+var constants_2 = __nested_webpack_require_80519__(4);
 var media;
 (function (media) {
     /**
@@ -2293,12 +2292,12 @@ var media;
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports, __nested_webpack_require_97333__) {
+/***/ (function(module, exports, __nested_webpack_require_97211__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var media_1 = __nested_webpack_require_97333__(17);
+var media_1 = __nested_webpack_require_97211__(17);
 /**
  * Helper function to create a blob from media chunks based on their sequence
  */
@@ -2434,7 +2433,7 @@ exports.validatePeoplePickerInput = validatePeoplePickerInput;
 
 /***/ }),
 /* 19 */
-/***/ (function(module, exports, __nested_webpack_require_102033__) {
+/***/ (function(module, exports, __nested_webpack_require_101911__) {
 
 "use strict";
 
@@ -2442,28 +2441,28 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__nested_webpack_require_102033__(20));
-__export(__nested_webpack_require_102033__(8));
+__export(__nested_webpack_require_101911__(20));
+__export(__nested_webpack_require_101911__(8));
 
 
 /***/ }),
 /* 20 */
-/***/ (function(module, exports, __nested_webpack_require_102369__) {
+/***/ (function(module, exports, __nested_webpack_require_102247__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var bot_1 = __nested_webpack_require_102369__(21);
+var bot_1 = __nested_webpack_require_102247__(21);
 exports.bot = bot_1.bot;
-var menus_1 = __nested_webpack_require_102369__(15);
+var menus_1 = __nested_webpack_require_102247__(15);
 exports.menus = menus_1.menus;
-var logs_1 = __nested_webpack_require_102369__(13);
+var logs_1 = __nested_webpack_require_102247__(13);
 exports.logs = logs_1.logs;
-var interfaces_1 = __nested_webpack_require_102369__(35);
+var interfaces_1 = __nested_webpack_require_102247__(35);
 exports.NotificationTypes = interfaces_1.NotificationTypes;
 exports.ViewerActionTypes = interfaces_1.ViewerActionTypes;
 exports.UserSettingTypes = interfaces_1.UserSettingTypes;
-var privateAPIs_1 = __nested_webpack_require_102369__(14);
+var privateAPIs_1 = __nested_webpack_require_102247__(14);
 exports.enterFullscreen = privateAPIs_1.enterFullscreen;
 exports.exitFullscreen = privateAPIs_1.exitFullscreen;
 exports.getChatMembers = privateAPIs_1.getChatMembers;
@@ -2476,29 +2475,29 @@ exports.sendCustomEvent = privateAPIs_1.sendCustomEvent;
 exports.registerCustomHandler = privateAPIs_1.registerCustomHandler;
 exports.uploadCustomApp = privateAPIs_1.uploadCustomApp;
 exports.registerUserSettingsChangeHandler = privateAPIs_1.registerUserSettingsChangeHandler;
-var conversations_1 = __nested_webpack_require_102369__(36);
+var conversations_1 = __nested_webpack_require_102247__(36);
 exports.conversations = conversations_1.conversations;
-var meetingRoom_1 = __nested_webpack_require_102369__(37);
+var meetingRoom_1 = __nested_webpack_require_102247__(37);
 exports.meetingRoom = meetingRoom_1.meetingRoom;
-var remoteCamera_1 = __nested_webpack_require_102369__(38);
+var remoteCamera_1 = __nested_webpack_require_102247__(38);
 exports.remoteCamera = remoteCamera_1.remoteCamera;
-var files_1 = __nested_webpack_require_102369__(39);
+var files_1 = __nested_webpack_require_102247__(39);
 exports.files = files_1.files;
-var appEntity_1 = __nested_webpack_require_102369__(40);
+var appEntity_1 = __nested_webpack_require_102247__(40);
 exports.appEntity = appEntity_1.appEntity;
-var teams_1 = __nested_webpack_require_102369__(41);
+var teams_1 = __nested_webpack_require_102247__(41);
 exports.teams = teams_1.teams;
 
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports, __nested_webpack_require_104296__) {
+/***/ (function(module, exports, __nested_webpack_require_104174__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var communication_1 = __nested_webpack_require_104296__(0);
-var internalAPIs_1 = __nested_webpack_require_104296__(1);
+var communication_1 = __nested_webpack_require_104174__(0);
+var internalAPIs_1 = __nested_webpack_require_104174__(1);
 /**
  * @private
  * Namespace to interact with bots using the SDK.
@@ -2577,10 +2576,10 @@ var bot;
 
 /***/ }),
 /* 22 */
-/***/ (function(module, exports, __nested_webpack_require_107141__) {
+/***/ (function(module, exports, __nested_webpack_require_107019__) {
 
-var v1 = __nested_webpack_require_107141__(23);
-var v4 = __nested_webpack_require_107141__(24);
+var v1 = __nested_webpack_require_107019__(23);
+var v4 = __nested_webpack_require_107019__(24);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -2591,10 +2590,10 @@ module.exports = uuid;
 
 /***/ }),
 /* 23 */
-/***/ (function(module, exports, __nested_webpack_require_107369__) {
+/***/ (function(module, exports, __nested_webpack_require_107247__) {
 
-var rng = __nested_webpack_require_107369__(9);
-var bytesToUuid = __nested_webpack_require_107369__(10);
+var rng = __nested_webpack_require_107247__(9);
+var bytesToUuid = __nested_webpack_require_107247__(10);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -2706,10 +2705,10 @@ module.exports = v1;
 
 /***/ }),
 /* 24 */
-/***/ (function(module, exports, __nested_webpack_require_110895__) {
+/***/ (function(module, exports, __nested_webpack_require_110773__) {
 
-var rng = __nested_webpack_require_110895__(9);
-var bytesToUuid = __nested_webpack_require_110895__(10);
+var rng = __nested_webpack_require_110773__(9);
+var bytesToUuid = __nested_webpack_require_110773__(10);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -2741,14 +2740,14 @@ module.exports = v4;
 
 /***/ }),
 /* 25 */
-/***/ (function(module, exports, __nested_webpack_require_111685__) {
+/***/ (function(module, exports, __nested_webpack_require_111563__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_111685__(1);
-var constants_1 = __nested_webpack_require_111685__(4);
-var communication_1 = __nested_webpack_require_111685__(0);
+var internalAPIs_1 = __nested_webpack_require_111563__(1);
+var constants_1 = __nested_webpack_require_111563__(4);
+var communication_1 = __nested_webpack_require_111563__(0);
 var appInitialization;
 (function (appInitialization) {
     appInitialization.Messages = {
@@ -2811,22 +2810,22 @@ var appInitialization;
 
 /***/ }),
 /* 26 */
-/***/ (function(module, exports, __nested_webpack_require_114816__) {
+/***/ (function(module, exports, __nested_webpack_require_114694__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_114816__(1);
-var globalVars_1 = __nested_webpack_require_114816__(6);
-var constants_1 = __nested_webpack_require_114816__(4);
-var settings_1 = __nested_webpack_require_114816__(12);
-var utils_1 = __nested_webpack_require_114816__(5);
-var logs_1 = __nested_webpack_require_114816__(13);
-var constants_2 = __nested_webpack_require_114816__(2);
-var communication_1 = __nested_webpack_require_114816__(0);
-var authentication_1 = __nested_webpack_require_114816__(11);
-var privateAPIs_1 = __nested_webpack_require_114816__(14);
-var Handlers = __nested_webpack_require_114816__(3); // Conflict with some names
+var internalAPIs_1 = __nested_webpack_require_114694__(1);
+var globalVars_1 = __nested_webpack_require_114694__(6);
+var constants_1 = __nested_webpack_require_114694__(4);
+var settings_1 = __nested_webpack_require_114694__(12);
+var utils_1 = __nested_webpack_require_114694__(5);
+var logs_1 = __nested_webpack_require_114694__(13);
+var constants_2 = __nested_webpack_require_114694__(2);
+var communication_1 = __nested_webpack_require_114694__(0);
+var authentication_1 = __nested_webpack_require_114694__(11);
+var privateAPIs_1 = __nested_webpack_require_114694__(14);
+var Handlers = __nested_webpack_require_114694__(3); // Conflict with some names
 // ::::::::::::::::::::::: MicrosoftTeams SDK public API ::::::::::::::::::::
 /**
  * Initializes the library. This must be called before any other SDK calls
@@ -3112,15 +3111,15 @@ exports.initializeWithFrameContext = initializeWithFrameContext;
 
 /***/ }),
 /* 27 */
-/***/ (function(module, exports, __nested_webpack_require_129075__) {
+/***/ (function(module, exports, __nested_webpack_require_128953__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_129075__(1);
-var utils_1 = __nested_webpack_require_129075__(5);
-var constants_1 = __nested_webpack_require_129075__(2);
-var communication_1 = __nested_webpack_require_129075__(0);
+var internalAPIs_1 = __nested_webpack_require_128953__(1);
+var utils_1 = __nested_webpack_require_128953__(5);
+var constants_1 = __nested_webpack_require_128953__(2);
+var communication_1 = __nested_webpack_require_128953__(0);
 /**
  * Navigation specific part of the SDK.
  */
@@ -3171,7 +3170,7 @@ exports.navigateBack = navigateBack;
 
 /***/ }),
 /* 28 */
-/***/ (function(module, exports, __nested_webpack_require_132069__) {
+/***/ (function(module, exports, __nested_webpack_require_131947__) {
 
 "use strict";
 
@@ -3185,10 +3184,10 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __nested_webpack_require_132069__(2);
-var appWindow_1 = __nested_webpack_require_132069__(16);
-var communication_1 = __nested_webpack_require_132069__(0);
-var internalAPIs_1 = __nested_webpack_require_132069__(1);
+var constants_1 = __nested_webpack_require_131947__(2);
+var appWindow_1 = __nested_webpack_require_131947__(16);
+var communication_1 = __nested_webpack_require_131947__(0);
+var internalAPIs_1 = __nested_webpack_require_131947__(1);
 /**
  * Namespace to interact with the task module-specific part of the SDK.
  * This object is usable only on the content frame.
@@ -3237,16 +3236,16 @@ var tasks;
 
 /***/ }),
 /* 29 */
-/***/ (function(module, exports, __nested_webpack_require_135269__) {
+/***/ (function(module, exports, __nested_webpack_require_135147__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var interfaces_1 = __nested_webpack_require_135269__(7);
-var internalAPIs_1 = __nested_webpack_require_135269__(1);
-var constants_1 = __nested_webpack_require_135269__(2);
-var communication_1 = __nested_webpack_require_135269__(0);
-var constants_2 = __nested_webpack_require_135269__(4);
+var interfaces_1 = __nested_webpack_require_135147__(7);
+var internalAPIs_1 = __nested_webpack_require_135147__(1);
+var constants_1 = __nested_webpack_require_135147__(2);
+var communication_1 = __nested_webpack_require_135147__(0);
+var constants_2 = __nested_webpack_require_135147__(4);
 var location;
 (function (location_1) {
     /**
@@ -3299,15 +3298,15 @@ var location;
 
 /***/ }),
 /* 30 */
-/***/ (function(module, exports, __nested_webpack_require_137941__) {
+/***/ (function(module, exports, __nested_webpack_require_137819__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var communication_1 = __nested_webpack_require_137941__(0);
-var handlers_1 = __nested_webpack_require_137941__(3);
-var internalAPIs_1 = __nested_webpack_require_137941__(1);
-var constants_1 = __nested_webpack_require_137941__(2);
+var communication_1 = __nested_webpack_require_137819__(0);
+var handlers_1 = __nested_webpack_require_137819__(3);
+var internalAPIs_1 = __nested_webpack_require_137819__(1);
+var constants_1 = __nested_webpack_require_137819__(2);
 var meeting;
 (function (meeting) {
     var MeetingType;
@@ -3440,14 +3439,14 @@ var meeting;
 
 /***/ }),
 /* 31 */
-/***/ (function(module, exports, __nested_webpack_require_145896__) {
+/***/ (function(module, exports, __nested_webpack_require_145774__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var communication_1 = __nested_webpack_require_145896__(0);
-var internalAPIs_1 = __nested_webpack_require_145896__(1);
-var constants_1 = __nested_webpack_require_145896__(2);
+var communication_1 = __nested_webpack_require_145774__(0);
+var internalAPIs_1 = __nested_webpack_require_145774__(1);
+var constants_1 = __nested_webpack_require_145774__(2);
 var monetization;
 (function (monetization) {
     /**
@@ -3471,17 +3470,17 @@ var monetization;
 
 /***/ }),
 /* 32 */
-/***/ (function(module, exports, __nested_webpack_require_147147__) {
+/***/ (function(module, exports, __nested_webpack_require_147025__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_147147__(1);
-var constants_1 = __nested_webpack_require_147147__(2);
-var interfaces_1 = __nested_webpack_require_147147__(7);
-var mediaUtil_1 = __nested_webpack_require_147147__(18);
-var communication_1 = __nested_webpack_require_147147__(0);
-var constants_2 = __nested_webpack_require_147147__(4);
+var internalAPIs_1 = __nested_webpack_require_147025__(1);
+var constants_1 = __nested_webpack_require_147025__(2);
+var interfaces_1 = __nested_webpack_require_147025__(7);
+var mediaUtil_1 = __nested_webpack_require_147025__(18);
+var communication_1 = __nested_webpack_require_147025__(0);
+var constants_2 = __nested_webpack_require_147025__(4);
 var people;
 (function (people_1) {
     /**
@@ -3513,15 +3512,15 @@ var people;
 
 /***/ }),
 /* 33 */
-/***/ (function(module, exports, __nested_webpack_require_149201__) {
+/***/ (function(module, exports, __nested_webpack_require_149079__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var communication_1 = __nested_webpack_require_149201__(0);
-var internalAPIs_1 = __nested_webpack_require_149201__(1);
-var constants_1 = __nested_webpack_require_149201__(2);
-var handlers_1 = __nested_webpack_require_149201__(3);
+var communication_1 = __nested_webpack_require_149079__(0);
+var internalAPIs_1 = __nested_webpack_require_149079__(1);
+var constants_1 = __nested_webpack_require_149079__(2);
+var handlers_1 = __nested_webpack_require_149079__(3);
 /**
  * Namespace to video extensibility of the SDK.
  *
@@ -3600,15 +3599,15 @@ var video;
 
 /***/ }),
 /* 34 */
-/***/ (function(module, exports, __nested_webpack_require_152875__) {
+/***/ (function(module, exports, __nested_webpack_require_152753__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_152875__(1);
-var communication_1 = __nested_webpack_require_152875__(0);
-var interfaces_1 = __nested_webpack_require_152875__(7);
-var constants_1 = __nested_webpack_require_152875__(2);
+var internalAPIs_1 = __nested_webpack_require_152753__(1);
+var communication_1 = __nested_webpack_require_152753__(0);
+var interfaces_1 = __nested_webpack_require_152753__(7);
+var constants_1 = __nested_webpack_require_152753__(2);
 var sharing;
 (function (sharing) {
     sharing.SharingAPIMessages = {
@@ -3740,15 +3739,15 @@ var UserSettingTypes;
 
 /***/ }),
 /* 36 */
-/***/ (function(module, exports, __nested_webpack_require_157885__) {
+/***/ (function(module, exports, __nested_webpack_require_157763__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_157885__(1);
-var constants_1 = __nested_webpack_require_157885__(2);
-var communication_1 = __nested_webpack_require_157885__(0);
-var handlers_1 = __nested_webpack_require_157885__(3);
+var internalAPIs_1 = __nested_webpack_require_157763__(1);
+var constants_1 = __nested_webpack_require_157763__(2);
+var communication_1 = __nested_webpack_require_157763__(0);
+var handlers_1 = __nested_webpack_require_157763__(3);
 /**
  * Namespace to interact with the conversational subEntities inside the tab
  */
@@ -3815,14 +3814,14 @@ var conversations;
 
 /***/ }),
 /* 37 */
-/***/ (function(module, exports, __nested_webpack_require_160877__) {
+/***/ (function(module, exports, __nested_webpack_require_160755__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_160877__(1);
-var communication_1 = __nested_webpack_require_160877__(0);
-var handlers_1 = __nested_webpack_require_160877__(3);
+var internalAPIs_1 = __nested_webpack_require_160755__(1);
+var communication_1 = __nested_webpack_require_160755__(0);
+var handlers_1 = __nested_webpack_require_160755__(3);
 var meetingRoom;
 (function (meetingRoom) {
     /**
@@ -3949,15 +3948,15 @@ var meetingRoom;
 
 /***/ }),
 /* 38 */
-/***/ (function(module, exports, __nested_webpack_require_166378__) {
+/***/ (function(module, exports, __nested_webpack_require_166256__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var internalAPIs_1 = __nested_webpack_require_166378__(1);
-var constants_1 = __nested_webpack_require_166378__(2);
-var communication_1 = __nested_webpack_require_166378__(0);
-var handlers_1 = __nested_webpack_require_166378__(3);
+var internalAPIs_1 = __nested_webpack_require_166256__(1);
+var constants_1 = __nested_webpack_require_166256__(2);
+var communication_1 = __nested_webpack_require_166256__(0);
+var handlers_1 = __nested_webpack_require_166256__(3);
 var remoteCamera;
 (function (remoteCamera) {
     /**
@@ -4144,14 +4143,14 @@ var remoteCamera;
 
 /***/ }),
 /* 39 */
-/***/ (function(module, exports, __nested_webpack_require_176473__) {
+/***/ (function(module, exports, __nested_webpack_require_176351__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var communication_1 = __nested_webpack_require_176473__(0);
-var internalAPIs_1 = __nested_webpack_require_176473__(1);
-var public_1 = __nested_webpack_require_176473__(8);
+var communication_1 = __nested_webpack_require_176351__(0);
+var internalAPIs_1 = __nested_webpack_require_176351__(1);
+var public_1 = __nested_webpack_require_176351__(8);
 /**
  * Namespace to interact with the files specific part of the SDK.
  *
@@ -4295,14 +4294,14 @@ var files;
 
 /***/ }),
 /* 40 */
-/***/ (function(module, exports, __nested_webpack_require_183174__) {
+/***/ (function(module, exports, __nested_webpack_require_183052__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var communication_1 = __nested_webpack_require_183174__(0);
-var internalAPIs_1 = __nested_webpack_require_183174__(1);
-var public_1 = __nested_webpack_require_183174__(8);
+var communication_1 = __nested_webpack_require_183052__(0);
+var internalAPIs_1 = __nested_webpack_require_183052__(1);
+var public_1 = __nested_webpack_require_183052__(8);
 /**
  * Namespace to interact with the application entities specific part of the SDK.
  *
@@ -4338,14 +4337,14 @@ var appEntity;
 
 /***/ }),
 /* 41 */
-/***/ (function(module, exports, __nested_webpack_require_184903__) {
+/***/ (function(module, exports, __nested_webpack_require_184781__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var communication_1 = __nested_webpack_require_184903__(0);
-var internalAPIs_1 = __nested_webpack_require_184903__(1);
-var public_1 = __nested_webpack_require_184903__(8);
+var communication_1 = __nested_webpack_require_184781__(0);
+var internalAPIs_1 = __nested_webpack_require_184781__(1);
+var public_1 = __nested_webpack_require_184781__(8);
 /**
  * Namespace to interact with the `teams` specific part of the SDK.
  *
@@ -4685,162 +4684,162 @@ const initializeAppModules = () => {
         MicrosoftTeams_min.appInitialization.notifyAppLoaded();
         initializeDownloadLinks();
         outputTabRenderedLocation(MicrosoftTeams_min.getContext);
-        // addModule({
-        //   name: "getContext",
-        //   initializedRequired: true,
-        //   hasOutput: true,
-        //   action: function (output) {
-        //     microsoftTeams.getContext(output);
-        //   }
-        // });
-        // addModule({
-        //   name: "getTabInstances",
-        //   initializedRequired: true,
-        //   hasOutput: true,
-        //   action: function (output) {
-        //     microsoftTeams.getTabInstances(output);
-        //   }
-        // });
-        // addModule({
-        //   name: "getMRUTabInstances",
-        //   initializedRequired: true,
-        //   hasOutput: true,
-        //   action: function (output) {
-        //     microsoftTeams.getMruTabInstances(output);
-        //   }
-        // });
-        // addModule({
-        //   name: "navigateCrossDomain",
-        //   initializedRequired: true,
-        //   inputs: [{
-        //     type: "string",
-        //     name: "url"
-        //   }],
-        //   action: function (url) {
-        //     microsoftTeams.navigateCrossDomain(url);
-        //   }
-        // });
-        // addModule({
-        //   name: "returnFocus",
-        //   initializedRequired: true,
-        //   inputs: [{
-        //     type: "boolean",
-        //     name: "navigateForward"
-        //   }],
-        //   action: function (navigateForward) {
-        //     microsoftTeams.returnFocus(navigateForward);
-        //   }
-        // });
-        // addModule({
-        //   name: "navigateCrossDomain",
-        //   initializedRequired: true,
-        //   inputs: [{
-        //     type: "string",
-        //     name: "url"
-        //   }],
-        //   action: function (url) {
-        //     microsoftTeams.navigateCrossDomain(url);
-        //   }
-        // });
-        // addModule({
-        //   name: "registerOnThemeChangeHandler",
-        //   initializedRequired: true,
-        //   hasOutput: true,
-        //   action: function (output) {
-        //     microsoftTeams.registerOnThemeChangeHandler(output);
-        //   }
-        // });
-        // addModule({
-        //   name: "registerEnterSettingsHandler",
-        //   initializedRequired: true,
-        //   hasOutput: true,
-        //   action: function (output) {
-        //     microsoftTeams.registerEnterSettingsHandler(function () {
-        //       output("Change Settings Event recieved");
-        //     });
-        //   }
-        // });
-        // addModule({
-        //   name: "registerAppButtonClickHandler",
-        //   initializedRequired: true,
-        //   hasOutput: true,
-        //   action: function (output) {
-        //     microsoftTeams.registerAppButtonClickHandler(function () {
-        //       output("Click event received");
-        //     });
-        //   }
-        // });
-        // addModule({
-        //   name: "registerAppButtonHoverEnterHandler",
-        //   initializedRequired: true,
-        //   hasOutput: true,
-        //   action: function (output) {
-        //     microsoftTeams.registerAppButtonHoverEnterHandler(function () {
-        //       output(`Hover enter event received`);
-        //     });
-        //   }
-        // });
-        // addModule({
-        //   name: "registerAppButtonHoverLeaveHandler",
-        //   initializedRequired: true,
-        //   hasOutput: true,
-        //   action: function (output) {
-        //     microsoftTeams.registerAppButtonHoverLeaveHandler(function () {
-        //       output(`Hover leave event received`);
-        //     });
-        //   }
-        // });
-        // addModule({
-        //   name: "shareDeepLink",
-        //   initializedRequired: true,
-        //   inputs: [{
-        //     type: "object",
-        //     name: "deepLinkParameters"
-        //   }],
-        //   action: function (deepLinkParameters) {
-        //     microsoftTeams.shareDeepLink(deepLinkParameters);
-        //   }
-        // });
-        // addModule({
-        //   name: "executeDeepLink",
-        //   initializedRequired: true,
-        //   inputs: [{
-        //     type: "string",
-        //     name: "deepLink"
-        //   }],
-        //   action: function (deepLink) {
-        //     microsoftTeams.executeDeepLink(deepLink);
-        //   }
-        // });
-        // addModule({
-        //   name: "authentication.authenticate",
-        //   initializedRequired: true,
-        //   inputs: [{
-        //     type: "string",
-        //     name: "url"
-        //   }],
-        //   hasOutput: true,
-        //   action: function (url, output) {
-        //     microsoftTeams.authentication.authenticate({
-        //       url: url,
-        //       isExternal: false,
-        //       successCallback: function (result) {
-        //         output("Success:" + result);
-        //       },
-        //       failureCallback: function (reason) {
-        //         output("Failure:" + reason);
-        //         MessageEvent
-        //       }
-        //     });
-        //   }
-        // });
+        addModule({
+            name: "getContext",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.getContext(output);
+            }
+        });
+        addModule({
+            name: "getTabInstances",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.getTabInstances(output);
+            }
+        });
+        addModule({
+            name: "getMRUTabInstances",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.getMruTabInstances(output);
+            }
+        });
+        addModule({
+            name: "navigateCrossDomain",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "url"
+                }],
+            action: function (url) {
+                MicrosoftTeams_min.navigateCrossDomain(url);
+            }
+        });
+        addModule({
+            name: "returnFocus",
+            initializedRequired: true,
+            inputs: [{
+                    type: "boolean",
+                    name: "navigateForward"
+                }],
+            action: function (navigateForward) {
+                MicrosoftTeams_min.returnFocus(navigateForward);
+            }
+        });
+        addModule({
+            name: "navigateCrossDomain",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "url"
+                }],
+            action: function (url) {
+                MicrosoftTeams_min.navigateCrossDomain(url);
+            }
+        });
+        addModule({
+            name: "registerOnThemeChangeHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.registerOnThemeChangeHandler(output);
+            }
+        });
+        addModule({
+            name: "registerEnterSettingsHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.registerEnterSettingsHandler(function () {
+                    output("Change Settings Event recieved");
+                });
+            }
+        });
+        addModule({
+            name: "registerAppButtonClickHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.registerAppButtonClickHandler(function () {
+                    output("Click event received");
+                });
+            }
+        });
+        addModule({
+            name: "registerAppButtonHoverEnterHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.registerAppButtonHoverEnterHandler(function () {
+                    output(`Hover enter event received`);
+                });
+            }
+        });
+        addModule({
+            name: "registerAppButtonHoverLeaveHandler",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.registerAppButtonHoverLeaveHandler(function () {
+                    output(`Hover leave event received`);
+                });
+            }
+        });
+        addModule({
+            name: "shareDeepLink",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "deepLinkParameters"
+                }],
+            action: function (deepLinkParameters) {
+                MicrosoftTeams_min.shareDeepLink(deepLinkParameters);
+            }
+        });
+        addModule({
+            name: "executeDeepLink",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "deepLink"
+                }],
+            action: function (deepLink) {
+                MicrosoftTeams_min.executeDeepLink(deepLink);
+            }
+        });
+        addModule({
+            name: "authentication.authenticate",
+            initializedRequired: true,
+            inputs: [{
+                    type: "string",
+                    name: "url"
+                }],
+            hasOutput: true,
+            action: function (url, output) {
+                MicrosoftTeams_min.authentication.authenticate({
+                    url: url,
+                    isExternal: false,
+                    successCallback: function (result) {
+                        output("Success:" + result);
+                    },
+                    failureCallback: function (reason) {
+                        output("Failure:" + reason);
+                        MessageEvent;
+                    }
+                });
+            }
+        });
         addModule({
             name: "authentication.external browser",
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
                 MicrosoftTeams_min.authentication.authenticate({
-                    url: 'https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/authredirect?authId={authId}&client_id=1073583513214-oplf5k63msf7at9rcj68vbrh265803vo.apps.googleusercontent.com&response_type=code&access_type=offline&scope=email%20profile',
+                    url: 'http://localhost:3000/auth',
                     isExternal: true,
                     successCallback: function (result) {
                         output("Success:" + result);
