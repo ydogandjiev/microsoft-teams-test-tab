@@ -36,7 +36,7 @@ app.get('/auth', (req, res) => {
 });
 
 app.get('/authredirect', (req, res) => {
-  if (req.session.completionType === 'deeplink')
+  if (req.session.oauhRedirectMethod === 'deeplink')
     return res.redirect(`msteams://teams.microsoft.com/l/auth-callback?authId=${req.session.authId}&code=${req.query.code}`);
   else
     return res.render('auth_end', { code: req.query.code });
