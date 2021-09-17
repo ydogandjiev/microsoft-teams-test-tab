@@ -181,7 +181,7 @@ export const initializeAppModules = () => {
       hasOutput: true,
       action: function (output) {
         microsoftTeams.authentication.authenticate({
-          url: 'http://localhost:3000/auth',
+          url: 'https://lnan-test2.loca.lt/auth',
           isExternal: true,
           successCallback: function (result) {
             output("Success:" + result);

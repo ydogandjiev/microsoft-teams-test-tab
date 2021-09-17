@@ -30,9 +30,9 @@ app.use(serveStatic(__dirname + '/public', {
 }));
 
 app.get('/auth', (req, res) => {
-  req.session.completionType = req.query.completionType;
+  req.session.oauhRedirectMethod = req.query.oauhRedirectMethod;
   req.session.authId = req.query.authId;
-  return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:3000/authredirect&client_id=1073583513214-oplf5k63msf7at9rcj68vbrh265803vo.apps.googleusercontent.com&response_type=code&access_type=offline&scope=email%20profile`)
+  return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://lnan-test2.loca.lt/authredirect&client_id=1073583513214-oplf5k63msf7at9rcj68vbrh265803vo.apps.googleusercontent.com&response_type=code&access_type=offline&scope=email%20profile`)
 });
 
 app.get('/authredirect', (req, res) => {
