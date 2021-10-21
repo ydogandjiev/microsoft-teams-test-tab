@@ -181,7 +181,7 @@ export const initializeAppModules = () => {
       hasOutput: true,
       action: function (output) {
         microsoftTeams.authentication.authenticate({
-          url: 'https://lnan-test2.loca.lt/auth',
+          url: 'https://lnan-test2.loca.lt/auth?oauthRedirectMethod={oauthRedirectMethod}&authId={authId}',
           isExternal: true,
           successCallback: function (result) {
             output("Success:" + result);
