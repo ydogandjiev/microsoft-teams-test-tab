@@ -30,15 +30,15 @@ app.use(serveStatic(__dirname + '/public', {
 }));
 
 app.get('/auth', (req, res) => {
-  req.session[req.query.authId] = req.query.oauthRedirectMethod
-  return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://lnan-test2.loca.lt/authredirect&state=${req.query.authId}&client_id=1073583513214-oplf5k63msf7at9rcj68vbrh265803vo.apps.googleusercontent.com&response_type=code&access_type=offline&scope=email%20profile`)
+  return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://lnan-test2.loca.lt/authredirect&state={"authId":"${req.query.authId}","method":"${req.query.oauthRedirectMethod}"}&client_id=1073583513214-oplf5k63msf7at9rcj68vbrh265803vo.apps.googleusercontent.com&response_type=code&access_type=offline&scope=email%20profile`)
 });
 
 app.get('/authredirect', (req, res) => {
-  if (req.session[req.query.state] === 'deeplink')
-    return res.redirect(`msteams://teams.microsoft.com/l/auth-callback?authId=${req.query.state}&code=${req.query.code}`);
+  const { authId, method } = JSON.parse(req.query.state)
+  if (method === 'deeplink')
+    return res.redirect(`msteams://teams.microsoft.com/l/auth-callback?authId=${authId}&result=${req.query.code}`);
   else
-    return res.render('auth_end', { code: req.query.code });
+    return res.render('auth_end', { result: req.query.code });
 });
 
 app.listen(port, function () {
