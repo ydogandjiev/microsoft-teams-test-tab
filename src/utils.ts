@@ -226,7 +226,7 @@ export function initializeDownloadLinks() {
   };
 }
 
-export function outputTabRenderedLocation(getContext: (callback: (context: microsoftTeams.Context) => void) => void) {
+export function outputTabRenderedLocation(getContext: (callback: (context: Context) => void) => void) {
   if (isInTeams()) {
     getContext(outputTabRenderedLocationInTeams);
   } else {

@@ -258,7 +258,7 @@ export const initializeAppModules = () => {
         name: "showNotificationParameters"
       }],
       action: function (showNotificationParameters) {
-        microsoftTeams.showNotification(showNotificationParameters);
+        microsoftTeams.notifications.showNotification(showNotificationParameters);
       }
     });
 
@@ -420,7 +420,7 @@ export const initializeAppModules = () => {
         name: "filePreviewParameters"
       }],
       action: function (filePreviewParameters) {
-        microsoftTeams.openFilePreview(filePreviewParameters);
+        microsoftTeams.files.openFilePreview(filePreviewParameters);
       }
     });
 
@@ -480,7 +480,7 @@ export const initializeAppModules = () => {
         name: "showNotificationParameters"
       }],
       action: function (showNotificationParameters) {
-        microsoftTeams.showNotification(showNotificationParameters);
+        microsoftTeams.notifications.showNotification(showNotificationParameters);
       }
     });
 
@@ -489,7 +489,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.getChatMembers(output);
+        microsoftTeams.chat.getChatMembers().then(output);
       }
     });
 
@@ -499,7 +499,7 @@ export const initializeAppModules = () => {
       hasOutput: true,
       action: function (output) {
         microsoftTeams
-        microsoftTeams.getUserJoinedTeams(output);
+        microsoftTeams.legacy.fullTrust.getUserJoinedTeams().then(output);
       }
     });
 
@@ -581,7 +581,7 @@ export const initializeAppModules = () => {
               output("Start Conversation Subentity Id " + conversationResponse.subEntityId + " Conversation Id: " + conversationResponse.conversationId + " Entity Id: " + conversationResponse.entityId + " Channel Id: " + conversationResponse.channelId);
           };
           try {
-            microsoftTeams.conversations.openConversation(openConversationRequest);
+            microsoftTeams.chat.openConversation(openConversationRequest);
           }
           catch (e) {
               output("Error" + e);
@@ -593,7 +593,7 @@ export const initializeAppModules = () => {
         name: "conversations.closeConversation",
         initializedRequired: true,
         action: function () {
-          microsoftTeams.conversations.closeConversation();
+          microsoftTeams.chat.closeConversation();
         }
     });
 
