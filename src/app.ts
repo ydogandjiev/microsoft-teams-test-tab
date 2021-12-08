@@ -176,7 +176,7 @@ export const initializeAppModules = () => {
     });
 
     addModule({
-      name: "authentication.external browser",
+      name: "authentication_externalBrowser",
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
