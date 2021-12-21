@@ -178,10 +178,14 @@ export const initializeAppModules = () => {
     addModule({
       name: "authentication_externalBrowser",
       initializedRequired: true,
+      inputs: [{
+        type: "boolean",
+        name: "mockOAuth" // do not go to the actual oauth provider, for scenario testing purpose
+      }],
       hasOutput: true,
-      action: function (output) {
+      action: function (mockOAuth, output) {
         microsoftTeams.authentication.authenticate({
-          url: 'https://lnan-test2.loca.lt/auth?oauthRedirectMethod={oauthRedirectMethod}&authId={authId}',
+          url: `${window.location.origin}/auth_start.html?oauthRedirectMethod={oauthRedirectMethod}&authId=1&mockOAuth=${mockOAuth}`,
           isExternal: true,
           successCallback: function (result) {
             output("Success:" + result);

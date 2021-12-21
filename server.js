@@ -2,7 +2,6 @@ var path = require('path');
 var express = require('express');
 var serveStatic = require('serve-static');
 var localtunnel = require('localtunnel');
-var session = require('express-session');
 
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
@@ -22,7 +21,6 @@ var onTunnelCreated = (err, tunnel) => {
 
 var app = express();
 app.set("view engine", "pug");
-app.use(session({ secret: 'auth test', cookie: { maxAge: 60000 }}));
 app.use(serveStatic(__dirname + '/public', {
   setHeaders: (res, path) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -30,16 +28,17 @@ app.use(serveStatic(__dirname + '/public', {
 }));
 
 app.get('/auth', (req, res) => {
-  return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://lnan-test2.loca.lt/authredirect&state={"authId":"${req.query.authId}","method":"${req.query.oauthRedirectMethod}"}&client_id=1073583513214-oplf5k63msf7at9rcj68vbrh265803vo.apps.googleusercontent.com&response_type=code&access_type=offline&scope=email%20profile`)
+  return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${req.query.redirect_uri}/auth_end.html&state={"authId":"${req.query.authId}","method":"${req.query.oauthRedirectMethod}"}&client_id=${process.env.GOOGLE_CLIENTID}&response_type=code&access_type=offline&scope=email%20profile`)
 });
 
-app.get('/authredirect', (req, res) => {
-  const { authId, method } = JSON.parse(req.query.state)
-  if (method === 'deeplink')
-    return res.redirect(`msteams://teams.microsoft.com/l/auth-callback?authId=${authId}&result=${req.query.code}`);
-  else
-    return res.render('auth_end', { result: req.query.code });
-});
+// app.get('/authredirect', (req, res) => {
+//   const { authId, method } = JSON.parse(req.query.state)
+//   if (method === 'deeplink')
+//     return res.redirect(`msteams://teams.microsoft.com/l/auth-callback?authId=${authId}&result=${req.query.code}`);
+//   else
+//     //return res.render('auth_end', { result: req.query.code });
+//     res.redirect('auth_end.html');
+// });
 
 app.listen(port, function () {
   console.log('Listening on http://localhost:' + port);
