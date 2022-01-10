@@ -18,9 +18,13 @@
   
   </div>
   <script src="./app.js"></script>
-  <h2>API using sdk as JS</h2>
+  <h2>Choose to hide or show IAP</h2>
+  <select onchange="hideDiv(this)" name="option">
+    <option value="Hide">Hide</option>
+    <option value="Show">Show</option>
+  </select>
   <div class="moduleContainer">
-    <div>
+    <div id="iapDiv">
       <div class="sectionTitle">openPurchaseExperience</div>
       <button onclick="openPurchaseExperience()">openPurchaseExperience</button>
     </div>
@@ -28,27 +32,6 @@
   <script src="./app.js"></script>
 
   <script>
-    function enablePrintCapability() {
-      microsoftTeams.initialize();
-      microsoftTeams.enablePrintCapability();
-    }
-
-    function authenticate() {
-      microsoftTeams.initialize();
-      microsoftTeams.authentication.authenticate({
-            url: 'https://teams-test-tab.azurewebsites.net'
-      });
-    }
-
-    function enableImplicitExecuteDeepLink() {
-      microsoftTeams.initialize();
-      microsoftTeams.enableImplicitExecuteDeepLink();
-    }
-
-    function printHandler() {
-      microsoftTeams.print();
-    }
-
     function openPurchaseExperience() {
       microsoftTeams.initialize();
       let callbackcalled = false;
@@ -62,6 +45,14 @@
         return;
       });
       console.log("after callback: ",callbackcalled);
+    }
+
+    function hideDiv(elem) {
+      if(element.value == "Show") {
+        document.getElementById('iapDiv').hidden = false;
+      } else {
+        document.getElementById('iapDiv').hidden = true;
+      }
     }
   </script>
 </body>
