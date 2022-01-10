@@ -21,52 +21,11 @@
   <h2>API using sdk as JS</h2>
   <div class="moduleContainer">
     <div>
-      <div class="sectionTitle">Download</div>
-      <a href="./placeholder_largeimage.png" download="appIcon">appIcon</a>
-    </div>
-    <div uploadFileSection>
-      <div class="sectionTitle">Upload</div>
-      <label for="image_uploads">Choose images to upload (PNG, JPG)</label>
-      <input type="file" id="image_uploads" name="image_uploads" accept=".jpg, .jpeg, .png" multiple>
-      <div class="fileUploadPreview">
-        <p>No files currently selected for upload</p>
-      </div>
-    </div>
-
-      <div>
-        <div class="sectionTitle">Implicit Teams Deep Link</div>
-        <button onclick="enableImplicitExecuteDeepLink()">enable Implicit ExecuteDeepLink</button>
-        <div><a href="https://teams.microsoft.com/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4">https://teams.microsoft.com/_#/l/app/f46ad259-0fe5-4f12-872d-c737b174bcb4</a></div>
-      <div> <a href="https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All" target="_blank">  https://teams.microsoft.com/l/entity/com.microsoft.teamspace.tab.planner/All</a> </div> 
-      <div> <a href="https://microsoft.com/" target="_blank"> https://microsoft.com/ (non teams deep link)</a> </div> 
-      </div>
-
-    <div>
-      <div class="sectionTitle">Print</div>
-      <button onclick="enablePrintCapability()">enablePrintCapability</button>
-      <button onclick="printHandler()">Print this page</button>
-    </div>
-
-    <div>
-      <div class="sectionTitle">URIs</div>
-      <a href="sip:yudogan@microsoft.com">Yuri Dogandjiev SIP URI</a>
-      <a href="sip:yudogan@microsoft.com" target="_blank">Yuri Dogandjiev SIP URI</a>
-    </div>
-
-    <div>
       <div class="sectionTitle">openPurchaseExperience</div>
       <button onclick="openPurchaseExperience()">openPurchaseExperience</button>
     </div>
   </div>
   <script src="./app.js"></script>
-<h2>Unstable API test module</h2>
-  <div class="moduleContainer">
-    
-    <div>
-      <div class="sectionTitle">authenticate</div>
-      <button onclick="authenticate()">authenticate</button>
-    </div>
-  </div>
 
   <script>
     function enablePrintCapability() {
@@ -96,6 +55,10 @@
       microsoftTeams.monetization.openPurchaseExperience((e) => {
         console.log("callback is being called");
         callbackcalled = true;  
+        if (!!e && typeof e !== "string") {
+          e = JSON.stringify(e);
+          alert(e);
+        }
         return;
       });
       console.log("after callback: ",callbackcalled);
