@@ -19,12 +19,12 @@
   </div>
   <script src="./app.js"></script>
   <h2>Choose to hide or show IAP</h2>
-  <select onchange="hideDiv(this)" name="option">
-    <option value="Hide">Hide</option>
-    <option value="Show">Show</option>
-  </select>
-  <div class="moduleContainer">
-    <div id="iapDiv">
+  <div class="moduleContainer"></div>
+    <select onchange="hideDiv(this)" name="option">
+      <option value="Hide">Hide</option>
+      <option value="Show">Show</option>
+    </select>
+    <div id="iapDiv" style="visibility: hidden;">
       <div class="sectionTitle">openPurchaseExperience</div>
       <button onclick="openPurchaseExperience()">openPurchaseExperience</button>
     </div>
@@ -49,9 +49,9 @@
 
     function hideDiv(element) {
       if(element.value == "Show") {
-        document.getElementById('iapDiv').hidden = false;
+        document.getElementById('iapDiv').style.visibility = "visible";
       } else {
-        document.getElementById('iapDiv').hidden = true;
+        document.getElementById('iapDiv').style.visibility = "hidden";
       }
     }
   </script>
