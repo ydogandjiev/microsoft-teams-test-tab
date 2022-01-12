@@ -293,11 +293,6 @@ function add_page_header(content) {
     h2.textContent = content;
     container.prepend(h2);
 }
-function getHostPath() {
-    let path = window.location.href;
-    path = path.replace('index.html', '');
-    return path.slice(-1) === '/' ? path : path + '/';
-}
 
 ;// CONCATENATED MODULE: ./src/app.ts
 
@@ -468,7 +463,7 @@ const initializeAppModules = () => {
             hasOutput: true,
             action: function (mockOAuth, output) {
                 MicrosoftTeams_min.authentication.authenticate({
-                    url: `${getHostPath()}auth_start.html?oauthRedirectMethod={oauthRedirectMethod}&authId=${mockOAuth ? "1" : "{authId}"}&mockOAuth=${mockOAuth}`,
+                    url: `auth_start.html?oauthRedirectMethod={oauthRedirectMethod}&authId=${mockOAuth ? "1" : "{authId}"}&mockOAuth=${mockOAuth}`,
                     isExternal: true,
                     successCallback: function (result) {
                         output("Success:" + result);
