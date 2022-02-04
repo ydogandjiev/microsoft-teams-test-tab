@@ -175,6 +175,28 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "authentication_externalBrowser",
+      initializedRequired: true,
+      inputs: [{
+        type: "boolean",
+        name: "mockOAuth" // do not go to the actual oauth provider, for scenario testing purpose
+      }],
+      hasOutput: true,
+      action: function (mockOAuth, output) {
+        microsoftTeams.authentication.authenticate({
+          url: `auth_start.html?oauthRedirectMethod={oauthRedirectMethod}&authId=${mockOAuth ? "1" : "{authId}"}&mockOAuth=${mockOAuth}`,
+          isExternal: true,
+          successCallback: function (result) {
+            output("Success:" + result);
+          },
+          failureCallback: function (reason) {
+            output("Failure:" + reason);
+          }
+        });
+      }
+    });
+
+    addModule({
       name: "tasks.startTask and listen for task module messages",
       initializedRequired: true,
       hasOutput: true,
