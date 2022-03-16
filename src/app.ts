@@ -378,7 +378,8 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       inputs: [{
         type: "object",
-        name: "settings"
+        name: "settings",
+        defaultValue: "{\"contentUrl\": \"https://teams-test-tab.azurewebsites.net/\", \"entityId\": \"someEntity\", \"websiteUrl\": \"https://teams-test-tab.azurewebsites.net/\"}"
       }],
       hasOutput: true,
       action: function (settings, output) {
