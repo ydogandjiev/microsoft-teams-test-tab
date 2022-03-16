@@ -8,6 +8,18 @@ app.use(serveStatic(__dirname + '/public', {
   }
 }));
 
+app.use('/page1', serveStatic(__dirname + '/public/page1.html', {
+  setHeaders: (res, path) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  }
+}));
+
+app.use('/page2', serveStatic(__dirname + '/public/page2.html', {
+  setHeaders: (res, path) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  }
+}));
+
 var port = process.env.port || 3000;
 app.listen(port, function () {
   console.log('Listening on http://localhost:' + port);

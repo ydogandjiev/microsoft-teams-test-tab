@@ -16,9 +16,8 @@
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -35,8 +34,6 @@
 /******/ 	}
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
 
@@ -604,6 +601,10 @@ const initializeAppModules = () => {
         addModule({
             name: "settings.registerOnSaveHandler",
             initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "setSettings"
+                }],
             hasOutput: true,
             action: function (output) {
                 MicrosoftTeams_min.settings.registerOnSaveHandler(function (saveEvent) {
@@ -642,7 +643,8 @@ const initializeAppModules = () => {
             initializedRequired: true,
             inputs: [{
                     type: "object",
-                    name: "settings"
+                    name: "settings",
+                    defaultValue: "{\"contentUrl\": \"https://teams-test-tab.azurewebsites.net/\", \"entityId\": \"someEntity\", \"websiteUrl\": \"https://teams-test-tab.azurewebsites.net/\"}"
                 }],
             hasOutput: true,
             action: function (settings, output) {
