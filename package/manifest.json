@@ -50,6 +50,37 @@
       ]
     }
   ],
+  "composeExtensions": [
+    {
+      "botId": "0f04f3c0-f135-467c-a336-92f776e98fcb",
+      "canUpdateConfiguration": true,
+      "commands": [
+        {
+          "id": "searchQuery",
+          "context": ["compose", "commandBox"],
+          "description": "Test command to run query",
+          "title": "Search",
+          "type": "query",
+          "parameters": [
+            {
+              "name": "searchQuery",
+              "title": "Search Query",
+              "description": "Your search query",
+              "inputType": "text"
+            }
+          ]
+        }
+      ],
+      "messageHandlers": [
+        {
+          "type": "link",
+          "value": {
+            "domains": ["teams-test-tab.azurewebsites.net"]
+          }
+        }
+      ]
+    }
+  ],
   "validDomains": [
     "teams-test-tab.azurewebsites.net"
   ],
