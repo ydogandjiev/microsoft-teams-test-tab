@@ -964,6 +964,18 @@ export const initializeAppModules = () => {
       } 
     });
 
+    addModule({
+      name: "stageView.open",
+      initializedRequired: true,
+      inputs: [{
+        type: "object",
+        name: "stageViewParams"
+      }],
+      action: function (stageViewParams) {
+        microsoftTeams.stageView.open(stageViewParams);
+      }
+    });
+
 
     // Get the modal
     var modal = document.getElementById("myModal");
