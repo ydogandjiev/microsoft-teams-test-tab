@@ -838,12 +838,12 @@ export const initializeAppModules = () => {
       initializedRequired : true,
       hasOutput : true,
       action: function (output) {
-          microsoftTeams.meeting.getMeetingDetails((err: microsoftTeams.SdkError, getMeetingDetails : microsoftTeams.meeting.IMeetingDetails) => {
+          microsoftTeams.meeting.getMeetingDetails((err: microsoftTeams.SdkError, meetingDetailsResponse: microsoftTeams.meeting.IMeetingDetailsResponse) => {
               if (err) {
                 output(err);
                 return;
               }
-              output(getMeetingDetails);
+              output(meetingDetailsResponse);
           });
       }
     });
