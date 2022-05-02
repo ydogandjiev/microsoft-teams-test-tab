@@ -14,10 +14,12 @@
   resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
   integrity sha1-kEIPn5xtOYfxdqGafY52QnGi9V0=
 
-"@microsoft/teams-js@1.12.0-beta.5":
-  version "1.12.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-1.12.0-beta.5.tgz#6f107ee3e778b7432692445ae15d86a76aa12d11"
-  integrity sha512-NrUe0ZPUZDqWNRei+p4AZoh1/x197bdatLk3rulBQhGnXny8ZNu8U0PpyKvHooGTwe4vwLNNwgCDx/wRPAiLTQ==
+"@microsoft/teams-js@2.0.0-beta.6":
+  version "2.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-2.0.0-beta.6.tgz#239f5d62341ef90e2cebbc90b38f095e55041acd"
+  integrity sha512-KdNVB97IbtGKvqM1GvZdd2DB5sASRomgkuUGYiPxw8OzcBtUhV2CcsH8UZm9vAeqoFfvzHVGYP74ksBHuOdC3g==
+  dependencies:
+    debug "4.3.3"
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.1"
@@ -383,6 +385,13 @@ debug@2.6.9:
   integrity sha1-XRKFFd8TT/Mn6QpMk/Tgd6U2NB8=
   dependencies:
     ms "2.0.0"
+
+debug@4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
+  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
+  dependencies:
+    ms "2.1.2"
 
 depd@~1.1.2:
   version "1.1.2"
@@ -868,6 +877,11 @@ ms@2.1.1:
   version "2.1.1"
   resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha1-MKWGTrPrsKZvLr5tcnrwagnYbgo=
+
+ms@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
+  integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
 negotiator@0.6.2:
   version "0.6.2"

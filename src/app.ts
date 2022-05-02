@@ -276,7 +276,7 @@ export const initializeAppModules = () => {
         name: "showNotificationParameters"
       }],
       action: function (showNotificationParameters) {
-        microsoftTeams.showNotification(showNotificationParameters);
+        microsoftTeams.notifications.showNotification(showNotificationParameters);
       }
     });
 
@@ -499,7 +499,7 @@ export const initializeAppModules = () => {
         name: "showNotificationParameters"
       }],
       action: function (showNotificationParameters) {
-        microsoftTeams.showNotification(showNotificationParameters);
+        microsoftTeams.notifications.showNotification(showNotificationParameters);
       }
     });
 
@@ -508,7 +508,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.getChatMembers(output);
+        microsoftTeams.conversations.getChatMembers().then(output);
       }
     });
 
@@ -517,8 +517,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams
-        microsoftTeams.getUserJoinedTeams(output);
+        microsoftTeams.legacy.fullTrust.joinedTeams.getUserJoinedTeams().then(output);
       }
     });
 
