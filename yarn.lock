@@ -3,96 +3,96 @@
 
 
 "@babel/runtime@^7.7.6":
-  version "7.14.8"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@babel/runtime/-/runtime-7.14.8.tgz#7119a56f421018852694290b9f9148097391b446"
-  integrity sha1-cRmlb0IQGIUmlCkLn5FICXORtEY=
+  "integrity" "sha1-cRmlb0IQGIUmlCkLn5FICXORtEY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@babel/runtime/-/runtime-7.14.8.tgz"
+  "version" "7.14.8"
   dependencies:
-    regenerator-runtime "^0.13.4"
+    "regenerator-runtime" "^0.13.4"
 
 "@discoveryjs/json-ext@^0.5.0":
-  version "0.5.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
-  integrity sha1-kEIPn5xtOYfxdqGafY52QnGi9V0=
+  "integrity" "sha1-kEIPn5xtOYfxdqGafY52QnGi9V0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz"
+  "version" "0.5.3"
 
-"@microsoft/teams-js@2.0.0-beta.6":
-  version "2.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-2.0.0-beta.6.tgz#239f5d62341ef90e2cebbc90b38f095e55041acd"
-  integrity sha512-KdNVB97IbtGKvqM1GvZdd2DB5sASRomgkuUGYiPxw8OzcBtUhV2CcsH8UZm9vAeqoFfvzHVGYP74ksBHuOdC3g==
+"@microsoft/teams-js@^2.0.0-beta.6":
+  "integrity" "sha1-I59dYjQe+Q4s67yQs48JXlUEGs0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@microsoft/teams-js/-/teams-js-2.0.0-beta.6.tgz"
+  "version" "2.0.0-beta.6"
   dependencies:
-    debug "4.3.3"
+    "debug" "4.3.3"
 
 "@types/eslint-scope@^3.7.0":
-  version "3.7.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/eslint-scope/-/eslint-scope-3.7.1.tgz#8dc390a7b4f9dd9f1284629efce982e41612116e"
-  integrity sha1-jcOQp7T53Z8ShGKe/OmC5BYSEW4=
+  "integrity" "sha1-jcOQp7T53Z8ShGKe/OmC5BYSEW4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/eslint-scope/-/eslint-scope-3.7.1.tgz"
+  "version" "3.7.1"
   dependencies:
     "@types/eslint" "*"
     "@types/estree" "*"
 
 "@types/eslint@*":
-  version "7.28.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/eslint/-/eslint-7.28.0.tgz#7e41f2481d301c68e14f483fe10b017753ce8d5a"
-  integrity sha1-fkHySB0wHGjhT0g/4QsBd1POjVo=
+  "integrity" "sha1-fkHySB0wHGjhT0g/4QsBd1POjVo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/eslint/-/eslint-7.28.0.tgz"
+  "version" "7.28.0"
   dependencies:
     "@types/estree" "*"
     "@types/json-schema" "*"
 
 "@types/estree@*", "@types/estree@^0.0.50":
-  version "0.0.50"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/estree/-/estree-0.0.50.tgz#1e0caa9364d3fccd2931c3ed96fdbeaa5d4cca83"
-  integrity sha1-Hgyqk2TT/M0pMcPtlv2+ql1MyoM=
+  "integrity" "sha1-Hgyqk2TT/M0pMcPtlv2+ql1MyoM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/estree/-/estree-0.0.50.tgz"
+  "version" "0.0.50"
 
 "@types/json-schema@*", "@types/json-schema@^7.0.8":
-  version "7.0.8"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/json-schema/-/json-schema-7.0.8.tgz#edf1bf1dbf4e04413ca8e5b17b3b7d7d54b59818"
-  integrity sha1-7fG/Hb9OBEE8qOWxezt9fVS1mBg=
+  "integrity" "sha1-7fG/Hb9OBEE8qOWxezt9fVS1mBg="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/json-schema/-/json-schema-7.0.8.tgz"
+  "version" "7.0.8"
 
 "@types/node@*":
-  version "16.4.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/node/-/node-16.4.1.tgz#9fad171a5b701613ee8a6f4ece3c88b1034b1b03"
-  integrity sha1-n60XGltwFhPuim9OzjyIsQNLGwM=
+  "integrity" "sha1-n60XGltwFhPuim9OzjyIsQNLGwM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@types/node/-/node-16.4.1.tgz"
+  "version" "16.4.1"
 
 "@webassemblyjs/ast@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"
-  integrity sha1-K/12fq4aaZb0Mv9+jX/HVnnAtqc=
+  "integrity" "sha1-K/12fq4aaZb0Mv9+jX/HVnnAtqc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/ast/-/ast-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@webassemblyjs/helper-numbers" "1.11.1"
     "@webassemblyjs/helper-wasm-bytecode" "1.11.1"
 
 "@webassemblyjs/floating-point-hex-parser@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/floating-point-hex-parser/-/floating-point-hex-parser-1.11.1.tgz#f6c61a705f0fd7a6aecaa4e8198f23d9dc179e4f"
-  integrity sha1-9sYacF8P16auyqToGY8j2dwXnk8=
+  "integrity" "sha1-9sYacF8P16auyqToGY8j2dwXnk8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/floating-point-hex-parser/-/floating-point-hex-parser-1.11.1.tgz"
+  "version" "1.11.1"
 
 "@webassemblyjs/helper-api-error@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-api-error/-/helper-api-error-1.11.1.tgz#1a63192d8788e5c012800ba6a7a46c705288fd16"
-  integrity sha1-GmMZLYeI5cASgAump6RscFKI/RY=
+  "integrity" "sha1-GmMZLYeI5cASgAump6RscFKI/RY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-api-error/-/helper-api-error-1.11.1.tgz"
+  "version" "1.11.1"
 
 "@webassemblyjs/helper-buffer@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-buffer/-/helper-buffer-1.11.1.tgz#832a900eb444884cde9a7cad467f81500f5e5ab5"
-  integrity sha1-gyqQDrREiEzemnytRn+BUA9eWrU=
+  "integrity" "sha1-gyqQDrREiEzemnytRn+BUA9eWrU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-buffer/-/helper-buffer-1.11.1.tgz"
+  "version" "1.11.1"
 
 "@webassemblyjs/helper-numbers@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-numbers/-/helper-numbers-1.11.1.tgz#64d81da219fbbba1e3bd1bfc74f6e8c4e10a62ae"
-  integrity sha1-ZNgdohn7u6HjvRv8dPboxOEKYq4=
+  "integrity" "sha1-ZNgdohn7u6HjvRv8dPboxOEKYq4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-numbers/-/helper-numbers-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@webassemblyjs/floating-point-hex-parser" "1.11.1"
     "@webassemblyjs/helper-api-error" "1.11.1"
     "@xtuc/long" "4.2.2"
 
 "@webassemblyjs/helper-wasm-bytecode@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-wasm-bytecode/-/helper-wasm-bytecode-1.11.1.tgz#f328241e41e7b199d0b20c18e88429c4433295e1"
-  integrity sha1-8ygkHkHnsZnQsgwY6IQpxEMyleE=
+  "integrity" "sha1-8ygkHkHnsZnQsgwY6IQpxEMyleE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-wasm-bytecode/-/helper-wasm-bytecode-1.11.1.tgz"
+  "version" "1.11.1"
 
 "@webassemblyjs/helper-wasm-section@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-wasm-section/-/helper-wasm-section-1.11.1.tgz#21ee065a7b635f319e738f0dd73bfbda281c097a"
-  integrity sha1-Ie4GWntjXzGec48N1zv72igcCXo=
+  "integrity" "sha1-Ie4GWntjXzGec48N1zv72igcCXo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/helper-wasm-section/-/helper-wasm-section-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@webassemblyjs/ast" "1.11.1"
     "@webassemblyjs/helper-buffer" "1.11.1"
@@ -100,28 +100,28 @@
     "@webassemblyjs/wasm-gen" "1.11.1"
 
 "@webassemblyjs/ieee754@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/ieee754/-/ieee754-1.11.1.tgz#963929e9bbd05709e7e12243a099180812992614"
-  integrity sha1-ljkp6bvQVwnn4SJDoJkYCBKZJhQ=
+  "integrity" "sha1-ljkp6bvQVwnn4SJDoJkYCBKZJhQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/ieee754/-/ieee754-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@xtuc/ieee754" "^1.2.0"
 
 "@webassemblyjs/leb128@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/leb128/-/leb128-1.11.1.tgz#ce814b45574e93d76bae1fb2644ab9cdd9527aa5"
-  integrity sha1-zoFLRVdOk9drrh+yZEq5zdlSeqU=
+  "integrity" "sha1-zoFLRVdOk9drrh+yZEq5zdlSeqU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/leb128/-/leb128-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@xtuc/long" "4.2.2"
 
 "@webassemblyjs/utf8@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/utf8/-/utf8-1.11.1.tgz#d1f8b764369e7c6e6bae350e854dec9a59f0a3ff"
-  integrity sha1-0fi3ZDaefG5rrjUOhU3smlnwo/8=
+  "integrity" "sha1-0fi3ZDaefG5rrjUOhU3smlnwo/8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/utf8/-/utf8-1.11.1.tgz"
+  "version" "1.11.1"
 
 "@webassemblyjs/wasm-edit@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wasm-edit/-/wasm-edit-1.11.1.tgz#ad206ebf4bf95a058ce9880a8c092c5dec8193d6"
-  integrity sha1-rSBuv0v5WgWM6YgKjAksXeyBk9Y=
+  "integrity" "sha1-rSBuv0v5WgWM6YgKjAksXeyBk9Y="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wasm-edit/-/wasm-edit-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@webassemblyjs/ast" "1.11.1"
     "@webassemblyjs/helper-buffer" "1.11.1"
@@ -133,9 +133,9 @@
     "@webassemblyjs/wast-printer" "1.11.1"
 
 "@webassemblyjs/wasm-gen@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wasm-gen/-/wasm-gen-1.11.1.tgz#86c5ea304849759b7d88c47a32f4f039ae3c8f76"
-  integrity sha1-hsXqMEhJdZt9iMR6MvTwOa48j3Y=
+  "integrity" "sha1-hsXqMEhJdZt9iMR6MvTwOa48j3Y="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wasm-gen/-/wasm-gen-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@webassemblyjs/ast" "1.11.1"
     "@webassemblyjs/helper-wasm-bytecode" "1.11.1"
@@ -144,9 +144,9 @@
     "@webassemblyjs/utf8" "1.11.1"
 
 "@webassemblyjs/wasm-opt@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wasm-opt/-/wasm-opt-1.11.1.tgz#657b4c2202f4cf3b345f8a4c6461c8c2418985f2"
-  integrity sha1-ZXtMIgL0zzs0X4pMZGHIwkGJhfI=
+  "integrity" "sha1-ZXtMIgL0zzs0X4pMZGHIwkGJhfI="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wasm-opt/-/wasm-opt-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@webassemblyjs/ast" "1.11.1"
     "@webassemblyjs/helper-buffer" "1.11.1"
@@ -154,9 +154,9 @@
     "@webassemblyjs/wasm-parser" "1.11.1"
 
 "@webassemblyjs/wasm-parser@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wasm-parser/-/wasm-parser-1.11.1.tgz#86ca734534f417e9bd3c67c7a1c75d8be41fb199"
-  integrity sha1-hspzRTT0F+m9PGfHocddi+QfsZk=
+  "integrity" "sha1-hspzRTT0F+m9PGfHocddi+QfsZk="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wasm-parser/-/wasm-parser-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@webassemblyjs/ast" "1.11.1"
     "@webassemblyjs/helper-api-error" "1.11.1"
@@ -166,1256 +166,1256 @@
     "@webassemblyjs/utf8" "1.11.1"
 
 "@webassemblyjs/wast-printer@1.11.1":
-  version "1.11.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wast-printer/-/wast-printer-1.11.1.tgz#d0c73beda8eec5426f10ae8ef55cee5e7084c2f0"
-  integrity sha1-0Mc77ajuxUJvEK6O9VzuXnCEwvA=
+  "integrity" "sha1-0Mc77ajuxUJvEK6O9VzuXnCEwvA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webassemblyjs/wast-printer/-/wast-printer-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
 "@webpack-cli/configtest@^1.0.4":
-  version "1.0.4"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webpack-cli/configtest/-/configtest-1.0.4.tgz#f03ce6311c0883a83d04569e2c03c6238316d2aa"
-  integrity sha1-8DzmMRwIg6g9BFaeLAPGI4MW0qo=
+  "integrity" "sha1-8DzmMRwIg6g9BFaeLAPGI4MW0qo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webpack-cli/configtest/-/configtest-1.0.4.tgz"
+  "version" "1.0.4"
 
 "@webpack-cli/info@^1.3.0":
-  version "1.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webpack-cli/info/-/info-1.3.0.tgz#9d78a31101a960997a4acd41ffd9b9300627fe2b"
-  integrity sha1-nXijEQGpYJl6Ss1B/9m5MAYn/is=
+  "integrity" "sha1-nXijEQGpYJl6Ss1B/9m5MAYn/is="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webpack-cli/info/-/info-1.3.0.tgz"
+  "version" "1.3.0"
   dependencies:
-    envinfo "^7.7.3"
+    "envinfo" "^7.7.3"
 
 "@webpack-cli/serve@^1.5.1":
-  version "1.5.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webpack-cli/serve/-/serve-1.5.1.tgz#b5fde2f0f79c1e120307c415a4c1d5eb15a6f278"
-  integrity sha1-tf3i8PecHhIDB8QVpMHV6xWm8ng=
+  "integrity" "sha1-tf3i8PecHhIDB8QVpMHV6xWm8ng="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@webpack-cli/serve/-/serve-1.5.1.tgz"
+  "version" "1.5.1"
 
 "@xtuc/ieee754@^1.2.0":
-  version "1.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
-  integrity sha1-7vAUoxRa5Hehy8AM0eVSM23Ot5A=
+  "integrity" "sha1-7vAUoxRa5Hehy8AM0eVSM23Ot5A="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@xtuc/ieee754/-/ieee754-1.2.0.tgz"
+  "version" "1.2.0"
 
 "@xtuc/long@4.2.2":
-  version "4.2.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
-  integrity sha1-0pHGpOl5ibXGHZrPOWrk/hM6cY0=
+  "integrity" "sha1-0pHGpOl5ibXGHZrPOWrk/hM6cY0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@xtuc/long/-/long-4.2.2.tgz"
+  "version" "4.2.2"
 
-accepts@~1.3.7:
-  version "1.3.7"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/accepts/-/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
-  integrity sha1-UxvHJlF6OytB+FACHGzBXqq1B80=
+"accepts@~1.3.7":
+  "integrity" "sha1-UxvHJlF6OytB+FACHGzBXqq1B80="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/accepts/-/accepts-1.3.7.tgz"
+  "version" "1.3.7"
   dependencies:
-    mime-types "~2.1.24"
-    negotiator "0.6.2"
+    "mime-types" "~2.1.24"
+    "negotiator" "0.6.2"
 
-acorn@^8.4.1:
-  version "8.4.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/acorn/-/acorn-8.4.1.tgz#56c36251fc7cabc7096adc18f05afe814321a28c"
-  integrity sha1-VsNiUfx8q8cJatwY8Fr+gUMhoow=
+"acorn@^8.4.1":
+  "integrity" "sha1-VsNiUfx8q8cJatwY8Fr+gUMhoow="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/acorn/-/acorn-8.4.1.tgz"
+  "version" "8.4.1"
 
-ajv-keywords@^3.5.2:
-  version "3.5.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ajv-keywords/-/ajv-keywords-3.5.2.tgz#31f29da5ab6e00d1c2d329acf7b5929614d5014d"
-  integrity sha1-MfKdpatuANHC0yms97WSlhTVAU0=
+"ajv-keywords@^3.5.2":
+  "integrity" "sha1-MfKdpatuANHC0yms97WSlhTVAU0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ajv-keywords/-/ajv-keywords-3.5.2.tgz"
+  "version" "3.5.2"
 
-ajv@^6.12.5:
-  version "6.12.6"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ajv/-/ajv-6.12.6.tgz#baf5a62e802b07d977034586f8c3baf5adf26df4"
-  integrity sha1-uvWmLoArB9l3A0WG+MO69a3ybfQ=
+"ajv@^6.12.5", "ajv@^6.9.1":
+  "integrity" "sha1-uvWmLoArB9l3A0WG+MO69a3ybfQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ajv/-/ajv-6.12.6.tgz"
+  "version" "6.12.6"
   dependencies:
-    fast-deep-equal "^3.1.1"
-    fast-json-stable-stringify "^2.0.0"
-    json-schema-traverse "^0.4.1"
-    uri-js "^4.2.2"
+    "fast-deep-equal" "^3.1.1"
+    "fast-json-stable-stringify" "^2.0.0"
+    "json-schema-traverse" "^0.4.1"
+    "uri-js" "^4.2.2"
 
-ansi-styles@^4.1.0:
-  version "4.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ansi-styles/-/ansi-styles-4.3.0.tgz#edd803628ae71c04c85ae7a0906edad34b648937"
-  integrity sha1-7dgDYornHATIWuegkG7a00tkiTc=
+"ansi-styles@^4.1.0":
+  "integrity" "sha1-7dgDYornHATIWuegkG7a00tkiTc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ansi-styles/-/ansi-styles-4.3.0.tgz"
+  "version" "4.3.0"
   dependencies:
-    color-convert "^2.0.1"
+    "color-convert" "^2.0.1"
 
-array-flatten@1.1.1:
-  version "1.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
-  integrity sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
+"array-flatten@1.1.1":
+  "integrity" "sha1-ml9pkFGx5wczKPKgCJaLZOopVdI="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/array-flatten/-/array-flatten-1.1.1.tgz"
+  "version" "1.1.1"
 
-big.js@^5.2.2:
-  version "5.2.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/big.js/-/big.js-5.2.2.tgz#65f0af382f578bcdc742bd9c281e9cb2d7768328"
-  integrity sha1-ZfCvOC9Xi83HQr2cKB6cstd2gyg=
+"big.js@^5.2.2":
+  "integrity" "sha1-ZfCvOC9Xi83HQr2cKB6cstd2gyg="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/big.js/-/big.js-5.2.2.tgz"
+  "version" "5.2.2"
 
-body-parser@1.19.0:
-  version "1.19.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/body-parser/-/body-parser-1.19.0.tgz#96b2709e57c9c4e09a6fd66a8fd979844f69f08a"
-  integrity sha1-lrJwnlfJxOCab9Zqj9l5hE9p8Io=
+"body-parser@1.19.0":
+  "integrity" "sha1-lrJwnlfJxOCab9Zqj9l5hE9p8Io="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/body-parser/-/body-parser-1.19.0.tgz"
+  "version" "1.19.0"
   dependencies:
-    bytes "3.1.0"
-    content-type "~1.0.4"
-    debug "2.6.9"
-    depd "~1.1.2"
-    http-errors "1.7.2"
-    iconv-lite "0.4.24"
-    on-finished "~2.3.0"
-    qs "6.7.0"
-    raw-body "2.4.0"
-    type-is "~1.6.17"
+    "bytes" "3.1.0"
+    "content-type" "~1.0.4"
+    "debug" "2.6.9"
+    "depd" "~1.1.2"
+    "http-errors" "1.7.2"
+    "iconv-lite" "0.4.24"
+    "on-finished" "~2.3.0"
+    "qs" "6.7.0"
+    "raw-body" "2.4.0"
+    "type-is" "~1.6.17"
 
-braces@^3.0.1:
-  version "3.0.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
-  integrity sha1-NFThpGLujVmeI23zNs2epPiv4Qc=
+"braces@^3.0.1":
+  "integrity" "sha1-NFThpGLujVmeI23zNs2epPiv4Qc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/braces/-/braces-3.0.2.tgz"
+  "version" "3.0.2"
   dependencies:
-    fill-range "^7.0.1"
+    "fill-range" "^7.0.1"
 
-browserslist@^4.14.5:
-  version "4.16.6"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/browserslist/-/browserslist-4.16.6.tgz#d7901277a5a88e554ed305b183ec9b0c08f66fa2"
-  integrity sha1-15ASd6WojlVO0wWxg+ybDAj2b6I=
+"browserslist@^4.14.5":
+  "integrity" "sha1-15ASd6WojlVO0wWxg+ybDAj2b6I="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/browserslist/-/browserslist-4.16.6.tgz"
+  "version" "4.16.6"
   dependencies:
-    caniuse-lite "^1.0.30001219"
-    colorette "^1.2.2"
-    electron-to-chromium "^1.3.723"
-    escalade "^3.1.1"
-    node-releases "^1.1.71"
+    "caniuse-lite" "^1.0.30001219"
+    "colorette" "^1.2.2"
+    "electron-to-chromium" "^1.3.723"
+    "escalade" "^3.1.1"
+    "node-releases" "^1.1.71"
 
-buffer-from@^1.0.0:
-  version "1.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
-  integrity sha1-MnE7wCj3XAL9txDXx7zsHyxgcO8=
+"buffer-from@^1.0.0":
+  "integrity" "sha1-MnE7wCj3XAL9txDXx7zsHyxgcO8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/buffer-from/-/buffer-from-1.1.1.tgz"
+  "version" "1.1.1"
 
-bytes@3.1.0:
-  version "3.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
-  integrity sha1-9s95M6Ng4FiPqf3oVlHNx/gF0fY=
+"bytes@3.1.0":
+  "integrity" "sha1-9s95M6Ng4FiPqf3oVlHNx/gF0fY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/bytes/-/bytes-3.1.0.tgz"
+  "version" "3.1.0"
 
-caniuse-lite@^1.0.30001219:
-  version "1.0.30001246"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/caniuse-lite/-/caniuse-lite-1.0.30001246.tgz#fe17d9919f87124d6bb416ef7b325356d69dc76c"
-  integrity sha1-/hfZkZ+HEk1rtBbvezJTVtadx2w=
+"caniuse-lite@^1.0.30001219":
+  "integrity" "sha1-/hfZkZ+HEk1rtBbvezJTVtadx2w="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/caniuse-lite/-/caniuse-lite-1.0.30001246.tgz"
+  "version" "1.0.30001246"
 
-chalk@^4.1.0:
-  version "4.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/chalk/-/chalk-4.1.1.tgz#c80b3fab28bf6371e6863325eee67e618b77e6ad"
-  integrity sha1-yAs/qyi/Y3HmhjMl7uZ+YYt35q0=
+"chalk@^4.1.0":
+  "integrity" "sha1-yAs/qyi/Y3HmhjMl7uZ+YYt35q0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/chalk/-/chalk-4.1.1.tgz"
+  "version" "4.1.1"
   dependencies:
-    ansi-styles "^4.1.0"
-    supports-color "^7.1.0"
+    "ansi-styles" "^4.1.0"
+    "supports-color" "^7.1.0"
 
-chrome-trace-event@^1.0.2:
-  version "1.0.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/chrome-trace-event/-/chrome-trace-event-1.0.3.tgz#1015eced4741e15d06664a957dbbf50d041e26ac"
-  integrity sha1-EBXs7UdB4V0GZkqVfbv1DQQeJqw=
+"chrome-trace-event@^1.0.2":
+  "integrity" "sha1-EBXs7UdB4V0GZkqVfbv1DQQeJqw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/chrome-trace-event/-/chrome-trace-event-1.0.3.tgz"
+  "version" "1.0.3"
 
-clone-deep@^4.0.1:
-  version "4.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/clone-deep/-/clone-deep-4.0.1.tgz#c19fd9bdbbf85942b4fd979c84dcf7d5f07c2387"
-  integrity sha1-wZ/Zvbv4WUK0/ZechNz31fB8I4c=
+"clone-deep@^4.0.1":
+  "integrity" "sha1-wZ/Zvbv4WUK0/ZechNz31fB8I4c="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/clone-deep/-/clone-deep-4.0.1.tgz"
+  "version" "4.0.1"
   dependencies:
-    is-plain-object "^2.0.4"
-    kind-of "^6.0.2"
-    shallow-clone "^3.0.0"
+    "is-plain-object" "^2.0.4"
+    "kind-of" "^6.0.2"
+    "shallow-clone" "^3.0.0"
 
-color-convert@^2.0.1:
-  version "2.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/color-convert/-/color-convert-2.0.1.tgz#72d3a68d598c9bdb3af2ad1e84f21d896abd4de3"
-  integrity sha1-ctOmjVmMm9s68q0ehPIdiWq9TeM=
+"color-convert@^2.0.1":
+  "integrity" "sha1-ctOmjVmMm9s68q0ehPIdiWq9TeM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/color-convert/-/color-convert-2.0.1.tgz"
+  "version" "2.0.1"
   dependencies:
-    color-name "~1.1.4"
+    "color-name" "~1.1.4"
 
-color-name@~1.1.4:
-  version "1.1.4"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
-  integrity sha1-wqCah6y95pVD3m9j+jmVyCbFNqI=
+"color-name@~1.1.4":
+  "integrity" "sha1-wqCah6y95pVD3m9j+jmVyCbFNqI="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/color-name/-/color-name-1.1.4.tgz"
+  "version" "1.1.4"
 
-colorette@^1.2.1, colorette@^1.2.2:
-  version "1.2.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/colorette/-/colorette-1.2.2.tgz#cbcc79d5e99caea2dbf10eb3a26fd8b3e6acfa94"
-  integrity sha1-y8x51emcrqLb8Q6zom/Ys+as+pQ=
+"colorette@^1.2.1", "colorette@^1.2.2":
+  "integrity" "sha1-y8x51emcrqLb8Q6zom/Ys+as+pQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/colorette/-/colorette-1.2.2.tgz"
+  "version" "1.2.2"
 
-commander@^2.20.0:
-  version "2.20.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
-  integrity sha1-/UhehMA+tIgcIHIrpIA16FMa6zM=
+"commander@^2.20.0":
+  "integrity" "sha1-/UhehMA+tIgcIHIrpIA16FMa6zM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/commander/-/commander-2.20.3.tgz"
+  "version" "2.20.3"
 
-commander@^7.0.0:
-  version "7.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
-  integrity sha1-o2y1fQtQHOEI5NIFWaFQo5HZerc=
+"commander@^7.0.0":
+  "integrity" "sha1-o2y1fQtQHOEI5NIFWaFQo5HZerc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/commander/-/commander-7.2.0.tgz"
+  "version" "7.2.0"
 
-content-disposition@0.5.3:
-  version "0.5.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/content-disposition/-/content-disposition-0.5.3.tgz#e130caf7e7279087c5616c2007d0485698984fbd"
-  integrity sha1-4TDK9+cnkIfFYWwgB9BIVpiYT70=
+"content-disposition@0.5.3":
+  "integrity" "sha1-4TDK9+cnkIfFYWwgB9BIVpiYT70="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/content-disposition/-/content-disposition-0.5.3.tgz"
+  "version" "0.5.3"
   dependencies:
-    safe-buffer "5.1.2"
+    "safe-buffer" "5.1.2"
 
-content-type@~1.0.4:
-  version "1.0.4"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
-  integrity sha1-4TjMdeBAxyexlm/l5fjJruJW/js=
+"content-type@~1.0.4":
+  "integrity" "sha1-4TjMdeBAxyexlm/l5fjJruJW/js="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/content-type/-/content-type-1.0.4.tgz"
+  "version" "1.0.4"
 
-cookie-signature@1.0.6:
-  version "1.0.6"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
-  integrity sha1-4wOogrNCzD7oylE6eZmXNNqzriw=
+"cookie-signature@1.0.6":
+  "integrity" "sha1-4wOogrNCzD7oylE6eZmXNNqzriw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/cookie-signature/-/cookie-signature-1.0.6.tgz"
+  "version" "1.0.6"
 
-cookie@0.4.0:
-  version "0.4.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/cookie/-/cookie-0.4.0.tgz#beb437e7022b3b6d49019d088665303ebe9c14ba"
-  integrity sha1-vrQ35wIrO21JAZ0IhmUwPr6cFLo=
+"cookie@0.4.0":
+  "integrity" "sha1-vrQ35wIrO21JAZ0IhmUwPr6cFLo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/cookie/-/cookie-0.4.0.tgz"
+  "version" "0.4.0"
 
-core-util-is@~1.0.0:
-  version "1.0.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
-  integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
+"core-util-is@~1.0.0":
+  "integrity" "sha1-tf1UIgqivFq1eqtxQMlAdUUDwac="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/core-util-is/-/core-util-is-1.0.2.tgz"
+  "version" "1.0.2"
 
-cross-spawn@^7.0.3:
-  version "7.0.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
-  integrity sha1-9zqFudXUHQRVUcF34ogtSshXKKY=
+"cross-spawn@^7.0.3":
+  "integrity" "sha1-9zqFudXUHQRVUcF34ogtSshXKKY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/cross-spawn/-/cross-spawn-7.0.3.tgz"
+  "version" "7.0.3"
   dependencies:
-    path-key "^3.1.0"
-    shebang-command "^2.0.0"
-    which "^2.0.1"
+    "path-key" "^3.1.0"
+    "shebang-command" "^2.0.0"
+    "which" "^2.0.1"
 
-debug@2.6.9:
-  version "2.6.9"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
-  integrity sha1-XRKFFd8TT/Mn6QpMk/Tgd6U2NB8=
+"debug@2.6.9":
+  "integrity" "sha1-XRKFFd8TT/Mn6QpMk/Tgd6U2NB8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/debug/-/debug-2.6.9.tgz"
+  "version" "2.6.9"
   dependencies:
-    ms "2.0.0"
+    "ms" "2.0.0"
 
-debug@4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
-  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
+"debug@4.3.3":
+  "integrity" "sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q=="
+  "resolved" "https://registry.npmjs.org/debug/-/debug-4.3.3.tgz"
+  "version" "4.3.3"
   dependencies:
-    ms "2.1.2"
+    "ms" "2.1.2"
 
-depd@~1.1.2:
-  version "1.1.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
-  integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
+"depd@~1.1.2":
+  "integrity" "sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/depd/-/depd-1.1.2.tgz"
+  "version" "1.1.2"
 
-destroy@~1.0.4:
-  version "1.0.4"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
-  integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
+"destroy@~1.0.4":
+  "integrity" "sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/destroy/-/destroy-1.0.4.tgz"
+  "version" "1.0.4"
 
-ee-first@1.1.1:
-  version "1.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
-  integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
+"ee-first@1.1.1":
+  "integrity" "sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ee-first/-/ee-first-1.1.1.tgz"
+  "version" "1.1.1"
 
-electron-to-chromium@^1.3.723:
-  version "1.3.785"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/electron-to-chromium/-/electron-to-chromium-1.3.785.tgz#79f546c69a6be4f30913aaace361bc746f26df48"
-  integrity sha1-efVGxppr5PMJE6qs42G8dG8m30g=
+"electron-to-chromium@^1.3.723":
+  "integrity" "sha1-efVGxppr5PMJE6qs42G8dG8m30g="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/electron-to-chromium/-/electron-to-chromium-1.3.785.tgz"
+  "version" "1.3.785"
 
-emojis-list@^3.0.0:
-  version "3.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/emojis-list/-/emojis-list-3.0.0.tgz#5570662046ad29e2e916e71aae260abdff4f6a78"
-  integrity sha1-VXBmIEatKeLpFucariYKvf9Pang=
+"emojis-list@^3.0.0":
+  "integrity" "sha1-VXBmIEatKeLpFucariYKvf9Pang="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/emojis-list/-/emojis-list-3.0.0.tgz"
+  "version" "3.0.0"
 
-encodeurl@~1.0.2:
-  version "1.0.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
-  integrity sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=
+"encodeurl@~1.0.2":
+  "integrity" "sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/encodeurl/-/encodeurl-1.0.2.tgz"
+  "version" "1.0.2"
 
-enhanced-resolve@^4.0.0:
-  version "4.5.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/enhanced-resolve/-/enhanced-resolve-4.5.0.tgz#2f3cfd84dbe3b487f18f2db2ef1e064a571ca5ec"
-  integrity sha1-Lzz9hNvjtIfxjy2y7x4GSlccpew=
+"enhanced-resolve@^4.0.0":
+  "integrity" "sha1-Lzz9hNvjtIfxjy2y7x4GSlccpew="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/enhanced-resolve/-/enhanced-resolve-4.5.0.tgz"
+  "version" "4.5.0"
   dependencies:
-    graceful-fs "^4.1.2"
-    memory-fs "^0.5.0"
-    tapable "^1.0.0"
+    "graceful-fs" "^4.1.2"
+    "memory-fs" "^0.5.0"
+    "tapable" "^1.0.0"
 
-enhanced-resolve@^5.8.0:
-  version "5.8.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/enhanced-resolve/-/enhanced-resolve-5.8.2.tgz#15ddc779345cbb73e97c611cd00c01c1e7bf4d8b"
-  integrity sha1-Fd3HeTRcu3PpfGEc0AwBwee/TYs=
+"enhanced-resolve@^5.8.0":
+  "integrity" "sha1-Fd3HeTRcu3PpfGEc0AwBwee/TYs="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/enhanced-resolve/-/enhanced-resolve-5.8.2.tgz"
+  "version" "5.8.2"
   dependencies:
-    graceful-fs "^4.2.4"
-    tapable "^2.2.0"
+    "graceful-fs" "^4.2.4"
+    "tapable" "^2.2.0"
 
-envinfo@^7.7.3:
-  version "7.8.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/envinfo/-/envinfo-7.8.1.tgz#06377e3e5f4d379fea7ac592d5ad8927e0c4d475"
-  integrity sha1-Bjd+Pl9NN5/qesWS1a2JJ+DE1HU=
+"envinfo@^7.7.3":
+  "integrity" "sha1-Bjd+Pl9NN5/qesWS1a2JJ+DE1HU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/envinfo/-/envinfo-7.8.1.tgz"
+  "version" "7.8.1"
 
-errno@^0.1.3:
-  version "0.1.8"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/errno/-/errno-0.1.8.tgz#8bb3e9c7d463be4976ff888f76b4809ebc2e811f"
-  integrity sha1-i7Ppx9Rjvkl2/4iPdrSAnrwugR8=
+"errno@^0.1.3":
+  "integrity" "sha1-i7Ppx9Rjvkl2/4iPdrSAnrwugR8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/errno/-/errno-0.1.8.tgz"
+  "version" "0.1.8"
   dependencies:
-    prr "~1.0.1"
+    "prr" "~1.0.1"
 
-es-module-lexer@^0.7.1:
-  version "0.7.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/es-module-lexer/-/es-module-lexer-0.7.1.tgz#c2c8e0f46f2df06274cdaf0dd3f3b33e0a0b267d"
-  integrity sha1-wsjg9G8t8GJ0za8N0/OzPgoLJn0=
+"es-module-lexer@^0.7.1":
+  "integrity" "sha1-wsjg9G8t8GJ0za8N0/OzPgoLJn0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/es-module-lexer/-/es-module-lexer-0.7.1.tgz"
+  "version" "0.7.1"
 
-escalade@^3.1.1:
-  version "3.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
-  integrity sha1-2M/ccACWXFoBdLSoLqpcBVJ0LkA=
+"escalade@^3.1.1":
+  "integrity" "sha1-2M/ccACWXFoBdLSoLqpcBVJ0LkA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/escalade/-/escalade-3.1.1.tgz"
+  "version" "3.1.1"
 
-escape-html@~1.0.3:
-  version "1.0.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
-  integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
+"escape-html@~1.0.3":
+  "integrity" "sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/escape-html/-/escape-html-1.0.3.tgz"
+  "version" "1.0.3"
 
-eslint-scope@5.1.1:
-  version "5.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/eslint-scope/-/eslint-scope-5.1.1.tgz#e786e59a66cb92b3f6c1fb0d508aab174848f48c"
-  integrity sha1-54blmmbLkrP2wfsNUIqrF0hI9Iw=
+"eslint-scope@5.1.1":
+  "integrity" "sha1-54blmmbLkrP2wfsNUIqrF0hI9Iw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/eslint-scope/-/eslint-scope-5.1.1.tgz"
+  "version" "5.1.1"
   dependencies:
-    esrecurse "^4.3.0"
-    estraverse "^4.1.1"
+    "esrecurse" "^4.3.0"
+    "estraverse" "^4.1.1"
 
-esrecurse@^4.3.0:
-  version "4.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/esrecurse/-/esrecurse-4.3.0.tgz#7ad7964d679abb28bee72cec63758b1c5d2c9921"
-  integrity sha1-eteWTWeauyi+5yzsY3WLHF0smSE=
+"esrecurse@^4.3.0":
+  "integrity" "sha1-eteWTWeauyi+5yzsY3WLHF0smSE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/esrecurse/-/esrecurse-4.3.0.tgz"
+  "version" "4.3.0"
   dependencies:
-    estraverse "^5.2.0"
+    "estraverse" "^5.2.0"
 
-estraverse@^4.1.1:
-  version "4.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/estraverse/-/estraverse-4.3.0.tgz#398ad3f3c5a24948be7725e83d11a7de28cdbd1d"
-  integrity sha1-OYrT88WiSUi+dyXoPRGn3ijNvR0=
+"estraverse@^4.1.1":
+  "integrity" "sha1-OYrT88WiSUi+dyXoPRGn3ijNvR0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/estraverse/-/estraverse-4.3.0.tgz"
+  "version" "4.3.0"
 
-estraverse@^5.2.0:
-  version "5.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/estraverse/-/estraverse-5.2.0.tgz#307df42547e6cc7324d3cf03c155d5cdb8c53880"
-  integrity sha1-MH30JUfmzHMk088DwVXVzbjFOIA=
+"estraverse@^5.2.0":
+  "integrity" "sha1-MH30JUfmzHMk088DwVXVzbjFOIA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/estraverse/-/estraverse-5.2.0.tgz"
+  "version" "5.2.0"
 
-etag@~1.8.1:
-  version "1.8.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
-  integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+"etag@~1.8.1":
+  "integrity" "sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/etag/-/etag-1.8.1.tgz"
+  "version" "1.8.1"
 
-events@^3.2.0:
-  version "3.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
-  integrity sha1-Mala0Kkk4tLEGagTrrLE6HjqdAA=
+"events@^3.2.0":
+  "integrity" "sha1-Mala0Kkk4tLEGagTrrLE6HjqdAA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/events/-/events-3.3.0.tgz"
+  "version" "3.3.0"
 
-execa@^5.0.0:
-  version "5.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/execa/-/execa-5.1.1.tgz#f80ad9cbf4298f7bd1d4c9555c21e93741c411dd"
-  integrity sha1-+ArZy/Qpj3vR1MlVXCHpN0HEEd0=
+"execa@^5.0.0":
+  "integrity" "sha1-+ArZy/Qpj3vR1MlVXCHpN0HEEd0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/execa/-/execa-5.1.1.tgz"
+  "version" "5.1.1"
   dependencies:
-    cross-spawn "^7.0.3"
-    get-stream "^6.0.0"
-    human-signals "^2.1.0"
-    is-stream "^2.0.0"
-    merge-stream "^2.0.0"
-    npm-run-path "^4.0.1"
-    onetime "^5.1.2"
-    signal-exit "^3.0.3"
-    strip-final-newline "^2.0.0"
+    "cross-spawn" "^7.0.3"
+    "get-stream" "^6.0.0"
+    "human-signals" "^2.1.0"
+    "is-stream" "^2.0.0"
+    "merge-stream" "^2.0.0"
+    "npm-run-path" "^4.0.1"
+    "onetime" "^5.1.2"
+    "signal-exit" "^3.0.3"
+    "strip-final-newline" "^2.0.0"
 
-express@^4.17.1:
-  version "4.17.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/express/-/express-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"
-  integrity sha1-RJH8OGBc9R+GKdOcK10Cb5ikwTQ=
+"express@^4.17.1":
+  "integrity" "sha1-RJH8OGBc9R+GKdOcK10Cb5ikwTQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/express/-/express-4.17.1.tgz"
+  "version" "4.17.1"
   dependencies:
-    accepts "~1.3.7"
-    array-flatten "1.1.1"
-    body-parser "1.19.0"
-    content-disposition "0.5.3"
-    content-type "~1.0.4"
-    cookie "0.4.0"
-    cookie-signature "1.0.6"
-    debug "2.6.9"
-    depd "~1.1.2"
-    encodeurl "~1.0.2"
-    escape-html "~1.0.3"
-    etag "~1.8.1"
-    finalhandler "~1.1.2"
-    fresh "0.5.2"
-    merge-descriptors "1.0.1"
-    methods "~1.1.2"
-    on-finished "~2.3.0"
-    parseurl "~1.3.3"
-    path-to-regexp "0.1.7"
-    proxy-addr "~2.0.5"
-    qs "6.7.0"
-    range-parser "~1.2.1"
-    safe-buffer "5.1.2"
-    send "0.17.1"
-    serve-static "1.14.1"
-    setprototypeof "1.1.1"
-    statuses "~1.5.0"
-    type-is "~1.6.18"
-    utils-merge "1.0.1"
-    vary "~1.1.2"
+    "accepts" "~1.3.7"
+    "array-flatten" "1.1.1"
+    "body-parser" "1.19.0"
+    "content-disposition" "0.5.3"
+    "content-type" "~1.0.4"
+    "cookie" "0.4.0"
+    "cookie-signature" "1.0.6"
+    "debug" "2.6.9"
+    "depd" "~1.1.2"
+    "encodeurl" "~1.0.2"
+    "escape-html" "~1.0.3"
+    "etag" "~1.8.1"
+    "finalhandler" "~1.1.2"
+    "fresh" "0.5.2"
+    "merge-descriptors" "1.0.1"
+    "methods" "~1.1.2"
+    "on-finished" "~2.3.0"
+    "parseurl" "~1.3.3"
+    "path-to-regexp" "0.1.7"
+    "proxy-addr" "~2.0.5"
+    "qs" "6.7.0"
+    "range-parser" "~1.2.1"
+    "safe-buffer" "5.1.2"
+    "send" "0.17.1"
+    "serve-static" "1.14.1"
+    "setprototypeof" "1.1.1"
+    "statuses" "~1.5.0"
+    "type-is" "~1.6.18"
+    "utils-merge" "1.0.1"
+    "vary" "~1.1.2"
 
-fast-deep-equal@^3.1.1:
-  version "3.1.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
-  integrity sha1-On1WtVnWy8PrUSMlJE5hmmXGxSU=
+"fast-deep-equal@^3.1.1":
+  "integrity" "sha1-On1WtVnWy8PrUSMlJE5hmmXGxSU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz"
+  "version" "3.1.3"
 
-fast-json-stable-stringify@^2.0.0:
-  version "2.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz#874bf69c6f404c2b5d99c481341399fd55892633"
-  integrity sha1-h0v2nG9ATCtdmcSBNBOZ/VWJJjM=
+"fast-json-stable-stringify@^2.0.0":
+  "integrity" "sha1-h0v2nG9ATCtdmcSBNBOZ/VWJJjM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz"
+  "version" "2.1.0"
 
-fastest-levenshtein@^1.0.12:
-  version "1.0.12"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fastest-levenshtein/-/fastest-levenshtein-1.0.12.tgz#9990f7d3a88cc5a9ffd1f1745745251700d497e2"
-  integrity sha1-mZD306iMxan/0fF0V0UlFwDUl+I=
+"fastest-levenshtein@^1.0.12":
+  "integrity" "sha1-mZD306iMxan/0fF0V0UlFwDUl+I="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fastest-levenshtein/-/fastest-levenshtein-1.0.12.tgz"
+  "version" "1.0.12"
 
-fill-range@^7.0.1:
-  version "7.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fill-range/-/fill-range-7.0.1.tgz#1919a6a7c75fe38b2c7c77e5198535da9acdda40"
-  integrity sha1-GRmmp8df44ssfHflGYU12prN2kA=
+"fill-range@^7.0.1":
+  "integrity" "sha1-GRmmp8df44ssfHflGYU12prN2kA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fill-range/-/fill-range-7.0.1.tgz"
+  "version" "7.0.1"
   dependencies:
-    to-regex-range "^5.0.1"
+    "to-regex-range" "^5.0.1"
 
-finalhandler@~1.1.2:
-  version "1.1.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/finalhandler/-/finalhandler-1.1.2.tgz#b7e7d000ffd11938d0fdb053506f6ebabe9f587d"
-  integrity sha1-t+fQAP/RGTjQ/bBTUG9uur6fWH0=
+"finalhandler@~1.1.2":
+  "integrity" "sha1-t+fQAP/RGTjQ/bBTUG9uur6fWH0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/finalhandler/-/finalhandler-1.1.2.tgz"
+  "version" "1.1.2"
   dependencies:
-    debug "2.6.9"
-    encodeurl "~1.0.2"
-    escape-html "~1.0.3"
-    on-finished "~2.3.0"
-    parseurl "~1.3.3"
-    statuses "~1.5.0"
-    unpipe "~1.0.0"
+    "debug" "2.6.9"
+    "encodeurl" "~1.0.2"
+    "escape-html" "~1.0.3"
+    "on-finished" "~2.3.0"
+    "parseurl" "~1.3.3"
+    "statuses" "~1.5.0"
+    "unpipe" "~1.0.0"
 
-find-up@^4.0.0:
-  version "4.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/find-up/-/find-up-4.1.0.tgz#97afe7d6cdc0bc5928584b7c8d7b16e8a9aa5d19"
-  integrity sha1-l6/n1s3AvFkoWEt8jXsW6KmqXRk=
+"find-up@^4.0.0":
+  "integrity" "sha1-l6/n1s3AvFkoWEt8jXsW6KmqXRk="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/find-up/-/find-up-4.1.0.tgz"
+  "version" "4.1.0"
   dependencies:
-    locate-path "^5.0.0"
-    path-exists "^4.0.0"
+    "locate-path" "^5.0.0"
+    "path-exists" "^4.0.0"
 
-forwarded@0.2.0:
-  version "0.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/forwarded/-/forwarded-0.2.0.tgz#2269936428aad4c15c7ebe9779a84bf0b2a81811"
-  integrity sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE=
+"forwarded@0.2.0":
+  "integrity" "sha1-ImmTZCiq1MFcfr6XeahL8LKoGBE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/forwarded/-/forwarded-0.2.0.tgz"
+  "version" "0.2.0"
 
-fresh@0.5.2:
-  version "0.5.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
-  integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
+"fresh@0.5.2":
+  "integrity" "sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/fresh/-/fresh-0.5.2.tgz"
+  "version" "0.5.2"
 
-function-bind@^1.1.1:
-  version "1.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
-  integrity sha1-pWiZ0+o8m6uHS7l3O3xe3pL0iV0=
+"function-bind@^1.1.1":
+  "integrity" "sha1-pWiZ0+o8m6uHS7l3O3xe3pL0iV0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/function-bind/-/function-bind-1.1.1.tgz"
+  "version" "1.1.1"
 
-get-stream@^6.0.0:
-  version "6.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/get-stream/-/get-stream-6.0.1.tgz#a262d8eef67aced57c2852ad6167526a43cbf7b7"
-  integrity sha1-omLY7vZ6ztV8KFKtYWdSakPL97c=
+"get-stream@^6.0.0":
+  "integrity" "sha1-omLY7vZ6ztV8KFKtYWdSakPL97c="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/get-stream/-/get-stream-6.0.1.tgz"
+  "version" "6.0.1"
 
-glob-to-regexp@^0.4.1:
-  version "0.4.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/glob-to-regexp/-/glob-to-regexp-0.4.1.tgz#c75297087c851b9a578bd217dd59a92f59fe546e"
-  integrity sha1-x1KXCHyFG5pXi9IX3VmpL1n+VG4=
+"glob-to-regexp@^0.4.1":
+  "integrity" "sha1-x1KXCHyFG5pXi9IX3VmpL1n+VG4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/glob-to-regexp/-/glob-to-regexp-0.4.1.tgz"
+  "version" "0.4.1"
 
-graceful-fs@^4.1.2, graceful-fs@^4.2.4:
-  version "4.2.6"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
-  integrity sha1-/wQLKwhTsjw9MQJ1I3BvGIXXa+4=
+"graceful-fs@^4.1.2", "graceful-fs@^4.2.4":
+  "integrity" "sha1-/wQLKwhTsjw9MQJ1I3BvGIXXa+4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/graceful-fs/-/graceful-fs-4.2.6.tgz"
+  "version" "4.2.6"
 
-has-flag@^4.0.0:
-  version "4.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/has-flag/-/has-flag-4.0.0.tgz#944771fd9c81c81265c4d6941860da06bb59479b"
-  integrity sha1-lEdx/ZyByBJlxNaUGGDaBrtZR5s=
+"has-flag@^4.0.0":
+  "integrity" "sha1-lEdx/ZyByBJlxNaUGGDaBrtZR5s="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/has-flag/-/has-flag-4.0.0.tgz"
+  "version" "4.0.0"
 
-has@^1.0.3:
-  version "1.0.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/has/-/has-1.0.3.tgz#722d7cbfc1f6aa8241f16dd814e011e1f41e8796"
-  integrity sha1-ci18v8H2qoJB8W3YFOAR4fQeh5Y=
+"has@^1.0.3":
+  "integrity" "sha1-ci18v8H2qoJB8W3YFOAR4fQeh5Y="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/has/-/has-1.0.3.tgz"
+  "version" "1.0.3"
   dependencies:
-    function-bind "^1.1.1"
+    "function-bind" "^1.1.1"
 
-history@^5.0.0:
-  version "5.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/history/-/history-5.0.0.tgz#0cabbb6c4bbf835addb874f8259f6d25101efd08"
-  integrity sha1-DKu7bEu/g1rduHT4JZ9tJRAe/Qg=
+"history@^5.0.0":
+  "integrity" "sha1-DKu7bEu/g1rduHT4JZ9tJRAe/Qg="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/history/-/history-5.0.0.tgz"
+  "version" "5.0.0"
   dependencies:
     "@babel/runtime" "^7.7.6"
 
-http-errors@1.7.2:
-  version "1.7.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/http-errors/-/http-errors-1.7.2.tgz#4f5029cf13239f31036e5b2e55292bcfbcc85c8f"
-  integrity sha1-T1ApzxMjnzEDblsuVSkrz7zIXI8=
+"http-errors@~1.7.2":
+  "integrity" "sha1-bGGeT5xgMIw4UZSYwU+7EKrOuwY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/http-errors/-/http-errors-1.7.3.tgz"
+  "version" "1.7.3"
   dependencies:
-    depd "~1.1.2"
-    inherits "2.0.3"
-    setprototypeof "1.1.1"
-    statuses ">= 1.5.0 < 2"
-    toidentifier "1.0.0"
+    "depd" "~1.1.2"
+    "inherits" "2.0.4"
+    "setprototypeof" "1.1.1"
+    "statuses" ">= 1.5.0 < 2"
+    "toidentifier" "1.0.0"
 
-http-errors@~1.7.2:
-  version "1.7.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/http-errors/-/http-errors-1.7.3.tgz#6c619e4f9c60308c38519498c14fbb10aacebb06"
-  integrity sha1-bGGeT5xgMIw4UZSYwU+7EKrOuwY=
+"http-errors@1.7.2":
+  "integrity" "sha1-T1ApzxMjnzEDblsuVSkrz7zIXI8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/http-errors/-/http-errors-1.7.2.tgz"
+  "version" "1.7.2"
   dependencies:
-    depd "~1.1.2"
-    inherits "2.0.4"
-    setprototypeof "1.1.1"
-    statuses ">= 1.5.0 < 2"
-    toidentifier "1.0.0"
+    "depd" "~1.1.2"
+    "inherits" "2.0.3"
+    "setprototypeof" "1.1.1"
+    "statuses" ">= 1.5.0 < 2"
+    "toidentifier" "1.0.0"
 
-human-signals@^2.1.0:
-  version "2.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
-  integrity sha1-3JH8ukLk0G5Kuu0zs+ejwC9RTqA=
+"human-signals@^2.1.0":
+  "integrity" "sha1-3JH8ukLk0G5Kuu0zs+ejwC9RTqA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/human-signals/-/human-signals-2.1.0.tgz"
+  "version" "2.1.0"
 
-iconv-lite@0.4.24:
-  version "0.4.24"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
-  integrity sha1-ICK0sl+93CHS9SSXSkdKr+czkIs=
+"iconv-lite@0.4.24":
+  "integrity" "sha1-ICK0sl+93CHS9SSXSkdKr+czkIs="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/iconv-lite/-/iconv-lite-0.4.24.tgz"
+  "version" "0.4.24"
   dependencies:
-    safer-buffer ">= 2.1.2 < 3"
+    "safer-buffer" ">= 2.1.2 < 3"
 
-import-local@^3.0.2:
-  version "3.0.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/import-local/-/import-local-3.0.2.tgz#a8cfd0431d1de4a2199703d003e3e62364fa6db6"
-  integrity sha1-qM/QQx0d5KIZlwPQA+PmI2T6bbY=
+"import-local@^3.0.2":
+  "integrity" "sha1-qM/QQx0d5KIZlwPQA+PmI2T6bbY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/import-local/-/import-local-3.0.2.tgz"
+  "version" "3.0.2"
   dependencies:
-    pkg-dir "^4.2.0"
-    resolve-cwd "^3.0.0"
+    "pkg-dir" "^4.2.0"
+    "resolve-cwd" "^3.0.0"
 
-inherits@2.0.3:
-  version "2.0.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
-  integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+"inherits@~2.0.3", "inherits@2.0.4":
+  "integrity" "sha1-D6LGT5MpF8NDOg3tVTY6rjdBa3w="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/inherits/-/inherits-2.0.4.tgz"
+  "version" "2.0.4"
 
-inherits@2.0.4, inherits@~2.0.3:
-  version "2.0.4"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
-  integrity sha1-D6LGT5MpF8NDOg3tVTY6rjdBa3w=
+"inherits@2.0.3":
+  "integrity" "sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/inherits/-/inherits-2.0.3.tgz"
+  "version" "2.0.3"
 
-interpret@^2.2.0:
-  version "2.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/interpret/-/interpret-2.2.0.tgz#1a78a0b5965c40a5416d007ad6f50ad27c417df9"
-  integrity sha1-GnigtZZcQKVBbQB61vUK0nxBffk=
+"interpret@^2.2.0":
+  "integrity" "sha1-GnigtZZcQKVBbQB61vUK0nxBffk="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/interpret/-/interpret-2.2.0.tgz"
+  "version" "2.2.0"
 
-ipaddr.js@1.9.1:
-  version "1.9.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ipaddr.js/-/ipaddr.js-1.9.1.tgz#bff38543eeb8984825079ff3a2a8e6cbd46781b3"
-  integrity sha1-v/OFQ+64mEglB5/zoqjmy9RngbM=
+"ipaddr.js@1.9.1":
+  "integrity" "sha1-v/OFQ+64mEglB5/zoqjmy9RngbM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ipaddr.js/-/ipaddr.js-1.9.1.tgz"
+  "version" "1.9.1"
 
-is-core-module@^2.2.0:
-  version "2.5.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/is-core-module/-/is-core-module-2.5.0.tgz#f754843617c70bfd29b7bd87327400cda5c18491"
-  integrity sha1-91SENhfHC/0pt72HMnQAzaXBhJE=
+"is-core-module@^2.2.0":
+  "integrity" "sha1-91SENhfHC/0pt72HMnQAzaXBhJE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/is-core-module/-/is-core-module-2.5.0.tgz"
+  "version" "2.5.0"
   dependencies:
-    has "^1.0.3"
+    "has" "^1.0.3"
 
-is-number@^7.0.0:
-  version "7.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
-  integrity sha1-dTU0W4lnNNX4DE0GxQlVUnoU8Ss=
+"is-number@^7.0.0":
+  "integrity" "sha1-dTU0W4lnNNX4DE0GxQlVUnoU8Ss="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/is-number/-/is-number-7.0.0.tgz"
+  "version" "7.0.0"
 
-is-plain-object@^2.0.4:
-  version "2.0.4"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/is-plain-object/-/is-plain-object-2.0.4.tgz#2c163b3fafb1b606d9d17928f05c2a1c38e07677"
-  integrity sha1-LBY7P6+xtgbZ0Xko8FwqHDjgdnc=
+"is-plain-object@^2.0.4":
+  "integrity" "sha1-LBY7P6+xtgbZ0Xko8FwqHDjgdnc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/is-plain-object/-/is-plain-object-2.0.4.tgz"
+  "version" "2.0.4"
   dependencies:
-    isobject "^3.0.1"
+    "isobject" "^3.0.1"
 
-is-stream@^2.0.0:
-  version "2.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/is-stream/-/is-stream-2.0.0.tgz#bde9c32680d6fae04129d6ac9d921ce7815f78e3"
-  integrity sha1-venDJoDW+uBBKdasnZIc54FfeOM=
+"is-stream@^2.0.0":
+  "integrity" "sha1-venDJoDW+uBBKdasnZIc54FfeOM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/is-stream/-/is-stream-2.0.0.tgz"
+  "version" "2.0.0"
 
-isarray@~1.0.0:
-  version "1.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
-  integrity sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
+"isarray@~1.0.0":
+  "integrity" "sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/isarray/-/isarray-1.0.0.tgz"
+  "version" "1.0.0"
 
-isexe@^2.0.0:
-  version "2.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
-  integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
+"isexe@^2.0.0":
+  "integrity" "sha1-6PvzdNxVb/iUehDcsFctYz8s+hA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/isexe/-/isexe-2.0.0.tgz"
+  "version" "2.0.0"
 
-isobject@^3.0.1:
-  version "3.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
-  integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
+"isobject@^3.0.1":
+  "integrity" "sha1-TkMekrEalzFjaqH5yNHMvP2reN8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/isobject/-/isobject-3.0.1.tgz"
+  "version" "3.0.1"
 
-jest-worker@^27.0.2:
-  version "27.0.6"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/jest-worker/-/jest-worker-27.0.6.tgz#a5fdb1e14ad34eb228cfe162d9f729cdbfa28aed"
-  integrity sha1-pf2x4UrTTrIoz+Fi2fcpzb+iiu0=
+"jest-worker@^27.0.2":
+  "integrity" "sha1-pf2x4UrTTrIoz+Fi2fcpzb+iiu0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/jest-worker/-/jest-worker-27.0.6.tgz"
+  "version" "27.0.6"
   dependencies:
     "@types/node" "*"
-    merge-stream "^2.0.0"
-    supports-color "^8.0.0"
+    "merge-stream" "^2.0.0"
+    "supports-color" "^8.0.0"
 
-json-parse-better-errors@^1.0.2:
-  version "1.0.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
-  integrity sha1-u4Z8+zRQ5pEHwTHRxRS6s9yLyqk=
+"json-parse-better-errors@^1.0.2":
+  "integrity" "sha1-u4Z8+zRQ5pEHwTHRxRS6s9yLyqk="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz"
+  "version" "1.0.2"
 
-json-schema-traverse@^0.4.1:
-  version "0.4.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
-  integrity sha1-afaofZUTq4u4/mO9sJecRI5oRmA=
+"json-schema-traverse@^0.4.1":
+  "integrity" "sha1-afaofZUTq4u4/mO9sJecRI5oRmA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz"
+  "version" "0.4.1"
 
-json5@^2.1.2:
-  version "2.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/json5/-/json5-2.2.0.tgz#2dfefe720c6ba525d9ebd909950f0515316c89a3"
-  integrity sha1-Lf7+cgxrpSXZ69kJlQ8FFTFsiaM=
+"json5@^2.1.2":
+  "integrity" "sha1-Lf7+cgxrpSXZ69kJlQ8FFTFsiaM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/json5/-/json5-2.2.0.tgz"
+  "version" "2.2.0"
   dependencies:
-    minimist "^1.2.5"
+    "minimist" "^1.2.5"
 
-kind-of@^6.0.2:
-  version "6.0.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
-  integrity sha1-B8BQNKbDSfoG4k+jWqdttFgM5N0=
+"kind-of@^6.0.2":
+  "integrity" "sha1-B8BQNKbDSfoG4k+jWqdttFgM5N0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/kind-of/-/kind-of-6.0.3.tgz"
+  "version" "6.0.3"
 
-loader-runner@^4.2.0:
-  version "4.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/loader-runner/-/loader-runner-4.2.0.tgz#d7022380d66d14c5fb1d496b89864ebcfd478384"
-  integrity sha1-1wIjgNZtFMX7HUlriYZOvP1Hg4Q=
+"loader-runner@^4.2.0":
+  "integrity" "sha1-1wIjgNZtFMX7HUlriYZOvP1Hg4Q="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/loader-runner/-/loader-runner-4.2.0.tgz"
+  "version" "4.2.0"
 
-loader-utils@^2.0.0:
-  version "2.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/loader-utils/-/loader-utils-2.0.0.tgz#e4cace5b816d425a166b5f097e10cd12b36064b0"
-  integrity sha1-5MrOW4FtQloWa18JfhDNErNgZLA=
+"loader-utils@^2.0.0":
+  "integrity" "sha1-5MrOW4FtQloWa18JfhDNErNgZLA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/loader-utils/-/loader-utils-2.0.0.tgz"
+  "version" "2.0.0"
   dependencies:
-    big.js "^5.2.2"
-    emojis-list "^3.0.0"
-    json5 "^2.1.2"
+    "big.js" "^5.2.2"
+    "emojis-list" "^3.0.0"
+    "json5" "^2.1.2"
 
-locate-path@^5.0.0:
-  version "5.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/locate-path/-/locate-path-5.0.0.tgz#1afba396afd676a6d42504d0a67a3a7eb9f62aa0"
-  integrity sha1-Gvujlq/WdqbUJQTQpno6frn2KqA=
+"locate-path@^5.0.0":
+  "integrity" "sha1-Gvujlq/WdqbUJQTQpno6frn2KqA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/locate-path/-/locate-path-5.0.0.tgz"
+  "version" "5.0.0"
   dependencies:
-    p-locate "^4.1.0"
+    "p-locate" "^4.1.0"
 
-lru-cache@^6.0.0:
-  version "6.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
-  integrity sha1-bW/mVw69lqr5D8rR2vo7JWbbOpQ=
+"lru-cache@^6.0.0":
+  "integrity" "sha1-bW/mVw69lqr5D8rR2vo7JWbbOpQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/lru-cache/-/lru-cache-6.0.0.tgz"
+  "version" "6.0.0"
   dependencies:
-    yallist "^4.0.0"
+    "yallist" "^4.0.0"
 
-media-typer@0.3.0:
-  version "0.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
-  integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
+"media-typer@0.3.0":
+  "integrity" "sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/media-typer/-/media-typer-0.3.0.tgz"
+  "version" "0.3.0"
 
-memory-fs@^0.5.0:
-  version "0.5.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/memory-fs/-/memory-fs-0.5.0.tgz#324c01288b88652966d161db77838720845a8e3c"
-  integrity sha1-MkwBKIuIZSlm0WHbd4OHIIRajjw=
+"memory-fs@^0.5.0":
+  "integrity" "sha1-MkwBKIuIZSlm0WHbd4OHIIRajjw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/memory-fs/-/memory-fs-0.5.0.tgz"
+  "version" "0.5.0"
   dependencies:
-    errno "^0.1.3"
-    readable-stream "^2.0.1"
+    "errno" "^0.1.3"
+    "readable-stream" "^2.0.1"
 
-merge-descriptors@1.0.1:
-  version "1.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
-  integrity sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=
+"merge-descriptors@1.0.1":
+  "integrity" "sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/merge-descriptors/-/merge-descriptors-1.0.1.tgz"
+  "version" "1.0.1"
 
-merge-stream@^2.0.0:
-  version "2.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
-  integrity sha1-UoI2KaFN0AyXcPtq1H3GMQ8sH2A=
+"merge-stream@^2.0.0":
+  "integrity" "sha1-UoI2KaFN0AyXcPtq1H3GMQ8sH2A="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/merge-stream/-/merge-stream-2.0.0.tgz"
+  "version" "2.0.0"
 
-methods@~1.1.2:
-  version "1.1.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
-  integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
+"methods@~1.1.2":
+  "integrity" "sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/methods/-/methods-1.1.2.tgz"
+  "version" "1.1.2"
 
-micromatch@^4.0.0:
-  version "4.0.4"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/micromatch/-/micromatch-4.0.4.tgz#896d519dfe9db25fce94ceb7a500919bf881ebf9"
-  integrity sha1-iW1Rnf6dsl/OlM63pQCRm/iB6/k=
+"micromatch@^4.0.0":
+  "integrity" "sha1-iW1Rnf6dsl/OlM63pQCRm/iB6/k="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/micromatch/-/micromatch-4.0.4.tgz"
+  "version" "4.0.4"
   dependencies:
-    braces "^3.0.1"
-    picomatch "^2.2.3"
+    "braces" "^3.0.1"
+    "picomatch" "^2.2.3"
 
-mime-db@1.48.0:
-  version "1.48.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/mime-db/-/mime-db-1.48.0.tgz#e35b31045dd7eada3aaad537ed88a33afbef2d1d"
-  integrity sha1-41sxBF3X6to6qtU37YijOvvvLR0=
+"mime-db@1.48.0":
+  "integrity" "sha1-41sxBF3X6to6qtU37YijOvvvLR0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/mime-db/-/mime-db-1.48.0.tgz"
+  "version" "1.48.0"
 
-mime-types@^2.1.27, mime-types@~2.1.24:
-  version "2.1.31"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/mime-types/-/mime-types-2.1.31.tgz#a00d76b74317c61f9c2db2218b8e9f8e9c5c9e6b"
-  integrity sha1-oA12t0MXxh+cLbIhi46fjpxcnms=
+"mime-types@^2.1.27", "mime-types@~2.1.24":
+  "integrity" "sha1-oA12t0MXxh+cLbIhi46fjpxcnms="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/mime-types/-/mime-types-2.1.31.tgz"
+  "version" "2.1.31"
   dependencies:
-    mime-db "1.48.0"
+    "mime-db" "1.48.0"
 
-mime@1.6.0:
-  version "1.6.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
-  integrity sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=
+"mime@1.6.0":
+  "integrity" "sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/mime/-/mime-1.6.0.tgz"
+  "version" "1.6.0"
 
-mimic-fn@^2.1.0:
-  version "2.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
-  integrity sha1-ftLCzMyvhNP/y3pptXcR/CCDQBs=
+"mimic-fn@^2.1.0":
+  "integrity" "sha1-ftLCzMyvhNP/y3pptXcR/CCDQBs="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/mimic-fn/-/mimic-fn-2.1.0.tgz"
+  "version" "2.1.0"
 
-minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha1-Z9ZgFLZqaoqqDAg8X9WN9OTpdgI=
+"minimist@^1.2.5":
+  "integrity" "sha1-Z9ZgFLZqaoqqDAg8X9WN9OTpdgI="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/minimist/-/minimist-1.2.5.tgz"
+  "version" "1.2.5"
 
-ms@2.0.0:
-  version "2.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
-  integrity sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=
+"ms@2.0.0":
+  "integrity" "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ms/-/ms-2.0.0.tgz"
+  "version" "2.0.0"
 
-ms@2.1.1:
-  version "2.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
-  integrity sha1-MKWGTrPrsKZvLr5tcnrwagnYbgo=
+"ms@2.1.1":
+  "integrity" "sha1-MKWGTrPrsKZvLr5tcnrwagnYbgo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ms/-/ms-2.1.1.tgz"
+  "version" "2.1.1"
 
-ms@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
-  integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
+"ms@2.1.2":
+  "integrity" "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w=="
+  "resolved" "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
+  "version" "2.1.2"
 
-negotiator@0.6.2:
-  version "0.6.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
-  integrity sha1-/qz3zPUlp3rpY0Q2pkiD/+yjRvs=
+"negotiator@0.6.2":
+  "integrity" "sha1-/qz3zPUlp3rpY0Q2pkiD/+yjRvs="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/negotiator/-/negotiator-0.6.2.tgz"
+  "version" "0.6.2"
 
-neo-async@^2.6.2:
-  version "2.6.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
-  integrity sha1-tKr7k+OustgXTKU88WOrfXMIMF8=
+"neo-async@^2.6.2":
+  "integrity" "sha1-tKr7k+OustgXTKU88WOrfXMIMF8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/neo-async/-/neo-async-2.6.2.tgz"
+  "version" "2.6.2"
 
-node-releases@^1.1.71:
-  version "1.1.73"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/node-releases/-/node-releases-1.1.73.tgz#dd4e81ddd5277ff846b80b52bb40c49edf7a7b20"
-  integrity sha1-3U6B3dUnf/hGuAtSu0DEnt96eyA=
+"node-releases@^1.1.71":
+  "integrity" "sha1-3U6B3dUnf/hGuAtSu0DEnt96eyA="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/node-releases/-/node-releases-1.1.73.tgz"
+  "version" "1.1.73"
 
-npm-run-path@^4.0.1:
-  version "4.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/npm-run-path/-/npm-run-path-4.0.1.tgz#b7ecd1e5ed53da8e37a55e1c2269e0b97ed748ea"
-  integrity sha1-t+zR5e1T2o43pV4cImnguX7XSOo=
+"npm-run-path@^4.0.1":
+  "integrity" "sha1-t+zR5e1T2o43pV4cImnguX7XSOo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/npm-run-path/-/npm-run-path-4.0.1.tgz"
+  "version" "4.0.1"
   dependencies:
-    path-key "^3.0.0"
+    "path-key" "^3.0.0"
 
-on-finished@~2.3.0:
-  version "2.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
-  integrity sha1-IPEzZIGwg811M3mSoWlxqi2QaUc=
+"on-finished@~2.3.0":
+  "integrity" "sha1-IPEzZIGwg811M3mSoWlxqi2QaUc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/on-finished/-/on-finished-2.3.0.tgz"
+  "version" "2.3.0"
   dependencies:
-    ee-first "1.1.1"
+    "ee-first" "1.1.1"
 
-onetime@^5.1.2:
-  version "5.1.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/onetime/-/onetime-5.1.2.tgz#d0e96ebb56b07476df1dd9c4806e5237985ca45e"
-  integrity sha1-0Oluu1awdHbfHdnEgG5SN5hcpF4=
+"onetime@^5.1.2":
+  "integrity" "sha1-0Oluu1awdHbfHdnEgG5SN5hcpF4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/onetime/-/onetime-5.1.2.tgz"
+  "version" "5.1.2"
   dependencies:
-    mimic-fn "^2.1.0"
+    "mimic-fn" "^2.1.0"
 
-p-limit@^2.2.0:
-  version "2.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/p-limit/-/p-limit-2.3.0.tgz#3dd33c647a214fdfffd835933eb086da0dc21db1"
-  integrity sha1-PdM8ZHohT9//2DWTPrCG2g3CHbE=
+"p-limit@^2.2.0":
+  "integrity" "sha1-PdM8ZHohT9//2DWTPrCG2g3CHbE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/p-limit/-/p-limit-2.3.0.tgz"
+  "version" "2.3.0"
   dependencies:
-    p-try "^2.0.0"
+    "p-try" "^2.0.0"
 
-p-limit@^3.1.0:
-  version "3.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/p-limit/-/p-limit-3.1.0.tgz#e1daccbe78d0d1388ca18c64fea38e3e57e3706b"
-  integrity sha1-4drMvnjQ0TiMoYxk/qOOPlfjcGs=
+"p-limit@^3.1.0":
+  "integrity" "sha1-4drMvnjQ0TiMoYxk/qOOPlfjcGs="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/p-limit/-/p-limit-3.1.0.tgz"
+  "version" "3.1.0"
   dependencies:
-    yocto-queue "^0.1.0"
+    "yocto-queue" "^0.1.0"
 
-p-locate@^4.1.0:
-  version "4.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/p-locate/-/p-locate-4.1.0.tgz#a3428bb7088b3a60292f66919278b7c297ad4f07"
-  integrity sha1-o0KLtwiLOmApL2aRkni3wpetTwc=
+"p-locate@^4.1.0":
+  "integrity" "sha1-o0KLtwiLOmApL2aRkni3wpetTwc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/p-locate/-/p-locate-4.1.0.tgz"
+  "version" "4.1.0"
   dependencies:
-    p-limit "^2.2.0"
+    "p-limit" "^2.2.0"
 
-p-try@^2.0.0:
-  version "2.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
-  integrity sha1-yyhoVA4xPWHeWPr741zpAE1VQOY=
+"p-try@^2.0.0":
+  "integrity" "sha1-yyhoVA4xPWHeWPr741zpAE1VQOY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/p-try/-/p-try-2.2.0.tgz"
+  "version" "2.2.0"
 
-parseurl@~1.3.3:
-  version "1.3.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/parseurl/-/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
-  integrity sha1-naGee+6NEt/wUT7Vt2lXeTvC6NQ=
+"parseurl@~1.3.3":
+  "integrity" "sha1-naGee+6NEt/wUT7Vt2lXeTvC6NQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/parseurl/-/parseurl-1.3.3.tgz"
+  "version" "1.3.3"
 
-path-exists@^4.0.0:
-  version "4.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/path-exists/-/path-exists-4.0.0.tgz#513bdbe2d3b95d7762e8c1137efa195c6c61b5b3"
-  integrity sha1-UTvb4tO5XXdi6METfvoZXGxhtbM=
+"path-exists@^4.0.0":
+  "integrity" "sha1-UTvb4tO5XXdi6METfvoZXGxhtbM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/path-exists/-/path-exists-4.0.0.tgz"
+  "version" "4.0.0"
 
-path-key@^3.0.0, path-key@^3.1.0:
-  version "3.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/path-key/-/path-key-3.1.1.tgz#581f6ade658cbba65a0d3380de7753295054f375"
-  integrity sha1-WB9q3mWMu6ZaDTOA3ndTKVBU83U=
+"path-key@^3.0.0", "path-key@^3.1.0":
+  "integrity" "sha1-WB9q3mWMu6ZaDTOA3ndTKVBU83U="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/path-key/-/path-key-3.1.1.tgz"
+  "version" "3.1.1"
 
-path-parse@^1.0.6:
-  version "1.0.7"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
-  integrity sha1-+8EUtgykKzDZ2vWFjkvWi77bZzU=
+"path-parse@^1.0.6":
+  "integrity" "sha1-+8EUtgykKzDZ2vWFjkvWi77bZzU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/path-parse/-/path-parse-1.0.7.tgz"
+  "version" "1.0.7"
 
-path-to-regexp@0.1.7:
-  version "0.1.7"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
-  integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
+"path-to-regexp@0.1.7":
+  "integrity" "sha1-32BBeABfUi8V60SQ5yR6G/qmf4w="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/path-to-regexp/-/path-to-regexp-0.1.7.tgz"
+  "version" "0.1.7"
 
-picomatch@^2.2.3:
-  version "2.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/picomatch/-/picomatch-2.3.0.tgz#f1f061de8f6a4bf022892e2d128234fb98302972"
-  integrity sha1-8fBh3o9qS/AiiS4tEoI0+5gwKXI=
+"picomatch@^2.2.3":
+  "integrity" "sha1-8fBh3o9qS/AiiS4tEoI0+5gwKXI="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/picomatch/-/picomatch-2.3.0.tgz"
+  "version" "2.3.0"
 
-pkg-dir@^4.2.0:
-  version "4.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/pkg-dir/-/pkg-dir-4.2.0.tgz#f099133df7ede422e81d1d8448270eeb3e4261f3"
-  integrity sha1-8JkTPfft5CLoHR2ESCcO6z5CYfM=
+"pkg-dir@^4.2.0":
+  "integrity" "sha1-8JkTPfft5CLoHR2ESCcO6z5CYfM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/pkg-dir/-/pkg-dir-4.2.0.tgz"
+  "version" "4.2.0"
   dependencies:
-    find-up "^4.0.0"
+    "find-up" "^4.0.0"
 
-process-nextick-args@~2.0.0:
-  version "2.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
-  integrity sha1-eCDZsWEgzFXKmud5JoCufbptf+I=
+"process-nextick-args@~2.0.0":
+  "integrity" "sha1-eCDZsWEgzFXKmud5JoCufbptf+I="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/process-nextick-args/-/process-nextick-args-2.0.1.tgz"
+  "version" "2.0.1"
 
-proxy-addr@~2.0.5:
-  version "2.0.7"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/proxy-addr/-/proxy-addr-2.0.7.tgz#f19fe69ceab311eeb94b42e70e8c2070f9ba1025"
-  integrity sha1-8Z/mnOqzEe65S0LnDowgcPm6ECU=
+"proxy-addr@~2.0.5":
+  "integrity" "sha1-8Z/mnOqzEe65S0LnDowgcPm6ECU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/proxy-addr/-/proxy-addr-2.0.7.tgz"
+  "version" "2.0.7"
   dependencies:
-    forwarded "0.2.0"
-    ipaddr.js "1.9.1"
+    "forwarded" "0.2.0"
+    "ipaddr.js" "1.9.1"
 
-prr@~1.0.1:
-  version "1.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"
-  integrity sha1-0/wRS6BplaRexok/SEzrHXj19HY=
+"prr@~1.0.1":
+  "integrity" "sha1-0/wRS6BplaRexok/SEzrHXj19HY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/prr/-/prr-1.0.1.tgz"
+  "version" "1.0.1"
 
-punycode@^2.1.0:
-  version "2.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
-  integrity sha1-tYsBCsQMIsVldhbI0sLALHv0eew=
+"punycode@^2.1.0":
+  "integrity" "sha1-tYsBCsQMIsVldhbI0sLALHv0eew="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/punycode/-/punycode-2.1.1.tgz"
+  "version" "2.1.1"
 
-qs@6.7.0:
-  version "6.7.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
-  integrity sha1-QdwaAV49WB8WIXdr4xr7KHapsbw=
+"qs@6.7.0":
+  "integrity" "sha1-QdwaAV49WB8WIXdr4xr7KHapsbw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/qs/-/qs-6.7.0.tgz"
+  "version" "6.7.0"
 
-randombytes@^2.1.0:
-  version "2.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
-  integrity sha1-32+ENy8CcNxlzfYpE0mrekc9Tyo=
+"randombytes@^2.1.0":
+  "integrity" "sha1-32+ENy8CcNxlzfYpE0mrekc9Tyo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/randombytes/-/randombytes-2.1.0.tgz"
+  "version" "2.1.0"
   dependencies:
-    safe-buffer "^5.1.0"
+    "safe-buffer" "^5.1.0"
 
-range-parser@~1.2.1:
-  version "1.2.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
-  integrity sha1-PPNwI9GZ4cJNGlW4SADC8+ZGgDE=
+"range-parser@~1.2.1":
+  "integrity" "sha1-PPNwI9GZ4cJNGlW4SADC8+ZGgDE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/range-parser/-/range-parser-1.2.1.tgz"
+  "version" "1.2.1"
 
-raw-body@2.4.0:
-  version "2.4.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/raw-body/-/raw-body-2.4.0.tgz#a1ce6fb9c9bc356ca52e89256ab59059e13d0332"
-  integrity sha1-oc5vucm8NWylLoklarWQWeE9AzI=
+"raw-body@2.4.0":
+  "integrity" "sha1-oc5vucm8NWylLoklarWQWeE9AzI="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/raw-body/-/raw-body-2.4.0.tgz"
+  "version" "2.4.0"
   dependencies:
-    bytes "3.1.0"
-    http-errors "1.7.2"
-    iconv-lite "0.4.24"
-    unpipe "1.0.0"
+    "bytes" "3.1.0"
+    "http-errors" "1.7.2"
+    "iconv-lite" "0.4.24"
+    "unpipe" "1.0.0"
 
-readable-stream@^2.0.1:
-  version "2.3.7"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/readable-stream/-/readable-stream-2.3.7.tgz#1eca1cf711aef814c04f62252a36a62f6cb23b57"
-  integrity sha1-Hsoc9xGu+BTAT2IlKjamL2yyO1c=
+"readable-stream@^2.0.1":
+  "integrity" "sha1-Hsoc9xGu+BTAT2IlKjamL2yyO1c="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/readable-stream/-/readable-stream-2.3.7.tgz"
+  "version" "2.3.7"
   dependencies:
-    core-util-is "~1.0.0"
-    inherits "~2.0.3"
-    isarray "~1.0.0"
-    process-nextick-args "~2.0.0"
-    safe-buffer "~5.1.1"
-    string_decoder "~1.1.1"
-    util-deprecate "~1.0.1"
+    "core-util-is" "~1.0.0"
+    "inherits" "~2.0.3"
+    "isarray" "~1.0.0"
+    "process-nextick-args" "~2.0.0"
+    "safe-buffer" "~5.1.1"
+    "string_decoder" "~1.1.1"
+    "util-deprecate" "~1.0.1"
 
-rechoir@^0.7.0:
-  version "0.7.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/rechoir/-/rechoir-0.7.1.tgz#9478a96a1ca135b5e88fc027f03ee92d6c645686"
-  integrity sha1-lHipahyhNbXoj8An8D7pLWxkVoY=
+"rechoir@^0.7.0":
+  "integrity" "sha1-lHipahyhNbXoj8An8D7pLWxkVoY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/rechoir/-/rechoir-0.7.1.tgz"
+  "version" "0.7.1"
   dependencies:
-    resolve "^1.9.0"
+    "resolve" "^1.9.0"
 
-regenerator-runtime@^0.13.4:
-  version "0.13.9"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
-  integrity sha1-iSV0Kpj/2QgUmI11Zq0wyjsmO1I=
+"regenerator-runtime@^0.13.4":
+  "integrity" "sha1-iSV0Kpj/2QgUmI11Zq0wyjsmO1I="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz"
+  "version" "0.13.9"
 
-resolve-cwd@^3.0.0:
-  version "3.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/resolve-cwd/-/resolve-cwd-3.0.0.tgz#0f0075f1bb2544766cf73ba6a6e2adfebcb13f2d"
-  integrity sha1-DwB18bslRHZs9zumpuKt/ryxPy0=
+"resolve-cwd@^3.0.0":
+  "integrity" "sha1-DwB18bslRHZs9zumpuKt/ryxPy0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/resolve-cwd/-/resolve-cwd-3.0.0.tgz"
+  "version" "3.0.0"
   dependencies:
-    resolve-from "^5.0.0"
+    "resolve-from" "^5.0.0"
 
-resolve-from@^5.0.0:
-  version "5.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/resolve-from/-/resolve-from-5.0.0.tgz#c35225843df8f776df21c57557bc087e9dfdfc69"
-  integrity sha1-w1IlhD3493bfIcV1V7wIfp39/Gk=
+"resolve-from@^5.0.0":
+  "integrity" "sha1-w1IlhD3493bfIcV1V7wIfp39/Gk="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/resolve-from/-/resolve-from-5.0.0.tgz"
+  "version" "5.0.0"
 
-resolve@^1.9.0:
-  version "1.20.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
-  integrity sha1-YpoBP7P3B1XW8LeTXMHCxTeLGXU=
+"resolve@^1.9.0":
+  "integrity" "sha1-YpoBP7P3B1XW8LeTXMHCxTeLGXU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/resolve/-/resolve-1.20.0.tgz"
+  "version" "1.20.0"
   dependencies:
-    is-core-module "^2.2.0"
-    path-parse "^1.0.6"
+    "is-core-module" "^2.2.0"
+    "path-parse" "^1.0.6"
 
-safe-buffer@5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
-  version "5.1.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
-  integrity sha1-mR7GnSluAxN0fVm9/St0XDX4go0=
+"safe-buffer@^5.1.0":
+  "integrity" "sha1-Hq+fqb2x/dTsdfWPnNtOa3gn7sY="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/safe-buffer/-/safe-buffer-5.2.1.tgz"
+  "version" "5.2.1"
 
-safe-buffer@^5.1.0:
-  version "5.2.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
-  integrity sha1-Hq+fqb2x/dTsdfWPnNtOa3gn7sY=
+"safe-buffer@~5.1.0", "safe-buffer@~5.1.1", "safe-buffer@5.1.2":
+  "integrity" "sha1-mR7GnSluAxN0fVm9/St0XDX4go0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/safe-buffer/-/safe-buffer-5.1.2.tgz"
+  "version" "5.1.2"
 
 "safer-buffer@>= 2.1.2 < 3":
-  version "2.1.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
-  integrity sha1-RPoWGwGHuVSd2Eu5GAL5vYOFzWo=
+  "integrity" "sha1-RPoWGwGHuVSd2Eu5GAL5vYOFzWo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/safer-buffer/-/safer-buffer-2.1.2.tgz"
+  "version" "2.1.2"
 
-schema-utils@^3.0.0, schema-utils@^3.1.0:
-  version "3.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/schema-utils/-/schema-utils-3.1.1.tgz#bc74c4b6b6995c1d88f76a8b77bea7219e0c8281"
-  integrity sha1-vHTEtraZXB2I92qLd76nIZ4MgoE=
+"schema-utils@^3.0.0", "schema-utils@^3.1.0":
+  "integrity" "sha1-vHTEtraZXB2I92qLd76nIZ4MgoE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/schema-utils/-/schema-utils-3.1.1.tgz"
+  "version" "3.1.1"
   dependencies:
     "@types/json-schema" "^7.0.8"
-    ajv "^6.12.5"
-    ajv-keywords "^3.5.2"
+    "ajv" "^6.12.5"
+    "ajv-keywords" "^3.5.2"
 
-semver@^7.3.4:
-  version "7.3.5"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/semver/-/semver-7.3.5.tgz#0b621c879348d8998e4b0e4be94b3f12e6018ef7"
-  integrity sha1-C2Ich5NI2JmOSw5L6Us/EuYBjvc=
+"semver@^7.3.4":
+  "integrity" "sha1-C2Ich5NI2JmOSw5L6Us/EuYBjvc="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/semver/-/semver-7.3.5.tgz"
+  "version" "7.3.5"
   dependencies:
-    lru-cache "^6.0.0"
+    "lru-cache" "^6.0.0"
 
-send@0.17.1:
-  version "0.17.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/send/-/send-0.17.1.tgz#c1d8b059f7900f7466dd4938bdc44e11ddb376c8"
-  integrity sha1-wdiwWfeQD3Rm3Uk4vcROEd2zdsg=
+"send@0.17.1":
+  "integrity" "sha1-wdiwWfeQD3Rm3Uk4vcROEd2zdsg="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/send/-/send-0.17.1.tgz"
+  "version" "0.17.1"
   dependencies:
-    debug "2.6.9"
-    depd "~1.1.2"
-    destroy "~1.0.4"
-    encodeurl "~1.0.2"
-    escape-html "~1.0.3"
-    etag "~1.8.1"
-    fresh "0.5.2"
-    http-errors "~1.7.2"
-    mime "1.6.0"
-    ms "2.1.1"
-    on-finished "~2.3.0"
-    range-parser "~1.2.1"
-    statuses "~1.5.0"
+    "debug" "2.6.9"
+    "depd" "~1.1.2"
+    "destroy" "~1.0.4"
+    "encodeurl" "~1.0.2"
+    "escape-html" "~1.0.3"
+    "etag" "~1.8.1"
+    "fresh" "0.5.2"
+    "http-errors" "~1.7.2"
+    "mime" "1.6.0"
+    "ms" "2.1.1"
+    "on-finished" "~2.3.0"
+    "range-parser" "~1.2.1"
+    "statuses" "~1.5.0"
 
-serialize-javascript@^6.0.0:
-  version "6.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/serialize-javascript/-/serialize-javascript-6.0.0.tgz#efae5d88f45d7924141da8b5c3a7a7e663fefeb8"
-  integrity sha1-765diPRdeSQUHai1w6en5mP+/rg=
+"serialize-javascript@^6.0.0":
+  "integrity" "sha1-765diPRdeSQUHai1w6en5mP+/rg="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/serialize-javascript/-/serialize-javascript-6.0.0.tgz"
+  "version" "6.0.0"
   dependencies:
-    randombytes "^2.1.0"
+    "randombytes" "^2.1.0"
 
-serve-static@1.14.1, serve-static@^1.14.1:
-  version "1.14.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/serve-static/-/serve-static-1.14.1.tgz#666e636dc4f010f7ef29970a88a674320898b2f9"
-  integrity sha1-Zm5jbcTwEPfvKZcKiKZ0MgiYsvk=
+"serve-static@^1.14.1", "serve-static@1.14.1":
+  "integrity" "sha1-Zm5jbcTwEPfvKZcKiKZ0MgiYsvk="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/serve-static/-/serve-static-1.14.1.tgz"
+  "version" "1.14.1"
   dependencies:
-    encodeurl "~1.0.2"
-    escape-html "~1.0.3"
-    parseurl "~1.3.3"
-    send "0.17.1"
+    "encodeurl" "~1.0.2"
+    "escape-html" "~1.0.3"
+    "parseurl" "~1.3.3"
+    "send" "0.17.1"
 
-setprototypeof@1.1.1:
-  version "1.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/setprototypeof/-/setprototypeof-1.1.1.tgz#7e95acb24aa92f5885e0abef5ba131330d4ae683"
-  integrity sha1-fpWsskqpL1iF4KvvW6ExMw1K5oM=
+"setprototypeof@1.1.1":
+  "integrity" "sha1-fpWsskqpL1iF4KvvW6ExMw1K5oM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/setprototypeof/-/setprototypeof-1.1.1.tgz"
+  "version" "1.1.1"
 
-shallow-clone@^3.0.0:
-  version "3.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/shallow-clone/-/shallow-clone-3.0.1.tgz#8f2981ad92531f55035b01fb230769a40e02efa3"
-  integrity sha1-jymBrZJTH1UDWwH7IwdppA4C76M=
+"shallow-clone@^3.0.0":
+  "integrity" "sha1-jymBrZJTH1UDWwH7IwdppA4C76M="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/shallow-clone/-/shallow-clone-3.0.1.tgz"
+  "version" "3.0.1"
   dependencies:
-    kind-of "^6.0.2"
+    "kind-of" "^6.0.2"
 
-shebang-command@^2.0.0:
-  version "2.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/shebang-command/-/shebang-command-2.0.0.tgz#ccd0af4f8835fbdc265b82461aaf0c36663f34ea"
-  integrity sha1-zNCvT4g1+9wmW4JGGq8MNmY/NOo=
+"shebang-command@^2.0.0":
+  "integrity" "sha1-zNCvT4g1+9wmW4JGGq8MNmY/NOo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/shebang-command/-/shebang-command-2.0.0.tgz"
+  "version" "2.0.0"
   dependencies:
-    shebang-regex "^3.0.0"
+    "shebang-regex" "^3.0.0"
 
-shebang-regex@^3.0.0:
-  version "3.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
-  integrity sha1-rhbxZE2HPsrYQ7AwexQzYtTEIXI=
+"shebang-regex@^3.0.0":
+  "integrity" "sha1-rhbxZE2HPsrYQ7AwexQzYtTEIXI="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/shebang-regex/-/shebang-regex-3.0.0.tgz"
+  "version" "3.0.0"
 
-signal-exit@^3.0.3:
-  version "3.0.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
-  integrity sha1-oUEMLt2PB3sItOJTyOrPyvBXRhw=
+"signal-exit@^3.0.3":
+  "integrity" "sha1-oUEMLt2PB3sItOJTyOrPyvBXRhw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/signal-exit/-/signal-exit-3.0.3.tgz"
+  "version" "3.0.3"
 
-source-list-map@^2.0.1:
-  version "2.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/source-list-map/-/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"
-  integrity sha1-OZO9hzv8SEecyp6jpUeDXHwVSzQ=
+"source-list-map@^2.0.1":
+  "integrity" "sha1-OZO9hzv8SEecyp6jpUeDXHwVSzQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/source-list-map/-/source-list-map-2.0.1.tgz"
+  "version" "2.0.1"
 
-source-map-support@~0.5.19:
-  version "0.5.19"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/source-map-support/-/source-map-support-0.5.19.tgz#a98b62f86dcaf4f67399648c085291ab9e8fed61"
-  integrity sha1-qYti+G3K9PZzmWSMCFKRq56P7WE=
+"source-map-support@~0.5.19":
+  "integrity" "sha1-qYti+G3K9PZzmWSMCFKRq56P7WE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/source-map-support/-/source-map-support-0.5.19.tgz"
+  "version" "0.5.19"
   dependencies:
-    buffer-from "^1.0.0"
-    source-map "^0.6.0"
+    "buffer-from" "^1.0.0"
+    "source-map" "^0.6.0"
 
-source-map@^0.6.0, source-map@^0.6.1:
-  version "0.6.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
-  integrity sha1-dHIq8y6WFOnCh6jQu95IteLxomM=
+"source-map@^0.6.0", "source-map@^0.6.1":
+  "integrity" "sha1-dHIq8y6WFOnCh6jQu95IteLxomM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/source-map/-/source-map-0.6.1.tgz"
+  "version" "0.6.1"
 
-source-map@~0.7.2:
-  version "0.7.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/source-map/-/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
-  integrity sha1-UwL4FpAxc1ImVECS5kmB91F1A4M=
+"source-map@~0.7.2":
+  "integrity" "sha1-UwL4FpAxc1ImVECS5kmB91F1A4M="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/source-map/-/source-map-0.7.3.tgz"
+  "version" "0.7.3"
 
-"statuses@>= 1.5.0 < 2", statuses@~1.5.0:
-  version "1.5.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
-  integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
+"statuses@>= 1.5.0 < 2", "statuses@~1.5.0":
+  "integrity" "sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/statuses/-/statuses-1.5.0.tgz"
+  "version" "1.5.0"
 
-string_decoder@~1.1.1:
-  version "1.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/string_decoder/-/string_decoder-1.1.1.tgz#9cf1611ba62685d7030ae9e4ba34149c3af03fc8"
-  integrity sha1-nPFhG6YmhdcDCunkujQUnDrwP8g=
+"string_decoder@~1.1.1":
+  "integrity" "sha1-nPFhG6YmhdcDCunkujQUnDrwP8g="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/string_decoder/-/string_decoder-1.1.1.tgz"
+  "version" "1.1.1"
   dependencies:
-    safe-buffer "~5.1.0"
+    "safe-buffer" "~5.1.0"
 
-strip-final-newline@^2.0.0:
-  version "2.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/strip-final-newline/-/strip-final-newline-2.0.0.tgz#89b852fb2fcbe936f6f4b3187afb0a12c1ab58ad"
-  integrity sha1-ibhS+y/L6Tb29LMYevsKEsGrWK0=
+"strip-final-newline@^2.0.0":
+  "integrity" "sha1-ibhS+y/L6Tb29LMYevsKEsGrWK0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/strip-final-newline/-/strip-final-newline-2.0.0.tgz"
+  "version" "2.0.0"
 
-supports-color@^7.1.0:
-  version "7.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/supports-color/-/supports-color-7.2.0.tgz#1b7dcdcb32b8138801b3e478ba6a51caa89648da"
-  integrity sha1-G33NyzK4E4gBs+R4umpRyqiWSNo=
+"supports-color@^7.1.0":
+  "integrity" "sha1-G33NyzK4E4gBs+R4umpRyqiWSNo="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/supports-color/-/supports-color-7.2.0.tgz"
+  "version" "7.2.0"
   dependencies:
-    has-flag "^4.0.0"
+    "has-flag" "^4.0.0"
 
-supports-color@^8.0.0:
-  version "8.1.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/supports-color/-/supports-color-8.1.1.tgz#cd6fc17e28500cff56c1b86c0a7fd4a54a73005c"
-  integrity sha1-zW/BfihQDP9WwbhsCn/UpUpzAFw=
+"supports-color@^8.0.0":
+  "integrity" "sha1-zW/BfihQDP9WwbhsCn/UpUpzAFw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/supports-color/-/supports-color-8.1.1.tgz"
+  "version" "8.1.1"
   dependencies:
-    has-flag "^4.0.0"
+    "has-flag" "^4.0.0"
 
-tapable@^1.0.0:
-  version "1.1.3"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/tapable/-/tapable-1.1.3.tgz#a1fccc06b58db61fd7a45da2da44f5f3a3e67ba2"
-  integrity sha1-ofzMBrWNth/XpF2i2kT186Pme6I=
+"tapable@^1.0.0":
+  "integrity" "sha1-ofzMBrWNth/XpF2i2kT186Pme6I="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/tapable/-/tapable-1.1.3.tgz"
+  "version" "1.1.3"
 
-tapable@^2.1.1, tapable@^2.2.0:
-  version "2.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/tapable/-/tapable-2.2.0.tgz#5c373d281d9c672848213d0e037d1c4165ab426b"
-  integrity sha1-XDc9KB2cZyhIIT0OA30cQWWrQms=
+"tapable@^2.1.1", "tapable@^2.2.0":
+  "integrity" "sha1-XDc9KB2cZyhIIT0OA30cQWWrQms="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/tapable/-/tapable-2.2.0.tgz"
+  "version" "2.2.0"
 
-terser-webpack-plugin@^5.1.3:
-  version "5.1.4"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/terser-webpack-plugin/-/terser-webpack-plugin-5.1.4.tgz#c369cf8a47aa9922bd0d8a94fe3d3da11a7678a1"
-  integrity sha1-w2nPikeqmSK9DYqU/j09oRp2eKE=
+"terser-webpack-plugin@^5.1.3":
+  "integrity" "sha1-w2nPikeqmSK9DYqU/j09oRp2eKE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/terser-webpack-plugin/-/terser-webpack-plugin-5.1.4.tgz"
+  "version" "5.1.4"
   dependencies:
-    jest-worker "^27.0.2"
-    p-limit "^3.1.0"
-    schema-utils "^3.0.0"
-    serialize-javascript "^6.0.0"
-    source-map "^0.6.1"
-    terser "^5.7.0"
+    "jest-worker" "^27.0.2"
+    "p-limit" "^3.1.0"
+    "schema-utils" "^3.0.0"
+    "serialize-javascript" "^6.0.0"
+    "source-map" "^0.6.1"
+    "terser" "^5.7.0"
 
-terser@^5.7.0:
-  version "5.7.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/terser/-/terser-5.7.1.tgz#2dc7a61009b66bb638305cb2a824763b116bf784"
-  integrity sha1-LcemEAm2a7Y4MFyyqCR2OxFr94Q=
+"terser@^5.7.0":
+  "integrity" "sha1-LcemEAm2a7Y4MFyyqCR2OxFr94Q="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/terser/-/terser-5.7.1.tgz"
+  "version" "5.7.1"
   dependencies:
-    commander "^2.20.0"
-    source-map "~0.7.2"
-    source-map-support "~0.5.19"
+    "commander" "^2.20.0"
+    "source-map" "~0.7.2"
+    "source-map-support" "~0.5.19"
 
-to-regex-range@^5.0.1:
-  version "5.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/to-regex-range/-/to-regex-range-5.0.1.tgz#1648c44aae7c8d988a326018ed72f5b4dd0392e4"
-  integrity sha1-FkjESq58jZiKMmAY7XL1tN0DkuQ=
+"to-regex-range@^5.0.1":
+  "integrity" "sha1-FkjESq58jZiKMmAY7XL1tN0DkuQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/to-regex-range/-/to-regex-range-5.0.1.tgz"
+  "version" "5.0.1"
   dependencies:
-    is-number "^7.0.0"
+    "is-number" "^7.0.0"
 
-toidentifier@1.0.0:
-  version "1.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
-  integrity sha1-fhvjRw8ed5SLxD2Uo8j013UrpVM=
+"toidentifier@1.0.0":
+  "integrity" "sha1-fhvjRw8ed5SLxD2Uo8j013UrpVM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/toidentifier/-/toidentifier-1.0.0.tgz"
+  "version" "1.0.0"
 
-ts-loader@^8.0.14:
-  version "8.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ts-loader/-/ts-loader-8.3.0.tgz#83360496d6f8004fab35825279132c93412edf33"
-  integrity sha1-gzYEltb4AE+rNYJSeRMsk0Eu3zM=
+"ts-loader@^8.0.14":
+  "integrity" "sha1-gzYEltb4AE+rNYJSeRMsk0Eu3zM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/ts-loader/-/ts-loader-8.3.0.tgz"
+  "version" "8.3.0"
   dependencies:
-    chalk "^4.1.0"
-    enhanced-resolve "^4.0.0"
-    loader-utils "^2.0.0"
-    micromatch "^4.0.0"
-    semver "^7.3.4"
+    "chalk" "^4.1.0"
+    "enhanced-resolve" "^4.0.0"
+    "loader-utils" "^2.0.0"
+    "micromatch" "^4.0.0"
+    "semver" "^7.3.4"
 
-type-is@~1.6.17, type-is@~1.6.18:
-  version "1.6.18"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131"
-  integrity sha1-TlUs0F3wlGfcvE73Od6J8s83wTE=
+"type-is@~1.6.17", "type-is@~1.6.18":
+  "integrity" "sha1-TlUs0F3wlGfcvE73Od6J8s83wTE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/type-is/-/type-is-1.6.18.tgz"
+  "version" "1.6.18"
   dependencies:
-    media-typer "0.3.0"
-    mime-types "~2.1.24"
+    "media-typer" "0.3.0"
+    "mime-types" "~2.1.24"
 
-typescript@^4.1.3:
-  version "4.3.5"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/typescript/-/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
-  integrity sha1-TRw3zBbok5c8RaBohrcRMjTxGfQ=
+"typescript@*", "typescript@^4.1.3":
+  "integrity" "sha1-TRw3zBbok5c8RaBohrcRMjTxGfQ="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/typescript/-/typescript-4.3.5.tgz"
+  "version" "4.3.5"
 
-unpipe@1.0.0, unpipe@~1.0.0:
-  version "1.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
-  integrity sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw=
+"unpipe@~1.0.0", "unpipe@1.0.0":
+  "integrity" "sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/unpipe/-/unpipe-1.0.0.tgz"
+  "version" "1.0.0"
 
-uri-js@^4.2.2:
-  version "4.4.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/uri-js/-/uri-js-4.4.1.tgz#9b1a52595225859e55f669d928f88c6c57f2a77e"
-  integrity sha1-mxpSWVIlhZ5V9mnZKPiMbFfyp34=
+"uri-js@^4.2.2":
+  "integrity" "sha1-mxpSWVIlhZ5V9mnZKPiMbFfyp34="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/uri-js/-/uri-js-4.4.1.tgz"
+  "version" "4.4.1"
   dependencies:
-    punycode "^2.1.0"
+    "punycode" "^2.1.0"
 
-util-deprecate@~1.0.1:
-  version "1.0.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
-  integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
+"util-deprecate@~1.0.1":
+  "integrity" "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/util-deprecate/-/util-deprecate-1.0.2.tgz"
+  "version" "1.0.2"
 
-utils-merge@1.0.1:
-  version "1.0.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
-  integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
+"utils-merge@1.0.1":
+  "integrity" "sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/utils-merge/-/utils-merge-1.0.1.tgz"
+  "version" "1.0.1"
 
-v8-compile-cache@^2.2.0:
-  version "2.3.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
-  integrity sha1-LeGWGMZtwkfc+2+ZM4A12CRaLO4=
+"v8-compile-cache@^2.2.0":
+  "integrity" "sha1-LeGWGMZtwkfc+2+ZM4A12CRaLO4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz"
+  "version" "2.3.0"
 
-vary@~1.1.2:
-  version "1.1.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
-  integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
+"vary@~1.1.2":
+  "integrity" "sha1-IpnwLG3tMNSllhsLn3RSShj2NPw="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/vary/-/vary-1.1.2.tgz"
+  "version" "1.1.2"
 
-watchpack@^2.2.0:
-  version "2.2.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/watchpack/-/watchpack-2.2.0.tgz#47d78f5415fe550ecd740f99fe2882323a58b1ce"
-  integrity sha1-R9ePVBX+VQ7NdA+Z/iiCMjpYsc4=
+"watchpack@^2.2.0":
+  "integrity" "sha1-R9ePVBX+VQ7NdA+Z/iiCMjpYsc4="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/watchpack/-/watchpack-2.2.0.tgz"
+  "version" "2.2.0"
   dependencies:
-    glob-to-regexp "^0.4.1"
-    graceful-fs "^4.1.2"
+    "glob-to-regexp" "^0.4.1"
+    "graceful-fs" "^4.1.2"
 
-webpack-cli@^4.4.0:
-  version "4.7.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/webpack-cli/-/webpack-cli-4.7.2.tgz#a718db600de6d3906a4357e059ae584a89f4c1a5"
-  integrity sha1-pxjbYA3m05BqQ1fgWa5YSon0waU=
+"webpack-cli@^4.4.0", "webpack-cli@4.x.x":
+  "integrity" "sha1-pxjbYA3m05BqQ1fgWa5YSon0waU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/webpack-cli/-/webpack-cli-4.7.2.tgz"
+  "version" "4.7.2"
   dependencies:
     "@discoveryjs/json-ext" "^0.5.0"
     "@webpack-cli/configtest" "^1.0.4"
     "@webpack-cli/info" "^1.3.0"
     "@webpack-cli/serve" "^1.5.1"
-    colorette "^1.2.1"
-    commander "^7.0.0"
-    execa "^5.0.0"
-    fastest-levenshtein "^1.0.12"
-    import-local "^3.0.2"
-    interpret "^2.2.0"
-    rechoir "^0.7.0"
-    v8-compile-cache "^2.2.0"
-    webpack-merge "^5.7.3"
+    "colorette" "^1.2.1"
+    "commander" "^7.0.0"
+    "execa" "^5.0.0"
+    "fastest-levenshtein" "^1.0.12"
+    "import-local" "^3.0.2"
+    "interpret" "^2.2.0"
+    "rechoir" "^0.7.0"
+    "v8-compile-cache" "^2.2.0"
+    "webpack-merge" "^5.7.3"
 
-webpack-merge@^5.7.3:
-  version "5.8.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/webpack-merge/-/webpack-merge-5.8.0.tgz#2b39dbf22af87776ad744c390223731d30a68f61"
-  integrity sha1-Kznb8ir4d3atdEw5AiNzHTCmj2E=
+"webpack-merge@^5.7.3":
+  "integrity" "sha1-Kznb8ir4d3atdEw5AiNzHTCmj2E="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/webpack-merge/-/webpack-merge-5.8.0.tgz"
+  "version" "5.8.0"
   dependencies:
-    clone-deep "^4.0.1"
-    wildcard "^2.0.0"
+    "clone-deep" "^4.0.1"
+    "wildcard" "^2.0.0"
 
-webpack-sources@^2.3.1:
-  version "2.3.1"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/webpack-sources/-/webpack-sources-2.3.1.tgz#570de0af163949fe272233c2cefe1b56f74511fd"
-  integrity sha1-Vw3grxY5Sf4nIjPCzv4bVvdFEf0=
+"webpack-sources@^2.3.1":
+  "integrity" "sha1-Vw3grxY5Sf4nIjPCzv4bVvdFEf0="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/webpack-sources/-/webpack-sources-2.3.1.tgz"
+  "version" "2.3.1"
   dependencies:
-    source-list-map "^2.0.1"
-    source-map "^0.6.1"
+    "source-list-map" "^2.0.1"
+    "source-map" "^0.6.1"
 
-webpack@^5.19.0:
-  version "5.46.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/webpack/-/webpack-5.46.0.tgz#105d20d96f79db59b316b0ae54316f0f630314b5"
-  integrity sha1-EF0g2W9521mzFrCuVDFvD2MDFLU=
+"webpack@*", "webpack@^5.1.0", "webpack@^5.19.0", "webpack@4.x.x || 5.x.x":
+  "integrity" "sha1-EF0g2W9521mzFrCuVDFvD2MDFLU="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/webpack/-/webpack-5.46.0.tgz"
+  "version" "5.46.0"
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.50"
     "@webassemblyjs/ast" "1.11.1"
     "@webassemblyjs/wasm-edit" "1.11.1"
     "@webassemblyjs/wasm-parser" "1.11.1"
-    acorn "^8.4.1"
-    browserslist "^4.14.5"
-    chrome-trace-event "^1.0.2"
-    enhanced-resolve "^5.8.0"
-    es-module-lexer "^0.7.1"
-    eslint-scope "5.1.1"
-    events "^3.2.0"
-    glob-to-regexp "^0.4.1"
-    graceful-fs "^4.2.4"
-    json-parse-better-errors "^1.0.2"
-    loader-runner "^4.2.0"
-    mime-types "^2.1.27"
-    neo-async "^2.6.2"
-    schema-utils "^3.1.0"
-    tapable "^2.1.1"
-    terser-webpack-plugin "^5.1.3"
-    watchpack "^2.2.0"
-    webpack-sources "^2.3.1"
+    "acorn" "^8.4.1"
+    "browserslist" "^4.14.5"
+    "chrome-trace-event" "^1.0.2"
+    "enhanced-resolve" "^5.8.0"
+    "es-module-lexer" "^0.7.1"
+    "eslint-scope" "5.1.1"
+    "events" "^3.2.0"
+    "glob-to-regexp" "^0.4.1"
+    "graceful-fs" "^4.2.4"
+    "json-parse-better-errors" "^1.0.2"
+    "loader-runner" "^4.2.0"
+    "mime-types" "^2.1.27"
+    "neo-async" "^2.6.2"
+    "schema-utils" "^3.1.0"
+    "tapable" "^2.1.1"
+    "terser-webpack-plugin" "^5.1.3"
+    "watchpack" "^2.2.0"
+    "webpack-sources" "^2.3.1"
 
-which@^2.0.1:
-  version "2.0.2"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/which/-/which-2.0.2.tgz#7c6a8dd0a636a0327e10b59c9286eee93f3f51b1"
-  integrity sha1-fGqN0KY2oDJ+ELWckobu6T8/UbE=
+"which@^2.0.1":
+  "integrity" "sha1-fGqN0KY2oDJ+ELWckobu6T8/UbE="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/which/-/which-2.0.2.tgz"
+  "version" "2.0.2"
   dependencies:
-    isexe "^2.0.0"
+    "isexe" "^2.0.0"
 
-wildcard@^2.0.0:
-  version "2.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/wildcard/-/wildcard-2.0.0.tgz#a77d20e5200c6faaac979e4b3aadc7b3dd7f8fec"
-  integrity sha1-p30g5SAMb6qsl55LOq3Hs91/j+w=
+"wildcard@^2.0.0":
+  "integrity" "sha1-p30g5SAMb6qsl55LOq3Hs91/j+w="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/wildcard/-/wildcard-2.0.0.tgz"
+  "version" "2.0.0"
 
-yallist@^4.0.0:
-  version "4.0.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
-  integrity sha1-m7knkNnA7/7GO+c1GeEaNQGaOnI=
+"yallist@^4.0.0":
+  "integrity" "sha1-m7knkNnA7/7GO+c1GeEaNQGaOnI="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/yallist/-/yallist-4.0.0.tgz"
+  "version" "4.0.0"
 
-yocto-queue@^0.1.0:
-  version "0.1.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
-  integrity sha1-ApTrPe4FAo0x7hpfosVWpqrxChs=
+"yocto-queue@^0.1.0":
+  "integrity" "sha1-ApTrPe4FAo0x7hpfosVWpqrxChs="
+  "resolved" "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/yocto-queue/-/yocto-queue-0.1.0.tgz"
+  "version" "0.1.0"

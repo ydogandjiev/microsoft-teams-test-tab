@@ -21,11 +21,12 @@
     "build-erinha": "webpack -o public/erinha",
     "build-juldeng": "webpack -o public/juldeng/",
     "build-nan": "webpack -o public/lnan/",
+    "build-shrshinde": "webpack -o public/shrshinde/",
     "watch": "webpack -w",
     "start": "node server.js"
   },
   "dependencies": {
-    "@microsoft/teams-js": "2.0.0-beta.6",
+    "@microsoft/teams-js": "^2.0.0-beta.6",
     "express": "^4.17.1",
     "history": "^5.0.0",
     "serve-static": "^1.14.1"
