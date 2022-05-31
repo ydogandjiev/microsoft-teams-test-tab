@@ -202,7 +202,8 @@ export const initializeAppModules = () => {
       hasOutput: true,
       inputs: [{
         type: "object",
-        name: "taskInfo"
+        name: "taskInfo",
+        defaultValue: "{\"title\": \"Test Task Module\", \"height\": \"medium\", \"width\": \"medium\", \"url\": \"https://teams-test-tab.azurewebsites.net\"}"
       }],
       action: function (taskInfo, output) {
         childWindow = microsoftTeams.tasks.startTask(taskInfo);
@@ -464,7 +465,8 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       inputs: [{
         type: "object",
-        name: "taskInfo"
+        name: "taskInfo",
+        defaultValue: "{\"title\": \"Test Task Module\", \"height\": \"medium\", \"width\": \"medium\", \"url\": \"https://teams-test-tab.azurewebsites.net\"}"
       }],
       hasOutput: true,
       action: function (taskInfo, output) {
@@ -517,7 +519,7 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.legacy.fullTrust.joinedTeams.getUserJoinedTeams().then(output);
+        microsoftTeams.teams.fullTrust.joinedTeams.getUserJoinedTeams().then(output);
       }
     });
 
