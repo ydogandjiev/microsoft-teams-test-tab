@@ -282,7 +282,7 @@ export const initializeAppModules = () => {
     });
 
     addModule({
-      name: "getAuthToken",
+      name: "authentication.getAuthToken",
       initializedRequired: true,
       hasOutput: true,
       inputs: [{
@@ -299,6 +299,15 @@ export const initializeAppModules = () => {
         }
 
         microsoftTeams.authentication.getAuthToken(getAuthTokenParameters);
+      }
+    });
+
+    addModule({
+      name: "authentication.getUser",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.authentication.getUser(output);
       }
     });
 

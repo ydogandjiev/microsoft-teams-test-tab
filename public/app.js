@@ -574,6 +574,14 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "getUser",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.authentication.getUser(output);
+            }
+        });
+        addModule({
             name: "authentication.notifyFailure",
             initializedRequired: true,
             inputs: [{
