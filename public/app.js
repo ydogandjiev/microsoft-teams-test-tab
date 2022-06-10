@@ -556,7 +556,7 @@ const initializeAppModules = () => {
             }
         });
         addModule({
-            name: "getAuthToken",
+            name: "authentication.getAuthToken",
             initializedRequired: true,
             hasOutput: true,
             inputs: [{
@@ -574,7 +574,7 @@ const initializeAppModules = () => {
             }
         });
         addModule({
-            name: "getUser",
+            name: "authentication.getUser",
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
@@ -839,6 +839,13 @@ const initializeAppModules = () => {
                     }
                     return false;
                 });
+            }
+        });
+        addModule({
+            name: "returnFocus",
+            initializedRequired: true,
+            action: function () {
+                MicrosoftTeams_min.returnFocus();
             }
         });
         addModule({

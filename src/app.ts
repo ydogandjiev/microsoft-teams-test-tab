@@ -595,6 +595,14 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "returnFocus",
+      initializedRequired: true,
+      action: function () {
+        microsoftTeams.returnFocus();
+      }
+    });
+
+    addModule({
       name: "conversations.openConversation",
       initializedRequired: true,
       hasOutput: true,
