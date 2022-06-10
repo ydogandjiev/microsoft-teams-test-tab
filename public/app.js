@@ -844,8 +844,12 @@ const initializeAppModules = () => {
         addModule({
             name: "returnFocus",
             initializedRequired: true,
-            action: function () {
-                MicrosoftTeams_min.returnFocus();
+            inputs: [{
+                    type: "boolean",
+                    name: "navigateForward"
+                }],
+            action: function (navigateForward) {
+                MicrosoftTeams_min.returnFocus(navigateForward);
             }
         });
         addModule({

@@ -597,8 +597,12 @@ export const initializeAppModules = () => {
     addModule({
       name: "returnFocus",
       initializedRequired: true,
-      action: function () {
-        microsoftTeams.returnFocus();
+      inputs: [{
+        type: "boolean",
+        name: "navigateForward"
+      }],
+      action: function (navigateForward) {
+        microsoftTeams.returnFocus(navigateForward);
       }
     });
 
