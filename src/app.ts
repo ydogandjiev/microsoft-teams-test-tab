@@ -85,7 +85,7 @@ export const initializeAppModules = () => {
 
 
     addModule({
-      name: "registerEnterSettingsHandler",
+      name: "registerChangeSettingsHandler",
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
