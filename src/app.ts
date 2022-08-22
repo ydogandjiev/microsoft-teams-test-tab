@@ -965,6 +965,25 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "navigateToTab",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "tabInstance",
+      }],
+      action: (tabInstance: microsoftTeams.TabInstance, output) => {
+        microsoftTeams.navigateToTab(tabInstance, (status: boolean, reason?: string) => {
+          if (reason) {
+            output(reason);
+            return;
+          }
+          output(status);
+      });
+      } 
+    });
+
+    addModule({
       name: "sharing.shareWebContent",
       initializedRequired: true,
       hasOutput: true,
