@@ -14,10 +14,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
-"@microsoft/teams-js@^2.2.0-beta.0":
-  version "2.2.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-2.2.0-beta.0.tgz#e88eda44711411c6bfd3f4fa16ddc171c9dbe686"
-  integrity sha512-zbc0TsbLoxSdUySrIZspwZ14t8C9r+ycTk1gbJdHXb81YX5DRPTMpgGtgoy8nMR2GYaHyq5GrKidVOXjPHLSVg==
+"@microsoft/teams-js@^2.3.0-beta.1":
+  version "2.3.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-2.3.0-beta.1.tgz#6c506eac5e8fe00beb56259991ed16522a0daf67"
+  integrity sha512-+FPLxZTidVZeBFUuNjC5tUcNvWA8pBoQOkFDZXAHY71MEL9GEfRTyyo3sSiu5BLaxCTqUBLc+UA1yAZDiM0Q2g==
   dependencies:
     debug "4.3.3"
 
