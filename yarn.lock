@@ -21,6 +21,13 @@
   dependencies:
     debug "4.3.3"
 
+"@microsoft/teams-js@^2.3.0-beta.2":
+  version "2.3.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-2.3.0-beta.2.tgz#6b06821ab4d197b66fbfad3a8e6d266320ac8e57"
+  integrity sha512-LkuDwxUn8jEN1jwnOpuyYuJL1KOTGLtTiHwjtkmf0Mde10Su7s2XdeeHe26gFmMjjJ04HgZ8tMtYqPBnZ/Y+zQ==
+  dependencies:
+    debug "4.3.3"
+
 "@types/eslint-scope@^3.7.3":
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/@types/eslint-scope/-/eslint-scope-3.7.3.tgz#125b88504b61e3c8bc6f870882003253005c3224"
