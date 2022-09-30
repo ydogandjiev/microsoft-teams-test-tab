@@ -1235,6 +1235,18 @@ const initializeAppModules = () => {
                 MicrosoftTeams_min.stageView.open(stageViewParams);
             }
         });
+        addModule({
+            name: "shareToMeetingStage",
+            initializedRequired: true,
+            action: function () {
+                let appContext = {
+                    appSharingUrl: "https://teams-test-tab.azurewebsites.net",
+                    appId: "2c19df50-1c3c-11ea-9327-cd28e4b6f7ba"
+                };
+                var urlToOpen = "https://teams.microsoft.com/l/meeting-share?fqdn=&lm=deeplink&appContext=" + encodeURIComponent(JSON.stringify(appContext));
+                window.open(urlToOpen);
+            }
+        });
         // Get the modal
         var modal = document.getElementById("myModal");
         // Get the <span> element that closes the modal
