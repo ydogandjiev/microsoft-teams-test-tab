@@ -1241,9 +1241,10 @@ const initializeAppModules = () => {
             action: function () {
                 let appContext = {
                     appSharingUrl: "https://teams-test-tab.azurewebsites.net",
-                    appId: "2c19df50-1c3c-11ea-9327-cd28e4b6f7ba"
+                    appId: "2c19df50-1c3c-11ea-9327-cd28e4b6f7ba",
                 };
-                var urlToOpen = "https://teams.microsoft.com/l/meeting-share?fqdn=&lm=deeplink&appContext=" + encodeURIComponent(JSON.stringify(appContext));
+                var urlToOpen = "https://teams.microsoft.com/l/meeting-share?fqdn=&lm=deeplink&appContext=" +
+                    encodeURIComponent(JSON.stringify(appContext));
                 window.open(urlToOpen);
             }
         });
