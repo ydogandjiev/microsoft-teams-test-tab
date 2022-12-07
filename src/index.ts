@@ -1,11 +1,9 @@
 
 import { container, restoreState, saveState, downloadHandler } from './utils';
-import { initializeAppModules, registerAppCachingHandlers } from './app';
+import { initializeAppModules } from './app';
 
 (function () {
   initializeAppModules();
-
-  registerAppCachingHandlers();
 
   document.body.appendChild(container);
 
