@@ -15,6 +15,7 @@
     "build": "webpack",
     "build-saching": "webpack -o public/saching/",
     "build-kaela": "webpack -o public/kaelapolnitz/",
+    "build-parth": "webpack -o public/parsharm/",
     "build-debo": "webpack -o public/dechowdh/",
     "build-anand": "webpack -o public/anandnat/",
     "build-chharpe": "webpack -o public/chharpe/",
