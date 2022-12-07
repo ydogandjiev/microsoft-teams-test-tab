@@ -1,6 +1,25 @@
 import { addModule, initializeDownloadLinks, outputTabRenderedLocation } from "./utils";
 import * as microsoftTeams from '@microsoft/teams-js';
 
+const beforeUnloadHandler = (
+  readyToUnload: () => void
+) => {
+  setTimeout(() => {  
+    readyToUnload();
+  }, 2000);
+  return true;
+};
+
+const loadHandler = (
+  data: microsoftTeams.LoadContext
+) => {
+  const timeout = 1000;
+  setTimeout(() => {
+    microsoftTeams.appInitialization.notifySuccess();
+  }, timeout);
+};
+
+
 export const initializeAppModules = () => {
   try {
     var childWindow;
@@ -533,26 +552,6 @@ export const initializeAppModules = () => {
     });
 
     addModule({
-      name: "registerBeforeUnload",
-      initializedRequired: true,
-      inputs: [{
-        type: "string",
-        name: "readyToUnloadDelay"
-      }],
-      action: function (readyToUnloadDelay) {
-        const delay = Number(readyToUnloadDelay);
-        microsoftTeams.registerBeforeUnloadHandler(function (readyToUnload) {
-          (window as any).readyToUnload = readyToUnload;
-          setTimeout(() => {
-            readyToUnload();
-          }, delay);
-          alert(`beforeUnload recieved; calling readyToUnload in ${delay / 1000} seconds`);
-          return true;
-        });
-      }
-    });
-
-    addModule({
       name: "readyToUnload",
       initializedRequired: true,
       action: function () {
@@ -1041,4 +1040,18 @@ export const initializeAppModules = () => {
   catch (err) {
     microsoftTeams.appInitialization.notifyFailure({ reason: microsoftTeams.appInitialization.FailedReason.Other, message: err.message });
   }
+};
+
+export const registerAppCachingHandlers = () => {
+  microsoftTeams.getContext((context: microsoftTeams.Context) => {
+
+      microsoftTeams.registerBeforeUnloadHandler((readyToUnload) => {
+        const result = beforeUnloadHandler( readyToUnload);
+        return result;
+      });
+
+      microsoftTeams.registerOnLoadHandler((data) => {
+        loadHandler(data);
+      });
+});
 };
