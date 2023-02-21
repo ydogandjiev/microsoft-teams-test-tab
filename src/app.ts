@@ -180,9 +180,14 @@ export const initializeAppModules = () => {
       inputs: [{
         type: "boolean",
         name: "mockOAuth" // do not go to the actual oauth provider, for scenario testing purpose
+      },
+      {
+        type: "string",
+        name: "hubAuthCallbackUrl" // do not go to the actual oauth provider, for scenario testing purpose
       }],
       hasOutput: true,
-      action: function (mockOAuth, output) {
+      action: function (mockOAuth, output, hubAuthCallbackUrl) {
+        localStorage.setItem("key", JSON.stringify(hubAuthCallbackUrl))
         microsoftTeams.authentication.authenticate({
           url: `auth_start.html?oauthRedirectMethod={oauthRedirectMethod}&authId=${mockOAuth ? "1" : "{authId}"}&mockOAuth=${mockOAuth}`,
           isExternal: true,
