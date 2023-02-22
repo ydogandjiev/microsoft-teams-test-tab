@@ -463,7 +463,7 @@ const initializeAppModules = () => {
                 },
                 {
                     type: "string",
-                    name: "hubAuthCallbackUrl" // do not go to the actual oauth provider, for scenario testing purpose
+                    name: "hubAuthCallbackUrl"
                 }],
             hasOutput: true,
             action: function (mockOAuth, output, hubAuthCallbackUrl) {
