@@ -847,6 +847,13 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "navigateBack",
+            initializedRequired: true,
+            action: function () {
+                MicrosoftTeams_min.pages.backStack.navigateBack();
+            }
+        });
+        addModule({
             name: "returnFocus",
             initializedRequired: true,
             inputs: [{
