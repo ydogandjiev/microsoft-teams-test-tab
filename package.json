@@ -24,6 +24,7 @@
     "build-juldeng": "webpack -o public/juldeng/",
     "build-nan": "webpack -o public/lnan/",
     "build-shrshinde": "webpack -o public/shrshinde/",
+    "build-yuexuanli": "webpack -o public/yuexuanli/",
     "watch": "webpack -w",
     "start": "node server.js"
   },
