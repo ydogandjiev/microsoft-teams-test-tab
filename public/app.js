@@ -1106,6 +1106,34 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "meeting.shareAppContentToStage",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.shareAppContentToStage((err, result) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(result);
+                }, window.location.href);
+            }
+        });
+        addModule({
+            name: "meeting.getAppContentStageSharingState",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.getAppContentStageSharingState((err, appContentStageSharingState) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(appContentStageSharingState);
+                });
+            }
+        });
+        addModule({
             name: "monetization.openPurchaseExperience",
             initializedRequired: true,
             hasOutput: true,
