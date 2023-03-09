@@ -879,6 +879,36 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "meeting.shareAppContentToStage",
+      initializedRequired : true,
+      hasOutput : true,
+      action: function (output) {
+          microsoftTeams.meeting.shareAppContentToStage((err: microsoftTeams.SdkError, result: boolean) => {
+            if (err) {
+              output(err);
+              return;
+            }
+            output(result);
+          }, window.location.href);
+      }
+    });
+
+    addModule({
+      name: "meeting.getAppContentStageSharingState",
+      initializedRequired : true,
+      hasOutput : true,
+      action: function (output) {
+          microsoftTeams.meeting.getAppContentStageSharingState((err: microsoftTeams.SdkError, appContentStageSharingState: microsoftTeams.meeting.IAppContentStageSharingState) => {
+            if (err) {
+              output(err);
+              return;
+            }
+            output(appContentStageSharingState);
+          });
+      }
+    });
+
+    addModule({
       name: "monetization.openPurchaseExperience",
       initializedRequired : true,
       hasOutput : true,
