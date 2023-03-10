@@ -818,10 +818,10 @@ const initializeAppModules = () => {
                 totalStates++;
                 window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
                 output("total States: " + totalStates);
+                let historyStates = totalStates;
                 window.addEventListener('popstate', function (event) {
-                    if (event.state && event.state.id) {
-                        output("onpopstate: back button clicked. total remaining state: " + event.state.id);
-                    }
+                    historyStates--;
+                    output("onpopstate: back button clicked. total remaining state: " + historyStates);
                 }, false);
             }
         });
