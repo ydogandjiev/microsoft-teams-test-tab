@@ -818,10 +818,10 @@ const initializeAppModules = () => {
                 totalStates++;
                 window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
                 output("total States: " + totalStates);
+                let historyStates = totalStates;
                 window.addEventListener('popstate', function (event) {
-                    if (event.state && event.state.id) {
-                        output("onpopstate: back button clicked. total remaining state: " + event.state.id);
-                    }
+                    historyStates--;
+                    output("onpopstate: back button clicked. total remaining state: " + historyStates);
                 }, false);
             }
         });
@@ -1102,6 +1102,34 @@ const initializeAppModules = () => {
                         return;
                     }
                     output(meetingDetailsResponse);
+                });
+            }
+        });
+        addModule({
+            name: "meeting.shareAppContentToStage",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.shareAppContentToStage((err, result) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(result);
+                }, window.location.href);
+            }
+        });
+        addModule({
+            name: "meeting.getAppContentStageSharingState",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.getAppContentStageSharingState((err, appContentStageSharingState) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(appContentStageSharingState);
                 });
             }
         });
