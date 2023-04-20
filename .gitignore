@@ -6,3 +6,6 @@ npm-error
 
 # Visual Studio cache/options directory
 .vs/
+
+# Mac
+.DS_Store
