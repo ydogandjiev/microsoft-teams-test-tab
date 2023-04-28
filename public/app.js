@@ -464,7 +464,7 @@ const initializeAppModules = () => {
             hasOutput: true,
             action: function (mockOAuth, output) {
                 MicrosoftTeams_min.authentication.authenticate({
-                    url: `auth_start.html?oauthRedirectMethod={oauthRedirectMethod}&authId=${mockOAuth ? "1" : "{authId}"}&mockOAuth=${mockOAuth}`,
+                    url: `auth_start.html?oauthRedirectMethod={oauthRedirectMethod}&authId=${mockOAuth ? "1" : "{authId}"}&mockOAuth=${mockOAuth}&hostRedirectUrl={hostRedirectUrl}`,
                     isExternal: true,
                     successCallback: function (result) {
                         output("Success:" + result);

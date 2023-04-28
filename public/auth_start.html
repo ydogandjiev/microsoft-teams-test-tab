@@ -10,6 +10,7 @@
     const mockOAuth = params.get('mockOAuth');
     const authId = params.get('authId');
     const method = params.get('oauthRedirectMethod');
+    const redirectUrl = params.get('hostRedirectUrl');
     const state = `{"authId":"${authId}","method":"${method}"}`;
 
     const getRedirectUri = () => {
@@ -18,7 +19,7 @@
     };
 
     if (mockOAuth === 'true') {
-      window.location.href = `auth_end.html?state=${state}&code=1234`
+      window.location.href = `auth_end.html?state=${state}&code=${redirectUrl ? '1234-r' : '1234'}`
     } else {
       const queryObj = {
         state,
