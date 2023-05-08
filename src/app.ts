@@ -580,16 +580,16 @@ export const initializeAppModules = () => {
     addModule({
       name: "registerBackButtonHandler",
       initializedRequired: true,
+      inputs: [{
+        type: "boolean",
+        name: "navigateBackward"
+    }],
       hasOutput: true,
-      action: function (output) {
+      action: function (navigateBackward, output) {
         output("total States: " + totalStates);
         microsoftTeams.registerBackButtonHandler(function () {
-          if (totalStates > 0) {
-            totalStates--;
-            output("back button clicked. total remaining state: " + totalStates);
-            return true;
-          }
-          return false;
+          output("back button clicked, returning " + navigateBackward);
+          return navigateBackward;
         });
       }
     });
