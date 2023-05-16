@@ -434,6 +434,17 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "navigateToApp",
+            initializedRequired: true,
+            inputs: [{
+                    type: "object",
+                    name: "navigateToAppParameters",
+                }],
+            action: (navigateToAppParameters) => {
+                MicrosoftTeams_min.pages.navigateToApp(navigateToAppParameters);
+            }
+        });
+        addModule({
             name: "authentication.authenticate",
             initializedRequired: true,
             inputs: [{
