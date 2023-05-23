@@ -157,7 +157,6 @@ Temporarily Replace url `https://teams-test-tab.azurewebsites.net` with ngrok ur
 - Sideload this zip file into Teams.
 - From App tray select "Teams Test Tab"
 
-
 # Contribute
 You can now push the changes and eventually create a PR for main project.
 
