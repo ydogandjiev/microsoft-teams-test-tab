@@ -166,3 +166,12 @@ You can now push the changes and eventually create a PR for main project.
 
 
 Sample PR: https://github.com/ydogandjiev/microsoft-teams-test-tab/pull/86/files 
+
+----
+# Old Readme
+## How to deploy test app for sdk changes that are not release as npm package
+
+use yarn link to your microsoft-teams-library-js and do changes in app.ts
+run 'yarn build-' inorder to put outputfiles inside public/ folder
+check-in changes inside public/ only to master branch
+In test app use https://teams-test-tab.azurewebsites.net/ as content Url inorder to point to your changes
