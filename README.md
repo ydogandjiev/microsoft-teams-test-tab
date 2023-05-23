@@ -22,8 +22,8 @@ $ git clone git@github.com:<username>/microsoft-teams-test-tab.git
 You can now create a branch in your forked version and start writing code for adding the missing SDK event.
 
 # Add your module
-
 The only file you need to change is under **src > app.js**
+
 Just add a code block identical to the one shown below
 
 ```js
@@ -147,7 +147,7 @@ Connections                   ttl     opn     rt1     rt5     p50     p90
 ## Update the manifest file to point to newly started ngrok server. 
 
 Under Package. manifest.json
-Replace url `https://teams-test-tab.azurewebsites.net` with ngrok url (`https://{uuid}.ngrok-free.app` )
+Temporarily Replace url `https://teams-test-tab.azurewebsites.net` with ngrok url (`https://{uuid}.ngrok-free.app` )
 
 ## Bundle the manifest with icons
 - Select manifest.json, color.png, outline.png
@@ -159,16 +159,10 @@ Replace url `https://teams-test-tab.azurewebsites.net` with ngrok url (`https://
 
 
 # Contribute
-You can now push the changes and eventually create a PR for main project
+You can now push the changes and eventually create a PR for main project.
+
+- Ensure that you remove the temporary changes made to `manifest.json` before pushing your module. 
+- Ensure that only `app.js` is modified at the time of push
+
+
 Sample PR: https://github.com/ydogandjiev/microsoft-teams-test-tab/pull/86/files 
-
-
-----
-
-# OLD README
-
-#How to deploy test app for sdk changes that are not release as npm package
-1. use yarn link to your microsoft-teams-library-js and do changes in app.ts
-2. run 'yarn build-<alias>' inorder to put outputfiles inside public/<alias> folder
-3. check-in changes inside public/<alias> only to master branch
-4. In test app use https://teams-test-tab.azurewebsites.net/<alias> as content Url inorder to point to your changes
