@@ -1,4 +1,4 @@
-This documents outlines the steps required to add your changes to Yuri's app and run the app in your local environment.
+This documents outlines the steps required to add your changes to Microsoft Teams Test App and run the app in your local environment.
 
 
 # Code Setup and contribution
