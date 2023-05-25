@@ -1,27 +1,31 @@
-This documents outlines the steps required to add your changes to Microsoft Teams Test App and run the app in your local environment.
-
+> This documents outlines the steps required to add your changes to Microsoft Teams Test App and run the app in your local environment.
 
 # Code Setup and contribution
 
 ## Github Link
-https://github.com/ydogandjiev/microsoft-teams-test-tab
+
+[microsoft-teams-test-tab on github](https://github.com/ydogandjiev/microsoft-teams-test-tab)
 
 ## Fork
+
 It is recommended to fork the repo into your github account. This will be handy when you are contributing back to the repo.
 
 [Click here to fork](https://github.com/ydogandjiev/microsoft-teams-test-tab/fork)
 
-## Clone 
+## Clone
+
 Clone the repo from your fork
+
 ```bash
+
 $ git clone git@github.com:<username>/microsoft-teams-test-tab.git
 
 ```
 
-## Code
 You can now create a branch in your forked version and start writing code for adding the missing SDK event.
 
-# Add your module
+## Add your module
+
 The only file you need to change is under **src > app.js**
 
 Just add a code block identical to the one shown below
@@ -48,25 +52,27 @@ addModule({
     });
 ```
 
-# Running in local
+## Running in local
 
-To be able to finally build, deploy and side load the app in Teams you need to 
+To be able to finally build, deploy and side load the app in Teams you need to
+
 1. Install dependencies
 2. Run the code in local
 3. Create a tunnel to the localhost using ngrok
-4. Update the manifest file to point to newly started ngrok server. 
+4. Update the manifest file to point to newly started ngrok server.
 5. Bundle the manifest with icons
-6. Sideload the bundle to Teams. 
-
+6. Sideload the bundle to Teams.
 
 ### Pre requisites
-
 
 - Microsoft Teams is installed and you have an account
 
 - [ngrok](https://ngrok.com/download) or equivalent tunnelling solution
-##### ngrok setup
+
+#### ngrok setup
+
 ```bash
+
 # Install homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -76,9 +82,11 @@ brew install ngrok/ngrok/ngrok
 # Signup on ngrok website to get an auth token
 # Then Setup ngrok in your machine
 ngrok config add-authtoken <token>
+
 ```
 
-##### Install `nvm`, `node`, `npm`, `webpack`
+#### Install `nvm`, `node`, `npm`, `webpack`
+
 NOTE: Add `-g` in case you want these installation to happen across your system and not just in this project scope.
 
 ``` bash
@@ -100,13 +108,15 @@ $ npm install --save-dev webpack
 
 ```
 
-## Install dependencies
+### Install dependencies
+
 ``` bash
 $ cd microsoft-teams-test-tab 
 $ yarn link
 
 ```
-## Run the code in local
+
+### Run the code in local
 
 ```bash
 # Start server
@@ -122,7 +132,8 @@ Listening on http://localhost:3000
 
 ```
 
-## Create a tunnel to the localhost using ngrok
+### Create a tunnel to the localhost using ngrok
+
 1. Open a new terminal window and 
 2. Start ngrok and preserve the url 
 
@@ -143,31 +154,34 @@ Connections                   ttl     opn     rt1     rt5     p50     p90
                               0       0       0.00    0.00    0.00    0.00                                                           
 ```
 
-
-## Update the manifest file to point to newly started ngrok server. 
+### Update the manifest file to point to newly started ngrok server. 
 
 Under Package. manifest.json
 Temporarily Replace url `https://teams-test-tab.azurewebsites.net` with ngrok url (`https://{uuid}.ngrok-free.app` )
 
-## Bundle the manifest with icons
+### Bundle the manifest with icons
+
 - Select manifest.json, color.png, outline.png
 - create a zip file
 
-## Sideload the bundle to Teams. 
+### Sideload the bundle to Teams. 
+
 - Sideload this zip file into Teams.
 - From App tray select "Teams Test Tab"
 
-# Contribute
+## Contribute
+
 You can now push the changes and eventually create a PR for main project.
 
 - Ensure that you remove the temporary changes made to `manifest.json` before pushing your module. 
 - Ensure that only `app.js` is modified at the time of push
 
-
 Sample PR: https://github.com/ydogandjiev/microsoft-teams-test-tab/pull/86/files 
 
 ----
+
 # Old Readme
+
 ## How to deploy test app for sdk changes that are not release as npm package
 
 use yarn link to your microsoft-teams-library-js and do changes in app.ts
