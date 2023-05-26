@@ -35,6 +35,9 @@ export function addModule(config: moduleConfig) {
         case "boolean":
           input = document.createElement("input");
           input.type = "checkbox";
+          if(defaultInputValue){
+            input.checked= defaultInputValue
+          }
           valueGetter = function() {
             return input.checked;
           };
