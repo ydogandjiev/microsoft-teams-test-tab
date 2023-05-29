@@ -583,7 +583,7 @@ export const initializeAppModules = () => {
       hasOutput: true,
       action: function (includeHistory, output) {
         totalStates++;
-        if(includeHistory){
+        if (includeHistory) {
             window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
         }
         output("total States: " + totalStates);
