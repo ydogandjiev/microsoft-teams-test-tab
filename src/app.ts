@@ -575,10 +575,17 @@ export const initializeAppModules = () => {
     addModule({
       name: "add states",
       initializedRequired: true,
+      inputs: [{
+        type: "boolean",
+        name: "includeHistory",
+        defaultValue: true
+        }],
       hasOutput: true,
-      action: function (output) {
+      action: function (includeHistory, output) {
         totalStates++;
-        window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
+        if (includeHistory) {
+            window.history.pushState({ some: 'state', id: totalStates }, "tab state" + totalStates, '/testTab');
+        }
         output("total States: " + totalStates);
         
         let historyStates = totalStates;
@@ -592,16 +599,16 @@ export const initializeAppModules = () => {
     addModule({
       name: "registerBackButtonHandler",
       initializedRequired: true,
-      inputs: [{
-        type: "boolean",
-        name: "navigateBackward"
-    }],
       hasOutput: true,
-      action: function (navigateBackward, output) {
+      action: function (output) {
         output("total States: " + totalStates);
         microsoftTeams.registerBackButtonHandler(function () {
-          output("back button clicked, returning " + navigateBackward);
-          return navigateBackward;
+          if (totalStates > 0) {
+            totalStates--;
+            output("back button clicked. total remaining state: " + totalStates);
+            return true;
+        }
+        return false;
         });
       }
     });
