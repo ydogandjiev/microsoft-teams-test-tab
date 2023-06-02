@@ -928,6 +928,21 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "meeting.getAppContentStageSharingCapabilities",
+      initializedRequired : true,
+      hasOutput : true,
+      action: function (output) {
+          microsoftTeams.meeting.getAppContentStageSharingCapabilities((err: microsoftTeams.SdkError, appContentStageSharingCapabilities: microsoftTeams.meeting.IAppContentStageSharingCapabilities) => {
+            if (err) {
+              output(err);
+              return;
+            }
+            output(appContentStageSharingCapabilities);
+          });
+      }
+    });
+
+    addModule({
       name: "monetization.openPurchaseExperience",
       initializedRequired : true,
       hasOutput : true,
