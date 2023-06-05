@@ -1155,6 +1155,20 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "meeting.getAppContentStageSharingCapabilities",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.meeting.getAppContentStageSharingCapabilities((err, appContentStageSharingCapabilities) => {
+                    if (err) {
+                        output(err);
+                        return;
+                    }
+                    output(appContentStageSharingCapabilities);
+                });
+            }
+        });
+        addModule({
             name: "monetization.openPurchaseExperience",
             initializedRequired: true,
             hasOutput: true,
