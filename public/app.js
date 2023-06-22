@@ -305,7 +305,7 @@ const initializeAppModules = () => {
     try {
         var childWindow;
         let totalStates = 0;
-        MicrosoftTeams_min.initialize();
+        MicrosoftTeams_min.initialize(undefined, ["https://teams.microsoftonline.cn"]);
         MicrosoftTeams_min.appInitialization.notifyAppLoaded();
         initializeDownloadLinks();
         outputTabRenderedLocation(MicrosoftTeams_min.getContext);
