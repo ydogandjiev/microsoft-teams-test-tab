@@ -12,7 +12,7 @@
     if (method === 'deeplink') {
       window.location.href = `msteams://teams.microsoft.com/l/auth-callback?authId=${authId}&result=${result}`
     } else {
-      microsoftTeams.initialize();
+      microsoftTeams.initialize(undefined, ["https://teams.microsoftonline.cn"]);
       microsoftTeams.authentication.notifySuccess(result);      
     }
   </script>

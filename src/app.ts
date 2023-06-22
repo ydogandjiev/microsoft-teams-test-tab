@@ -5,7 +5,7 @@ export const initializeAppModules = () => {
   try {
     var childWindow;
     let totalStates = 0;
-    microsoftTeams.initialize();
+    microsoftTeams.initialize(undefined, ["https://teams.microsoftonline.cn"]);
     microsoftTeams.appInitialization.notifyAppLoaded();
 
     initializeDownloadLinks();
