@@ -52,7 +52,8 @@
     }
   ],
   "validDomains": [
-    "teams-test-tab.azurewebsites.net"
+    "teams-test-tab.azurewebsites.net",
+    "{teamSiteDomain}"
   ],
   "permissions": [
     "identity",
