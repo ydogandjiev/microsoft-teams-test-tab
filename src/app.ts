@@ -1108,7 +1108,30 @@ export const initializeAppModules = () => {
               return true;
           });
       }
-  });
+    });
+
+    addModule({
+      name: "selectAppEntity",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "selectAppEntityParams"
+      }],
+      action: function (selectAppEntityParams, output) {
+        microsoftTeams.appEntity.selectAppEntity(
+          selectAppEntityParams.threadId, 
+          selectAppEntityParams.categories, 
+          selectAppEntityParams.subEntityId, 
+          (sdkError?: microsoftTeams.SdkError, appEntity?: microsoftTeams.appEntity.AppEntity) => {
+            if (sdkError) {
+              output(sdkError);
+              return;
+            }
+            output(appEntity);
+        });
+      }
+    });
 
     // Get the modal
     var modal = document.getElementById("myModal");

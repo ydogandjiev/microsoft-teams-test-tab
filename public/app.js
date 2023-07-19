@@ -1325,6 +1325,24 @@ const initializeAppModules = () => {
                 });
             }
         });
+        addModule({
+            name: "selectAppEntity",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "object",
+                    name: "selectAppEntityParams"
+                }],
+            action: function (selectAppEntityParams, output) {
+                MicrosoftTeams_min.appEntity.selectAppEntity(selectAppEntityParams.threadId, selectAppEntityParams.categories, selectAppEntityParams.subEntityId, (sdkError, appEntity) => {
+                    if (sdkError) {
+                        output(sdkError);
+                        return;
+                    }
+                    output(appEntity);
+                });
+            }
+        });
         // Get the modal
         var modal = document.getElementById("myModal");
         // Get the <span> element that closes the modal
