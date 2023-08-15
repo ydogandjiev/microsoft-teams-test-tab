@@ -862,6 +862,16 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "geoLocation.requestPermission",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        output(""); // Clear output
+        microsoftTeams.geoLocation.requestPermission().then((value) => output(`Consented: ${value}`)).catch(err => output(err));
+      }
+    });
+
+    addModule({
       name: "media.scanBarCode",
       initializedRequired: true,
       hasOutput: true,
