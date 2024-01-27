@@ -319,7 +319,10 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.authentication.getUser(output);
+        microsoftTeams.authentication.getUser({
+          successCallback: output,
+          failureCallback: output
+        });
       }
     });
 

@@ -592,7 +592,10 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams_min.authentication.getUser(output);
+                MicrosoftTeams_min.authentication.getUser({
+                    successCallback: output,
+                    failureCallback: output
+                });
             }
         });
         addModule({
