@@ -1,4 +1,11 @@
-<!doctype html><html><head><script defer="defer" src="app.d13246274b417ceb6d9f.js"></script><script defer="defer" src="app.d13246274b417ceb6d9f.js"></script></head><body><script>const params = new URLSearchParams(window.location.search);
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= htmlWebpackPlugin.tags.headTags %>
+  </head>
+  <body>
+    <script>
+      const params = new URLSearchParams(window.location.search);
       const result = params.get('code');
       const { authId, method } = JSON.parse(params.get('state'));
       if (method === 'deeplink') {
@@ -6,4 +13,7 @@
       } else {
         microsoftTeams.initialize(undefined, ["https://teams.microsoftonline.cn"]);
         microsoftTeams.authentication.notifySuccess(result);      
-      }</script></body></html>
+      }
+    </script>
+  </body>
+</html>
