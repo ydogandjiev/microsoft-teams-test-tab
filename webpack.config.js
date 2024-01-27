@@ -1,7 +1,13 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Teams Test Tab'
+    })
+  ],
   module: {
     rules: [
       {
@@ -19,7 +25,7 @@ module.exports = {
     extensions: [ '.tsx', '.ts', '.js' ]
   },
   output: {
-    filename: 'app.js',
+    filename: 'app.[contenthash].js',
     path: path.resolve(__dirname, 'public')
   },
   optimization: {
