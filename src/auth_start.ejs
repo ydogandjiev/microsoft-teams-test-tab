@@ -1,4 +1,11 @@
-<!doctype html><html><head><script defer="defer" src="app.d13246274b417ceb6d9f.js"></script><script defer="defer" src="app.d13246274b417ceb6d9f.js"></script></head><body><script>const params = new URLSearchParams(window.location.search);
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= htmlWebpackPlugin.tags.headTags %>
+  </head>
+  <body>
+    <script>
+      const params = new URLSearchParams(window.location.search);
       const mockOAuth = params.get('mockOAuth');
       const authId = params.get('authId');
       const method = params.get('oauthRedirectMethod');
@@ -23,4 +30,7 @@
         const query = Object.entries(queryObj).map(([k, v]) => `&${k}=${v}`).join('');
 
         window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${getRedirectUri()}${query}`;
-      }</script></body></html>
+      }
+    </script>
+  </body>
+</html>

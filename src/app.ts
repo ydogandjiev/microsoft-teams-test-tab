@@ -319,7 +319,10 @@ export const initializeAppModules = () => {
       initializedRequired: true,
       hasOutput: true,
       action: function (output) {
-        microsoftTeams.authentication.getUser(output);
+        microsoftTeams.authentication.getUser({
+          successCallback: output,
+          failureCallback: output
+        });
       }
     });
 
@@ -859,6 +862,16 @@ export const initializeAppModules = () => {
           output(result);
         });
       } 
+    });
+
+    addModule({
+      name: "geoLocation.requestPermission",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        output(""); // Clear output
+        microsoftTeams.geoLocation.requestPermission().then((value) => output(`Consented: ${value}`)).catch(err => output(err));
+      }
     });
 
     addModule({

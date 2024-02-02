@@ -592,7 +592,10 @@ const initializeAppModules = () => {
             initializedRequired: true,
             hasOutput: true,
             action: function (output) {
-                MicrosoftTeams_min.authentication.getUser(output);
+                MicrosoftTeams_min.authentication.getUser({
+                    successCallback: output,
+                    failureCallback: output
+                });
             }
         });
         addModule({
@@ -1094,6 +1097,15 @@ const initializeAppModules = () => {
             }
         });
         addModule({
+            name: "geoLocation.requestPermission",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                output(""); // Clear output
+                MicrosoftTeams_min.geoLocation.requestPermission().then((value) => output(`Consented: ${value}`)).catch(err => output(err));
+            }
+        });
+        addModule({
             name: "media.scanBarCode",
             initializedRequired: true,
             hasOutput: true,
@@ -1325,24 +1337,6 @@ const initializeAppModules = () => {
                 });
             }
         });
-        addModule({
-            name: "selectAppEntity",
-            initializedRequired: true,
-            hasOutput: true,
-            inputs: [{
-                    type: "object",
-                    name: "selectAppEntityParams"
-                }],
-            action: function (selectAppEntityParams, output) {
-                MicrosoftTeams_min.appEntity.selectAppEntity(selectAppEntityParams.threadId, selectAppEntityParams.categories, selectAppEntityParams.subEntityId, (sdkError, appEntity) => {
-                    if (sdkError) {
-                        output(sdkError);
-                        return;
-                    }
-                    output(appEntity);
-                });
-            }
-        });
         // Get the modal
         var modal = document.getElementById("myModal");
         // Get the <span> element that closes the modal
@@ -1380,4 +1374,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=app.d13246274b417ceb6d9f.js.map
