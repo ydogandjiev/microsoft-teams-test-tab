@@ -310,6 +310,22 @@ const initializeAppModules = () => {
         initializeDownloadLinks();
         outputTabRenderedLocation(MicrosoftTeams_min.getContext);
         addModule({
+            name: "enablePrintCapability",
+            initializedRequired: true,
+            hasOutput: false,
+            action: function () {
+                MicrosoftTeams_min.enablePrintCapability();
+            }
+        });
+        addModule({
+            name: "print",
+            initializedRequired: true,
+            hasOutput: false,
+            action: function () {
+                MicrosoftTeams_min.print();
+            }
+        });
+        addModule({
             name: "getContext",
             initializedRequired: true,
             hasOutput: true,
@@ -1337,6 +1353,24 @@ const initializeAppModules = () => {
                 });
             }
         });
+        addModule({
+            name: "selectAppEntity",
+            initializedRequired: true,
+            hasOutput: true,
+            inputs: [{
+                    type: "object",
+                    name: "selectAppEntityParams"
+                }],
+            action: function (selectAppEntityParams, output) {
+                MicrosoftTeams_min.appEntity.selectAppEntity(selectAppEntityParams.threadId, selectAppEntityParams.categories, selectAppEntityParams.subEntityId, (sdkError, appEntity) => {
+                    if (sdkError) {
+                        output(sdkError);
+                        return;
+                    }
+                    output(appEntity);
+                });
+            }
+        });
         // Get the modal
         var modal = document.getElementById("myModal");
         // Get the <span> element that closes the modal
@@ -1374,4 +1408,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.d13246274b417ceb6d9f.js.map
+//# sourceMappingURL=app.475bea1df627bcaeeaf1.js.map
