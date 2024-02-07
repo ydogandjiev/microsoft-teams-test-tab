@@ -12,6 +12,24 @@ export const initializeAppModules = () => {
     outputTabRenderedLocation(microsoftTeams.getContext);
 
     addModule({
+      name: "enablePrintCapability",
+      initializedRequired: true,
+      hasOutput: false,
+      action: function () {
+        microsoftTeams.enablePrintCapability();
+      }
+    });
+
+    addModule({
+      name: "print",
+      initializedRequired: true,
+      hasOutput: false,
+      action: function () {
+        microsoftTeams.print();
+      }
+    });
+
+    addModule({
       name: "getContext",
       initializedRequired: true,
       hasOutput: true,
