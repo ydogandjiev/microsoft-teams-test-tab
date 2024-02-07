@@ -310,6 +310,22 @@ const initializeAppModules = () => {
         initializeDownloadLinks();
         outputTabRenderedLocation(MicrosoftTeams_min.getContext);
         addModule({
+            name: "enablePrintCapability",
+            initializedRequired: true,
+            hasOutput: false,
+            action: function () {
+                MicrosoftTeams_min.enablePrintCapability();
+            }
+        });
+        addModule({
+            name: "print",
+            initializedRequired: true,
+            hasOutput: false,
+            action: function () {
+                MicrosoftTeams_min.print();
+            }
+        });
+        addModule({
             name: "getContext",
             initializedRequired: true,
             hasOutput: true,
@@ -1392,4 +1408,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.45dd7bce66c6c5ac13dc.js.map
+//# sourceMappingURL=app.475bea1df627bcaeeaf1.js.map
