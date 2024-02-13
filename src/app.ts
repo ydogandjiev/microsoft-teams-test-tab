@@ -914,6 +914,22 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "call.startCall",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [{
+        type: "object",
+        name: "startCallParams",
+        defaultValue: "{\"requestedModalities\":[\"audio\"],\"targets\":[\"yudogan@microsoft.com\"]}"
+      }],
+      action: function (startCallParams: microsoftTeams.call.StartCallParams, output) {
+        microsoftTeams.call.startCall(startCallParams)
+          .then(() => output("Success"))
+          .catch(err => output(`Error: ${err}`));
+      }
+    });
+
+    addModule({
       name: "meeting.getMeetingDetails",
       initializedRequired : true,
       hasOutput : true,
