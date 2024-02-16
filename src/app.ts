@@ -1449,6 +1449,30 @@ export const initializeAppModules = () => {
       },
     });
 
+    addModule({
+      name: "chat.openGroupChat",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "object",
+          name: "openChatRequest",
+          defaultValue:
+            '{"message":"Test Group Chat Message","topic":"Test Group Chat","users":["a@contoso.com","b@contoso.com"]}',
+        },
+      ],
+      action: function (openChatRequest, output) {
+        microsoftTeams.chat
+          .openGroupChat(openChatRequest)
+          .then((result) => {
+            output(result);
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
