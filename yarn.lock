@@ -54,12 +54,12 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@microsoft/teams-js@^2.5.0-beta.1":
-  version "2.5.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-2.5.0-beta.1.tgz#7d2663e1ca23ce3074133a8320ed712e71d597fb"
-  integrity sha512-TCvDU8DIYvgIi43eQ9XQvlvMlwYDNEKekVQJVdrpEDcJ6k7B03C5x71kkPo2PYhSFj9WagXAqlEhQcpD64u7kw==
+"@microsoft/teams-js@2.19.0":
+  version "2.19.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-2.19.0.tgz#b9d971926469cc25ab9b850d10f95f36bd1d8f32"
+  integrity sha512-QpAK8JO6s9D5qOiW//fwS4bUgzhLr1GDxHCRw+BEs9Uuw5Z9YhwMClhtFlI5P7HlH5SFC4QSsh44HaV31ORXJA==
   dependencies:
-    debug "4.3.3"
+    debug "^4.3.3"
 
 "@types/eslint-scope@^3.7.3":
   version "3.7.3"
@@ -494,10 +494,10 @@ debug@2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
-  integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
+debug@^4.3.3:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
+  integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
   dependencies:
     ms "2.1.2"
 
