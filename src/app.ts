@@ -841,7 +841,7 @@ export const initializeAppModules = () => {
               type: "object",
               name: "mediaInputs",
               defaultValue:
-              '{"mediaType":1,"maxMediaCount":1,"imageProps":{"sources":[1,2],"startMode":1,"ink":true,"cameraSwitcher":true,"textSticker":true,"enableFilter":false}}',
+              '{"mediaType":1,"maxMediaCount":5,"imageProps":{"sources":[1,2],"startMode":1,"ink":true,"cameraSwitcher":true,"textSticker":true,"enableFilter":false}}',
           }],
       action: (mediaInputs, output) => {
           microsoftTeams.media.selectMedia(mediaInputs, (error, attachments) => {
