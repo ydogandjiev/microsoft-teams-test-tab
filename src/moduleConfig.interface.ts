@@ -4,4 +4,7 @@ export interface moduleConfig {
     hasOutput?: boolean;
     action?: Function;
     initializedRequired: Boolean;
+    hasSelectMedia?: boolean;
+    hasGetMedia?: boolean;
+
 }
