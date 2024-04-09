@@ -119,6 +119,84 @@ function addModule(config) {
         textarea.id = "textarea-" + config.name;
         element.appendChild(textarea);
     }
+    if (config.hasSelectMedia) {
+        var label = document.createElement("label");
+        element.appendChild(document.createElement("br"));
+        label.appendChild(document.createTextNode("SelectMediaOutput:"));
+        element.appendChild(label);
+        element.appendChild(document.createElement("br"));
+        var image = document.createElement("img");
+        image.id = "image-" + config.name;
+        image.height = 30;
+        image.width = 20;
+        element.appendChild(image);
+        element.appendChild(document.createElement("br"));
+        var image1 = document.createElement("img");
+        image1.id = "image-1" + config.name;
+        image1.height = 30;
+        image1.width = 20;
+        element.appendChild(image1);
+        element.appendChild(document.createElement("br"));
+        var image2 = document.createElement("img");
+        image2.id = "image-2" + config.name;
+        image2.height = 30;
+        image2.width = 20;
+        element.appendChild(image2);
+        element.appendChild(document.createElement("br"));
+        var image3 = document.createElement("img");
+        image3.id = "image-3" + config.name;
+        image3.height = 30;
+        image3.width = 20;
+        element.appendChild(image3);
+        element.appendChild(document.createElement("br"));
+        var image4 = document.createElement("img");
+        image4.id = "image-4" + config.name;
+        image4.height = 30;
+        image4.width = 20;
+        element.appendChild(image4);
+        element.appendChild(document.createElement("br"));
+        var image5 = document.createElement("img");
+        image5.id = "image-5" + config.name;
+        image5.height = 30;
+        image5.width = 20;
+        element.appendChild(image5);
+        element.appendChild(document.createElement("br"));
+        var image6 = document.createElement("img");
+        image6.id = "image-6" + config.name;
+        image6.height = 30;
+        image6.width = 20;
+        element.appendChild(image6);
+        element.appendChild(document.createElement("br"));
+        var image7 = document.createElement("img");
+        image7.id = "image-7" + config.name;
+        image7.height = 30;
+        image7.width = 20;
+        element.appendChild(image7);
+        element.appendChild(document.createElement("br"));
+        var image8 = document.createElement("img");
+        image8.id = "image-8" + config.name;
+        image8.height = 30;
+        image8.width = 20;
+        element.appendChild(image8);
+        element.appendChild(document.createElement("br"));
+        var image9 = document.createElement("img");
+        image9.id = "image-9" + config.name;
+        image9.height = 30;
+        image9.width = 20;
+        element.appendChild(image9);
+    }
+    if (config.hasGetMedia) {
+        var label = document.createElement("label");
+        element.appendChild(document.createElement("br"));
+        label.appendChild(document.createTextNode("GetMedia (First selected):"));
+        element.appendChild(label);
+        element.appendChild(document.createElement("br"));
+        var getMediaImage = document.createElement("img");
+        getMediaImage.id = "image-getMediaImage" + config.name;
+        getMediaImage.height = 200;
+        getMediaImage.width = 150;
+        element.appendChild(getMediaImage);
+    }
     container.appendChild(element);
     button.addEventListener("click", function () {
         var args = [];
@@ -130,6 +208,81 @@ function addModule(config) {
                 }
                 args.push(inputValue);
             }
+        }
+        if (config.hasSelectMedia) {
+            args.push(function (result) {
+                if (typeof result !== typeof []) {
+                    alert("something went wrong");
+                }
+                if (result.length > 0 && result[0]) {
+                    image.src = result[0];
+                }
+                else {
+                    image.removeAttribute('src');
+                }
+                if (result.length > 1 && result[1]) {
+                    image1.src = result[1];
+                }
+                else {
+                    image1.removeAttribute('src');
+                }
+                if (result.length > 2 && result[2]) {
+                    image2.src = result[2];
+                }
+                else {
+                    image2.removeAttribute('src');
+                }
+                if (result.length > 3 && result[3]) {
+                    image3.src = result[3];
+                }
+                else {
+                    image3.removeAttribute('src');
+                }
+                if (result.length > 4 && result[4]) {
+                    image4.src = result[4];
+                }
+                else {
+                    image4.removeAttribute('src');
+                }
+                if (result.length > 5 && result[5]) {
+                    image5.src = result[5];
+                }
+                else {
+                    image5.removeAttribute('src');
+                }
+                if (result.length > 6 && result[6]) {
+                    image6.src = result[6];
+                }
+                else {
+                    image6.removeAttribute('src');
+                }
+                if (result.length > 7 && result[7]) {
+                    image7.src = result[7];
+                }
+                else {
+                    image7.removeAttribute('src');
+                }
+                if (result.length > 8 && result[8]) {
+                    image8.src = result[8];
+                }
+                else {
+                    image8.removeAttribute('src');
+                }
+                if (result.length > 9 && result[9]) {
+                    image9.src = result[9];
+                }
+                else {
+                    image9.removeAttribute('src');
+                }
+            });
+        }
+        if (config.hasGetMedia) {
+            args.push(function (result) {
+                if (typeof result !== "string") {
+                    result = JSON.stringify(result);
+                }
+                getMediaImage.src = result;
+            });
         }
         if (config.hasOutput) {
             args.push(function (result) {
@@ -305,6 +458,7 @@ const initializeAppModules = () => {
     try {
         var childWindow;
         let totalStates = 0;
+        let attachmentArray;
         MicrosoftTeams_min.initialize(undefined, ["https://teams.microsoftonline.cn"]);
         MicrosoftTeams_min.appInitialization.notifyAppLoaded();
         initializeDownloadLinks();
@@ -1036,79 +1190,62 @@ const initializeAppModules = () => {
         addModule({
             name: "selectMedia",
             initializedRequired: true,
-            hasOutput: true,
-            inputs: [
-                {
+            hasSelectMedia: true,
+            inputs: [{
                     type: "object",
                     name: "mediaInputs",
-                    defaultValue: '{"mediaType":1,"maxMediaCount":1,"imageProps":{"sources":[1,2],"startMode":1,"ink":true,"cameraSwitcher":true,"textSticker":true,"enableFilter":false}}',
-                },
-            ],
+                    defaultValue: '{"mediaType":1,"maxMediaCount":5,"imageProps":{"sources":[1,2],"startMode":1,"ink":true,"cameraSwitcher":true,"textSticker":true,"enableFilter":false}}',
+                }],
             action: (mediaInputs, output) => {
-                MicrosoftTeams_min.media.selectMedia(mediaInputs, (err, medias) => {
-                    if (err) {
-                        output(err);
-                        return;
-                    }
-                    let message = "";
-                    for (let i = 0; i < medias.length; i++) {
-                        const media = medias[i];
-                        let preview = "";
-                        let len = 20;
-                        if (media.preview) {
-                            len = Math.min(len, media.preview.length);
-                            preview = media.preview.substr(0, len);
+                MicrosoftTeams_min.media.selectMedia(mediaInputs, (error, attachments) => {
+                    if (error) {
+                        if (error.message) {
+                            alert(" ErrorCode: " + error.errorCode + error.message);
                         }
-                        message +=
-                            "[format: " +
-                                media.format +
-                                ", size: " +
-                                media.size +
-                                ", mimeType: " +
-                                media.mimeType +
-                                ", content: " +
-                                media.content +
-                                ", preview: " +
-                                preview +
-                                "],";
+                        else {
+                            alert(" ErrorCode: " + error.errorCode);
+                        }
                     }
-                    output(message);
+                    else if (attachments) {
+                        let imageArr = [];
+                        attachmentArray = attachments;
+                        for (let i = 0; i < attachments.length; i++)
+                            if (attachments[i].mimeType.includes("image")) {
+                                console.log("***debug***attach", attachments[i]);
+                                imageArr.push("data:" + attachments[i].mimeType + ";base64," + attachments[i].preview);
+                                output(imageArr);
+                            }
+                    }
                 });
-            },
+            }
         });
         addModule({
             name: "getMedia",
             initializedRequired: true,
-            hasOutput: true,
-            inputs: [
-                {
-                    type: "object",
-                    name: "inputParams",
-                    defaultValue: '{"mediaType":1,"maxMediaCount":1,"imageProps":{"sources":[1,2],"startMode":1,"ink":true,"cameraSwitcher":true,"textSticker":true,"enableFilter":false}}',
-                },
-            ],
-            action: (inputParams, output) => {
-                MicrosoftTeams_min.media.selectMedia(inputParams, (err, medias) => {
-                    if (err) {
-                        output(err);
-                        return;
-                    }
-                    const media = medias[0];
-                    media.getMedia((gmErr, blob) => {
-                        if (gmErr) {
-                            output(gmErr);
-                            return;
-                        }
-                        var reader = new FileReader();
-                        reader.readAsDataURL(blob);
-                        reader.onloadend = () => {
-                            if (reader.result) {
-                                output("Received Blob");
+            hasGetMedia: true,
+            action: (output) => {
+                if (attachmentArray == null || attachmentArray.length < 0) {
+                    alert("You haven't selected anything");
+                }
+                else {
+                    let mediaInput = attachmentArray[0];
+                    mediaInput.getMedia((error, blob) => {
+                        if (blob) {
+                            if (blob.type.includes("image")) {
+                                output(URL.createObjectURL(blob));
                             }
-                        };
+                        }
+                        if (error) {
+                            if (error.message) {
+                                alert(" ErrorCode: " + error.errorCode + error.message);
+                            }
+                            else {
+                                alert(" ErrorCode: " + error.errorCode);
+                            }
+                        }
                     });
-                });
-            },
+                }
+            }
         });
         addModule({
             name: "viewImagesWithId",
@@ -1570,4 +1707,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.474eee0d5b23b028b011.js.map
+//# sourceMappingURL=app.2aedaee8e663c77d4b2b.js.map
