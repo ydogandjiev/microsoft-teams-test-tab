@@ -163,7 +163,7 @@ if (config.hasGetMedia) {
 
   container.appendChild(element);
 
-  button.addEventListener("click", function() {
+  button.addEventListener("click", async () => {
     var args = [];
     if (config.inputs) {
       for (var i = 0; i < config.inputs.length; i++) {
@@ -262,7 +262,12 @@ if (config.hasGetMedia) {
       });
     }
 
+    if(config.onClick) {
+      textarea.value = await config.onClick.apply(null, args);
+    }
+    if(config.action)
     config.action.apply(null, args);
+
   });
 }
 

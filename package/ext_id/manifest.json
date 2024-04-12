@@ -1,0 +1,58 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.10/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.10",
+  "version": "0.2",
+  "id": "9142d2d1-4113-411f-868f-8e6e606e8827",
+  "externalId": "ext9142d2d1",
+  "packageName": "net.azurewebsites.teams-test-tab",
+  "developer": {
+    "name": "Yuri Dogandjiev",
+    "websiteUrl": "https://teams-todolist.azurewebsites.net",
+    "privacyUrl": "https://teams-todolist.azurewebsites.net/privacy",
+    "termsOfUseUrl": "https://teams-todolist.azurewebsites.net/termsofuse"
+  },
+  "name": {
+    "short": "Teams Test Tab"
+  },
+  "description": {
+    "short": "Test tabs.",
+    "full": "No really, test them tabs."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#ff6a00",
+  "staticTabs": [
+    {
+      "entityId": "test-tab",
+      "name": "Test Tab",
+      "contentUrl": "https://teams-test-tab.azurewebsites.net",
+      "websiteUrl": "https://teams-test-tab.azurewebsites.net",
+      "scopes": ["personal"]
+    }
+  ],
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://teams-test-tab.azurewebsites.net",
+      "scopes": ["team", "groupchat"],
+      "canUpdateConfiguration": true,
+      "context": [
+        "channelTab",
+        "privateChatTab",
+        "meetingChatTab",
+        "meetingDetailsTab",
+        "meetingSidePanel",
+        "meetingStage"
+      ]
+    }
+  ],
+  "validDomains": ["teams-test-tab.azurewebsites.net", "{teamSiteDomain}"],
+  "permissions": ["identity", "messageTeamMembers"],
+  "devicePermissions": ["media", "geolocation"],
+  "showLoadingIndicator": false,
+  "webApplicationInfo": {
+    "id": "00000003-0000-0ff1-ce00-000000000000",
+    "resource": "https://{teamSiteDomain}"
+  }
+}

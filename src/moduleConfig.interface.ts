@@ -6,5 +6,6 @@ export interface moduleConfig {
     initializedRequired: Boolean;
     hasSelectMedia?: boolean;
     hasGetMedia?: boolean;
+    onClick?: Function;
 
 }

@@ -17,6 +17,28 @@ export const initializeAppModules = () => {
     outputTabRenderedLocation(microsoftTeams.getContext);
 
     addModule({
+      name: "hasStorageAccess",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        const perm = await document.hasStorageAccess();
+        console.log(perm);
+        return perm;
+      },
+    });
+
+    addModule({
+      name: "requestStorageAccess",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        const perm = await document.requestStorageAccess();
+        console.log(perm);
+        return perm;
+      },
+    });
+
+    addModule({
       name: "enablePrintCapability",
       initializedRequired: true,
       hasOutput: false,
