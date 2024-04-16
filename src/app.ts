@@ -28,6 +28,36 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "popOut",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:   () => {
+        window.open(window.location.href);
+      },
+    });
+    
+    addModule({
+      name: "setUnpartitionedCookie",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        document.cookie = document.cookie + `myCookie${Math.random()%100}=helloworld`;
+        return document.cookie;
+      },
+    });
+
+    addModule({
+      name: "readUnpartitionedCookie",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        console.log(document.cookie);
+        return document.cookie;
+      },
+    });
+    
+
+    addModule({
       name: "requestStorageAccess",
       initializedRequired: true,
       hasOutput: true,
