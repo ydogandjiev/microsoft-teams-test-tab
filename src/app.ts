@@ -17,6 +17,58 @@ export const initializeAppModules = () => {
     outputTabRenderedLocation(microsoftTeams.getContext);
 
     addModule({
+      name: "hasStorageAccess",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        const perm = await document.hasStorageAccess();
+        console.log(perm);
+        return perm;
+      },
+    });
+
+    addModule({
+      name: "popOut",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:   () => {
+        window.open(window.location.href);
+      },
+    });
+    
+    addModule({
+      name: "setUnpartitionedCookie",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        document.cookie = document.cookie + `myCookie${Math.random()%100}=helloworld`;
+        return document.cookie;
+      },
+    });
+
+    addModule({
+      name: "readUnpartitionedCookie",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        console.log(document.cookie);
+        return document.cookie;
+      },
+    });
+    
+
+    addModule({
+      name: "requestStorageAccess",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        const perm = await document.requestStorageAccess();
+        console.log(perm);
+        return perm;
+      },
+    });
+
+    addModule({
       name: "enablePrintCapability",
       initializedRequired: true,
       hasOutput: false,
