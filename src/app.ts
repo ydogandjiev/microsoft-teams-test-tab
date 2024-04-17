@@ -1494,6 +1494,180 @@ export const initializeAppModules = () => {
       },
     });
 
+    addModule({
+      name: "ExternalAppAuthentication.authenticateAndResendRequest",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "string",
+          name: "appId", 
+          defaultValue: "f350a51f-0251-47f2-b355-e0819a1bc44a"
+        },
+        {
+          type: "object",
+          name: "authenticateParameters",
+          defaultValue: JSON.stringify({ url: new URL("https://www.bing.com")}),
+        },
+        {
+          type: "object",
+          name: "originalRequestInfo",
+          defaultValue:
+            JSON.stringify({
+              requestType: "QueryMessageExtensionRequest",
+              commandId: "searchNews",
+              parameters: [{
+                name: "searchText",
+                value: "news",
+              }]
+            }),
+        }
+      ],
+      action: function (appId, authenticateParameters, originalRequestInfo, output) {
+        microsoftTeams.externalAppAuthentication
+          .authenticateAndResendRequest(appId, authenticateParameters, originalRequestInfo)          
+          .then((result) => {
+            output(result);
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "ExternalAppAuthentication.authenticateWithSSO",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "string",
+          name: "appId", 
+          defaultValue: "f350a51f-0251-47f2-b355-e0819a1bc44a"
+        },
+        {
+          type: "object",
+          name: "authTokenRequest",
+          defaultValue:
+            '{}',
+        }        
+      ],
+      action: function (appId, authTokenRequest, output) {
+        microsoftTeams.externalAppAuthentication
+          .authenticateWithSSO(appId, authTokenRequest)          
+          .then((result) => {
+            output(result);
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "ExternalAppAuthentication.authenticateWithSSOAndResendRequest",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "string",
+          name: "appId", 
+          defaultValue: "f350a51f-0251-47f2-b355-e0819a1bc44a"
+        },
+        {
+          type: "object",
+          name: "authTokenRequest",
+          defaultValue:
+            '{}',
+        },
+        {
+          type: "object",
+          name: "originalRequestInfo",
+          defaultValue:
+            JSON.stringify({
+              requestType: "QueryMessageExtensionRequest",
+              commandId: "searchNews",
+              parameters: [{
+                name: "searchText",
+                value: "news",
+              }]
+            }),
+        }        
+      ],
+      action: function (appId, authTokenRequest, originalRequestInfo, output) {
+        microsoftTeams.externalAppAuthentication
+          .authenticateWithSSOAndResendRequest(appId, authTokenRequest, originalRequestInfo)          
+          .then((result) => {
+            output(result);
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "ExternalAppCardActions.processActionSubmit",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "string",
+          name: "appId", 
+          defaultValue: "f350a51f-0251-47f2-b355-e0819a1bc44a"
+        },
+        {
+          type: "object",
+          name: "actionSubmitPayload",
+          defaultValue: JSON.stringify({
+            id: "submitActionId",
+            data: {
+              key: "value",
+              key2: "value2"
+            }
+          })            
+        }       
+      ],
+      action: function (appId, actionSubmitPayload, output) {
+        microsoftTeams.externalAppCardActions
+          .processActionSubmit(appId, actionSubmitPayload)          
+          .then((result) => {
+            output(result);
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "ExternalAppCardActions.processActionOpenUrl",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "string",
+          name: "appId", 
+          defaultValue: "f350a51f-0251-47f2-b355-e0819a1bc44a"
+        },
+        {
+          type: "string",
+          name: "url",
+          defaultValue: "https://bing.com"
+        }       
+      ],
+      action: function (appId, url, output) {
+        microsoftTeams.externalAppCardActions
+          .processActionOpenUrl(appId, new URL(url))          
+          .then((result) => {
+            output(result);
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
