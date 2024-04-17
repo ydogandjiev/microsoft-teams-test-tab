@@ -1,0 +1,46 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiple File Download</title>
+</head>
+
+<body>
+  <button id="downloadButton">Download Files</button>
+
+  <!-- Microsoft Teams JavaScript API (via CDN) -->
+  <script src="https://res.cdn.office.net/teams-js/2.19.0/js/MicrosoftTeams.min.js"
+    integrity="sha384-h+MoYshcGDPMLlXjHLt2dSgsgYyWQ+yHd4Ob13htDsu8trGPea8Vooa8+tLtRzU7"
+    crossorigin="anonymous"></script>
+
+  <script>
+    microsoftTeams.initialize();
+    microsoftTeams.appInitialization.notifySuccess();
+    microsoftTeams.appInitialization.notifyAppLoaded();
+
+    document.getElementById('downloadButton').addEventListener('click', function () {
+      for (let i = 1; i <= 10; i++) {
+        // Create a blob with the file content
+        let data = i + '2345'; // Example content
+        let blob = new Blob([data], { type: 'text/plain' });
+
+        // Create a download link for the blob
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = i + '.txt';
+        document.body.appendChild(a);
+
+        // Trigger the download
+        a.click();
+
+        // Clean up the URL and the anchor element
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }
+    });
+  </script>
+</body>
+
+</html>

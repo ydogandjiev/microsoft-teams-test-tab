@@ -9,11 +9,64 @@ export const initializeAppModules = () => {
   try {
     var childWindow;
     let totalStates = 0;
+    let attachmentArray;
     microsoftTeams.initialize(undefined, ["https://teams.microsoftonline.cn"]);
     microsoftTeams.appInitialization.notifyAppLoaded();
 
     initializeDownloadLinks();
     outputTabRenderedLocation(microsoftTeams.getContext);
+
+    addModule({
+      name: "hasStorageAccess",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        const perm = await document.hasStorageAccess();
+        console.log(perm);
+        return perm;
+      },
+    });
+
+    addModule({
+      name: "popOut",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:   () => {
+        window.open(window.location.href);
+      },
+    });
+    
+    addModule({
+      name: "setUnpartitionedCookie",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        document.cookie = document.cookie + `myCookie${Math.random()%100}=helloworld`;
+        return document.cookie;
+      },
+    });
+
+    addModule({
+      name: "readUnpartitionedCookie",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        console.log(document.cookie);
+        return document.cookie;
+      },
+    });
+    
+
+    addModule({
+      name: "requestStorageAccess",
+      initializedRequired: true,
+      hasOutput: true,
+      onClick:  async () => {
+        const perm = await document.requestStorageAccess();
+        console.log(perm);
+        return perm;
+      },
+    });
 
     addModule({
       name: "enablePrintCapability",
@@ -835,98 +888,66 @@ export const initializeAppModules = () => {
     addModule({
       name: "selectMedia",
       initializedRequired: true,
-      hasOutput: true,
-      inputs: [
-        {
-          type: "object",
-          name: "mediaInputs",
-          defaultValue:
-            '{"mediaType":1,"maxMediaCount":1,"imageProps":{"sources":[1,2],"startMode":1,"ink":true,"cameraSwitcher":true,"textSticker":true,"enableFilter":false}}',
-        },
-      ],
-      action: (mediaInputs: microsoftTeams.media.MediaInputs, output) => {
-        microsoftTeams.media.selectMedia(
-          mediaInputs,
-          (
-            err: microsoftTeams.SdkError,
-            medias: microsoftTeams.media.Media[]
-          ) => {
-            if (err) {
-              output(err);
-              return;
-            }
-
-            let message = "";
-            for (let i = 0; i < medias.length; i++) {
-              const media: microsoftTeams.media.Media = medias[i];
-              let preview: string = "";
-              let len = 20;
-              if (media.preview) {
-                len = Math.min(len, media.preview.length);
-                preview = media.preview.substr(0, len);
+      hasSelectMedia: true,
+      inputs: [{
+              type: "object",
+              name: "mediaInputs",
+              defaultValue:
+              '{"mediaType":1,"maxMediaCount":5,"imageProps":{"sources":[1,2],"startMode":1,"ink":true,"cameraSwitcher":true,"textSticker":true,"enableFilter":false}}',
+          }],
+      action: (mediaInputs, output) => {
+          microsoftTeams.media.selectMedia(mediaInputs, (error, attachments) => {
+              if (error) {
+                  if (error.message) {
+                      alert(" ErrorCode: " + error.errorCode + error.message);
+                  }
+                  else {
+                      alert(" ErrorCode: " + error.errorCode);
+                  }
               }
-              message +=
-                "[format: " +
-                media.format +
-                ", size: " +
-                media.size +
-                ", mimeType: " +
-                media.mimeType +
-                ", content: " +
-                media.content +
-                ", preview: " +
-                preview +
-                "],";
-            }
-            output(message);
-          }
-        );
-      },
-    });
-
-    addModule({
-      name: "getMedia",
-      initializedRequired: true,
-      hasOutput: true,
-      inputs: [
-        {
-          type: "object",
-          name: "inputParams",
-          defaultValue:
-            '{"mediaType":1,"maxMediaCount":1,"imageProps":{"sources":[1,2],"startMode":1,"ink":true,"cameraSwitcher":true,"textSticker":true,"enableFilter":false}}',
-        },
-      ],
-      action: (inputParams: microsoftTeams.media.MediaInputs, output) => {
-        microsoftTeams.media.selectMedia(
-          inputParams,
-          (
-            err: microsoftTeams.SdkError,
-            medias: microsoftTeams.media.Media[]
-          ) => {
-            if (err) {
-              output(err);
-              return;
-            }
-
-            const media: microsoftTeams.media.Media =
-              medias[0] as microsoftTeams.media.Media;
-            media.getMedia((gmErr: microsoftTeams.SdkError, blob: Blob) => {
-              if (gmErr) {
-                output(gmErr);
-                return;
+              else if (attachments) {
+                  let imageArr = [];
+                  attachmentArray = attachments;
+                  for (let i = 0; i < attachments.length; i++)
+                      if (attachments[i].mimeType.includes("image")) {
+                        console.log("***debug***attach", attachments[i]);
+                          imageArr.push("data:" + attachments[i].mimeType + ";base64," + attachments[i].preview);
+                          output(imageArr);
+                      }
               }
-              var reader = new FileReader();
-              reader.readAsDataURL(blob);
-              reader.onloadend = () => {
-                if (reader.result) {
-                  output("Received Blob");
+          });
+      }
+  });
+
+
+  addModule({
+    name: "getMedia",
+    initializedRequired: true,
+    hasGetMedia: true,
+    action:  (output) => {
+        if (attachmentArray == null || attachmentArray.length < 0) {
+            alert("You haven't selected anything");
+        }
+        else {
+            let mediaInput = attachmentArray[0];
+            mediaInput.getMedia((error, blob) => {
+                if (blob) {
+                    if (blob.type.includes("image")) {
+                        output(URL.createObjectURL(blob));
+                    }
                 }
-              };
+                if (error) {
+                    if (error.message) {
+                        alert(" ErrorCode: " + error.errorCode + error.message);
+                    }
+                    else {
+                        alert(" ErrorCode: " + error.errorCode);
+                    }
+                }
             });
-          }
-        );
-      },
-    });
+        }
+    }
+});
 
     addModule({
       name: "viewImagesWithId",
