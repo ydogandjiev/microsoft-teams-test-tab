@@ -146,20 +146,20 @@ export function addModule(config: moduleConfig) {
     image9.height = 30;
     image9.width = 20;
     element.appendChild(image9);
-}
+  }
 
-if (config.hasGetMedia) {
-  var label = document.createElement("label");
-  element.appendChild(document.createElement("br"));
-  label.appendChild(document.createTextNode("GetMedia (First selected):"));
-  element.appendChild(label);
-  element.appendChild(document.createElement("br"));
-  var getMediaImage = document.createElement("img");
-  getMediaImage.id = "image-getMediaImage" + config.name;
-  getMediaImage.height = 200;
-  getMediaImage.width = 150;
-  element.appendChild(getMediaImage);
-}
+  if (config.hasGetMedia) {
+    var label = document.createElement("label");
+    element.appendChild(document.createElement("br"));
+    label.appendChild(document.createTextNode("GetMedia (First selected):"));
+    element.appendChild(label);
+    element.appendChild(document.createElement("br"));
+    var getMediaImage = document.createElement("img");
+    getMediaImage.id = "image-getMediaImage" + config.name;
+    getMediaImage.height = 200;
+    getMediaImage.width = 150;
+    element.appendChild(getMediaImage);
+  }
 
   container.appendChild(element);
 
@@ -269,6 +269,16 @@ if (config.hasGetMedia) {
     config.action.apply(null, args);
 
   });
+
+  var searchInput = document.getElementById("searchInput") as HTMLInputElement;
+  searchInput.addEventListener("input", function() {
+    // Show element if it matches search text or searchBox is empty
+    if (searchInput.value === "" || config.name.toLowerCase().indexOf(searchInput.value.toLowerCase()) !== -1) {
+      element.style.display = "block";
+    } else {
+      element.style.display = "none";
+    }
+  });
 }
 
 export function restoreState() {
@@ -362,6 +372,24 @@ export function downloadHandler() {
   }
 }
 
+export function filterHandler() {
+  var searchInput = document.getElementById('searchInput') as HTMLInputElement;
+  var sectionTitle = document.getElementsByClassName('sectionTitle');
+
+  searchInput.addEventListener('input', function() {
+    var searchText = searchInput.value.toLowerCase();
+
+    for (var i = 0; i < sectionTitle.length; i++) {
+      var title = sectionTitle[i].textContent.toLowerCase();
+      if (title.indexOf(searchText) === -1) {
+        sectionTitle[i].parentElement.style.display = 'none';
+      } else {
+        sectionTitle[i].parentElement.style.display = 'block';
+      }
+    }
+  });
+}
+
 export function initializeDownloadLinks() {
   const csv = "Id,Value\n1,Hello world!\n";
   const data = new Blob([csv]);
@@ -394,7 +422,7 @@ export function outputTabRenderedLocation(getContext: (callback: (context: Conte
   if (isInTeams()) {
     getContext(outputTabRenderedLocationInTeams);
   } else {
-    add_page_header(`Currently running outside of Microsoft Teams.`);
+    addPageSection(`Currently running outside of Microsoft Teams.`);
   }
 
   function isInTeams() {  
@@ -406,6 +434,7 @@ export function outputTabRenderedLocation(getContext: (callback: (context: Conte
     return false;
   }
 }
+
 
 function outputTabRenderedLocationInTeams(context: Context) {
   var appLocation = 'unidentified location...';
@@ -426,7 +455,7 @@ function outputTabRenderedLocationInTeams(context: Context) {
     appLocation = `${appLocation} (Side Panel)`
   }
 
-  add_page_header(`Currently running in: ${appLocation}.  with time ${perfData.timing.navigationStart - context.userClickTime}`)  
+  addPageSection(`Currently running in: ${appLocation}.  with time ${perfData.timing.navigationStart - context.userClickTime}`)  
 
   function isInConfig() {
     return context.frameContext === FrameContexts.settings
@@ -437,9 +466,11 @@ function outputTabRenderedLocationInTeams(context: Context) {
   }
 };
 
-
-function add_page_header(content: string){
-  var h2 = document.createElement("h2");
-  h2.textContent = content;
-  container.prepend(h2);
+function addPageSection(content: string) {
+  var element = document.createElement("div");
+  var title = document.createElement("div");
+  title.classList.add("sectionTitle");
+  title.textContent = content;
+  element.appendChild(title);
+  container.prepend(element);
 }

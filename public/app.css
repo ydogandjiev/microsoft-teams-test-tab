@@ -2,6 +2,13 @@ body {
   background-color: white;
 }
 
+.searchContainer {
+  display: flex;
+  font-size: large;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
 .moduleContainer {
   display: flex;
   flex-wrap: wrap;
@@ -28,6 +35,8 @@ textarea {
 
 .sectionTitle {
   margin-bottom: 15px;
+  font-size: large;
+  font-weight: bold;
 }
 
 .uploadFileSection ol {
@@ -110,6 +119,6 @@ textarea {
   cursor: pointer;
 }
 
-.error-message{
+.error-message {
   color: red;
 }

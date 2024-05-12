@@ -128,7 +128,22 @@ export const initializeAppModules = () => {
     });
 
     addModule({
-      name: "returnFocus",
+      name: "pages.registerFocusEnterHandler",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.pages.registerFocusEnterHandler((navigateForward) => {
+          if (navigateForward) {
+            output("Focus entered forward");
+          } else {
+            output("Focus entered backward");
+          }
+        });
+      }
+    });
+
+    addModule({
+      name: "pages.returnFocus",
       initializedRequired: true,
       inputs: [
         {
@@ -137,7 +152,7 @@ export const initializeAppModules = () => {
         },
       ],
       action: function (navigateForward) {
-        microsoftTeams.returnFocus(navigateForward);
+        microsoftTeams.pages.returnFocus(navigateForward);
       },
     });
 
