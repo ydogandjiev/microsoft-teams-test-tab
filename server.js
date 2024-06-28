@@ -20,7 +20,7 @@ app.use('/page2', serveStatic(__dirname + '/public/page2.html', {
   }
 }));
 
-var port = process.env.port || 3000;
+var port = process.env.port || 1337;
 app.listen(port, function () {
   console.log('Listening on http://localhost:' + port);
 });

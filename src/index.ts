@@ -1,6 +1,7 @@
 
 import { container, restoreState, saveState, downloadHandler, filterHandler } from './utils';
 import { initializeAppModules } from './app';
+import { teamsCore } from '@microsoft/teams-js'
 
 (function () {
   initializeAppModules();
@@ -14,4 +15,12 @@ import { initializeAppModules } from './app';
     downloadHandler();
     filterHandler();
   });
+
+  // Define global functions for use from html files
+  (window as any).enablePrintCapability = () => {
+    teamsCore.enablePrintCapability();
+  };
+  (window as any).printHandler = () => {
+    window.print();
+  };
 })();

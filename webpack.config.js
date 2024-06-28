@@ -31,6 +31,12 @@ module.exports = {
       filename: 'page2.html',
       template: 'src/page2.ejs',
       inject: false
+    }),
+    new HtmlWebpackPlugin({
+      title: 'Full Screen Page',
+      filename: 'full_screen.html',
+      template: 'src/full_screen.ejs',
+      inject: false
     })
   ],
   module: {

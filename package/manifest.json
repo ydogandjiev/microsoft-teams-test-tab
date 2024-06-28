@@ -31,6 +31,15 @@
       "scopes": [
         "personal"
       ]
+    },
+    {
+      "entityId": "full-screen-tab",
+      "name": "Full Screen Tab",
+      "contentUrl": "https://teams-test-tab.azurewebsites.net",
+      "websiteUrl": "https://teams-test-tab.azurewebsites.net",
+      "scopes": [
+        "personal"
+      ]
     }
   ],
   "configurableTabs": [

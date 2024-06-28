@@ -435,7 +435,6 @@ export function outputTabRenderedLocation(getContext: (callback: (context: Conte
   }
 }
 
-
 function outputTabRenderedLocationInTeams(context: Context) {
   var appLocation = 'unidentified location...';
   const perfData = window.performance;
