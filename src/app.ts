@@ -138,6 +138,9 @@ export const initializeAppModules = () => {
           } else {
             output("Focus entered backward");
           }
+
+          var searchInput = document.getElementById("searchInput") as HTMLInputElement;
+          searchInput.focus();
         });
       }
     });
@@ -1700,6 +1703,18 @@ export const initializeAppModules = () => {
         modal.style.display = "none";
       }
     };
+
+    // Add handling for F6 and Ctrl/Cmd + F6
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.keyCode === 117) {
+        event.cancelBubble = true;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const navigateForward = !(event.ctrlKey || event.metaKey);
+        microsoftTeams.pages.returnFocus(navigateForward);
+      }
+    });
 
     microsoftTeams.appInitialization.notifySuccess();
   } catch (err) {
