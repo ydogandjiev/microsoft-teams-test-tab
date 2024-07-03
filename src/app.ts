@@ -1120,6 +1120,19 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "media.requestPermission",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        output(""); // Clear output
+        microsoftTeams.media
+          .requestPermission()
+          .then((value) => output(`Consented: ${value}`))
+          .catch((err) => output(err));
+      },
+    });
+    
+    addModule({
       name: "media.scanBarCode",
       initializedRequired: true,
       hasOutput: true,
