@@ -578,6 +578,14 @@ const initializeAppModules = () => {
             },
         });
         addModule({
+            name: "app.getContext",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                MicrosoftTeams_min.app.getContext().then(output);
+            },
+        });
+        addModule({
             name: "getContext",
             initializedRequired: true,
             hasOutput: true,
@@ -1481,6 +1489,18 @@ const initializeAppModules = () => {
             },
         });
         addModule({
+            name: "media.requestPermission",
+            initializedRequired: true,
+            hasOutput: true,
+            action: function (output) {
+                output(""); // Clear output
+                MicrosoftTeams_min.media
+                    .requestPermission()
+                    .then((value) => output(`Consented: ${value}`))
+                    .catch((err) => output(err));
+            },
+        });
+        addModule({
             name: "media.scanBarCode",
             initializedRequired: true,
             hasOutput: true,
@@ -2008,4 +2028,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.f56c1191027124c4b304.js.map
+//# sourceMappingURL=app.12e3cc787241f40172f1.js.map

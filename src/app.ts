@@ -87,6 +87,15 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "app.getContext",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        microsoftTeams.app.getContext().then(output);
+      },
+    })
+
+    addModule({
       name: "getContext",
       initializedRequired: true,
       hasOutput: true,
