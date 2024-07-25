@@ -1,10 +1,11 @@
 
 import { container, restoreState, saveState, downloadHandler, filterHandler } from './utils';
-import { initializeAppModules } from './app';
+import { initializeAppModules, registerAppCachingHandlers } from './app';
 import { teamsCore } from '@microsoft/teams-js'
 
 (function () {
   initializeAppModules();
+  registerAppCachingHandlers();
 
   document.body.appendChild(container);
 
