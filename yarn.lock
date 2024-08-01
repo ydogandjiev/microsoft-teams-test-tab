@@ -54,11 +54,12 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@microsoft/teams-js@^2.20.0":
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/teams-js/-/teams-js-2.22.0.tgz#b224ea5f5e70c0d8719de3cb53a2d497ff7723a1"
-  integrity sha512-n1UVJbxOxoeY/ATS9R1J0UGx3xhw5PgF7e3RyHHctAansYUTmszbC1/qGPxXyjekBIpGabDCx20zWW+WHdlZlA==
+"@microsoft/teams-js@^2.25.0":
+  version "2.25.0"
+  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@microsoft/teams-js/-/teams-js-2.25.0.tgz#8b0368aed5b6265e5572553edcc8177908c24989"
+  integrity sha1-iwNortW2Jl5VclU+3MgXeQjCSYk=
   dependencies:
+    base64-js "^1.3.1"
     debug "^4.3.3"
 
 "@types/eslint-scope@^3.7.3":
@@ -294,6 +295,11 @@ array-flatten@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
   integrity sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==
+
+base64-js@^1.3.1:
+  version "1.5.1"
+  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
+  integrity sha1-GxtEAWClv3rUC2UPCVljSBkDkwo=
 
 big.js@^5.2.2:
   version "5.2.2"
