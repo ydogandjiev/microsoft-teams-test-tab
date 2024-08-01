@@ -1454,6 +1454,14 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "closeStageView",
+      initializedRequired: true,
+      action: function () {
+        microsoftTeams.stageView.self.close();
+      }
+  });
+
+    addModule({
       name: "setNavBarMenu",
       initializedRequired: true,
       hasOutput: true,

@@ -174,7 +174,7 @@ Temporarily Replace url `https://teams-test-tab.azurewebsites.net` with ngrok ur
 You can now push the changes and eventually create a PR for main project.
 
 - Ensure that you remove the temporary changes made to `manifest.json` before pushing your module. 
-- Ensure that only `app.js` is modified at the time of push
+- Ensure that only `app.ts` is modified at the time of push. You will need to add the html files and the *.js and *.js.map files that are rteferenced from the html files
 
 Sample PR: https://github.com/ydogandjiev/microsoft-teams-test-tab/pull/86/files 
 
@@ -184,7 +184,7 @@ Sample PR: https://github.com/ydogandjiev/microsoft-teams-test-tab/pull/86/files
 
 ## How to deploy test app for sdk changes that are not release as npm package
 
-use yarn link to your microsoft-teams-library-js and do changes in app.ts
-run 'yarn build-' inorder to put outputfiles inside public/ folder
-check-in changes inside public/ only to master branch
-In test app use https://teams-test-tab.azurewebsites.net/ as content Url inorder to point to your changes
+ - use yarn link to your microsoft-teams-library-js and do changes in app.ts
+ - run 'yarn build-' inorder to put outputfiles inside public/ folder
+ - check-in changes inside public/ only to master branch
+ - In test app use https://teams-test-tab.azurewebsites.net/ as content Url inorder to point to your changes
