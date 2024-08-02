@@ -1134,6 +1134,18 @@ export const initializeAppModules = () => {
     });
     
     addModule({
+      name: "webStorage.isWebStorageClearedOnUserLogOut",
+      initializedRequired: true,
+      hasOutput: true,
+      action: function (output) {
+        output(""); // Clear output
+        microsoftTeams.webStorage.isWebStorageClearedOnUserLogOut()
+          .then((value) => output(`Consented: ${value}`))
+          .catch((err) => output(err));
+      },
+    });
+
+    addModule({
       name: "media.scanBarCode",
       initializedRequired: true,
       hasOutput: true,
@@ -1457,7 +1469,7 @@ export const initializeAppModules = () => {
       name: "closeStageView",
       initializedRequired: true,
       action: function () {
-        microsoftTeams.stageView.self.close();
+        (microsoftTeams.stageView as any).self.close();
       }
   });
 
