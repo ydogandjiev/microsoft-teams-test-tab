@@ -1144,7 +1144,7 @@ export const initializeAppModules = () => {
           .catch((err) => output(err));
       },
     });
-    
+
     addModule({
       name: "media.scanBarCode",
       initializedRequired: true,
@@ -1469,7 +1469,7 @@ export const initializeAppModules = () => {
       name: "closeStageView",
       initializedRequired: true,
       action: function () {
-        microsoftTeams.stageView.self.close();
+        (microsoftTeams.stageView as any).self.close();
       }
   });
 
