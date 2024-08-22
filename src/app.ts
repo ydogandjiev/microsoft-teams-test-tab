@@ -1128,7 +1128,7 @@ export const initializeAppModules = () => {
         output(""); // Clear output
         microsoftTeams.media
           .requestPermission()
-          .then((value) => output(`Consented: ${value}`))
+          .then((value) => output(`Response: ${value}`))
           .catch((err) => output(err));
       },
     });
