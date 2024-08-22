@@ -1128,7 +1128,7 @@ export const initializeAppModules = () => {
         output(""); // Clear output
         microsoftTeams.media
           .requestPermission()
-          .then((value) => output(`Response: ${value}`))
+          .then((value) => output(`Consented: ${value}`))
           .catch((err) => output(err));
       },
     });
@@ -1140,7 +1140,7 @@ export const initializeAppModules = () => {
       action: function (output) {
         output(""); // Clear output
         microsoftTeams.webStorage.isWebStorageClearedOnUserLogOut()
-          .then((value) => output(`Consented: ${value}`))
+          .then((value) => output(`Response: ${value}`))
           .catch((err) => output(err));
       },
     });
@@ -1469,7 +1469,7 @@ export const initializeAppModules = () => {
       name: "closeStageView",
       initializedRequired: true,
       action: function () {
-        (microsoftTeams.stageView as any).self.close();
+        microsoftTeams.stageView.self.close();
       }
   });
 
