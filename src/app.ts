@@ -1146,6 +1146,136 @@ export const initializeAppModules = () => {
     });
 
     addModule({
+      name: "hostEntity.tab.getAll",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "object",
+          name: "hostEntityIds",
+          defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
+        }
+      ],
+      action: (hostEntityIds, output)  => {
+        microsoftTeams.hostEntity.tab.getAll(hostEntityIds)          
+          .then((result) => {
+            output(JSON.stringify(result));
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "hostEntity.tab.reconfigure",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "object",
+          name: "tab",
+          defaultValue: '{}',
+        },
+        {
+          type: "object",
+          name: "hostEntityIds",
+          defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
+        }
+      ],
+      action: (tab, hostEntityIds, output)  => {
+        microsoftTeams.hostEntity.tab.reconfigure(tab, hostEntityIds)          
+          .then((result) => {
+            output(JSON.stringify(result));
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "hostEntity.tab.rename",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "object",
+          name: "tab",
+          defaultValue: '{}',
+        },
+        {
+          type: "object",
+          name: "hostEntityIds",
+          defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
+        }
+      ],
+      action: (tab, hostEntityIds, output)  => {
+        microsoftTeams.hostEntity.tab.rename(tab, hostEntityIds)          
+          .then((result) => {
+            output(JSON.stringify(result));
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "hostEntity.tab.remove",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "string",
+          name: "tabId",
+          defaultValue: "",
+        },
+        {
+          type: "object",
+          name: "hostEntityIds",
+          defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
+        }
+      ],
+      action: (tabId, hostEntityIds, output)  => {
+        microsoftTeams.hostEntity.tab.remove(tabId, hostEntityIds)          
+          .then((result) => {
+            output(`Response: ${result}`);
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "hostEntity.tab.AddAndConfigure",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "object",
+          name: "hostEntityIds",
+          defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
+        },
+        {
+          type: "object",
+          name: "appTypes",
+          defaultValue: '[]',
+        },
+      ],
+      action: (hostEntityIds, appTypes, output)  => {
+        microsoftTeams.hostEntity.tab.addAndConfigure(hostEntityIds, appTypes)          
+          .then((result) => {
+            output(JSON.stringify(result));
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
       name: "media.scanBarCode",
       initializedRequired: true,
       hasOutput: true,
