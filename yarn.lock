@@ -54,10 +54,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@microsoft/teams-js@^2.26.0":
-  version "2.26.0"
-  resolved "https://domoreexp.pkgs.visualstudio.com/_packaging/npm-mirror/npm/registry/@microsoft/teams-js/-/teams-js-2.26.0.tgz"
-  integrity sha1-+j9Cm1RSwezb9wZVGpaurrpPssU=
+"@microsoft/teams-js@^2.27.0":
+  version "2.27.0"
+  resolved "https://registry.npmjs.org/@microsoft/teams-js/-/teams-js-2.27.0.tgz"
+  integrity sha512-Ow/WQiuCj89Qsi0MDPWm11CtFlzfiyoJ6Owb04js7QqRMvByMBMfqljyBRDJAU8q2uVF11qFIKyRHIQmOx8eYQ==
   dependencies:
     base64-js "^1.3.1"
     debug "^4.3.3"
