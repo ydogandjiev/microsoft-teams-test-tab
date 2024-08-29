@@ -1220,33 +1220,6 @@ export const initializeAppModules = () => {
           });
       },
     });
-    
-    addModule({
-      name: "hostEntity.tab.AddAndConfigure",
-      initializedRequired: true,
-      hasOutput: true,
-      inputs: [
-        {
-          type: "object",
-          name: "hostEntityIds",
-          defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
-        },
-        {
-          type: "array",
-          name: "appTypes",
-          defaultValue: [],
-        },
-      ],
-      action: (hostEntityIds, appTypes, output)  => {
-        microsoftTeams.hostEntity.tab.addAndConfigure(hostEntityIds, appTypes)          
-          .then((result) => {
-            output(JSON.stringify(result));
-          })
-          .catch((error) => {
-            output(error);
-          });
-      },
-    });
 
     addModule({
       name: "hostEntity.tab.remove",
@@ -1268,6 +1241,33 @@ export const initializeAppModules = () => {
         microsoftTeams.hostEntity.tab.remove(tabId, hostEntityIds)          
           .then((result) => {
             output(`Response: ${result}`);
+          })
+          .catch((error) => {
+            output(error);
+          });
+      },
+    });
+
+    addModule({
+      name: "hostEntity.tab.AddAndConfigure",
+      initializedRequired: true,
+      hasOutput: true,
+      inputs: [
+        {
+          type: "object",
+          name: "hostEntityIds",
+          defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
+        },
+        {
+          type: "object",
+          name: "appTypes",
+          defaultValue: '[]',
+        },
+      ],
+      action: (hostEntityIds, appTypes, output)  => {
+        microsoftTeams.hostEntity.tab.addAndConfigure(hostEntityIds, appTypes)          
+          .then((result) => {
+            output(JSON.stringify(result));
           })
           .catch((error) => {
             output(error);
