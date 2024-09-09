@@ -1162,7 +1162,7 @@ export const initializeAppModules = () => {
             output(JSON.stringify(result));
           })
           .catch((error) => {
-            output(error);
+            output(`Error Response: ${error}`)
           });
       },
     });
@@ -1189,7 +1189,7 @@ export const initializeAppModules = () => {
             output(JSON.stringify(result));
           })
           .catch((error) => {
-            output(error);
+            output(`Error Response: ${error}`)
           });
       },
     });
@@ -1216,7 +1216,7 @@ export const initializeAppModules = () => {
             output(JSON.stringify(result));
           })
           .catch((error) => {
-            output(error);
+            output(`Error Response: ${error}`)
           });
       },
     });
@@ -1243,7 +1243,7 @@ export const initializeAppModules = () => {
             output(`Response: ${result}`);
           })
           .catch((error) => {
-            output(error);
+            output(`Error Response: ${error}`)
           });
       },
     });
@@ -1261,7 +1261,7 @@ export const initializeAppModules = () => {
         {
           type: "object",
           name: "appTypes",
-          defaultValue: '[]',
+          defaultValue: '[""]',
         },
       ],
       action: (hostEntityIds, appTypes, output)  => {
@@ -1270,7 +1270,7 @@ export const initializeAppModules = () => {
             output(JSON.stringify(result));
           })
           .catch((error) => {
-            output(error);
+            output(`Error Response: ${error}`)
           });
       },
     });
