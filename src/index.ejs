@@ -85,7 +85,9 @@
 
     <div>
       <div class="sectionTitle">Nested app</div>
-      <iframe src="/index.html">
+      <div><button onclick="document.getElementById('nestedAppFrame').src = '/index.html?simulateTimeout=true'">Simulate nested app timeout</button></div>
+      <div><button onclick="document.getElementById('nestedAppFrame').src = '/index.html?simulateFailure=true'">Simulate nested app failure</button></div>
+      <iframe id="nestedAppFrame" src="/index.html">
       </iframe>
     </div>
   </div>

@@ -1881,7 +1881,16 @@ export const initializeAppModules = () => {
       }
     });
 
-    microsoftTeams.appInitialization.notifySuccess();
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("simulateTimeout")) {
+      // Do nothing
+    } if (url.searchParams.get("simulateError")) {
+      microsoftTeams.appInitialization.notifyFailure({
+        reason: microsoftTeams.appInitialization.FailedReason.Other
+      });
+    } else {
+      microsoftTeams.appInitialization.notifySuccess();
+    }
   } catch (err) {
     microsoftTeams.appInitialization.notifyFailure({
       reason: microsoftTeams.appInitialization.FailedReason.Other,
