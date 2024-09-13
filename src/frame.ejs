@@ -82,14 +82,6 @@
       <div><a href="https://www.bing.com" target="_blank">Bing via anchor tag</a></div>
       <button onclick="window.open('https://www.bing.com')">Bing via window.open</button>
     </div>
-
-    <div>
-      <div class="sectionTitle">Nested app</div>
-      <div><button onclick="document.getElementById('nestedAppFrame').src = '/frame.html?simulateTimeout=true'">Simulate nested app timeout</button></div>
-      <div><button onclick="document.getElementById('nestedAppFrame').src = '/frame.html?simulateFailure=true'">Simulate nested app failure</button></div>
-      <iframe id="nestedAppFrame" src="/frame.html">
-      </iframe>
-    </div>
   </div>
     
   <%= htmlWebpackPlugin.tags.bodyTags %>
