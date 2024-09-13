@@ -75,6 +75,8 @@
       <div><a href="/page2.html">Page 2</a></div>
       <div><a href="/scroll.html">Scroll</a></div>
       <div><a href="/download.html">Download</a></div>
+      <div><a href="/index.html?simulateTimeout=true">Page w/ timeout</a></div>
+      <div><a href="/index.html?simulateFailure=true">Page w/ failure</a></div>
     </div>
 
     <div>
@@ -85,9 +87,10 @@
 
     <div>
       <div class="sectionTitle">Nested app</div>
+      <div><button onclick="document.getElementById('nestedAppFrame').src = '/frame.html'">Simulate nested app load</button></div>
       <div><button onclick="document.getElementById('nestedAppFrame').src = '/frame.html?simulateTimeout=true'">Simulate nested app timeout</button></div>
       <div><button onclick="document.getElementById('nestedAppFrame').src = '/frame.html?simulateFailure=true'">Simulate nested app failure</button></div>
-      <iframe id="nestedAppFrame" src="/frame.html">
+      <iframe id="nestedAppFrame">
       </iframe>
     </div>
   </div>

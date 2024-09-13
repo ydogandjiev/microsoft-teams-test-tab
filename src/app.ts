@@ -1883,7 +1883,7 @@ export const initializeAppModules = () => {
 
     const url = new URL(window.location.href);
     if (url.searchParams.get("simulateTimeout")) {
-      // Do nothing
+      console.log("Simulating timeout by not calling notifySuccess");
     } else if (url.searchParams.get("simulateFailure")) {
       microsoftTeams.appInitialization.notifyFailure({
         reason: microsoftTeams.appInitialization.FailedReason.Other
