@@ -681,6 +681,7 @@ export const initializeAppModules = () => {
         {
           type: "object",
           name: "taskInfo",
+          defaultValue: '{"title": "Large Test Task Module", "height": "large", "width": "large"}',
         },
       ],
       action: function (taskInfo) {
