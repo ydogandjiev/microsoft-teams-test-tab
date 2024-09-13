@@ -2128,7 +2128,7 @@ const initializeAppModules = () => {
         if (url.searchParams.get("simulateTimeout")) {
             // Do nothing
         }
-        if (url.searchParams.get("simulateError")) {
+        else if (url.searchParams.get("simulateFailure")) {
             MicrosoftTeams_min.appInitialization.notifyFailure({
                 reason: MicrosoftTeams_min.appInitialization.FailedReason.Other
             });
@@ -2184,4 +2184,4 @@ const registerAppCachingHandlers = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.2f4bd1f90a490a791c66.js.map
+//# sourceMappingURL=app.57004dad6f65dbeffee2.js.map

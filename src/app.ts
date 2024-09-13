@@ -1884,7 +1884,7 @@ export const initializeAppModules = () => {
     const url = new URL(window.location.href);
     if (url.searchParams.get("simulateTimeout")) {
       // Do nothing
-    } if (url.searchParams.get("simulateError")) {
+    } else if (url.searchParams.get("simulateFailure")) {
       microsoftTeams.appInitialization.notifyFailure({
         reason: microsoftTeams.appInitialization.FailedReason.Other
       });
