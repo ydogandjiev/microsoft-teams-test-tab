@@ -1,6 +1,6 @@
 
-import { container, restoreState, saveState, downloadHandler, filterHandler } from './utils';
-import { renderPage } from './app';
+import { container, restoreState, saveState, downloadHandler, filterHandler } from "./utils";
+import { renderPage } from "./app";
 import { teamsCore } from "@microsoft/teams-js";
 
 (function () {
