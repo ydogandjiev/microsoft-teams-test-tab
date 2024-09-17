@@ -1120,6 +1120,7 @@ const initializeAppModules = () => {
                 {
                     type: "object",
                     name: "taskInfo",
+                    defaultValue: '{"title": "Large Test Task Module", "height": "large", "width": "large"}',
                 },
             ],
             action: function (taskInfo) {
@@ -2123,7 +2124,18 @@ const initializeAppModules = () => {
                 MicrosoftTeams_min.pages.returnFocus(navigateForward);
             }
         });
-        MicrosoftTeams_min.appInitialization.notifySuccess();
+        const url = new URL(window.location.href);
+        if (url.searchParams.get("simulateTimeout")) {
+            console.log("Simulating timeout by not calling notifySuccess");
+        }
+        else if (url.searchParams.get("simulateFailure")) {
+            MicrosoftTeams_min.appInitialization.notifyFailure({
+                reason: MicrosoftTeams_min.appInitialization.FailedReason.Other
+            });
+        }
+        else {
+            MicrosoftTeams_min.appInitialization.notifySuccess();
+        }
     }
     catch (err) {
         MicrosoftTeams_min.appInitialization.notifyFailure({
@@ -2172,4 +2184,4 @@ const registerAppCachingHandlers = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.fef19621de1a313d1097.js.map
+//# sourceMappingURL=app.b71b60be28a778c1a5e3.js.map
