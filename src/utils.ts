@@ -481,8 +481,10 @@ function outputTabRenderedLocationInTeams(context: Context) {
 
 export function printRecentLocalStoredAppContext() {
   var storedContext = localStorage.getItem(LocalStorageContextKey);
-  var contextContainer = document.getElementById("recent-load-context");
-  contextContainer.innerText = storedContext;
+  if (storedContext) {
+    var contextContainer = document.getElementById("textarea-recentAppContext") as HTMLTextAreaElement;
+    contextContainer.value = storedContext;
+  }
 };
 
 export function handleReloadOnUnload(sendCustomMessage) {

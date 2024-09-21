@@ -496,8 +496,10 @@ function outputTabRenderedLocationInTeams(context) {
 ;
 function printRecentLocalStoredAppContext() {
     var storedContext = localStorage.getItem(LocalStorageContextKey);
-    var contextContainer = document.getElementById("recent-load-context");
-    contextContainer.innerText = storedContext;
+    if (storedContext) {
+        var contextContainer = document.getElementById("textarea-recentAppContext");
+        contextContainer.value = storedContext;
+    }
 }
 ;
 function handleReloadOnUnload(sendCustomMessage) {
@@ -2229,4 +2231,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.f3fc174301dad29d1fd1.js.map
+//# sourceMappingURL=app.5953c903ffd9b1905056.js.map
