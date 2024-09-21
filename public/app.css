@@ -139,7 +139,9 @@ textarea {
 }
 
 .copy-button:hover,
-.view-button:hover {
+.copy-button:focus,
+.view-button:hover,
+.view-button:focus {
   cursor: pointer;
   color: blue
 }
