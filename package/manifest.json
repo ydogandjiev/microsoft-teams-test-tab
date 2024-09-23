@@ -72,7 +72,7 @@
     "media",
     "geolocation"
   ],
-  "showLoadingIndicator": false,
+  "showLoadingIndicator": true,
   "webApplicationInfo": {  
     "id": "00000003-0000-0ff1-ce00-000000000000",
     "resource": "https://{teamSiteDomain}"

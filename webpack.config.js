@@ -41,7 +41,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Frame',
       filename: 'frame.html',
-      template: '/src/frame.ejs',
+      template: 'src/frame.ejs',
       inject: false
     })
   ],

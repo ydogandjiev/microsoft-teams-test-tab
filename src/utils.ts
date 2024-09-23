@@ -1,6 +1,11 @@
 import { moduleConfig } from "./moduleConfig.interface";
-import { Context, FrameContexts } from '@microsoft/teams-js';
+import { Context, FrameContexts } from "@microsoft/teams-js";
 export let inputs = {};
+
+export const LocalStorageContextKey = "app-context";
+export const LocalStorageUnloadKey = "isUnloading";
+type CacheMode = "ReloadOnUnload" | "Normal";
+export let appCacheMode: CacheMode = "Normal";
 
 export let container = document.createElement("div");
 container.classList.add("moduleContainer");
@@ -435,6 +440,15 @@ export function outputTabRenderedLocation(getContext: (callback: (context: Conte
   }
 }
 
+export function initialieCacheToggleButton() {
+  const cacheToggle = document.getElementById("cache-mode-toggle") as HTMLButtonElement;
+  cacheToggle.innerText = appCacheMode;
+  cacheToggle.onclick = () => {
+    appCacheMode = appCacheMode === "Normal" ? "ReloadOnUnload" : "Normal";
+    cacheToggle.innerText = appCacheMode;
+  }
+}
+
 function outputTabRenderedLocationInTeams(context: Context) {
   var appLocation = 'unidentified location...';
   const perfData = window.performance;
@@ -464,6 +478,23 @@ function outputTabRenderedLocationInTeams(context: Context) {
     return context.frameContext === FrameContexts.sidePanel
   }
 };
+
+export function printRecentLocalStoredAppContext() {
+  var storedContext = localStorage.getItem(LocalStorageContextKey);
+  if (storedContext) {
+    var contextContainer = document.getElementById("textarea-recentAppContext") as HTMLTextAreaElement;
+    contextContainer.value = storedContext;
+  }
+};
+
+export function handleReloadOnUnload(sendCustomMessage) {
+  const isReloading = localStorage.getItem(LocalStorageUnloadKey);
+  if (isReloading === 'true') {
+    console.log(`>>>>> Test tab app calling readyToUnload.`);
+    localStorage.removeItem(LocalStorageUnloadKey);
+    sendCustomMessage("readyToUnload");
+  }
+}
 
 function addPageSection(content: string) {
   var element = document.createElement("div");
