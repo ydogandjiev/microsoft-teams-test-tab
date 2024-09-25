@@ -249,16 +249,15 @@ export function addModule(config: moduleConfig) {
               image9.removeAttribute('src');
           }
       });
-    }
-
-    if (config.hasGetMedia) {
-        args.push(function (result) {
-            if (typeof result !== "string") {
-                result = JSON.stringify(result);
-            }
-            getMediaImage.src = result;
-        });
-    }
+  }
+  if (config.hasGetMedia) {
+      args.push(function (result) {
+          if (typeof result !== "string") {
+              result = JSON.stringify(result);
+          }
+          getMediaImage.src = result;
+      });
+  }
 
     if (config.hasOutput) {
       args.push(function(result) {
@@ -267,7 +266,6 @@ export function addModule(config: moduleConfig) {
         }
 
         textarea.value = result;
-
         ["copy", "view"].forEach((buttonType) => {
           const button = document.getElementById(`button-${buttonType}-${config.name}`);
           if (result) {
@@ -288,7 +286,6 @@ export function addModule(config: moduleConfig) {
             button.style.display = "none";
           }
         });
-
       });
     }
 
@@ -506,8 +503,10 @@ function outputTabRenderedLocationInTeams(context: Context) {
 
 export function printRecentLocalStoredAppContext() {
   var storedContext = localStorage.getItem(LocalStorageContextKey);
-  var contextContainer = document.getElementById("recent-load-context");
-  contextContainer.innerText = storedContext;
+  if (storedContext) {
+    var contextContainer = document.getElementById("textarea-recentAppContext") as HTMLTextAreaElement;
+    contextContainer.value = storedContext;
+  }
 };
 
 export function handleReloadOnUnload(sendCustomMessage) {

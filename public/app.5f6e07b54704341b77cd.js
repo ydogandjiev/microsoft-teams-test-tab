@@ -496,8 +496,10 @@ function outputTabRenderedLocationInTeams(context) {
 ;
 function printRecentLocalStoredAppContext() {
     var storedContext = localStorage.getItem(LocalStorageContextKey);
-    var contextContainer = document.getElementById("recent-load-context");
-    contextContainer.innerText = storedContext;
+    if (storedContext) {
+        var contextContainer = document.getElementById("textarea-recentAppContext");
+        contextContainer.value = storedContext;
+    }
 }
 ;
 function handleReloadOnUnload(sendCustomMessage) {
@@ -663,8 +665,7 @@ const initializeAppModules = () => {
         initializedRequired: true,
         hasOutput: true,
         action: function (output) {
-            MicrosoftTeams_min.app.getContext()
-                .then(output);
+            MicrosoftTeams_min.getContext(output);
         },
     });
     addModule({
@@ -2229,4 +2230,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.f3fc174301dad29d1fd1.js.map
+//# sourceMappingURL=app.5f6e07b54704341b77cd.js.map

@@ -167,8 +167,7 @@ const initializeAppModules = () => {
     initializedRequired: true,
     hasOutput: true,
     action: function (output) {
-      microsoftTeams.app.getContext()
-      .then(output);
+      microsoftTeams.getContext(output);
     },
   });
 
