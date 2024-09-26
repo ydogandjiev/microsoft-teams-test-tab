@@ -1069,7 +1069,7 @@ const initializeAppModules = () => {
             },
         ],
         action: function (taskInfo, output) {
-            childWindow = MicrosoftTeams_min.dialog.url.open(taskInfo);
+            childWindow = MicrosoftTeams_min.tasks.startTask(taskInfo);
             childWindow.addEventListener("message", function (message) {
                 output("Message from task module: " + message);
                 childWindow.postMessage("tab received - " + message);
@@ -2415,4 +2415,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.feb6377d305d3be33313.js.map
+//# sourceMappingURL=app.ba7dc036ddf08a6a73dd.js.map

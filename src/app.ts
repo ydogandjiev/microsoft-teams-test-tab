@@ -406,7 +406,7 @@ const initializeAppModules = () => {
       },
     ],
     action: function (taskInfo, output) {
-      childWindow = microsoftTeams.dialog.url.open(taskInfo);
+      childWindow = microsoftTeams.tasks.startTask(taskInfo);
       childWindow.addEventListener("message", function (message) {
         output("Message from task module: " + message);
         childWindow.postMessage("tab received - " + message);
