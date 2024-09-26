@@ -507,6 +507,26 @@ export function printRecentLocalStoredAppContext() {
     var contextContainer = document.getElementById("textarea-recentAppContext") as HTMLTextAreaElement;
     contextContainer.value = storedContext;
   }
+  ["copy", "view"].forEach((buttonType) => {
+    const button = document.getElementById(`button-${buttonType}-recentAppContext`);
+    if (storedContext) {
+      if (button) {
+        button.style.display = "inline";
+      } else {
+        const newButton = createButton({
+          displayName: buttonType, 
+          id: `${buttonType}-recentAppContext`, 
+          ariaLabel: `${buttonType} recent app context`, 
+          className: `${buttonType}-button`,
+          onClick: buttonType === "copy" ? copyText("recentAppContext") : viewJson("recentAppContext")
+        });
+        const outputHeader = document.getElementById("outputHeader-recentAppContext");
+        outputHeader && outputHeader.appendChild(newButton);
+      }
+    } else if (button) {
+      button.style.display = "none";
+    }
+  });
 };
 
 export function handleReloadOnUnload(sendCustomMessage) {
@@ -554,16 +574,19 @@ function viewJson(name: string) {
   return () => {
     const area = document.getElementById(`textarea-${name}`) as HTMLTextAreaElement;
     area.select();
-    renderJsonViewer(area.value);
+    renderJsonViewer(area.value, name);
   };
 }
 
-function renderJsonViewer(data: string) {
+function renderJsonViewer(data: string, title: string) {
   const modal = document.getElementById("myModal") as HTMLDivElement;
   modal.style.display = "block";
   document.getElementById("errorMessage").style.display = "none";
   const jsonViewer = document.getElementById("jsonViewer") as HTMLDivElement;
   jsonViewer.innerHTML = "";
+  const titleElement = document.createElement("h3");
+  titleElement.textContent = title;
+  jsonViewer.appendChild(titleElement);
   try {
     const json = JSON.parse(data);
     renderJson(jsonViewer, json);

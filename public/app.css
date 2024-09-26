@@ -138,6 +138,11 @@ textarea {
   float: right;
 }
 
+.area-label {
+  display: block;
+  width: 200px;
+}
+
 .copy-button:hover,
 .copy-button:focus,
 .view-button:hover,
