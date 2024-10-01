@@ -40,6 +40,100 @@
 (() => {
 "use strict";
 
+;// CONCATENATED MODULE: ./src/jsonUtils.ts
+function renderJson(parent, value, appendComma = false) {
+    if (Array.isArray(value)) {
+        parent.appendChild(renderSymbol('['));
+        if (value.length > 0) {
+            parent.appendChild(renderArrayContent(value));
+        }
+        parent.appendChild(renderSymbol(']'));
+    }
+    else if (typeof value === 'object' && value !== null) {
+        parent.appendChild(renderSymbol('{'));
+        if (Object.keys(value).length > 0) {
+            parent.appendChild(renderObjectContent(value));
+        }
+        parent.appendChild(renderSymbol('}'));
+    }
+    else {
+        parent.appendChild(renderSimpleType(value, 'json-object-value'));
+    }
+    if (appendComma) {
+        parent.appendChild(renderSymbol(','));
+    }
+}
+function renderSimpleType(value, className = '') {
+    const element = document.createElement('span');
+    element.className = className;
+    switch (typeof value) {
+        case 'string':
+            element.innerText = `"${value}"`;
+            break;
+        case 'number':
+        case 'boolean':
+            element.innerText = value.toString();
+            break;
+        case 'undefined':
+            element.innerText = 'undefined';
+        case 'object':
+            if (value === null) {
+                element.innerText = 'null';
+            }
+        default:
+            element.innerText = value.toString();
+    }
+    return element;
+}
+function renderSymbol(symbol, className = '') {
+    const element = document.createElement('span');
+    element.className = className;
+    element.innerText = symbol;
+    return element;
+}
+function renderObjectContent(object) {
+    const element = document.createElement('div');
+    element.className = 'json-object-content';
+    Object.keys(object).forEach((key, index) => {
+        const value = object[key];
+        const appendComma = index < Object.keys(object).length - 1;
+        element.appendChild(renderKeyValuePair(key, value, appendComma));
+    });
+    return element;
+}
+function renderKeyValuePair(key, value, appendComma) {
+    const element = document.createElement('div');
+    element.className = 'json-object-key-value';
+    element.appendChild(renderObjectKey(key));
+    renderJson(element, value, appendComma);
+    return element;
+}
+function renderObjectKey(name) {
+    const element = document.createElement('span');
+    element.className = 'json-object-key-wrapper';
+    const elementInner = document.createElement('span');
+    elementInner.className = 'json-object-key';
+    elementInner.innerText = name;
+    element.appendChild(elementInner);
+    element.appendChild(renderSymbol(':'));
+    return element;
+}
+function renderArrayContent(array) {
+    const element = document.createElement('div');
+    element.className = 'json-array-content';
+    array.forEach((item, index) => {
+        const appendComma = index < array.length - 1;
+        element.appendChild(renderArrayItem(item, appendComma));
+    });
+    return element;
+}
+function renderArrayItem(value, appendComma) {
+    const element = document.createElement('div');
+    element.className = 'json-array-item';
+    renderJson(element, value, appendComma);
+    return element;
+}
+
 // EXTERNAL MODULE: ./node_modules/@microsoft/teams-js/dist/MicrosoftTeams.min.js
 var MicrosoftTeams_min = __webpack_require__(129);
 ;// CONCATENATED MODULE: ./src/utils.ts
@@ -53,6 +147,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
     });
 };
 
+
 let inputs = {};
 const LocalStorageContextKey = "app-context";
 const LocalStorageUnloadKey = "isUnloading";
@@ -61,10 +156,10 @@ let container = document.createElement("div");
 container.classList.add("moduleContainer");
 function addModule(config) {
     var element = document.createElement("div");
-    var button = document.createElement("button");
-    button.appendChild(document.createTextNode(config.name));
-    button.setAttribute("aria-label", config.name);
-    button.id = "button-" + config.name;
+    var button = createButton({
+        displayName: config.name,
+        id: config.name,
+    });
     element.appendChild(button);
     element.appendChild(document.createElement("br"));
     if (config.inputs) {
@@ -123,6 +218,7 @@ function addModule(config) {
         var label = document.createElement("label");
         element.appendChild(document.createElement("br"));
         label.appendChild(document.createTextNode("Output:"));
+        label.setAttribute("id", "outputHeader-" + config.name);
         element.appendChild(label);
         element.appendChild(document.createElement("br"));
         var textarea = document.createElement("textarea");
@@ -301,6 +397,28 @@ function addModule(config) {
                     result = JSON.stringify(result);
                 }
                 textarea.value = result;
+                ["copy", "view"].forEach((buttonType) => {
+                    const button = document.getElementById(`button-${buttonType}-${config.name}`);
+                    if (result) {
+                        if (button) {
+                            button.style.display = "inline";
+                        }
+                        else {
+                            const newButton = createButton({
+                                displayName: buttonType,
+                                id: `${buttonType}-${config.name}`,
+                                ariaLabel: `${buttonType} ${config.name}`,
+                                className: `${buttonType}-button`,
+                                onClick: buttonType === "copy" ? copyText(config.name) : viewJson(config.name)
+                            });
+                            const outputHeader = document.getElementById(`outputHeader-${config.name}`);
+                            outputHeader && outputHeader.appendChild(newButton);
+                        }
+                    }
+                    else if (button) {
+                        button.style.display = "none";
+                    }
+                });
             });
         }
         if (config.onClick) {
@@ -500,6 +618,28 @@ function printRecentLocalStoredAppContext() {
         var contextContainer = document.getElementById("textarea-recentAppContext");
         contextContainer.value = storedContext;
     }
+    ["copy", "view"].forEach((buttonType) => {
+        const button = document.getElementById(`button-${buttonType}-recentAppContext`);
+        if (storedContext) {
+            if (button) {
+                button.style.display = "inline";
+            }
+            else {
+                const newButton = createButton({
+                    displayName: buttonType,
+                    id: `${buttonType}-recentAppContext`,
+                    ariaLabel: `${buttonType} recent app context`,
+                    className: `${buttonType}-button`,
+                    onClick: buttonType === "copy" ? copyText("recentAppContext") : viewJson("recentAppContext")
+                });
+                const outputHeader = document.getElementById("outputHeader-recentAppContext");
+                outputHeader && outputHeader.appendChild(newButton);
+            }
+        }
+        else if (button) {
+            button.style.display = "none";
+        }
+    });
 }
 ;
 function handleReloadOnUnload(sendCustomMessage) {
@@ -517,6 +657,51 @@ function addPageSection(content) {
     title.textContent = content;
     element.appendChild(title);
     container.prepend(element);
+}
+function createButton(buttonProps) {
+    const { displayName, id, ariaLabel, className, onClick } = buttonProps;
+    const button = document.createElement("button");
+    button.appendChild(document.createTextNode(displayName));
+    button.setAttribute("aria-label", ariaLabel || displayName);
+    button.id = "button-" + id;
+    if (onClick) {
+        button.onclick = onClick;
+    }
+    if (className) {
+        button.classList.add(className);
+    }
+    return button;
+}
+function copyText(name) {
+    return () => {
+        const area = document.getElementById(`textarea-${name}`);
+        area.select();
+        navigator.clipboard.writeText(area.value);
+    };
+}
+function viewJson(name) {
+    return () => {
+        const area = document.getElementById(`textarea-${name}`);
+        area.select();
+        renderJsonViewer(area.value, name);
+    };
+}
+function renderJsonViewer(data, title) {
+    const modal = document.getElementById("myModal");
+    modal.style.display = "block";
+    document.getElementById("errorMessage").style.display = "none";
+    const jsonViewer = document.getElementById("jsonViewer");
+    jsonViewer.innerHTML = "";
+    const titleElement = document.createElement("h3");
+    titleElement.textContent = title;
+    jsonViewer.appendChild(titleElement);
+    try {
+        const json = JSON.parse(data);
+        renderJson(jsonViewer, json);
+    }
+    catch (_a) {
+        renderJson(jsonViewer, data.toString());
+    }
 }
 
 ;// CONCATENATED MODULE: ./src/app.ts
@@ -884,7 +1069,7 @@ const initializeAppModules = () => {
             },
         ],
         action: function (taskInfo, output) {
-            childWindow = MicrosoftTeams_min.dialog.url.open(taskInfo);
+            childWindow = MicrosoftTeams_min.tasks.startTask(taskInfo);
             childWindow.addEventListener("message", function (message) {
                 output("Message from task module: " + message);
                 childWindow.postMessage("tab received - " + message);
@@ -2230,4 +2415,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.5f6e07b54704341b77cd.js.map
+//# sourceMappingURL=app.ba7dc036ddf08a6a73dd.js.map

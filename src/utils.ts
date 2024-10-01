@@ -1,4 +1,5 @@
-import { moduleConfig } from "./moduleConfig.interface";
+import { renderJson } from "./jsonUtils";
+import { IButtonProps, moduleConfig } from "./moduleConfig.interface";
 import { Context, FrameContexts } from "@microsoft/teams-js";
 export let inputs = {};
 
@@ -13,10 +14,10 @@ container.classList.add("moduleContainer");
 export function addModule(config: moduleConfig) {
   var element = document.createElement("div");
 
-  var button = document.createElement("button");
-  button.appendChild(document.createTextNode(config.name));
-  button.setAttribute("aria-label", config.name);
-  button.id = "button-" + config.name;
+  var button = createButton({
+    displayName: config.name,
+    id: config.name,
+  });
   element.appendChild(button);
   element.appendChild(document.createElement("br"));
 
@@ -78,6 +79,7 @@ export function addModule(config: moduleConfig) {
     var label = document.createElement("label");
     element.appendChild(document.createElement("br"));
     label.appendChild(document.createTextNode("Output:"));
+    label.setAttribute("id", "outputHeader-" + config.name);
     element.appendChild(label);
     element.appendChild(document.createElement("br"));
     var textarea = document.createElement("textarea");
@@ -264,6 +266,26 @@ export function addModule(config: moduleConfig) {
         }
 
         textarea.value = result;
+        ["copy", "view"].forEach((buttonType) => {
+          const button = document.getElementById(`button-${buttonType}-${config.name}`);
+          if (result) {
+            if (button) {
+              button.style.display = "inline";
+            } else {
+              const newButton = createButton({
+                displayName: buttonType, 
+                id: `${buttonType}-${config.name}`, 
+                ariaLabel: `${buttonType} ${config.name}`, 
+                className: `${buttonType}-button`,
+                onClick: buttonType === "copy" ? copyText(config.name) : viewJson(config.name)
+              });
+              const outputHeader = document.getElementById(`outputHeader-${config.name}`);
+              outputHeader && outputHeader.appendChild(newButton);
+            }
+          } else if (button) {
+            button.style.display = "none";
+          }
+        });
       });
     }
 
@@ -485,6 +507,26 @@ export function printRecentLocalStoredAppContext() {
     var contextContainer = document.getElementById("textarea-recentAppContext") as HTMLTextAreaElement;
     contextContainer.value = storedContext;
   }
+  ["copy", "view"].forEach((buttonType) => {
+    const button = document.getElementById(`button-${buttonType}-recentAppContext`);
+    if (storedContext) {
+      if (button) {
+        button.style.display = "inline";
+      } else {
+        const newButton = createButton({
+          displayName: buttonType, 
+          id: `${buttonType}-recentAppContext`, 
+          ariaLabel: `${buttonType} recent app context`, 
+          className: `${buttonType}-button`,
+          onClick: buttonType === "copy" ? copyText("recentAppContext") : viewJson("recentAppContext")
+        });
+        const outputHeader = document.getElementById("outputHeader-recentAppContext");
+        outputHeader && outputHeader.appendChild(newButton);
+      }
+    } else if (button) {
+      button.style.display = "none";
+    }
+  });
 };
 
 export function handleReloadOnUnload(sendCustomMessage) {
@@ -503,4 +545,52 @@ function addPageSection(content: string) {
   title.textContent = content;
   element.appendChild(title);
   container.prepend(element);
+}
+
+function createButton(buttonProps:IButtonProps) {
+  const { displayName, id, ariaLabel, className, onClick } = buttonProps;
+  const button = document.createElement("button");
+  button.appendChild(document.createTextNode(displayName));
+  button.setAttribute("aria-label", ariaLabel || displayName);
+  button.id = "button-" + id;
+  if (onClick) {
+    button.onclick = onClick;
+  }
+  if (className) {
+    button.classList.add(className);
+  }
+  return button;
+}
+
+function copyText(name: string) {
+  return () => {
+    const area = document.getElementById(`textarea-${name}`) as HTMLTextAreaElement;
+    area.select();
+    navigator.clipboard.writeText(area.value);
+  };
+}
+
+function viewJson(name: string) {
+  return () => {
+    const area = document.getElementById(`textarea-${name}`) as HTMLTextAreaElement;
+    area.select();
+    renderJsonViewer(area.value, name);
+  };
+}
+
+function renderJsonViewer(data: string, title: string) {
+  const modal = document.getElementById("myModal") as HTMLDivElement;
+  modal.style.display = "block";
+  document.getElementById("errorMessage").style.display = "none";
+  const jsonViewer = document.getElementById("jsonViewer") as HTMLDivElement;
+  jsonViewer.innerHTML = "";
+  const titleElement = document.createElement("h3");
+  titleElement.textContent = title;
+  jsonViewer.appendChild(titleElement);
+  try {
+    const json = JSON.parse(data);
+    renderJson(jsonViewer, json);
+  } catch {
+    renderJson(jsonViewer, data.toString());
+  }
 }

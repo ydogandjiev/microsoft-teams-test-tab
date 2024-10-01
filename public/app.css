@@ -23,6 +23,7 @@ body {
 label {
   font-weight: bold;
   vertical-align: top;
+  padding-right: 4px;
 }
 
 textarea, input[type='text'] {
@@ -90,24 +91,29 @@ textarea {
   top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
 .modal-content {
+  position: relative;
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
+  margin: 100px auto;
+  padding: 40px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 60%; /* Could be more or less, depending on screen size */
+  min-width: 500px;
+  height: 60%;
+  overflow: hidden;
 }
 
 /* The Close Button */
 .close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
   color: #aaa;
-  float: right;
   font-size: 28px;
   font-weight: bold;
 }
@@ -121,4 +127,58 @@ textarea {
 
 .error-message {
   color: red;
+}
+
+.copy-button,
+.view-button {
+  margin-left: 4px;
+  padding: 1px 3px;
+  border: none;
+  background: none;
+  float: right;
+}
+
+.area-label {
+  display: block;
+  width: 200px;
+}
+
+.copy-button:hover,
+.copy-button:focus,
+.view-button:hover,
+.view-button:focus {
+  cursor: pointer;
+  color: blue
+}
+
+.json-viewer {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  white-space: pre;
+  height: 100%;
+  overflow: auto;
+}
+
+.json-object-content,
+.json-array-content {
+  margin-left: 20px;
+}
+
+.json-object-key-wrapper {
+  display: inline-block;
+  padding-right: 10px;
+}
+
+.json-object-key {
+  color: #225db5;
+}
+
+.json-object-value {
+  color: #a32935;
+  display: inline-block;
+}
+
+.json-object-key-value,
+.json-array-item {
+  margin: 4px 0;
 }
