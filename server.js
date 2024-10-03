@@ -2,19 +2,29 @@ var express = require('express');
 var serveStatic = require('serve-static');
 
 var app = express();
-app.use(serveStatic(__dirname + '/public', {
+
+app.use('/index.html', serveStatic(__dirname + '/public/index.html', {
   setHeaders: (res, path) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Document-Isolation-Policy', 'isolate-and-require-corp');
   }
 }));
 
 app.use('/page1', serveStatic(__dirname + '/public/page1.html', {
   setHeaders: (res, path) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Document-Isolation-Policy', 'isolate-and-require-corp');
   }
 }));
 
 app.use('/page2', serveStatic(__dirname + '/public/page2.html', {
+  setHeaders: (res, path) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Document-Isolation-Policy', 'isolate-and-require-corp');
+  }
+}));
+
+app.use(serveStatic(__dirname + '/public', {
   setHeaders: (res, path) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
   }
