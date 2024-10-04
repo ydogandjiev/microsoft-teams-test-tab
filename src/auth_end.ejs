@@ -7,12 +7,13 @@
     <script>
       const params = new URLSearchParams(window.location.search);
       const result = params.get('code');
-      const { authId, method } = JSON.parse(params.get('state'));
+      const { authId, method, redirectUrl } = JSON.parse(params.get('state'));
+      const hostRedirectUrl = redirectUrl || `msteams://teams.microsoft.com/l/auth-callback?authId=${encodeURIComponent(authId)}&result={result}`;
       if (method === 'deeplink') {
-        window.location.href = `msteams://teams.microsoft.com/l/auth-callback?authId=${authId}&result=${result}`
+        window.location.href = hostRedirectUrl.replace('{result}', encodeURIComponent(result));
       } else {
         microsoftTeams.initialize(undefined, ["https://teams.microsoftonline.cn"]);
-        microsoftTeams.authentication.notifySuccess(result);      
+        microsoftTeams.authentication.notifySuccess(result);
       }
     </script>
   </body>
