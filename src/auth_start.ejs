@@ -10,7 +10,7 @@
       const authId = params.get('authId');
       const method = params.get('oauthRedirectMethod');
       const redirectUrl = params.get('hostRedirectUrl');
-      const state = `{"authId":"${authId}","method":"${method}"}`;
+      const state = { authId, method, redirectUrl };
 
       const getRedirectUri = () => {
         const idx = window.location.href.lastIndexOf('/');
@@ -18,7 +18,7 @@
       };
 
       if (mockOAuth === 'true') {
-        window.location.href = `auth_end.html?state=${state}&code=${redirectUrl ? '1234-r' : '1234'}`
+        window.location.href = `auth_end.html?state=${encodeURIComponent(JSON.stringify(state))}&code=${redirectUrl ? '1234-r' : '1234'}`
       } else {
         const queryObj = {
           state,
