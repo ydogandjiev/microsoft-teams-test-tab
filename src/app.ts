@@ -1898,6 +1898,43 @@ const initializeAppModules = () => {
     },
   });
 
+  addModule({
+    name: "clipboard.read",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      microsoftTeams.clipboard.read()
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  });
+
+  addModule({
+    name: "clipboard.write",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "content",
+        defaultValue: "Hello World"
+      }
+    ],
+    action: function (content, output) {
+      microsoftTeams.clipboard.write(content)
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  })
+
   // Get the modal
   var modal = document.getElementById("myModal");
 
