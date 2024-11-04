@@ -1275,9 +1275,9 @@ const initializeAppModules = () => {
     hasOutput: true,
     inputs: [
       {
-        type: "string",
-        name: "tabId",
-        defaultValue: "",
+        type: "object",
+        name: "tab",
+        defaultValue: '{}',
       },
       {
         type: "object",
@@ -1285,8 +1285,8 @@ const initializeAppModules = () => {
         defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
       }
     ],
-    action: (tabId, hostEntityIds, output)  => {
-      microsoftTeams.hostEntity.tab.remove(tabId, hostEntityIds)          
+    action: (tab, hostEntityIds, output)  => {
+      microsoftTeams.hostEntity.tab.remove(tab, hostEntityIds)          
         .then((result) => {
           output(`Response: ${result}`);
         })
