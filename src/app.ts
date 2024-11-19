@@ -1935,6 +1935,27 @@ const initializeAppModules = () => {
     },
   })
 
+  addModule({
+    name: "teams.refreshSiteUrl",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "threadId"
+      }
+    ],
+    action: function (threadId, output) {
+      microsoftTeams.teams.refreshSiteUrl(threadId, (error) => {
+        if (error) {
+          output("Failure: " + JSON.stringify(error));
+        } else {
+          output("Success");
+        }
+      });
+    },
+  })
+
   // Get the modal
   var modal = document.getElementById("myModal");
 
