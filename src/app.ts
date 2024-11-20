@@ -1275,9 +1275,9 @@ const initializeAppModules = () => {
     hasOutput: true,
     inputs: [
       {
-        type: "string",
-        name: "tabId",
-        defaultValue: "",
+        type: "object",
+        name: "tab",
+        defaultValue: '{}',
       },
       {
         type: "object",
@@ -1285,8 +1285,8 @@ const initializeAppModules = () => {
         defaultValue: '{"threadId":"threadId", "messageId":"messageId"}',
       }
     ],
-    action: (tabId, hostEntityIds, output)  => {
-      microsoftTeams.hostEntity.tab.remove(tabId, hostEntityIds)          
+    action: (tab, hostEntityIds, output)  => {
+      microsoftTeams.hostEntity.tab.remove(tab, hostEntityIds)          
         .then((result) => {
           output(`Response: ${result}`);
         })
@@ -1897,6 +1897,64 @@ const initializeAppModules = () => {
         });
     },
   });
+
+  addModule({
+    name: "clipboard.read",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      microsoftTeams.clipboard.read()
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  });
+
+  addModule({
+    name: "clipboard.write",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "content",
+        defaultValue: "Hello World"
+      }
+    ],
+    action: function (content, output) {
+      microsoftTeams.clipboard.write(content)
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  })
+
+  addModule({
+    name: "teams.refreshSiteUrl",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "threadId"
+      }
+    ],
+    action: function (threadId, output) {
+      microsoftTeams.teams.refreshSiteUrl(threadId, (error) => {
+        if (error) {
+          output("Failure: " + JSON.stringify(error));
+        } else {
+          output("Success");
+        }
+      });
+    },
+  })
 
   addModule({
     name: "ExternalAppAuthentication.authenticateWithSSOForCEA",
