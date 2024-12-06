@@ -1956,6 +1956,244 @@ const initializeAppModules = () => {
     },
   })
 
+  addModule({
+    name: "ExternalAppAuthentication.authenticateWithSSOForCEA",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "appId", 
+        defaultValue: "1a69c0fd-6ec8-488e-8900-ff3a2fcf5f51"
+      },
+      {
+        type: "string",
+        name: "convId", 
+        defaultValue: "mockConvId"
+      },
+      {
+        type: "object",
+        name: "authTokenRequest",
+        defaultValue:
+          '{}',
+      }        
+    ],
+    action: function (appId, convId, authTokenRequest, output) {
+      microsoftTeams.externalAppAuthenticationForCEA
+        .authenticateWithSSO(appId, convId, authTokenRequest)          
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  });
+
+  addModule({
+    name: "ExternalAppAuthentication.authenticateWithOauthForCEA",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "appId", 
+        defaultValue: "f46ad259-0fe5-4f12-872d-c737b174bcb4"
+      },
+      {
+        type: "string",
+        name: "convId", 
+        defaultValue: "mockConvId"
+      },      
+      {
+        type: "object",
+        name: "authenticateParameters",
+        defaultValue: JSON.stringify({
+          url: new URL("https://token.botframework.com/api/oauth/signin?signin=78ed2ae53eb6442d8a784554003ca8f3"),
+          isExternal: true,
+        }),
+      }    
+    ],
+    action: function (appId, convId, authenticateParameters, output) {
+      microsoftTeams.externalAppAuthenticationForCEA
+        .authenticateWithOauth(appId, convId, authenticateParameters)          
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  });
+
+  addModule({
+    name: "ExternalAppAuthentication.authenticateWithSSOAndResendRequestForCEA",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "appId", 
+        defaultValue: "1a69c0fd-6ec8-488e-8900-ff3a2fcf5f51"
+      },
+      {
+        type: "string",
+        name: "convId", 
+        defaultValue: "mockConvId"
+      },
+      {
+        type: "object",
+        name: "authTokenRequest",
+        defaultValue:
+          '{}',
+      },
+      {
+        type: "object",
+        name: "originalRequestInfo",
+        defaultValue:
+          JSON.stringify({
+            requestType: "ActionExecuteInvokeRequest",
+            type: "Action.Execute",
+            id: "mockId",
+            verb: "verb",
+            data: "data",
+          }),
+      }        
+    ],
+    action: function (appId, convId, authTokenRequest, originalRequestInfo, output) {
+      microsoftTeams.externalAppAuthenticationForCEA
+        .authenticateWithSSOAndResendRequest(appId, convId, authTokenRequest, originalRequestInfo)          
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  });
+
+  addModule({
+    name: "ExternalAppAuthentication.authenticateWithOauthAndResendRequestForCEA",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "appId", 
+        defaultValue: "f46ad259-0fe5-4f12-872d-c737b174bcb4"
+      },
+      {
+        type: "string",
+        name: "convId", 
+        defaultValue: "mockConvId"
+      },
+      {
+        type: "object",
+        name: "authenticateParameters",
+        defaultValue: JSON.stringify({
+          url: new URL("https://ccmsteams.integrations.adobe.com/auth/v2/login?width=600&height=600&mode=bot"),
+          isExternal: true,
+        }),
+      },
+      {
+        type: "object",
+        name: "originalRequestInfo",
+        defaultValue:
+          JSON.stringify({
+            requestType: "ActionExecuteInvokeRequest",
+            type: "Action.Execute",
+            id: "mockId",
+            verb: "verb",
+            data: "data",
+          }),
+      }
+    ],
+    action: function (appId, convId, authenticateParameters, originalRequestInfo, output) {
+      microsoftTeams.externalAppAuthenticationForCEA
+        .authenticateAndResendRequest(appId, convId, authenticateParameters, originalRequestInfo)          
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  });
+
+  addModule({
+    name: "ExternalAppCardActions.processActionSubmitForCEA",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "appId", 
+        defaultValue: "f350a51f-0251-47f2-b355-e0819a1bc44a"
+      },
+      {
+        type: "string",
+        name: "convId",
+        defaultValue: "mockConvId"
+      },
+      {
+        type: "object",
+        name: "actionSubmitPayload",
+        defaultValue: JSON.stringify({
+          id: "submitActionId",
+          title: "title",
+          data: {
+            msteams:{
+              type:"invoke",
+            }
+          }
+        })            
+      }       
+    ],
+    action: function (appId, convId, actionSubmitPayload, output) {
+      microsoftTeams.externalAppCardActionsForCEA
+        .processActionSubmit(appId, convId, actionSubmitPayload)          
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  });
+
+  addModule({
+    name: "ExternalAppCardActions.processActionOpenUrlForCEA",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "appId", 
+        defaultValue: "f350a51f-0251-47f2-b355-e0819a1bc44a"
+      },
+      {
+        type: "string",
+        name: "convId",
+        defaultValue: "mockConvId"
+      },
+      {
+        type: "string",
+        name: "url",
+        defaultValue: "https://bing.com"
+      }       
+    ],
+    action: function (appId, convId, url, output) {
+      microsoftTeams.externalAppCardActionsForCEA
+        .processActionOpenUrl(appId, convId, new URL(url))          
+        .then((result) => {
+          output(result);
+        })
+        .catch((error) => {
+          output(error);
+        });
+    },
+  });
+
   // Get the modal
   var modal = document.getElementById("myModal");
 
