@@ -336,6 +336,10 @@ export function downloadHandler() {
   var input = document.querySelector("#image_uploads") as any;
   var preview = document.querySelector(".fileUploadPreview");
 
+  if (!input || !preview) {
+    return;
+  }
+
   input.style.opacity = 0;
   input.addEventListener("change", updateImageDisplay);
 
@@ -439,27 +443,28 @@ export function initializeDownloadLinks() {
   }
   
   const downloadButton = document.getElementById("downloadButton") as HTMLButtonElement;
-  if (downloadButton) {
-    downloadButton.onclick = () => {
-      const csv = "Id, Value\n1,Hello world!\n";
-      const data = new Blob([csv]);
-      let downloadLink = document.getElementById("hiddenDownloadLink") as HTMLAnchorElement;
-    
-      if (downloadLink == null) {
-        downloadLink = document.createElement('a');
-        downloadLink.setAttribute('download', 'DownloadViaButton.csv');
-        downloadLink.setAttribute('id', 'hiddenDownloadLink');
-      
-        document.body.appendChild(downloadLink);
-      }
-    
-      downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data as any));
-      downloadLink.href = URL.createObjectURL(data);
-    
-      downloadLink.style.display = 'none';
-      downloadLink.click();
-    };
+  if (!downloadButton) {
+    return;
   }
+  downloadButton.onclick = () => {
+    const csv = "Id, Value\n1,Hello world!\n";
+    const data = new Blob([csv]);
+    let downloadLink = document.getElementById("hiddenDownloadLink") as HTMLAnchorElement;
+  
+    if (downloadLink == null) {
+      downloadLink = document.createElement('a');
+      downloadLink.setAttribute('download', 'DownloadViaButton.csv');
+      downloadLink.setAttribute('id', 'hiddenDownloadLink');
+    
+      document.body.appendChild(downloadLink);
+    }
+  
+    downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data as any));
+    downloadLink.href = URL.createObjectURL(data);
+  
+    downloadLink.style.display = 'none';
+    downloadLink.click();
+  };
 }
 
 export function outputTabRenderedLocation(getContext: (callback: (context: Context) => void) => void) {

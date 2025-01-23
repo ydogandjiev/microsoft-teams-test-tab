@@ -2216,10 +2216,11 @@ const initializeAppModules = () => {
     },
   });
 
-      // Get the modal
+  // Get the modal
   var modal = document.getElementById("myModal");
 
   // Get the <span> element that closes the modal
+
   var span = document.getElementsByClassName("close")[0] as HTMLElement;
 
   // When the user clicks on <span> (x), close the modal
@@ -2257,4 +2258,3 @@ const initializeAppModules = () => {
     microsoftTeams.appInitialization.notifySuccess();
   }
 };
-

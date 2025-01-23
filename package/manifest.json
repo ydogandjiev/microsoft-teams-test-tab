@@ -1,7 +1,7 @@
 {
-  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.10/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.10",
-  "version": "0.2",
+  "$schema": "https://raw.githubusercontent.com/OfficeDev/microsoft-teams-app-schema/preview/DevPreview/MicrosoftTeams.schema.json",
+  "manifestVersion": "devPreview",
+  "version": "1.0.1",
   "id": "8142d2d1-4113-411f-868f-8e6e606e8827",
   "packageName": "net.azurewebsites.teams-test-tab",
   "developer": {
@@ -11,7 +11,7 @@
     "termsOfUseUrl": "https://teams-todolist.azurewebsites.net/termsofuse"
   },
   "name": {
-    "short": "Teams Test Tab"
+    "short": "Teams Test Tab (Local 2)"
   },
   "description": {
     "short": "Test tabs.",
@@ -26,29 +26,22 @@
     {
       "entityId": "test-tab",
       "name": "Test Tab",
-      "contentUrl": "https://teams-test-tab.azurewebsites.net",
-      "websiteUrl": "https://teams-test-tab.azurewebsites.net",
-      "scopes": [
-        "personal"
-      ]
+      "contentUrl": "https://bd5353a78bf3.ngrok.app/page1?basepage=true&displayname=TestApp1234",
+      "websiteUrl": "https://bd5353a78bf3.ngrok.app",
+      "scopes": ["personal"]
     },
     {
       "entityId": "full-screen-tab",
       "name": "Full Screen Tab",
-      "contentUrl": "https://teams-test-tab.azurewebsites.net",
-      "websiteUrl": "https://teams-test-tab.azurewebsites.net",
-      "scopes": [
-        "personal"
-      ]
+      "contentUrl": "https://bd5353a78bf3.ngrok.app",
+      "websiteUrl": "https://bd5353a78bf3.ngrok.app",
+      "scopes": ["personal"]
     }
   ],
   "configurableTabs": [
     {
       "configurationUrl": "https://teams-test-tab.azurewebsites.net",
-      "scopes": [
-        "team",
-        "groupchat"
-      ],
+      "scopes": ["team", "groupchat"],
       "canUpdateConfiguration": true,
       "context": [
         "channelTab",
@@ -62,18 +55,13 @@
   ],
   "validDomains": [
     "teams-test-tab.azurewebsites.net",
-    "{teamSiteDomain}"
+    "{teamSiteDomain}",
+    "bd5353a78bf3.ngrok.app"
   ],
-  "permissions": [
-    "identity",
-    "messageTeamMembers"
-  ],
-  "devicePermissions": [
-    "media",
-    "geolocation"
-  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "devicePermissions": ["media", "geolocation"],
   "showLoadingIndicator": true,
-  "webApplicationInfo": {  
+  "webApplicationInfo": {
     "id": "00000003-0000-0ff1-ce00-000000000000",
     "resource": "https://{teamSiteDomain}"
   }

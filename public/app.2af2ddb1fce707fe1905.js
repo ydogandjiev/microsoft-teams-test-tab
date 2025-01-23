@@ -443,6 +443,9 @@ function saveState() {
 function downloadHandler() {
     var input = document.querySelector("#image_uploads");
     var preview = document.querySelector(".fileUploadPreview");
+    if (!input || !preview) {
+        return;
+    }
     input.style.opacity = 0;
     input.addEventListener("change", updateImageDisplay);
     function updateImageDisplay() {
@@ -538,23 +541,24 @@ function initializeDownloadLinks() {
         downloadLink.href = URL.createObjectURL(data);
     }
     const downloadButton = document.getElementById("downloadButton");
-    if (downloadButton) {
-        downloadButton.onclick = () => {
-            const csv = "Id, Value\n1,Hello world!\n";
-            const data = new Blob([csv]);
-            let downloadLink = document.getElementById("hiddenDownloadLink");
-            if (downloadLink == null) {
-                downloadLink = document.createElement('a');
-                downloadLink.setAttribute('download', 'DownloadViaButton.csv');
-                downloadLink.setAttribute('id', 'hiddenDownloadLink');
-                document.body.appendChild(downloadLink);
-            }
-            downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
-            downloadLink.href = URL.createObjectURL(data);
-            downloadLink.style.display = 'none';
-            downloadLink.click();
-        };
+    if (!downloadButton) {
+        return;
     }
+    downloadButton.onclick = () => {
+        const csv = "Id, Value\n1,Hello world!\n";
+        const data = new Blob([csv]);
+        let downloadLink = document.getElementById("hiddenDownloadLink");
+        if (downloadLink == null) {
+            downloadLink = document.createElement('a');
+            downloadLink.setAttribute('download', 'DownloadViaButton.csv');
+            downloadLink.setAttribute('id', 'hiddenDownloadLink');
+            document.body.appendChild(downloadLink);
+        }
+        downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+        downloadLink.href = URL.createObjectURL(data);
+        downloadLink.style.display = 'none';
+        downloadLink.click();
+    };
 }
 function outputTabRenderedLocation(getContext) {
     if (isInTeams()) {
@@ -2967,4 +2971,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.ca01c859ae8826576945.js.map
+//# sourceMappingURL=app.2af2ddb1fce707fe1905.js.map
