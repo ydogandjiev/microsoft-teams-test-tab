@@ -1,10 +1,15 @@
 
-import { container, restoreState, saveState, downloadHandler, filterHandler } from "./utils";
+import { container, restoreState, saveState, downloadHandler, filterHandler, initializeNavigation } from "./utils";
 import { renderPage } from "./app";
 import { teamsCore } from "@microsoft/teams-js";
 
 (function () {
-  renderPage();
+
+  const params = new URLSearchParams(window.location.search);
+  const basePage = params.get("basepage");
+  const displayName = params.get("displayname");
+  renderPage(displayName, basePage === "true");
+  initializeNavigation(params);
 
   document.body.appendChild(container);
 

@@ -298,7 +298,7 @@ export function addModule(config: moduleConfig) {
   });
 
   var searchInput = document.getElementById("searchInput") as HTMLInputElement;
-  searchInput.addEventListener("input", function() {
+  searchInput && searchInput.addEventListener("input", function() {
     // Show element if it matches search text or searchBox is empty
     if (searchInput.value === "" || config.name.toLowerCase().indexOf(searchInput.value.toLowerCase()) !== -1) {
       element.style.display = "block";
@@ -316,6 +316,9 @@ export function restoreState() {
 
   var state = JSON.parse(stateStr);
   for (var id in state) {
+    if (!inputs[id]) {
+      continue;
+    }
     inputs[id].value = state[id];
   }
 }
@@ -403,7 +406,7 @@ export function filterHandler() {
   var searchInput = document.getElementById('searchInput') as HTMLInputElement;
   var sectionTitle = document.getElementsByClassName('sectionTitle');
 
-  searchInput.addEventListener('input', function() {
+  searchInput && searchInput.addEventListener('input', function() {
     var searchText = searchInput.value.toLowerCase();
 
     for (var i = 0; i < sectionTitle.length; i++) {
@@ -417,32 +420,46 @@ export function filterHandler() {
   });
 }
 
+export function initializeNavigation(searchParams: URLSearchParams) {
+  const searchString = searchParams.toString();
+  ["index", "page1", "page2"].forEach((page) => {
+    const pageAnchor = document.getElementById(page) as HTMLAnchorElement;
+    if (pageAnchor) {
+      pageAnchor.href = `/${page}.html?${searchString}`;
+    }
+  });
+}
+
 export function initializeDownloadLinks() {
   const csv = "Id,Value\n1,Hello world!\n";
   const data = new Blob([csv]);
   const downloadLink = document.getElementById("downloadLink") as HTMLAnchorElement;
-  downloadLink.href = URL.createObjectURL(data);
+  if (downloadLink) {
+    downloadLink.href = URL.createObjectURL(data);
+  }
   
   const downloadButton = document.getElementById("downloadButton") as HTMLButtonElement;
-  downloadButton.onclick = () => {
-    const csv = "Id, Value\n1,Hello world!\n";
-    const data = new Blob([csv]);
-    let downloadLink = document.getElementById("hiddenDownloadLink") as HTMLAnchorElement;
+  if (downloadButton) {
+    downloadButton.onclick = () => {
+      const csv = "Id, Value\n1,Hello world!\n";
+      const data = new Blob([csv]);
+      let downloadLink = document.getElementById("hiddenDownloadLink") as HTMLAnchorElement;
     
-    if (downloadLink == null) {
-      downloadLink = document.createElement('a');
-      downloadLink.setAttribute('download', 'DownloadViaButton.csv');
-      downloadLink.setAttribute('id', 'hiddenDownloadLink');
+      if (downloadLink == null) {
+        downloadLink = document.createElement('a');
+        downloadLink.setAttribute('download', 'DownloadViaButton.csv');
+        downloadLink.setAttribute('id', 'hiddenDownloadLink');
       
-      document.body.appendChild(downloadLink);
-    }
+        document.body.appendChild(downloadLink);
+      }
     
-    downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data as any));
-    downloadLink.href = URL.createObjectURL(data);
+      downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data as any));
+      downloadLink.href = URL.createObjectURL(data);
     
-    downloadLink.style.display = 'none';
-    downloadLink.click();
-  };
+      downloadLink.style.display = 'none';
+      downloadLink.click();
+    };
+  }
 }
 
 export function outputTabRenderedLocation(getContext: (callback: (context: Context) => void) => void) {
@@ -464,6 +481,9 @@ export function outputTabRenderedLocation(getContext: (callback: (context: Conte
 
 export function initialieCacheToggleButton() {
   const cacheToggle = document.getElementById("cache-mode-toggle") as HTMLButtonElement;
+  if (!cacheToggle) {
+    return;
+  }
   cacheToggle.innerText = appCacheMode;
   cacheToggle.onclick = () => {
     appCacheMode = appCacheMode === "Normal" ? "ReloadOnUnload" : "Normal";
@@ -503,10 +523,12 @@ function outputTabRenderedLocationInTeams(context: Context) {
 
 export function printRecentLocalStoredAppContext() {
   var storedContext = localStorage.getItem(LocalStorageContextKey);
-  if (storedContext) {
-    var contextContainer = document.getElementById("textarea-recentAppContext") as HTMLTextAreaElement;
-    contextContainer.value = storedContext;
+  var contextContainer = document.getElementById("textarea-recentAppContext") as HTMLTextAreaElement;
+  if (!storedContext || !contextContainer) {
+    return;
   }
+    
+  contextContainer.value = storedContext;
   ["copy", "view"].forEach((buttonType) => {
     const button = document.getElementById(`button-${buttonType}-recentAppContext`);
     if (storedContext) {
@@ -565,6 +587,9 @@ function createButton(buttonProps:IButtonProps) {
 function copyText(name: string) {
   return () => {
     const area = document.getElementById(`textarea-${name}`) as HTMLTextAreaElement;
+    if (!area) {
+      return;
+    }
     area.select();
     navigator.clipboard.writeText(area.value);
   };
@@ -573,6 +598,9 @@ function copyText(name: string) {
 function viewJson(name: string) {
   return () => {
     const area = document.getElementById(`textarea-${name}`) as HTMLTextAreaElement;
+    if (!area) {
+      return;
+    }
     area.select();
     renderJsonViewer(area.value, name);
   };
@@ -580,9 +608,11 @@ function viewJson(name: string) {
 
 function renderJsonViewer(data: string, title: string) {
   const modal = document.getElementById("myModal") as HTMLDivElement;
+  if (!modal) { return; } 
   modal.style.display = "block";
   document.getElementById("errorMessage").style.display = "none";
   const jsonViewer = document.getElementById("jsonViewer") as HTMLDivElement;
+  if (!jsonViewer) { return; }
   jsonViewer.innerHTML = "";
   const titleElement = document.createElement("h3");
   titleElement.textContent = title;

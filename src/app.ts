@@ -13,7 +13,7 @@ import * as microsoftTeams from "@microsoft/teams-js";
 
 
 
-export const renderPage = () => {
+export const renderPage = (displayName, renderBasicPage = false) => {
   console.log(`>>>>> Test tab app on ${window.location.href}`);
   try {
     microsoftTeams.app.initialize()
@@ -25,7 +25,18 @@ export const renderPage = () => {
     });
 
     microsoftTeams.app.notifyAppLoaded();
-    initializeAppModules();
+    if (displayName) {
+      document.title = displayName;
+      const heading = document.getElementById("pageDisplayName");
+      if (heading) {
+        heading.innerText = displayName;
+      }
+    }
+    if (renderBasicPage) {
+      initializeBaseModulesForVisualTests();
+    } else {
+      initializeAppModules();
+    }
     microsoftTeams.app.notifySuccess();
   } catch (err) {
     console.error(`Failed during app initialization. Error: ${err.message || err}`);
@@ -73,6 +84,17 @@ const loadHandler = (
     microsoftTeams.app.notifySuccess();
   }, timeout);
 };
+
+const initializeBaseModulesForVisualTests = () => {
+    addModule({
+    name: "app.getContext",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      microsoftTeams.app.getContext().then(output);
+    },
+  });
+}
 
 const initializeAppModules = () => {
   var childWindow;
@@ -2194,7 +2216,7 @@ const initializeAppModules = () => {
     },
   });
 
-  // Get the modal
+      // Get the modal
   var modal = document.getElementById("myModal");
 
   // Get the <span> element that closes the modal
@@ -2235,3 +2257,4 @@ const initializeAppModules = () => {
     microsoftTeams.appInitialization.notifySuccess();
   }
 };
+
