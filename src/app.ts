@@ -2216,6 +2216,15 @@ const initializeAppModules = () => {
     },
   });
 
+  addModule({
+    name: "nestedAppAuth.isNAAChannelRecommended",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      output(microsoftTeams.nestedAppAuth.isNAAChannelRecommended());
+    },
+  });
+
   // Get the modal
   var modal = document.getElementById("myModal");
 
