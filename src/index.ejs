@@ -92,15 +92,16 @@
       <div><button onclick="document.getElementById('nestedAppFrame').src = '/frame.html'">Simulate nested app load</button></div>
       <div><button onclick="document.getElementById('nestedAppFrame').src = '/frame.html?simulateTimeout=true'">Simulate nested app timeout</button></div>
       <div><button onclick="document.getElementById('nestedAppFrame').src = '/frame.html?simulateFailure=true'">Simulate nested app failure</button></div>
-      <div><button onclick="document.getElementById('nestedAppFrame').src = 'https://taskmeow.com/config/?inTeamsMSAL=true'">Simulate nested app load with TaskMeow</button></div>
+      <div><button onclick="testGetInitContext()">Simulate nested GetInitContext request</button></div>
       <iframe id="nestedAppFrame">
       </iframe>
+      <textarea id="textarea-authResponse" aria-label="GetInitContext response"></textarea>
     </div>
 
     <div>
       <div class="sectionTitle">Most recent app load context (cached load Only)</div>
       <label for="textarea-recentAppContext" id="outputHeader-recentAppContext" class="area-label">Output:</label>
-      <textarea id="textarea-recentAppContext" aria-label="recent app context"></textarea>
+      <textarea hidden id="textarea-recentAppContext" aria-label="recent app context"></textarea>
     </div>
 
     <div>
@@ -111,5 +112,20 @@
     
   <%= htmlWebpackPlugin.tags.bodyTags %>
 </body>
-
+<script>
+  function testGetInitContext() {
+    const iframe = /** @type {HTMLIFrameElement} */ (document.getElementById('nestedAppFrame'));
+    iframe.src = 'https://example.com/';
+    const responseTextArea = /** @type {HTMLTextAreaElement} */ (document.getElementById('textarea-authResponse'));
+    iframe.contentWindow.addEventListener('message', (e)=>responseTextArea.value = e.data.args[1]);
+    iframe.contentWindow.top.postMessage({
+      "id": 4,
+      "func": "nestedAppAuth.execute",
+      "timestamp": 1741607493041,
+      "args": [],
+      "data": "{\"messageType\":\"NestedAppAuthRequest\",\"method\":\"GetInitContext\",\"requestId\":\"01957fe4-fd19-786a-ac29-52384b045d3d\",\"sendTime\":1741607468313}"
+    },'*');
+    responseTextArea.removeAttribute("hidden");
+  }
+</script>
 </html>
