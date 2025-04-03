@@ -1,3 +1,4 @@
+import { JavascriptModulesPlugin } from "webpack";
 import {
   addModule,
   initializeDownloadLinks,
@@ -2216,12 +2217,65 @@ const initializeAppModules = () => {
     },
   });
 
+
+
   addModule({
     name: "nestedAppAuth.isNAAChannelRecommended",
     initializedRequired: true,
     hasOutput: true,
     action: function (output) {
       output(microsoftTeams.nestedAppAuth.isNAAChannelRecommended());
+    },
+  });
+
+  // A helper function to encapsulate the actionOpenUrlDialogInfo object
+  // to match the expected format for the processActionOpenUrlDialog method
+  const encapActionOpenUrlDialogInfo = (actionOpenUrlDialogInfo: any) => {
+    return {
+      title: actionOpenUrlDialogInfo.title,
+      size: actionOpenUrlDialogInfo.size,
+      url: new URL(actionOpenUrlDialogInfo.url),
+    }
+  }
+  addModule({
+    name: "ExternalAppCardActions.processExternalAppCardActionsForDA",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "appId", 
+        defaultValue: "f350a51f-0251-47f2-b355-e0819a1bc44a"
+      },
+      {
+        type: "object",
+        name: "actionOpenUrlDialogInfo",
+        defaultValue: JSON.stringify({
+          url: new URL("https://www.bing.com"),
+          title: "Dialog Title",
+          size: {
+            width: 400,
+            height: 400
+          }
+        })
+      },
+      {
+        type: "string",
+        name: "traceId",
+        defaultValue: "c675e888-f8d8-4421-9ea1-b3fd9370baec"
+      }       
+    ],
+    action: function (appId, actionOpenUrlDialogInfo, traceId, output) {
+      microsoftTeams.externalAppCardActionsForDA
+        .processActionOpenUrlDialog(new microsoftTeams.AppId(appId), encapActionOpenUrlDialogInfo(actionOpenUrlDialogInfo), new microsoftTeams.UUID(traceId))
+        .then((result) => {
+          console.log('kimjason', result)
+          output(result);
+        })
+        .catch((error) => {
+          console.log('kimjason error', error)
+          output(error);
+        });
     },
   });
 
