@@ -2268,11 +2268,10 @@ const initializeAppModules = () => {
       microsoftTeams.externalAppCardActionsForDA
         .processActionOpenUrlDialog(new microsoftTeams.AppId(appId), encapActionOpenUrlDialogInfo(actionOpenUrlDialogInfo), new microsoftTeams.UUID(traceId))
         .then((result) => {
-          console.log('kimjason', result)
           output(result);
         })
         .catch((error) => {
-          console.log('kimjason error', error)
+          console.log('microsoft-teams-test-tab:externalAppCardActionsForDA.processActionOpenUrlDialog:', error)
           output(error);
         });
     },
