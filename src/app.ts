@@ -1,4 +1,3 @@
-import { JavascriptModulesPlugin } from "webpack";
 import {
   addModule,
   initializeDownloadLinks,
