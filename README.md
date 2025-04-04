@@ -52,6 +52,34 @@ addModule({
     });
 ```
 
+### Development Notes
+
+- Respect the TeamsJS functions' arguments' types and interfaces.
+  - For example, `externalAppCardActionsForDA.processActionOpenUrlDialog`, the function definition looks like below in TeamsJS:
+  ```typescript
+  export declare function processActionOpenUrlDialog(appId: AppId, actionOpenUrlDialogInfo: IActionOpenUrlDialogInfo, traceId: UUID): Promise<void>;
+  ```
+  - Then your test module calling the function above must have the expected types and interfaces for the arguments.
+  ```typescript
+  microsoftTeams.externalAppCardActionsForDA
+    .processActionOpenUrlDialog(new microsoftTeams.AppId(appId), encapActionOpenUrlDialogInfo(actionOpenUrlDialogInfo), new microsoftTeams.UUID(traceId))
+  ```
+- Printing TeamsJS errors
+  - You can print the error sent by TeamsJS when you call the TeamsJS function like below.
+  ```typescript
+  microsoftTeams.externalAppCardActionsForDA
+    .processActionOpenUrlDialog(new microsoftTeams.AppId(appId), encapActionOpenUrlDialogInfo(actionOpenUrlDialogInfo), new microsoftTeams.UUID(traceId))
+    .then((result) => {
+      output(result);
+    })
+    .catch((error) => {
+      console.log('microsoft-teams-test-tab:externalAppCardActionsForDA.processActionOpenUrlDialog:', error)
+      output(error);
+    });
+  ```
+  - This way you can see the error message printed in dev tools of Teams client
+
+
 ## Running in local
 
 To be able to finally build, deploy and side load the app in Teams you need to
