@@ -1,3 +1,4 @@
+import { SearchQuery, SearchQueryHandler } from "@microsoft/teams-js/dist/esm/packages/teams-js/dts/public/search";
 import {
   addModule,
   initializeDownloadLinks,
@@ -2216,7 +2217,27 @@ const initializeAppModules = () => {
     },
   });
 
+  addModule({
+    name: "search.registerHandlers",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      const onCloseHandler: SearchQueryHandler = (query: SearchQuery) => {
+        output("onCloseHandler: " + JSON.stringify(query));
+      };
+      const onExecuteHandler: SearchQueryHandler = (query: SearchQuery) => {
+        output("onExecuteHandler: " + JSON.stringify(query));
+      };
+      const onChangeHandler: SearchQueryHandler = (query: SearchQuery) => {
+        output("onChangeHandler: " + JSON.stringify(query));
+      };
 
+      microsoftTeams.search.registerHandlers(
+        onCloseHandler,
+        onExecuteHandler,
+        onChangeHandler);
+    }
+  })
 
   addModule({
     name: "nestedAppAuth.isNAAChannelRecommended",
