@@ -24,6 +24,13 @@ app.use('/page2', serveStatic(__dirname + '/public/page2.html', {
   }
 }));
 
+app.use('/non-iframeable', serveStatic(__dirname + '/public/index.html', {
+  setHeaders: (res, path) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('X-Frame-Options', 'DENY');
+  }
+}));
+
 app.use(serveStatic(__dirname + '/public', {
   setHeaders: (res, path) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
