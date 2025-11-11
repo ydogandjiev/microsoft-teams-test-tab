@@ -31,6 +31,18 @@ app.use('/non-iframeable', serveStatic(__dirname + '/public/index.html', {
   }
 }));
 
+app.get('/download-200.pdf', (req, res) => {
+  res.status(200).sendFile(__dirname + '/public/sample.pdf');
+}); 
+
+app.get('/download-401.pdf', (req, res) => {
+  res.status(401).json({ error: 'Unauthorized access' });
+});
+
+app.get('/download-403.pdf', (req, res) => {
+  res.status(403).json({ error: 'Access forbidden' });
+});
+
 app.use(serveStatic(__dirname + '/public', {
   setHeaders: (res, path) => {
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
