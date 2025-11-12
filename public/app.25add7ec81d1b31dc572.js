@@ -980,6 +980,9 @@ const externalAppAuthenticationForCEA_m="v2";function externalAppAuthenticationF
 ;// CONCATENATED MODULE: ./node_modules/@microsoft/teams-js/dist/esm/packages/teams-js/src/private/externalAppCardActionsForCEA.js
 function externalAppCardActionsForCEA_l(r,l,m){return tslib_es6_n(this,void 0,void 0,(function*(){if(internalAPIs_m(runtime_g,constants_a.content),!externalAppCardActionsForCEA_A())throw constants_m;externalAppAuthenticationForCEA_w(r,l);const[t,u]=yield communication_S(telemetry_s("v2","externalAppCardActionsForCEA.processActionOpenUrl"),"externalAppCardActionsForCEA.processActionOpenUrl",[r.toString(),l,m.href]);if(t)throw t;return u}))}function externalAppCardActionsForCEA_m(o,l,m){return tslib_es6_n(this,void 0,void 0,(function*(){if(internalAPIs_m(runtime_g,constants_a.content),!externalAppCardActionsForCEA_A())throw constants_m;externalAppAuthenticationForCEA_w(o,l);const t=yield communication_O(telemetry_s("v2","externalAppCardActionsForCEA.processActionSubmit"),"externalAppCardActionsForCEA.processActionSubmit",o.toString(),l,m);if(t)throw t}))}function externalAppCardActionsForCEA_A(){return!(!internalAPIs_m(runtime_g)||!runtime_g.supports.externalAppCardActionsForCEA)}
 
+;// CONCATENATED MODULE: ./node_modules/@microsoft/teams-js/dist/esm/packages/teams-js/src/public/search.js
+const search_h="v2",search_m="search.queryChange",search_u="search.queryClose",search_l="search.queryExecute";function search_f(r,e,t){if(internalAPIs_m(runtime_g,constants_a.content),!search_d())throw constants_m;handlers_p(telemetry_s(search_h,"search.registerOnClosedHandler"),search_u,r),handlers_p(telemetry_s(search_h,"search.registerOnExecutedHandler"),search_l,e),t&&handlers_p(telemetry_s(search_h,"search.registerOnChangeHandler"),search_m,t)}function search_p(){if(o(i,c.content),!search_d())throw a;r(s(search_h,"search.unregisterHandlers"),"search.unregister"),t(search_m),t(search_u),t(search_l)}function search_d(){return!(!internalAPIs_m(runtime_g)||!runtime_g.supports.search)}function search_g(){return new Promise((r=>{if(o(i,c.content),!search_d())throw new Error("Not supported");r(e(s(search_h,"search.closeSearch"),"search.closeSearch"))}))}
+
 ;// CONCATENATED MODULE: ./node_modules/@microsoft/teams-js/dist/esm/packages/teams-js/src/public/nestedAppAuth.js
 const nestedAppAuth_u="v2",nestedAppAuth_l={validate:n=>Array.isArray(n)||"object"==typeof n,deserialize:n=>n};var nestedAppAuth_d;function nestedAppAuth_c(){var n;return null!==(n=internalAPIs_m(runtime_g)&&(runtime_g.isNAAChannelRecommended||!(!internalAPIs_m(runtime_g)||globalVars_e.hostClientType!==constants_o.android&&globalVars_e.hostClientType!==constants_o.ios&&globalVars_e.hostClientType!==constants_o.ipados&&globalVars_e.hostClientType!==constants_o.visionOS||!runtime_g.isLegacyTeams||!runtime_g.supports.nestedAppAuth)))&&void 0!==n&&n}function nestedAppAuth_m(){return e(p),r.parentOrigin}function nestedAppAuth_h(){var n;return null!==(n=e(p)&&p.canParentManageNAATrustedOrigins)&&void 0!==n&&n}function nestedAppAuth_f(){var n;return null!==(n=e(p)&&p.isDeeplyNestedAuthSupported)&&void 0!==n&&n}function nestedAppAuth_A(r){return n(this,void 0,void 0,(function*(){if(!nestedAppAuth_h())throw a;const n=r.map(nestedAppAuth_g);return nestedAppAuth_y(nestedAppAuth_d.ADD,n)}))}function nestedAppAuth_v(r){return n(this,void 0,void 0,(function*(){if(!nestedAppAuth_h())throw a;const n=r.map(nestedAppAuth_g);return nestedAppAuth_y(nestedAppAuth_d.DELETE,n)}))}function nestedAppAuth_y(r,i){return n(this,void 0,void 0,(function*(){if(window.parent!==window.top)throw new Error("This API is only available in the top-level parent.");if(!Array.isArray(i)||0===i.length)throw new Error(`The '${i}' parameter is required and must be a non-empty array.`);const n=[new nestedAppAuth_w(r,i)];return t("nestedAppAuth.manageNAATrustedOrigins",n,nestedAppAuth_l,o(nestedAppAuth_u,"nestedAppAuth.manageNAATrustedOrigins"))}))}function nestedAppAuth_g(n){try{return new URL(n).origin.toLowerCase()}catch(r){throw new Error(`Invalid origin provided: ${n}`)}}!function(n){n.ADD="ADD",n.DELETE="DELETE"}(nestedAppAuth_d||(nestedAppAuth_d={}));class nestedAppAuth_w{constructor(n,r){this.action=n,this.appOrigins=r}serialize(){return{action:this.action,appOrigins:this.appOrigins}}}
 
@@ -991,9 +994,6 @@ function externalAppErrorHandling_t(t){if("object"!=typeof t||null===t)return!1;
 
 ;// CONCATENATED MODULE: ./node_modules/@microsoft/teams-js/dist/esm/packages/teams-js/src/private/externalAppCardActionsForDA.js
 function externalAppCardActionsForDA_m(m,f,d){return tslib_es6_n(this,void 0,void 0,(function*(){if(internalAPIs_m(runtime_g,constants_a.content),!externalAppCardActionsForDA_u())throw constants_m;return function(r,t){idValidation_l(r),uuidObject_r(t)}(m,d),communication_A("externalAppCardActionsForDA.processActionOpenUrlDialog",[m,new externalAppCardActionsForDA_a(f),d],telemetry_s("v2","externalAppCardActionsForDA.processActionOpenUrlDialog"),externalAppErrorHandling_t)}))}function externalAppCardActionsForDA_u(){return!(!internalAPIs_m(runtime_g)||!runtime_g.supports.externalAppCardActionsForDA)}class externalAppCardActionsForDA_a{constructor(r){this.info=r}serialize(){const{url:r,title:t,size:i}=this.info;return{url:r.href,title:t,size:i}}}
-
-;// CONCATENATED MODULE: ./node_modules/@microsoft/teams-js/dist/esm/packages/teams-js/src/public/appInitialization.js
-const appInitialization_r="v1";function appInitialization_s(){i(p(appInitialization_r,"appInitialization.notifyAppLoaded"))}function appInitialization_f(){communication_$(telemetry_s(appInitialization_r,"appInitialization.notifySuccess"),app_N.Success,[version_o])}function appInitialization_m(i){appHelpers_F(telemetry_s(appInitialization_r,"appInitialization.notifyFailure"),i)}function appInitialization_c(i){o(p(appInitialization_r,"appInitialization.notifyExpectedFailure"),i)}
 
 ;// CONCATENATED MODULE: ./src/app.ts
 var app_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -1007,7 +1007,7 @@ var app_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argu
 };
 
 
-const renderPage = (displayName, renderBasicPage = false) => {
+const renderPage = (params, displayName, renderBasicPage = false) => {
     console.log(`>>>>> Test tab app on ${window.location.href}`);
     try {
         app_L()
@@ -1016,7 +1016,11 @@ const renderPage = (displayName, renderBasicPage = false) => {
             // This tests a specific scenario where the tab is reloaded on unload
             handleReloadOnUnload(privateAPIs_c);
         });
-        app_k();
+        const simulateTimeout = params.get("simulateTimeout");
+        const simulateFailure = params.get("simulateFailure");
+        if (!simulateTimeout && !simulateFailure) {
+            app_k();
+        }
         if (displayName) {
             document.title = displayName;
             const heading = document.getElementById("pageDisplayName");
@@ -1030,7 +1034,17 @@ const renderPage = (displayName, renderBasicPage = false) => {
         else {
             initializeAppModules();
         }
-        app_U();
+        if (simulateTimeout) {
+            console.log("Simulating timeout by not calling notifySuccess");
+        }
+        else if (simulateFailure) {
+            app_V({
+                reason: app_O.Other
+            });
+        }
+        else {
+            app_U();
+        }
     }
     catch (err) {
         console.error(`Failed during app initialization. Error: ${err.message || err}`);
@@ -2932,6 +2946,23 @@ const initializeAppModules = () => {
         },
     });
     addModule({
+        name: "search.registerHandlers",
+        initializedRequired: true,
+        hasOutput: true,
+        action: function (output) {
+            const onCloseHandler = (query) => {
+                output("onCloseHandler: " + JSON.stringify(query));
+            };
+            const onExecuteHandler = (query) => {
+                output("onExecuteHandler: " + JSON.stringify(query));
+            };
+            const onChangeHandler = (query) => {
+                output("onChangeHandler: " + JSON.stringify(query));
+            };
+            search_f(onCloseHandler, onExecuteHandler, onChangeHandler);
+        }
+    });
+    addModule({
         name: "nestedAppAuth.isNAAChannelRecommended",
         initializedRequired: true,
         hasOutput: true,
@@ -3011,18 +3042,6 @@ const initializeAppModules = () => {
             pages_w(navigateForward);
         }
     });
-    const url = new URL(window.location.href);
-    if (url.searchParams.get("simulateTimeout")) {
-        console.log("Simulating timeout by not calling notifySuccess");
-    }
-    else if (url.searchParams.get("simulateFailure")) {
-        appInitialization_m({
-            reason: app_O.Other
-        });
-    }
-    else {
-        appInitialization_f();
-    }
 };
 
 ;// CONCATENATED MODULE: ./src/index.ts
@@ -3033,7 +3052,7 @@ const initializeAppModules = () => {
     const params = new URLSearchParams(window.location.search);
     const basePage = params.get("basepage");
     const displayName = params.get("displayname");
-    renderPage(displayName, basePage === "true");
+    renderPage(params, displayName, basePage === "true");
     initializeNavigation(params);
     document.body.appendChild(container);
     // Give the DOM a chance to update from the appendChild above
@@ -3054,4 +3073,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.8fd0c075806096cb292a.js.map
+//# sourceMappingURL=app.25add7ec81d1b31dc572.js.map

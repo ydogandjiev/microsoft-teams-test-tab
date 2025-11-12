@@ -8,7 +8,7 @@ import { teamsCore } from "@microsoft/teams-js";
   const params = new URLSearchParams(window.location.search);
   const basePage = params.get("basepage");
   const displayName = params.get("displayname");
-  renderPage(displayName, basePage === "true");
+  renderPage(params, displayName, basePage === "true");
   initializeNavigation(params);
 
   document.body.appendChild(container);

@@ -40,6 +40,24 @@
       "scopes": [
         "personal"
       ]
+    },
+    {
+      "entityId": "timeout-tab",
+      "name": "Timeout Tab",
+      "contentUrl": "https://teams-test-tab.azurewebsites.net/index.html?simulateTimeout=true",
+      "websiteUrl": "https://teams-test-tab.azurewebsites.net",
+      "scopes": [
+        "personal"
+      ]
+    },
+    {
+      "entityId": "error-tab",
+      "name": "Failure Tab",
+      "contentUrl": "https://teams-test-tab.azurewebsites.net/index.html?simulateFailure=true",
+      "websiteUrl": "https://teams-test-tab.azurewebsites.net",
+      "scopes": [
+        "personal"
+      ]
     }
   ],
   "configurableTabs": [

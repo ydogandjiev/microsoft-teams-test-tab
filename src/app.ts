@@ -14,7 +14,7 @@ import * as microsoftTeams from "@microsoft/teams-js";
 
 
 
-export const renderPage = (displayName, renderBasicPage = false) => {
+export const renderPage = (params, displayName, renderBasicPage = false) => {
   console.log(`>>>>> Test tab app on ${window.location.href}`);
   try {
     microsoftTeams.app.initialize()
@@ -25,7 +25,12 @@ export const renderPage = (displayName, renderBasicPage = false) => {
       handleReloadOnUnload(microsoftTeams.sendCustomMessage);
     });
 
-    microsoftTeams.app.notifyAppLoaded();
+    const simulateTimeout = params.get("simulateTimeout");
+    const simulateFailure = params.get("simulateFailure");
+    if (!simulateTimeout && !simulateFailure) {
+      microsoftTeams.app.notifyAppLoaded();
+    }
+
     if (displayName) {
       document.title = displayName;
       const heading = document.getElementById("pageDisplayName");
@@ -38,7 +43,16 @@ export const renderPage = (displayName, renderBasicPage = false) => {
     } else {
       initializeAppModules();
     }
-    microsoftTeams.app.notifySuccess();
+
+    if (simulateTimeout) {
+      console.log("Simulating timeout by not calling notifySuccess");
+    } else if (simulateFailure) {
+      microsoftTeams.app.notifyFailure({
+        reason: microsoftTeams.app.FailedReason.Other
+      });
+    } else {
+      microsoftTeams.app.notifySuccess();
+    }
   } catch (err) {
     console.error(`Failed during app initialization. Error: ${err.message || err}`);
     microsoftTeams.app.notifyFailure({
@@ -2328,15 +2342,4 @@ const initializeAppModules = () => {
       microsoftTeams.pages.returnFocus(navigateForward);
     }
   });
-
-  const url = new URL(window.location.href);
-  if (url.searchParams.get("simulateTimeout")) {
-    console.log("Simulating timeout by not calling notifySuccess");
-  } else if (url.searchParams.get("simulateFailure")) {
-    microsoftTeams.appInitialization.notifyFailure({
-      reason: microsoftTeams.appInitialization.FailedReason.Other
-    });
-  } else {
-    microsoftTeams.appInitialization.notifySuccess();
-  }
 };
