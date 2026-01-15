@@ -17,7 +17,22 @@ import * as microsoftTeams from "@microsoft/teams-js";
 export const renderPage = (params, displayName, renderBasicPage = false) => {
   console.log(`>>>>> Test tab app on ${window.location.href}`);
   try {
-    microsoftTeams.app.initialize()
+    // Map cloud parameter to extra origins
+    const cloudOriginMap: Record<string, string> = {
+      'FR': 'https://teams.sovcloud.fr',
+      'DE': 'https://teams.sovcloud.de',
+      'CN': 'https://teams.microsoftonline.cn'
+    };
+
+    const cloudParam = params.get("cloud");
+    const validOrigins: string[] = [];
+
+    if (cloudParam && cloudOriginMap[cloudParam.toUpperCase()]) {
+      validOrigins.push(cloudOriginMap[cloudParam.toUpperCase()]);
+      console.log(`Adding valid origin for cloud: ${cloudParam} -> ${cloudOriginMap[cloudParam.toUpperCase()]}`);
+    }
+
+    microsoftTeams.app.initialize(validOrigins.length > 0 ? validOrigins : undefined)
     .then(() => {
       registerAppCachingHandlers();
 
