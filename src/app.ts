@@ -109,9 +109,23 @@ const loadHandler = (
   data: microsoftTeams.LoadContext
 ) => {
   printRecentLocalStoredAppContext();
+
+  const url = new URL(data.contentUrl)
+  const params = new URLSearchParams(url.search);
+  const simulateTimeout = params.get("simulateTimeout");
+  const simulateFailure = params.get("simulateFailure");
+
   const timeout = 1000;
   setTimeout(() => {
-    microsoftTeams.app.notifySuccess();
+    if (simulateTimeout) {
+      console.log("Simulating timeout by not calling notifySuccess");
+    } else if (simulateFailure) {
+      microsoftTeams.app.notifyFailure({
+        reason: microsoftTeams.app.FailedReason.Other
+      });
+    } else {
+      microsoftTeams.app.notifySuccess();
+    }
   }, timeout);
 };
 
