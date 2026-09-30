@@ -1064,6 +1064,33 @@ const initializeAppModules = () => {
   });
 
   addModule({
+    name: "sendCustomMessage",
+    initializedRequired: true,
+    hasOutput: true,
+    inputs: [
+      {
+        type: "string",
+        name: "actionName",
+      },
+      {
+        type: "object",
+        name: "args",
+        defaultValue: "[]",
+      },
+    ],
+    action: function (actionName, args, output) {
+      if (!Array.isArray(args)) {
+        output("args must be a JSON array");
+        return;
+      }
+
+      microsoftTeams.sendCustomMessage(actionName, args, (...responseArgs) => {
+        output(responseArgs);
+      });
+    },
+  });
+
+  addModule({
     name: "openFilePreview",
     initializedRequired: true,
     inputs: [
