@@ -35,6 +35,7 @@ export const renderPage = (params, displayName, renderBasicPage = false) => {
     microsoftTeams.app.initialize(validOrigins.length > 0 ? validOrigins : undefined)
     .then(() => {
       registerAppCachingHandlers();
+      setStageViewDefaultInput();
 
       // This tests a specific scenario where the tab is reloaded on unload
       handleReloadOnUnload(microsoftTeams.sendCustomMessage);
@@ -75,6 +76,31 @@ export const renderPage = (params, displayName, renderBasicPage = false) => {
       message: err.message,
     });
   }
+};
+
+const setStageViewDefaultInput = () => {
+  const stageViewInput = document.getElementById("input-stageView.open-0");
+  if (!(stageViewInput instanceof HTMLTextAreaElement)) {
+    return;
+  }
+
+  microsoftTeams.app.getContext()
+  .then((context) => {
+    const appId = context.app.appId as (typeof context.app.appId & { appIdAsString?: string });
+    if (!appId?.appIdAsString) {
+      console.error("Unable to set the stageView.open default because the app ID is unavailable.");
+      return;
+    }
+
+    stageViewInput.value = JSON.stringify({
+      appId: appId.appIdAsString,
+      contentUrl: window.location.href,
+      title: document.title,
+    }, null, 2);
+  })
+  .catch((err) => {
+    console.error(`Unable to set the stageView.open default. Error: ${err.message || err}`);
+  });
 };
 
 const registerAppCachingHandlers = () => {
