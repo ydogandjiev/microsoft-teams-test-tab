@@ -136,7 +136,12 @@ const loadHandler = (
 ) => {
   printRecentLocalStoredAppContext();
 
-  const url = new URL(data.contentUrl)
+  const url = new URL(data.contentUrl);
+  if (url.href !== window.location.href) {
+    window.location.replace(url.href);
+    return;
+  }
+
   const params = new URLSearchParams(url.search);
   const simulateTimeout = params.get("simulateTimeout");
   const simulateFailure = params.get("simulateFailure");
