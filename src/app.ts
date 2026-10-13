@@ -126,6 +126,7 @@ const loadHandler = (
     } else {
       if (window?.location?.href !== data.contentUrl){
         window.location.href = data.contentUrl;
+        return;
       }
       microsoftTeams.app.notifySuccess();
     }
