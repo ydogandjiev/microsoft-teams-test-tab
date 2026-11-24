@@ -1869,6 +1869,23 @@ const initializeAppModules = () => {
   });
 
   addModule({
+    name: "meeting.stopSharingAppContentToStage",
+    initializedRequired: true,
+    hasOutput: true,
+    action: function (output) {
+      microsoftTeams.meeting.stopSharingAppContentToStage(
+        (err: microsoftTeams.SdkError, result: boolean) => {
+          if (err) {
+            output(err);
+            return;
+          }
+          output(result);
+        }
+      );
+    },
+  });
+
+  addModule({
     name: "meeting.getAppContentStageSharingState",
     initializedRequired: true,
     hasOutput: true,

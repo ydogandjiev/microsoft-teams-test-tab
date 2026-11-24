@@ -80,6 +80,23 @@ addModule({
   - This way you can see the error message printed in dev tools of Teams client
 
 
+### Testing meeting stage stop sharing
+
+The `meeting.stopSharingAppContentToStage` module calls the TeamsJS API without
+inputs and displays the callback's error or boolean result.
+
+1. Open the test tab in a meeting side panel as an organizer or presenter. The
+   sideloaded app manifest must grant the `MeetingStage.Write.Chat` RSC permission.
+2. Run `meeting.shareAppContentToStage` to start sharing this app.
+3. Run `meeting.stopSharingAppContentToStage`. A successful stop displays `true`;
+   an SDK error is displayed instead if the call fails.
+4. Run `meeting.getAppContentStageSharingState` to confirm sharing has stopped.
+
+This test control does not implement the native Teams Android handler. On affected
+Android clients, the callback may never run and sharing may continue, as reported
+in [OfficeDev/microsoft-teams-library-js#3177](https://github.com/OfficeDev/microsoft-teams-library-js/issues/3177).
+Use the native Teams stop-sharing control if the callback does not arrive.
+
 ## Running in local
 
 To be able to finally build, deploy and side load the app in Teams you need to
