@@ -11,6 +11,7 @@ import {
   initialieCacheToggleButton
 } from "./utils";
 import * as microsoftTeams from "@microsoft/teams-js";
+import { initializeTheme, registerThemeChangeHandler } from "./theme";
 
 
 
@@ -34,6 +35,9 @@ export const renderPage = (params, displayName, renderBasicPage = false) => {
 
     microsoftTeams.app.initialize(validOrigins.length > 0 ? validOrigins : undefined)
     .then(() => {
+      initializeTheme().catch((err) => {
+        console.error("Unable to initialize the Teams theme.", err);
+      });
       registerAppCachingHandlers();
       setStageViewDefaultInput();
 
@@ -684,7 +688,7 @@ const initializeAppModules = () => {
     initializedRequired: true,
     hasOutput: true,
     action: function (output) {
-      microsoftTeams.app.registerOnThemeChangeHandler(output);
+      registerThemeChangeHandler(output);
     },
   });
 

@@ -8,6 +8,76 @@
   --accent: #5146b9;
   --accent-hover: #403599;
   --accent-soft: #f0eefb;
+  --on-accent: #fff;
+  --input-border: #cbd1e0;
+  --placeholder: #70768b;
+  --output-background: #f8f9fd;
+  --hover-border: #bcb5e9;
+  --focus: #8a7ee3;
+  --error: #b42338;
+  --invalid-background: #ffe0e5;
+  --json-key: #225db5;
+  --json-value: #a32935;
+  --overlay: #171a3266;
+  --toolbar-shadow: 0 4px 16px #22263d05;
+  --card-shadow: 0 2px 6px #22263d04;
+  --dialog-shadow: 0 24px 80px #171a3233;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --background: #1f1f1f;
+  --surface: #292929;
+  --text: #f5f5f5;
+  --muted: #c2c2c2;
+  --border: #525252;
+  --accent: #b4a9ff;
+  --accent-hover: #c8bfff;
+  --accent-soft: #38334f;
+  --on-accent: #201b38;
+  --input-border: #757575;
+  --placeholder: #b0b0b0;
+  --output-background: #222;
+  --hover-border: #b4a9ff;
+  --focus: #c8bfff;
+  --error: #ff9eae;
+  --invalid-background: #682435;
+  --json-key: #8ec8ff;
+  --json-value: #ffb4c4;
+  --overlay: #0009;
+  --toolbar-shadow: 0 4px 16px #0002;
+  --card-shadow: 0 2px 6px #0002;
+  --dialog-shadow: 0 24px 80px #0008;
+}
+
+:root[data-theme='contrast'] {
+  color-scheme: dark;
+  --background: #000;
+  --surface: #000;
+  --text: #fff;
+  --muted: #fff;
+  --border: #fff;
+  --accent: #ffff00;
+  --accent-hover: #ffff80;
+  --accent-soft: #1a1a1a;
+  --on-accent: #000;
+  --input-border: #fff;
+  --placeholder: #fff;
+  --output-background: #000;
+  --hover-border: #ffff00;
+  --focus: #00ffff;
+  --error: #ff9eae;
+  --invalid-background: #682435;
+  --json-key: #00ffff;
+  --json-value: #ffff00;
+  --overlay: #000d;
+  --toolbar-shadow: none;
+  --card-shadow: none;
+  --dialog-shadow: none;
+}
+
+:root[data-theme='contrast'] a {
+  text-decoration: underline;
 }
 
 * {
@@ -62,7 +132,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 14px;
   background: var(--surface);
-  box-shadow: 0 4px 16px #22263d05;
+  box-shadow: var(--toolbar-shadow);
 }
 
 .toolbarField {
@@ -76,10 +146,40 @@ h1 {
   flex: 1;
 }
 
-.delayField {
-  flex: 0 1 340px;
+.delayField,
+.themeField {
   padding-left: 28px;
   border-left: 1px solid var(--border);
+}
+
+.delayField {
+  flex: 0 1 280px;
+}
+
+.themeField {
+  flex: 0 1 240px;
+}
+
+.themeSelectControl {
+  position: relative;
+}
+
+.themeSelectControl select {
+  appearance: none;
+  padding-inline-end: 36px;
+}
+
+.themeSelectControl::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  inset-inline-end: 15px;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
 }
 
 .toolbarField label {
@@ -118,7 +218,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
-  box-shadow: 0 2px 6px #22263d04;
+  box-shadow: var(--card-shadow);
   overflow-wrap: anywhere;
 }
 
@@ -163,7 +263,7 @@ select {
   width: 100%;
   min-width: 0;
   padding: 9px 11px;
-  border: 1px solid #cbd1e0;
+  border: 1px solid var(--input-border);
   border-radius: 7px;
   background: var(--surface);
   color: var(--text);
@@ -171,7 +271,7 @@ select {
 
 input::placeholder,
 textarea::placeholder {
-  color: #70768b;
+  color: var(--placeholder);
 }
 
 input[type='checkbox'],
@@ -203,7 +303,7 @@ textarea {
 }
 
 textarea[id^='textarea-'] {
-  background: #f8f9fd;
+  background: var(--output-background);
 }
 
 button {
@@ -223,7 +323,7 @@ button {
 }
 
 button:hover {
-  border-color: #bcb5e9;
+  border-color: var(--hover-border);
   background: var(--accent-soft);
 }
 
@@ -233,7 +333,7 @@ button:hover {
   padding: 10px 12px;
   border-color: var(--accent);
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
@@ -243,7 +343,7 @@ button:hover {
 }
 
 :is(input, textarea, select, button, a):focus-visible {
-  outline: 3px solid #8a7ee3;
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
 }
 
@@ -297,7 +397,7 @@ iframe {
   z-index: 10;
   inset: 0;
   padding: 24px;
-  background: #171a3266;
+  background: var(--overlay);
   backdrop-filter: blur(4px);
 }
 
@@ -310,7 +410,7 @@ iframe {
   border: 1px solid var(--border);
   border-radius: 16px;
   background: var(--surface);
-  box-shadow: 0 24px 80px #171a3233;
+  box-shadow: var(--dialog-shadow);
   overflow: hidden;
 }
 
@@ -329,7 +429,7 @@ iframe {
 }
 
 .error-message {
-  color: #b42338;
+  color: var(--error);
 }
 
 .copy-button,
@@ -365,12 +465,12 @@ iframe {
 }
 
 .json-object-key {
-  color: #225db5;
+  color: var(--json-key);
 }
 
 .json-object-value {
   display: inline-block;
-  color: #a32935;
+  color: var(--json-value);
 }
 
 .json-object-key-value,
@@ -378,7 +478,17 @@ iframe {
   margin: 4px 0;
 }
 
-@media (max-width: 640px) {
+@media (forced-colors: active) {
+  .themeSelectControl select {
+    appearance: auto;
+  }
+
+  .themeSelectControl::after {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
   body {
     padding-top: 24px;
   }
@@ -389,7 +499,8 @@ iframe {
     padding: 20px;
   }
 
-  .delayField {
+  .delayField,
+  .themeField {
     flex-basis: auto;
     padding: 20px 0 0;
     border-top: 1px solid var(--border);

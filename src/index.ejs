@@ -35,6 +35,18 @@
       <input type="number" id="apiDelayInput" name="apiDelay" min="0" max="2147483" step="any" value="0" required aria-describedby="delayHint">
       <small id="delayHint">Wait before each widget call. Set to 0 to run immediately.</small>
     </div>
+    <div class="toolbarField themeField">
+      <label for="themeSelect">Theme</label>
+      <div class="themeSelectControl">
+        <select id="themeSelect" name="theme" aria-describedby="themeHint">
+          <option value="teams">Automatic (Teams / OS)</option>
+          <option value="default">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">High contrast</option>
+        </select>
+      </div>
+      <small id="themeHint">Follow Teams or your device, or choose a theme.</small>
+    </div>
   </section>
 
   <div class="moduleContainer">

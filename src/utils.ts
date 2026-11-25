@@ -56,7 +56,7 @@ export function addModule(config: moduleConfig) {
             try {
               return JSON.parse(input.value);
             } catch (e) {
-              input.style.backgroundColor = "red";
+              input.style.backgroundColor = "var(--invalid-background)";
               if (defaultInputValue) {
                 input.value = defaultInputValue;
               }

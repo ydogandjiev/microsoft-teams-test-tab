@@ -2,12 +2,14 @@
 import { container, restoreState, saveState, downloadHandler, filterHandler, initializeNavigation } from "./utils";
 import { renderPage } from "./app";
 import { teamsCore } from "@microsoft/teams-js";
+import { initializeThemeSelector } from "./theme";
 
 (function () {
 
   const params = new URLSearchParams(window.location.search);
   const basePage = params.get("basepage");
   const displayName = params.get("displayname");
+  initializeThemeSelector();
   renderPage(params, displayName, basePage === "true");
   initializeNavigation(params);
 
