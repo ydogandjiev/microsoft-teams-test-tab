@@ -48,6 +48,13 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        type: 'asset/resource',
+        generator: {
+          filename: '[name].[contenthash][ext]'
+        }
+      },
+      {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/
