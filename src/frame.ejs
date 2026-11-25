@@ -17,10 +17,24 @@
     </div>
   </div>
 
-  <!-- Search box -->
-  <div class="searchContainer">
-    <input type="text" placeholder="Filter..." name="search" id="searchInput">
-  </div>
+  <header class="pageHeader">
+    <span class="eyebrow">Microsoft Teams / Developer tools</span>
+    <h1 id="pageDisplayName">SDK playground</h1>
+    <p>Explore capabilities, try API calls, and inspect the results.</p>
+  </header>
+
+  <section class="searchContainer" aria-label="Widget controls">
+    <div class="toolbarField filterField">
+      <label for="searchInput">Filter widgets</label>
+      <input type="search" placeholder="Find an API or capability..." name="search" id="searchInput" aria-describedby="filterHint">
+      <small id="filterHint">Filter by API name or section title.</small>
+    </div>
+    <div class="toolbarField delayField">
+      <label for="apiDelayInput">API delay <span class="labelUnit">(seconds)</span></label>
+      <input type="number" id="apiDelayInput" name="apiDelay" min="0" max="2147483" step="any" value="0" required aria-describedby="delayHint">
+      <small id="delayHint">Wait before each widget call. Set to 0 to run immediately.</small>
+    </div>
+  </section>
 
   <div class="moduleContainer">
     <div>
@@ -29,7 +43,7 @@
       <br/>
       <a id="downloadLink" download="DownloadViaLink.csv">In-Memory Download Link</a>
       <br/>
-      <button id="downloadButton"">In-Memory Download Button</button>
+      <button id="downloadButton">In-Memory Download Button</button>
     </div>
 
     <div uploadFileSection>

@@ -26,6 +26,7 @@ export function addModule(config: moduleConfig) {
     for (var i = 0; i < config.inputs.length; i++) {
       var label = document.createElement("label");
       label.appendChild(document.createTextNode(config.inputs[i].name + ":"));
+      label.setAttribute("for", "input-" + config.name + "-" + i);
       element.appendChild(label);
       element.appendChild(document.createElement("br"));
       let input;
@@ -80,6 +81,8 @@ export function addModule(config: moduleConfig) {
     element.appendChild(document.createElement("br"));
     label.appendChild(document.createTextNode("Output:"));
     label.setAttribute("id", "outputHeader-" + config.name);
+    label.setAttribute("for", "textarea-" + config.name);
+    label.classList.add("area-label");
     element.appendChild(label);
     element.appendChild(document.createElement("br"));
     var textarea = document.createElement("textarea");
@@ -171,6 +174,15 @@ export function addModule(config: moduleConfig) {
   container.appendChild(element);
 
   button.addEventListener("click", async () => {
+    const delayInput = document.getElementById("apiDelayInput");
+    let delaySeconds = 0;
+    if (delayInput instanceof HTMLInputElement) {
+      if (!delayInput.reportValidity()) {
+        return;
+      }
+      delaySeconds = delayInput.valueAsNumber;
+    }
+
     var args = [];
     if (config.inputs) {
       for (var i = 0; i < config.inputs.length; i++) {
@@ -289,6 +301,10 @@ export function addModule(config: moduleConfig) {
       });
     }
 
+    if (delaySeconds > 0) {
+      await new Promise<void>((resolve) => setTimeout(resolve, delaySeconds * 1000));
+    }
+
     if(config.onClick) {
       textarea.value = await config.onClick.apply(null, args);
     }
@@ -340,7 +356,6 @@ export function downloadHandler() {
     return;
   }
 
-  input.style.opacity = 0;
   input.addEventListener("change", updateImageDisplay);
 
   function updateImageDisplay() {

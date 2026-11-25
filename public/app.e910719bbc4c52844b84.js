@@ -149,6 +149,7 @@ function addModule(config) {
         for (var i = 0; i < config.inputs.length; i++) {
             var label = document.createElement("label");
             label.appendChild(document.createTextNode(config.inputs[i].name + ":"));
+            label.setAttribute("for", "input-" + config.name + "-" + i);
             element.appendChild(label);
             element.appendChild(document.createElement("br"));
             let input;
@@ -201,6 +202,8 @@ function addModule(config) {
         element.appendChild(document.createElement("br"));
         label.appendChild(document.createTextNode("Output:"));
         label.setAttribute("id", "outputHeader-" + config.name);
+        label.setAttribute("for", "textarea-" + config.name);
+        label.classList.add("area-label");
         element.appendChild(label);
         element.appendChild(document.createElement("br"));
         var textarea = document.createElement("textarea");
@@ -288,6 +291,14 @@ function addModule(config) {
     }
     container.appendChild(element);
     button.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
+        const delayInput = document.getElementById("apiDelayInput");
+        let delaySeconds = 0;
+        if (delayInput instanceof HTMLInputElement) {
+            if (!delayInput.reportValidity()) {
+                return;
+            }
+            delaySeconds = delayInput.valueAsNumber;
+        }
         var args = [];
         if (config.inputs) {
             for (var i = 0; i < config.inputs.length; i++) {
@@ -403,6 +414,9 @@ function addModule(config) {
                 });
             });
         }
+        if (delaySeconds > 0) {
+            yield new Promise((resolve) => setTimeout(resolve, delaySeconds * 1000));
+        }
         if (config.onClick) {
             textarea.value = yield config.onClick.apply(null, args);
         }
@@ -446,7 +460,6 @@ function downloadHandler() {
     if (!input || !preview) {
         return;
     }
-    input.style.opacity = 0;
     input.addEventListener("change", updateImageDisplay);
     function updateImageDisplay() {
         while (preview.firstChild) {
@@ -1025,6 +1038,7 @@ const renderPage = (params, displayName, renderBasicPage = false) => {
         app_L(validOrigins.length > 0 ? validOrigins : undefined)
             .then(() => {
             registerAppCachingHandlers();
+            setStageViewDefaultInput();
             // This tests a specific scenario where the tab is reloaded on unload
             handleReloadOnUnload(privateAPIs_c);
         });
@@ -1066,6 +1080,28 @@ const renderPage = (params, displayName, renderBasicPage = false) => {
         });
     }
 };
+const setStageViewDefaultInput = () => {
+    const stageViewInput = document.getElementById("input-stageView.open-0");
+    if (!(stageViewInput instanceof HTMLTextAreaElement)) {
+        return;
+    }
+    app_D()
+        .then((context) => {
+        const appId = context.app.appId;
+        if (!(appId === null || appId === void 0 ? void 0 : appId.appIdAsString)) {
+            console.error("Unable to set the stageView.open default because the app ID is unavailable.");
+            return;
+        }
+        stageViewInput.value = JSON.stringify({
+            appId: appId.appIdAsString,
+            contentUrl: window.location.href,
+            title: document.title,
+        }, null, 2);
+    })
+        .catch((err) => {
+        console.error(`Unable to set the stageView.open default. Error: ${err.message || err}`);
+    });
+};
 const registerAppCachingHandlers = () => {
     teamsAPIs_u((readyToUnload) => {
         const result = beforeUnloadHandler(readyToUnload);
@@ -1093,6 +1129,10 @@ const beforeUnloadHandler = (readyToUnload) => {
 const loadHandler = (data) => {
     printRecentLocalStoredAppContext();
     const url = new URL(data.contentUrl);
+    if (url.href !== window.location.href) {
+        window.location.replace(url.href);
+        return;
+    }
     const params = new URLSearchParams(url.search);
     const simulateTimeout = params.get("simulateTimeout");
     const simulateFailure = params.get("simulateFailure");
@@ -3432,4 +3472,4 @@ const initializeAppModules = () => {
 
 /******/ })()
 ;
-//# sourceMappingURL=app.a1ad1529918651dd92c7.js.map
+//# sourceMappingURL=app.e910719bbc4c52844b84.js.map
