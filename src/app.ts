@@ -159,6 +159,10 @@ const loadHandler = (
         reason: microsoftTeams.app.FailedReason.Other
       });
     } else {
+      if (window?.location?.href !== data.contentUrl){
+        window.location.href = data.contentUrl;
+        return;
+      }
       microsoftTeams.app.notifySuccess();
     }
   }, timeout);
